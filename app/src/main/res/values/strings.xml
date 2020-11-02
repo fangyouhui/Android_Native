@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PaikeApplication</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="str_net_error">网络未连接!</string>
+    <string name="str_net_not_available">当前网络不可用!</string>
+    <string name="str_data_parse_error">数据解析异常!</string>
+    <string name="str_conn_error">连接异常!</string>
+    <string name="str_conn_timeout">连接超时!</string>
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF793E</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!--白色-->
+    <color name="color_white">#FFFFFF</color>
+    <!--黑色-->
+    <color name="color_black">#000000</color>
+    <!--透明-->
+    <color name="color_transition">#00FFFFFF</color>
+    <!--分割线灰色-->
+    <color name="color_divider">#EEEEEE</color>
+    <!--分割线浅灰色-->
+    <color name="color_light_divider">#EEEEEE</color>
+    <!--深黑字体-->
+    <color name="color_dark_font">#333333</color>
+    <!--中黑字体-->
+    <color name="color_mid_font">#666666</color>
+    <!--浅色字体-->
+    <color name="color_light_font">#999999</color>
+    <!--item按下的颜色-->
+    <color name="color_item_press">#EDE9E6E3</color>
+    <!--涟漪颜色-->
+    <color name="color_ripple">#82CCCCCC</color>
+
+</resources>

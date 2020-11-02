@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@mipmap/icon_tabbar_home_select"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_type"
+        android:icon="@mipmap/icon_tabbar_type_normal"
+        android:title="" />
+    <item
+        android:id="@+id/navigation_camera"
+        android:icon="@mipmap/icon_tabbar_camera"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_shopping"
+        android:icon="@mipmap/icon_tabbar_shopping_normal"
+        android:title="" />
+
+    <item
+        android:id="@+id/navigation_me"
+        android:icon="@mipmap/icon_tabbar_me_normal"
+        android:title="" />
+
+</menu>
