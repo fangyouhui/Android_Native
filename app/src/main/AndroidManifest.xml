@@ -32,10 +32,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activity.me.LoginActivity"></activity>
+        <activity android:name=".activity.me.RegisterActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
-        android:name="design_width_in_dp"
-        android:value="375" />
+            android:name="design_width_in_dp"
+            android:value="375" />
         <meta-data
             android:name="design_height_in_dp"
             android:value="734" />
@@ -45,6 +53,7 @@
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
