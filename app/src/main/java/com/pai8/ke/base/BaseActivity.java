@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.utils.EventBusUtils;
@@ -43,6 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
+        ImmersionBar.with(this).init();
         if (isRegisterEventBus()) {
             EventBusUtils.register(this);
         }
@@ -149,6 +151,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void toast(String strMsg) {
         ToastUtils.showShort(this, strMsg);
     }
+
+
 
 }
 

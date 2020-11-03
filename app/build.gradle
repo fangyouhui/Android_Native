@@ -54,4 +54,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'me.jessyan:autosize:1.2.1'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
+    implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
+    implementation 'com.youth.banner:banner:2.1.0'
+
 }

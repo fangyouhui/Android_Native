@@ -58,6 +58,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SplashActivity" />
+        <activity android:name=".activity.takeaway.TakeawayActivity" />
+
     </application>
 
 </manifest>
