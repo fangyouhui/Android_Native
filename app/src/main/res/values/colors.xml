@@ -15,7 +15,7 @@
     <!--分割线浅灰色-->
     <color name="color_light_divider">#EEEEEE</color>
     <!--深黑字体-->
-    <color name="color_dark_font">#333333</color>
+    <color name="color_dark_font">#2F2F2F</color>
     <!--中黑字体-->
     <color name="color_mid_font">#666666</color>
     <!--浅色字体-->

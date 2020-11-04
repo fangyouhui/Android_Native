@@ -111,6 +111,7 @@ public class VideoControllerView extends RelativeLayout {
                 mVideoControllerListener.onCloseClick();
                 break;
             case R.id.iv_btn_more:
+                mVideoControllerListener.onMoreClick();
                 break;
             case R.id.iv_btn_home:
                 mVideoControllerListener.onHomeClick();

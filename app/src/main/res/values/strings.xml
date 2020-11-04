@@ -13,4 +13,6 @@
     <string name="str_data_parse_error">数据解析异常!</string>
     <string name="str_conn_error">连接异常!</string>
     <string name="str_conn_timeout">连接超时!</string>
+
+    <string name="str_cancel">取消</string>
 </resources>

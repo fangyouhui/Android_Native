@@ -14,6 +14,9 @@ public interface OnVideoControllerListener {
     // 首页
     void onHomeClick();
 
+    //更多
+    void onMoreClick();
+
     // 关闭页面
     void onCloseClick();
 
