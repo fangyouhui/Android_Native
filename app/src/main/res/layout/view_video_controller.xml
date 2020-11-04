@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingTop="45dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="40dp"
+    tool:background="@color/color_black">
+
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/civ_avatar"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img_avatar_def"
+        app:ease_border_color="@color/color_white"
+        app:ease_border_width="2dp"
+        app:es_shape_type="round"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_focus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_video_follow_u"
+        app:layout_constraintCircle="@id/civ_avatar"
+        app:layout_constraintCircleAngle="180"
+        app:layout_constraintCircleRadius="20dp"
+        app:layout_constraintLeft_toLeftOf="@+id/civ_avatar"
+        app:layout_constraintTop_toTopOf="@+id/civ_avatar" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/color_white"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/civ_avatar"
+        app:layout_constraintTop_toTopOf="@+id/civ_avatar"
+        tool:text="超人不会飞" />
+
+    <TextView
+        android:id="@+id/tv_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/color_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/civ_avatar"
+        app:layout_constraintLeft_toRightOf="@+id/civ_avatar"
+        tool:text="一个爱打篮球的小伙" />
+
+    <ImageView
+        android:id="@+id/iv_btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_6"
+        android:src="@mipmap/ic_video_close"
+        app:layout_constraintBottom_toBottomOf="@+id/civ_avatar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/civ_avatar" />
+
+    <ImageView
+        android:id="@+id/iv_btn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:padding="6dp"
+        android:src="@mipmap/ic_video_more"
+        app:layout_constraintBottom_toBottomOf="@+id/civ_avatar"
+        app:layout_constraintRight_toLeftOf="@+id/iv_btn_close"
+        app:layout_constraintTop_toTopOf="@+id/civ_avatar" />
+
+    <ImageView
+        android:id="@+id/iv_btn_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:padding="6dp"
+        android:src="@mipmap/ic_video_home"
+        app:layout_constraintBottom_toBottomOf="@+id/civ_avatar"
+        app:layout_constraintRight_toLeftOf="@+id/iv_btn_more"
+        app:layout_constraintTop_toTopOf="@+id/civ_avatar" />
+
+    <!--  右下  -->
+    <TextView
+        android:id="@+id/tv_contact_us"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/ic_video_contact_us"
+        android:drawablePadding="3dp"
+        android:text="联系我们"
+        android:textColor="@color/color_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:drawableTop="@mipmap/ic_video_share"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:text="分享"
+        android:textColor="@color/color_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_contact_us"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_contact_us"
+        app:layout_constraintRight_toRightOf="@+id/tv_contact_us" />
+
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:drawableTop="@mipmap/ic_video_comment"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:text="评论"
+        android:textColor="@color/color_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_share"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_share"
+        app:layout_constraintRight_toRightOf="@+id/tv_share"
+        tool:text="200" />
+
+    <TextView
+        android:id="@+id/tv_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:drawableTop="@mipmap/ic_video_like_s"
+        android:drawablePadding="3dp"
+        android:gravity="center"
+        android:text="赞"
+        android:textColor="@color/color_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_comment"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_comment"
+        app:layout_constraintRight_toRightOf="@+id/tv_comment"
+        tool:text="0" />
+
+    <!--  左下 -->
+    <ImageView
+        android:id="@+id/iv_bottom_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/shape_alpha30_radius8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.11"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.62" />
+
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/civ_cover"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img_avatar_def"
+        app:ease_border_color="@color/color_white"
+        app:ease_border_width="1dp"
+        app:es_shape_type="round"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_bottom_bg"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_bottom_bg"
+        app:layout_constraintTop_toTopOf="@+id/iv_bottom_bg" />
+
+    <TextView
+        android:id="@+id/tv_cover_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/color_white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_bottom_bg"
+        app:layout_constraintLeft_toRightOf="@+id/civ_cover"
+        app:layout_constraintRight_toLeftOf="@+id/tv_btn_go_see"
+        app:layout_constraintTop_toTopOf="@+id/iv_bottom_bg"
+        app:layout_constraintWidth_default="spread"
+        tool:text="1111111111111111111111111111" />
+
+    <TextView
+        android:id="@+id/tv_btn_go_see"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/btn_selector_linear_radius"
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="2dp"
+        android:text="去看看"
+        android:textColor="@color/color_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_bottom_bg"
+        app:layout_constraintRight_toRightOf="@+id/iv_bottom_bg"
+        app:layout_constraintTop_toTopOf="@+id/iv_bottom_bg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

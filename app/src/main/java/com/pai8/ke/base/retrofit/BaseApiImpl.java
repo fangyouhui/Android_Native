@@ -121,9 +121,7 @@ public class BaseApiImpl implements BaseApi {
             // app版本
             builder.addHeader("version", AppUtils.getVerName());
             // token
-            builder.addHeader("Authorization", AccountManager.getInstance().getToken());
-            // 用户id
-            builder.addHeader("userId", AccountManager.getInstance().getUid());
+            builder.addHeader("authkey", AccountManager.getInstance().getToken());
             return chain.proceed(builder.build());
 
         };

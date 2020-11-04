@@ -189,4 +189,12 @@ public abstract class BaseFragment extends Fragment {
         mActivity.toast(strMsg);
     }
 
+    public void launch(Class clazz) {
+        mActivity.launch(clazz);
+    }
+
+    public void launch(Class clazz, Bundle bundle) {
+        mActivity.launch(clazz, bundle);
+    }
+
 }

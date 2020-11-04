@@ -1,5 +1,6 @@
 package com.pai8.ke.base;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -152,7 +153,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         ToastUtils.showShort(this, strMsg);
     }
 
+    public void launch(Class clazz) {
+        Intent intent = new Intent(this, clazz);
+        intent.putExtras(new Bundle());
+        startActivity(intent);
+    }
 
+    public void launch(Class clazz, Bundle bundle) {
+        Intent intent = new Intent(this, clazz);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
 }
 

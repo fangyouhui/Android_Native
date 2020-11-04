@@ -32,14 +32,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activity.me.LoginActivity"></activity>
-        <activity android:name=".activity.me.RegisterActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <meta-data
             android:name="design_width_in_dp"
@@ -48,18 +40,30 @@
             android:name="design_height_in_dp"
             android:value="734" />
 
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/title_activity_main">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SplashActivity" />
-        <activity android:name=".activity.takeaway.TakeawayActivity" />
 
+        <activity
+            android:name=".activity.me.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.me.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.takeaway.TakeawayActivity"
+            android:screenOrientation="portrait" />
+        <!--  视频详情 -->
+        <activity
+            android:name=".activity.video.VideoDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
