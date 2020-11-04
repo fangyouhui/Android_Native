@@ -5,6 +5,7 @@ import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.resp.UserInfo;
 
@@ -58,7 +59,8 @@ public class DemoActivity extends BaseActivity {
      */
     private void getVerifyCode() {
         showLoadingDialog(null);
-        Api.getInstance().verifyCode("86", "1500000000")
+        CodeReq codeReq = new CodeReq();
+        Api.getInstance().verifyCode(codeReq)
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) {

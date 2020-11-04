@@ -1,10 +1,12 @@
 package com.pai8.ke.global;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+
 public class GlobalConstants {
 
     //---------------------HTTP环境配置-----------------------
     //生产环境
-    public static String HTTP_URL_RELEASE = "";
+    public static String HTTP_URL_RELEASE = "http://test.5pai8.com/api.php/demo/";
     //测试环境
     public static String HTTP_URL_TEST = "";
     //开发环境
@@ -28,5 +30,10 @@ public class GlobalConstants {
     public static int HTTP_DATA_PARSE_ERROR = 0x04;
     //Token失效
     public static int HTTP_TOKEN_ERROR = 0x05;
+
+    //微信授权登录
+    public static IWXAPI wx_api; //全局的微信api对象
+    public static final String APP_ID = "wx00290ee6e44c1cfd"; //appid
+    public static final String APP_SECRET = "3db5d02b7d93bcffbb15f3f0fb1ead4f";
 
 }
