@@ -2,10 +2,17 @@ package com.pai8.ke.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.view.View;
+import android.widget.TextView;
 
+import com.hjq.bar.TitleBar;
+import com.hjq.bar.initializer.LightBarInitializer;
+import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.ResUtils;
 
 public class MyApp extends Application {
 
@@ -53,6 +60,52 @@ public class MyApp extends Application {
         if (mHandler == null) {
             mHandler = new Handler();
         }
+        initTitleBar();
+    }
+
+    private void initTitleBar() {
+        TitleBar.setDefaultInitializer(new LightBarInitializer() {
+            @Override
+            public TextView getLeftView(Context context) {
+                return super.getLeftView(context);
+            }
+
+            @Override
+            public TextView getTitleView(Context context) {
+                return super.getTitleView(context);
+            }
+
+            @Override
+            public TextView getRightView(Context context) {
+                return super.getRightView(context);
+            }
+
+            @Override
+            public View getLineView(Context context) {
+                return super.getLineView(context);
+            }
+
+            @Override
+            public Drawable getBackgroundDrawable(Context context) {
+                return super.getBackgroundDrawable(context);
+            }
+
+            @Override
+            public Drawable getBackIcon(Context context) {
+                return ResUtils.getDrawable(R.mipmap.ic_navi_back);
+            }
+
+            @Override
+            public int getHorizontalPadding(Context context) {
+                return super.getHorizontalPadding(context);
+            }
+
+            @Override
+            public int getVerticalPadding(Context context) {
+                return super.getVerticalPadding(context);
+            }
+        });
+
     }
 
     @Override

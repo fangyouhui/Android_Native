@@ -64,6 +64,10 @@
         <activity
             android:name=".activity.video.VideoDetailActivity"
             android:screenOrientation="portrait" />
+        <!--  举报/投诉 -->
+        <activity
+            android:name=".activity.video.ReportActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 import com.gyf.immersionbar.ImmersionBar;
+import com.hjq.bar.TitleBar;
+import com.pai8.ke.R;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.utils.EventBusUtils;
@@ -19,6 +21,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -30,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public AccountManager mAccountManager;
     private LoadingDialog mLoadingDialog;
+    public TitleBar mTitleBar;
 
     @Override
     public Resources getResources() {
@@ -45,7 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         ButterKnife.bind(this);
-        ImmersionBar.with(this).init();
         if (isRegisterEventBus()) {
             EventBusUtils.register(this);
         }
@@ -53,13 +56,29 @@ public abstract class BaseActivity extends AppCompatActivity {
         mAccountManager = AccountManager.getInstance();
         initBasePresenter();
         initCreate(savedInstanceState);
+        setBarDark(false);
         initView();
         initData();
         initListener();
     }
 
-    public void initCreate(Bundle savedInstanceState) {
+    protected void setBarDark(boolean isDark) {
+        ImmersionBar immersionBar = ImmersionBar.with(this);
+        if (isDark) {
+            immersionBar.statusBarColor(R.color.color_black);
+            immersionBar.statusBarDarkFont(false);
+        } else {
+            immersionBar.statusBarColor(R.color.color_white);
+            immersionBar.statusBarDarkFont(true);
+        }
+        if (mTitleBar != null) {
+            immersionBar.titleBarMarginTop(mTitleBar);
+        }
+        immersionBar.init();
+    }
 
+    public void initCreate(Bundle savedInstanceState) {
+        mTitleBar = findViewById(R.id.title_bar);
     }
 
     public void initBasePresenter() {

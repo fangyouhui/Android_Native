@@ -3,12 +3,7 @@
     android:color="@color/color_ripple">
     <item>
         <shape android:shape="rectangle">
-            <gradient
-                android:angle="270"
-                android:endColor="#ffff5838"
-                android:startColor="#ffff7f47"
-                android:type="linear" />
-            <corners android:radius="25dp" />
+            <solid android:color="@color/color_white" />
         </shape>
     </item>
 </ripple>

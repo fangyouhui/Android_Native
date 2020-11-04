@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.youth.banner:banner:2.1.0'
     implementation 'com.github.jdsjlzx:LRecyclerView:1.5.0'
     implementation 'com.airbnb.android:lottie:2.8.0'
+    implementation 'com.hjq:titlebar:8.0'
 }
