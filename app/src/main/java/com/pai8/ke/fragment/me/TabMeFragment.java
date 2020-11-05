@@ -29,5 +29,8 @@ public class TabMeFragment extends BaseFragment {
                 .init();
     }
 
-
+    @Override
+    protected void onLazyLoad() {
+        super.onLazyLoad();
+    }
 }

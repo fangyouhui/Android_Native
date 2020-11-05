@@ -2,7 +2,10 @@ package com.pai8.ke.activity.me;
 
 import android.Manifest;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Looper;
+import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.SpannableString;
@@ -15,10 +18,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.MainActivity;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.entity.resp.ResLoginInfo;
 import com.pai8.ke.entity.resp.UserInfo;
@@ -69,12 +76,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     private String userMessage;
     private NetWorkUtils netUtils;
 
-    @Override
+
     public int getLayoutId() {
         return R.layout.activity_login;
     }
 
-    @Override
+
     public void initView() {
         //透明状态栏，字体深色
         ImmersionBar.with(this)
@@ -82,6 +89,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 .statusBarDarkFont(true)
                 .init();
     }
+
 
     @Override
     public void initListener() {
@@ -129,15 +137,18 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 reqBody.put("mobile", userPhone);
                 if (btnChangLogin.getText().equals("密码登录")) {
                     reqBody.put("code", userMessage);
+
                     netUtils.postDataAsynToNet(GlobalConstants.HTTP_URL_RELEASE + "public/login", reqBody, new
                             NetWorkUtils.MyNetCall() {
                                 @Override
                                 public void success(Call call, Response response) throws IOException {
                                     getTokenFromGson(response.body().string());
+
                                 }
 
                                 @Override
                                 public void failed(Call call, IOException e) {
+                                    toast(e.getMessage());
                                 }
                             });
                 } else {
@@ -151,6 +162,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
                                 @Override
                                 public void failed(Call call, IOException e) {
+                                    toast(e.getMessage());
                                 }
                             });
                 }
@@ -215,11 +227,12 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
     public void wxLogin() {
         PermissionX.init(this)
-                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
                 .onExplainRequestReason(new ExplainReasonCallback() {
                     @Override
                     public void onExplainReason(ExplainScope scope, List<String> deniedList) {
-                        scope.showRequestReasonDialog(deniedList, "读内存卡权限是必须依赖的权限", "去开启", "关闭");
+                        scope.showRequestReasonDialog(deniedList, "该权限是必须依赖的权限", "去开启", "关闭");
                     }
                 })
                 .onForwardToSettings(new ForwardToSettingsCallback() {
@@ -257,7 +270,17 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         UserInfo userInfo = loginInfo.getResult();
         if (userInfo != null) {
             PreferencesUtils.put(LoginActivity.this, "token", userInfo.getToken());
+            Looper.prepare();
+            toast("登录成功");
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            Looper.loop();
+        } else {
+            Looper.prepare();
+            toast("登录失败，请重新登录");
+            Looper.loop();
         }
+
     }
 
     @Override
@@ -273,4 +296,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     public void afterTextChanged(Editable editable) {
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            etUserName.setText(data.getStringExtra("userPhone"));
+        }
+    }
 }

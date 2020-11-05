@@ -29,9 +29,29 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity android:name=".activity.me.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.me.RegisterActivity"></activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyTranslucentTheme"></activity>
 
         <meta-data
             android:name="design_width_in_dp"
@@ -40,34 +60,20 @@
             android:name="design_height_in_dp"
             android:value="734" />
 
-        <activity android:name=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activity.me.LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.me.RegisterActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SplashActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.takeaway.TakeawayActivity"
-            android:screenOrientation="portrait" />
-        <!--  视频详情 -->
-        <activity
-            android:name=".activity.video.VideoDetailActivity"
-            android:screenOrientation="portrait" />
-        <!--  举报/投诉 -->
+        <activity android:name=".activity.SplashActivity" />
+        <activity android:name=".activity.takeaway.TakeawayActivity" />
         <activity
             android:name=".activity.video.ReportActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.video.VideoDetailActivity"
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>

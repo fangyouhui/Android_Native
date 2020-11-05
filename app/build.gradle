@@ -18,6 +18,9 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64'//'arm64-v8a',
+        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +39,7 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -64,6 +68,9 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
     implementation 'com.youth.banner:banner:2.1.0'
+    implementation 'com.github.jdsjlzx:LRecyclerView:1.5.0'
+    implementation 'com.airbnb.android:lottie:2.8.0'
+    implementation 'com.hjq:titlebar:8.0'
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 
 }

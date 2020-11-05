@@ -1,4 +1,4 @@
-package com.pai8.ke.activity.wxapi;
+package com.pai8.ke.wxapi;
 
 
 import android.content.Intent;

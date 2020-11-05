@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.next.easynavigation.view.EasyNavigationBar;
 import com.pai8.ke.R;
+import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.fragment.home.TabHomeFragment;
 import com.pai8.ke.fragment.me.TabMeFragment;
 import com.pai8.ke.fragment.pai.TabCameraFragment;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     //未选中icon
     private int[] normalIcon = {R.mipmap.icon_tabbar_home_normal, R.mipmap.icon_tabbar_type_normal,
@@ -29,15 +30,14 @@ public class MainActivity extends AppCompatActivity {
     private EasyNavigationBar navigationBar;
     private List<Fragment> fragments = new ArrayList<>();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        initView();
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
     }
 
-    private void initView() {
+    @Override
+    public void initView() {
         navigationBar = findViewById(R.id.navigationBar);
         fragments.add(new TabHomeFragment());
         fragments.add(new TabTypeFragment());
