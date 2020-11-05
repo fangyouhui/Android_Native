@@ -15,6 +15,7 @@ import com.pai8.ke.global.MockData;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.interfaces.OnViewPagerListener;
 import com.pai8.ke.manager.ViewPagerLayoutManager;
+import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.FullScreenVideoView;
 import com.pai8.ke.widget.LikeView;
@@ -72,6 +73,9 @@ public class VideoDetailActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (mIvPlay != null) {
+            mIvPlay.setVisibility(View.GONE);
+        }
         mVideoView.start();
     }
 
@@ -99,6 +103,7 @@ public class VideoDetailActivity extends BaseActivity {
 
             @Override
             public void onPageRelease(boolean isNext, int position) {
+                LogUtils.d("onPageRelease:" + isNext + "-position:" + position);
                 if (mIvCurCover != null) {
                     mIvCurCover.setVisibility(View.VISIBLE);
                 }
@@ -110,6 +115,9 @@ public class VideoDetailActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position, boolean isBottom) {
                 playVideo(position);
+                if (isBottom) {
+                    mVideoAdapter.addAll(MockData.getVideoData());
+                }
             }
         });
     }
@@ -174,6 +182,7 @@ public class VideoDetailActivity extends BaseActivity {
         videoControllerView.setVideoControllerListener(new OnVideoControllerListener() {
             @Override
             public void onAvatarClick() {
+                toast(mCurPlayPos + "");
             }
 
             @Override

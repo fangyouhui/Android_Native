@@ -34,7 +34,7 @@ public class MyApp extends Application {
      * @return
      */
     public static BuildType getBuildType() {
-        return BuildType.RELEASE;
+        return BuildType.TEST;
     }
 
     /**
