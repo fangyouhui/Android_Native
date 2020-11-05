@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.pai8.ke.R;
 import com.pai8.ke.entity.resp.VideoEntity;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
+import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.widget.CircleImageView;
 
@@ -52,6 +53,7 @@ public class VideoControllerView extends RelativeLayout {
     @BindView(R.id.tv_btn_go_see)
     TextView tvBtnGoSee;
 
+    private Context mContext;
     private VideoEntity mVideoEntity;
     private OnVideoControllerListener mVideoControllerListener;
 
@@ -61,6 +63,7 @@ public class VideoControllerView extends RelativeLayout {
 
     public VideoControllerView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         init();
     }
 
@@ -71,13 +74,12 @@ public class VideoControllerView extends RelativeLayout {
 
     public void setVideoData(VideoEntity videoData) {
         mVideoEntity = videoData;
-        civAvatar.setImageResource(videoData.getCoverRes());
-        tvLike.setText(videoData.getLikeCount() + "");
-        tvComment.setText(videoData.getCommentCount() + "");
-        tvShare.setText(videoData.getShareCount() + "");
+        ImageLoadUtils.loadImage(mContext, videoData.getAvatar(), civAvatar, R.mipmap.img_avatar_def);
+        tvLike.setText(videoData.getLike_counts());
+        tvComment.setText(videoData.getComment_counts());
 
         //点赞状态
-        if (videoData.isLiked()) {
+        if (videoData.getLike_status() == 1) {
             Drawable drawable = ResUtils.getDrawable(R.mipmap.ic_video_like_s);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             tvLike.setCompoundDrawables(null, drawable, null, null);
@@ -88,7 +90,7 @@ public class VideoControllerView extends RelativeLayout {
         }
 
         //关注状态
-        if (videoData.isFocused()) {
+        if (videoData.getFollow_status() == 1) {
             ivFocus.setImageResource(R.mipmap.ic_video_follow_s);
         } else {
             ivFocus.setImageResource(R.mipmap.ic_video_follow_u);

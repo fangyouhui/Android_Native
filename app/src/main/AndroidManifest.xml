@@ -47,12 +47,15 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".activity.me.LoginActivity">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.me.LoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.me.RegisterActivity"
             android:screenOrientation="portrait" />
@@ -64,9 +67,6 @@
             android:theme="@style/MyTranslucentTheme" />
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.takeaway.TakeawayActivity"

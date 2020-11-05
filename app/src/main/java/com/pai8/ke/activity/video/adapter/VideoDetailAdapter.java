@@ -11,6 +11,7 @@ import com.pai8.ke.activity.video.VideoControllerView;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
 import com.pai8.ke.entity.resp.VideoEntity;
+import com.pai8.ke.utils.ImageLoadUtils;
 
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -31,7 +32,8 @@ public class VideoDetailAdapter extends BaseRecyclerViewAdapter<VideoEntity> {
         ViewHolder viewHolder = (ViewHolder) holder;
         VideoEntity videoEntity = mDataList.get(position);
         viewHolder.videoControllerView.setVideoData(videoEntity);
-        viewHolder.ivCover.setImageResource(videoEntity.getCoverRes());
+        ImageLoadUtils.loadImageFitCenter(mContext, videoEntity.getCover_path(), viewHolder.ivCover,
+                R.color.color_black);
     }
 
     static class ViewHolder extends BaseViewHolder {

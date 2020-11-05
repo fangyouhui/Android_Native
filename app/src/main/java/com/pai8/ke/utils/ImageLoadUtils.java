@@ -45,7 +45,7 @@ public class ImageLoadUtils {
                         .error(id)
 //                        .placeholder(id)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
-                .transition(new DrawableTransitionOptions().crossFade(400)) //使用变换效果
+                .transition(new DrawableTransitionOptions().crossFade(100)) //使用变换效果
                 .into(imageView);
     }
 
@@ -58,7 +58,7 @@ public class ImageLoadUtils {
                         .error(id)
 //                        .placeholder(id)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
-                .transition(new DrawableTransitionOptions().crossFade(400)) //使用变换效果
+                .transition(new DrawableTransitionOptions().crossFade(100)) //使用变换效果
                 .into(imageView);
     }
 

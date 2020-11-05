@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.video;
 
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -8,9 +9,15 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.LoginActivity;
 import com.pai8.ke.activity.video.adapter.VideoDetailAdapter;
+import com.pai8.ke.api.Api;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.req.CodeReq;
+import com.pai8.ke.entity.resp.VideoEntity;
 import com.pai8.ke.global.MockData;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.interfaces.OnViewPagerListener;
@@ -19,6 +26,8 @@ import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.FullScreenVideoView;
 import com.pai8.ke.widget.LikeView;
+
+import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -68,6 +77,27 @@ public class VideoDetailActivity extends BaseActivity {
         setViewPagerLayoutManager();
 
         mVideoAdapter.setDataList(MockData.getVideoData());
+    }
+
+    @Override
+    public void initData() {
+        Api.getInstance().videoList("", 1)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<List<VideoEntity>>() {
+                    @Override
+                    protected void onSuccess(List<VideoEntity> list) {
+                        mVideoAdapter.setDataList(list);
+                        dismissLoadingDialog();
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        dismissLoadingDialog();
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 
     @Override
@@ -157,11 +187,13 @@ public class VideoDetailActivity extends BaseActivity {
         }
         rootView.addView(mVideoView, 0);
 
+        VideoEntity videoEntity = mVideoAdapter.getDataList().get(position);
         // VideoView设置并播放
-        String videoPath =
-                "android.resource://" + getPackageName() + "/" + mVideoAdapter.getDataList().get(position).getVideoRes();
-        mVideoView.setVideoPath(videoPath);
-//        mVideoView.setVideoURI(Uri.parse(""));
+//        String videoPath =
+//                "android.resource://" + getPackageName() + "/" + mVideoAdapter.getDataList().get
+//                (position).getVideoRes();
+//        mVideoView.setVideoPath(videoPath);
+        mVideoView.setVideoURI(Uri.parse(videoEntity.getVideo_path()));
         mVideoView.start();
         mVideoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);

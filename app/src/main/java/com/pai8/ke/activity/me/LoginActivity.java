@@ -193,32 +193,38 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
 
         if (btnChangLogin.getText().equals("密码登录")) {
             loginReq.setCode(userMessage);
+            Api.getInstance().login(loginReq)
+                    .doOnSubscribe(disposable -> {
+                    })
+                    .compose(RxSchedulers.io_main())
+                    .subscribe(loginObserver);
         } else {
             loginReq.setPwd(userMessage);
+            Api.getInstance().mobileLogin(loginReq)
+                    .doOnSubscribe(disposable -> {
+                    })
+                    .compose(RxSchedulers.io_main())
+                    .subscribe(loginObserver);
         }
 
-        Api.getInstance().login(loginReq)
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<UserInfo>() {
-                    @Override
-                    protected void onSuccess(UserInfo userInfo) {
-                        dismissLoadingDialog();
-                        toast("登录成功");
-                        mAccountManager.saveUserInfo(userInfo);
-                        launch(MainActivity.class);
-                        finish();
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        dismissLoadingDialog();
-                        super.onError(msg, errorCode);
-                    }
-                });
-
     }
+
+    BaseObserver loginObserver = new BaseObserver<UserInfo>() {
+        @Override
+        protected void onSuccess(UserInfo userInfo) {
+            dismissLoadingDialog();
+            toast("登录成功");
+            mAccountManager.saveUserInfo(userInfo);
+            launch(MainActivity.class);
+            finish();
+        }
+
+        @Override
+        protected void onError(String msg, int errorCode) {
+            dismissLoadingDialog();
+            super.onError(msg, errorCode);
+        }
+    };
 
     public void getEditextStatus() {
         if (TextUtils.isEmpty(etUserName.getText()) || etUserName.getText().length() < 11 || TextUtils.isEmpty(etMessage.getText())) {

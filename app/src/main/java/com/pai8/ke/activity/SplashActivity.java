@@ -1,16 +1,23 @@
 package com.pai8.ke.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.LoginActivity;
+import com.pai8.ke.base.BaseActivity;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+    public int getLayoutId() {
+        return R.layout.activity_splash;
+    }
+
+    @Override
+    public void initView() {
+        if (mAccountManager.isLogin()) {
+            launch(MainActivity.class);
+        } else {
+            launch(LoginActivity.class);
+        }
+        finish();
     }
 }

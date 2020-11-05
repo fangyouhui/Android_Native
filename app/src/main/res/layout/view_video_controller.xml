@@ -7,8 +7,7 @@
     android:paddingLeft="20dp"
     android:paddingTop="45dp"
     android:paddingRight="20dp"
-    android:paddingBottom="40dp"
-    tool:background="@color/color_black">
+    android:paddingBottom="40dp">
 
     <com.pai8.ke.widget.CircleImageView
         android:id="@+id/civ_avatar"

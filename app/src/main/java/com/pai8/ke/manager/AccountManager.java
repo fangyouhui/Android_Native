@@ -28,14 +28,14 @@ public class AccountManager {
      * 是否登录
      */
     public boolean isLogin() {
-        return StringUtils.isNotEmpty(getUid());
+        return StringUtils.isNotEmpty(getToken());
     }
 
     /**
      * 获取用户id
      */
     public String getUid() {
-        return (String) PreferencesUtils.get(MyApp.getMyApp(), "userId", "");
+        return (String) PreferencesUtils.get(MyApp.getMyApp(), "uid", "");
     }
 
     /**
