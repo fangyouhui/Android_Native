@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('F:\\androidProject\\PaiKeApp\\app\\pai8.jks')
-            storePassword 'pai8apppwd'
-            keyAlias = 'p8'
-            keyPassword 'pai8apppwd'
-        }
-    }
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
 
@@ -30,11 +22,37 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    signingConfigs {
+        release {
+            storeFile file("../pai8.jks")
+            storePassword 'pai8apppwd'
+            keyAlias 'p8'
+            keyPassword 'pai8apppwd'
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def time = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
+                    outputFileName = "pai8_release_v${variant.versionName}_${time}.apk"
+                }
+            }
         }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 

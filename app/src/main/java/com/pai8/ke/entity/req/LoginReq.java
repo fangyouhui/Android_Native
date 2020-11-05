@@ -4,30 +4,8 @@ package com.pai8.ke.entity.req;
 public class LoginReq {
 
     private String mobile;
-    private String verifyCode;
-
-    public String getPwd() {
-        return Pwd;
-    }
-
-    public void setPwd(String pwd) {
-        Pwd = pwd;
-    }
-
-    public String getRePwd() {
-        return rePwd;
-    }
-
-    public void setRePwd(String rePwd) {
-        this.rePwd = rePwd;
-    }
-
-    private String Pwd;
-    private  String rePwd;
-
-    public LoginReq() {
-
-    }
+    private String code;
+    private String pwd;
 
     public String getMobile() {
         return mobile;
@@ -37,11 +15,19 @@ public class LoginReq {
         this.mobile = mobile;
     }
 
-    public String getVerifyCode() {
-        return verifyCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 }

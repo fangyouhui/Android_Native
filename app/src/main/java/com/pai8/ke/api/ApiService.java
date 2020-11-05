@@ -18,18 +18,23 @@ import retrofit2.http.Query;
  */
 public interface ApiService {
 
-    // TODO: 2020/11/2 以下获取验证码和登录为例，GET POST基本用法
-
     /**
      * 获取短信验证码
      */
     @POST("public/getCode")
-    Observable<BaseRespose<Getcode>> verifyCode(@Body CodeReq param);
+    Observable<BaseRespose> verifyCode(@Body CodeReq param);
 
     /**
      * 登录
      */
-    @POST("account/login")
+    @POST("public/login")
     Observable<BaseRespose<UserInfo>> login(@Body LoginReq param);
+
+    /**
+     * @param param
+     * @return
+     */
+    @POST("public/mobileLogin")
+    Observable<BaseRespose<UserInfo>> mobileLogin(@Body LoginReq param);
 
 }

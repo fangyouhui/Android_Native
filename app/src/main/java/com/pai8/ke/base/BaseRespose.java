@@ -1,5 +1,7 @@
 package com.pai8.ke.base;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,7 @@ public class BaseRespose<T> implements Serializable {
     private static final long serialVersionUID = 2484868567614623456L;
     public int code;
     public String msg;
+    @SerializedName(value = "result")
     public T data;
 
     public int getCode() {
@@ -43,7 +46,7 @@ public class BaseRespose<T> implements Serializable {
      * @return
      */
     public boolean isSuccess() {
-        return 200 == code;
+        return 1 == code;
     }
 
     /**
@@ -52,6 +55,6 @@ public class BaseRespose<T> implements Serializable {
      * @return
      */
     public boolean isTokenError() {
-        return 4003 == code;
+        return 403 == code;
     }
 }
