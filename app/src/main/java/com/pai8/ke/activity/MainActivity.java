@@ -1,5 +1,7 @@
 package com.pai8.ke.activity;
 
+import android.os.Bundle;
+
 import com.next.easynavigation.view.EasyNavigationBar;
 import com.pai8.ke.R;
 import com.pai8.ke.base.BaseActivity;
@@ -9,10 +11,11 @@ import com.pai8.ke.fragment.pai.TabCameraFragment;
 import com.pai8.ke.fragment.shop.TabShopFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.fragment.app.Fragment;
 
 
 public class MainActivity extends BaseActivity {
@@ -26,6 +29,7 @@ public class MainActivity extends BaseActivity {
     private String[] menuTextItems = {"", "", "", ""};
     private EasyNavigationBar navigationBar;
     private List<Fragment> fragments = new ArrayList<>();
+
 
     @Override
     public int getLayoutId() {

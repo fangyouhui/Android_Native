@@ -42,4 +42,17 @@
         <item name="android:windowExitAnimation">@anim/anim_bottim_dialog_exit</item>
     </style>
 
+    <style name="MyTranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/color_transition</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/AlphaAnim</item>
+    </style>
+
+    <style name="AlphaAnim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_out</item>
+    </style>
+
+
 </resources>

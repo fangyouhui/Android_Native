@@ -6,6 +6,25 @@ public class LoginReq {
     private String mobile;
     private String verifyCode;
 
+    public String getPwd() {
+        return Pwd;
+    }
+
+    public void setPwd(String pwd) {
+        Pwd = pwd;
+    }
+
+    public String getRePwd() {
+        return rePwd;
+    }
+
+    public void setRePwd(String rePwd) {
+        this.rePwd = rePwd;
+    }
+
+    private String Pwd;
+    private  String rePwd;
+
     public LoginReq() {
 
     }
