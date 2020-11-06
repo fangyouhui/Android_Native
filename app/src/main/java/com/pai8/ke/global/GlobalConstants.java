@@ -31,6 +31,11 @@ public class GlobalConstants {
     //Token失效
     public static int HTTP_TOKEN_ERROR = 0x05;
 
+    //下拉刷新
+    public static int REFRESH = 0x01;
+    //上拉加载
+    public static int LOADMORE = 0x02;
+
     //微信授权登录
     public static IWXAPI wx_api; //全局的微信api对象
     public static final String APP_ID = "wx00290ee6e44c1cfd"; //appid

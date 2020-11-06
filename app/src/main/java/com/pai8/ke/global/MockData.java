@@ -1,6 +1,6 @@
 package com.pai8.ke.global;
 
-import com.pai8.ke.entity.resp.VideoEntity;
+import com.pai8.ke.entity.resp.VideoResp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ public class MockData {
      *
      * @return
      */
-    public static List<VideoEntity> getVideoData() {
-        List<VideoEntity> mVideos = new ArrayList<>();
+    public static List<VideoResp> getVideoData() {
+        List<VideoResp> mVideos = new ArrayList<>();
 
 //        VideoEntity video1 = new VideoEntity();
 //        video1.setCoverRes(R.mipmap.img_mock_cover);

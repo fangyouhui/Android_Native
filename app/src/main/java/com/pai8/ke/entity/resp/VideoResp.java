@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 视频Entity
  */
-public class VideoEntity implements Serializable {
+public class VideoResp implements Serializable {
 
     /**
      * id : 6

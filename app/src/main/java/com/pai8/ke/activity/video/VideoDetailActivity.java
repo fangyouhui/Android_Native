@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.LoginActivity;
 import com.pai8.ke.activity.video.adapter.VideoDetailAdapter;
-import com.pai8.ke.api.Api;
+import com.pai8.ke.activity.video.contract.VideoContract;
+import com.pai8.ke.activity.video.presenter.VideoPresenter;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.req.CodeReq;
-import com.pai8.ke.entity.resp.VideoEntity;
+import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.global.MockData;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.interfaces.OnViewPagerListener;
@@ -27,17 +27,26 @@ import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.FullScreenVideoView;
 import com.pai8.ke.widget.LikeView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
+
+import static com.pai8.ke.global.EventCode.EVENT_REPORT;
+import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
 /**
  * 视频详情
  * Created by gh on 2020/11/3.
  */
-public class VideoDetailActivity extends BaseActivity {
+public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter> implements VideoContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rv)
     RecyclerView mLuRv;
@@ -52,10 +61,28 @@ public class VideoDetailActivity extends BaseActivity {
     private ViewPagerLayoutManager mViewPagerLayoutManager;
 
     private int mCurPlayPos = -1;
+    private int mPageNo = 1;
+    private String keywords;
 
     private BottomDialog mShareBottomDialog;
     private BottomDialog mMoreBottomDialog;
     private BottomDialog mContactBottomDialog;
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        switch (event.getCode()) {
+            case EVENT_REPORT://举报投诉成功
+                if (mMoreBottomDialog != null && mMoreBottomDialog.isShowing()) {
+                    mMoreBottomDialog.dismiss();
+                }
+                break;
+        }
+    }
 
     @Override
     public int getLayoutId() {
@@ -69,35 +96,23 @@ public class VideoDetailActivity extends BaseActivity {
                 .transparentStatusBar()
                 .statusBarDarkFont(true)
                 .init();
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         mVideoView = new FullScreenVideoView(this);
 
         mVideoAdapter = new VideoDetailAdapter(this);
         mLuRv.setAdapter(mVideoAdapter);
         setViewPagerLayoutManager();
-
-        mVideoAdapter.setDataList(MockData.getVideoData());
     }
 
     @Override
     public void initData() {
-        Api.getInstance().videoList("", 1)
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoEntity>>() {
-                    @Override
-                    protected void onSuccess(List<VideoEntity> list) {
-                        mVideoAdapter.setDataList(list);
-                        dismissLoadingDialog();
-                    }
+        onRefresh();
+    }
 
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        dismissLoadingDialog();
-                        super.onError(msg, errorCode);
-                    }
-                });
+    @Override
+    public void initListener() {
+        mRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -145,8 +160,9 @@ public class VideoDetailActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position, boolean isBottom) {
                 playVideo(position);
-                if (isBottom) {
-                    mVideoAdapter.addAll(MockData.getVideoData());
+                if (isBottom) {//加载更多
+                    mPageNo++;
+                    mPresenter.getVideoList(keywords, mPageNo, GlobalConstants.LOADMORE);
                 }
             }
         });
@@ -187,12 +203,8 @@ public class VideoDetailActivity extends BaseActivity {
         }
         rootView.addView(mVideoView, 0);
 
-        VideoEntity videoEntity = mVideoAdapter.getDataList().get(position);
+        VideoResp videoEntity = mVideoAdapter.getDataList().get(position);
         // VideoView设置并播放
-//        String videoPath =
-//                "android.resource://" + getPackageName() + "/" + mVideoAdapter.getDataList().get
-//                (position).getVideoRes();
-//        mVideoView.setVideoPath(videoPath);
         mVideoView.setVideoURI(Uri.parse(videoEntity.getVideo_path()));
         mVideoView.start();
         mVideoView.setOnPreparedListener(mp -> {
@@ -275,10 +287,12 @@ public class VideoDetailActivity extends BaseActivity {
             mShareBottomDialog.dismiss();
         });
         tvBtnWechatFriend.setOnClickListener(view1 -> {
-
+            if (!isWeChatClientValid()) return;
+            mPresenter.share(Wechat.NAME, getCurVideo().getId());
         });
         tvBtnWechatMoments.setOnClickListener(view1 -> {
-
+            if (!isWeChatClientValid()) return;
+            mPresenter.share(WechatMoments.NAME, getCurVideo().getId());
         });
         if (mShareBottomDialog == null) {
             mShareBottomDialog = new BottomDialog(this, view);
@@ -304,10 +318,10 @@ public class VideoDetailActivity extends BaseActivity {
             mMoreBottomDialog.dismiss();
         });
         tvBtnJB.setOnClickListener(view1 -> {//举报
-            ReportActivity.launch(this, ReportActivity.INTENT_TYPE_1);
+            ReportActivity.launch(this, getCurVideo().getId(), ReportActivity.INTENT_TYPE_1);
         });
         tvBtnTS.setOnClickListener(view1 -> {//投诉
-            ReportActivity.launch(this, ReportActivity.INTENT_TYPE_2);
+            ReportActivity.launch(this, getCurVideo().getId(), ReportActivity.INTENT_TYPE_2);
 
         });
         tvBtnLH.setOnClickListener(view1 -> {//拉黑
@@ -356,5 +370,100 @@ public class VideoDetailActivity extends BaseActivity {
         mContactBottomDialog.show();
     }
 
+    /**
+     * 第三方分享
+     *
+     * @param platform
+     */
+    private void share(String platform) {
+        Platform.ShareParams sp = new Platform.ShareParams();
+        sp.setTitle("");
+        sp.setTitleUrl("");
+        sp.setText("");
+        sp.setUrl("");
+        sp.setImageUrl("");
+        sp.setShareType(Platform.SHARE_WEBPAGE);
+        Platform pform = ShareSDK.getPlatform(platform);
+        pform.setPlatformActionListener(new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                runOnUiThread(() -> {
+                    if (mShareBottomDialog.isShowing()) mShareBottomDialog.dismiss();
+                });
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                runOnUiThread(() -> {
+                    toast("分享失败");
+                });
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+
+            }
+        });
+        pform.share(sp);
+    }
+
+    @Override
+    public VideoContract.Presenter initPresenter() {
+        return new VideoPresenter(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        mPageNo = 1;
+        MyApp.getMyAppHandler().postDelayed(() -> {
+            mPresenter.getVideoList(keywords, mPageNo, GlobalConstants.REFRESH);
+        }, 200);
+    }
+
+    @Override
+    public void refreshComplete() {
+        if (mRefreshLayout != null) {
+            mRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void getVideoList(List<VideoResp> data, int tag) {
+        if (tag == GlobalConstants.REFRESH) {
+            mVideoAdapter.setDataList(data);
+        } else if (tag == GlobalConstants.REFRESH) {
+            mVideoAdapter.addAll(data);
+        }
+    }
+
+    @Override
+    public void follow(int followStatus) {
+        getCurVideo().setFollow_status(followStatus);
+        if (followStatus == 1) {
+
+        } else {
+
+        }
+    }
+
+    @Override
+    public void like(int likeStatus) {
+        getCurVideo().setLike_status(likeStatus);
+        if (likeStatus == 1) {
+
+        } else {
+
+        }
+    }
+
+    @Override
+    public void share(String platform, String url) {
+
+    }
+
+
+    private VideoResp getCurVideo() {
+        return mVideoAdapter.getDataList().get(mCurPlayPos);
+    }
 
 }

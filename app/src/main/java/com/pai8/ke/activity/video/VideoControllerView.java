@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
-import com.pai8.ke.entity.resp.VideoEntity;
+import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.ResUtils;
@@ -54,7 +54,7 @@ public class VideoControllerView extends RelativeLayout {
     TextView tvBtnGoSee;
 
     private Context mContext;
-    private VideoEntity mVideoEntity;
+    private VideoResp mVideoEntity;
     private OnVideoControllerListener mVideoControllerListener;
 
     public void setVideoControllerListener(OnVideoControllerListener videoControllerListener) {
@@ -72,7 +72,7 @@ public class VideoControllerView extends RelativeLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    public void setVideoData(VideoEntity videoData) {
+    public void setVideoData(VideoResp videoData) {
         mVideoEntity = videoData;
         ImageLoadUtils.loadImage(mContext, videoData.getAvatar(), civAvatar, R.mipmap.img_avatar_def);
         tvLike.setText(videoData.getLike_counts());

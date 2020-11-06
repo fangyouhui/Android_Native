@@ -50,6 +50,9 @@ import java.util.regex.Pattern;
 
 import javax.security.auth.x500.X500Principal;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
+
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
@@ -680,5 +683,13 @@ public final class AppUtils {
             boolean isMatch = m.matches();
             return isMatch;
         }
+    }
+
+    public static boolean isWeChatClientValid() {
+        if (!ShareSDK.getPlatform(Wechat.NAME).isClientValid()) {
+            ToastUtils.showShort("您尚未安装微信客户端");
+            return false;
+        }
+        return true;
     }
 }

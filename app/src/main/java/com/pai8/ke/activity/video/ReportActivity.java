@@ -8,17 +8,23 @@ import android.widget.Button;
 
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
-import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.activity.video.contract.ReportContract;
+import com.pai8.ke.activity.video.presenter.ReportPresenter;
+import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.widget.EditTextCountView;
 
 import androidx.annotation.IntDef;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.pai8.ke.global.EventCode.EVENT_REPORT;
+
 /**
  * 举报/投诉
  */
-public class ReportActivity extends BaseActivity {
+public class ReportActivity extends BaseMvpActivity<ReportContract.Presenter> implements ReportContract.View {
     @BindView(R.id.etcv_content)
     EditTextCountView etContent;
     @BindView(R.id.btn_submit)
@@ -28,19 +34,27 @@ public class ReportActivity extends BaseActivity {
     public static final int INTENT_TYPE_1 = 1;
     //投诉
     public static final int INTENT_TYPE_2 = 2;
+
     private int mIntentType;
+    private String mVideoId;
 
     @IntDef({INTENT_TYPE_1, INTENT_TYPE_2})
     public @interface IntentType {
 
     }
 
-    public static void launch(Context context, @IntentType int intentType) {
+    public static void launch(Context context, String video_id, @IntentType int intentType) {
         Intent intent = new Intent(context, ReportActivity.class);
         Bundle bundle = new Bundle();
+        intent.putExtra("video_id", video_id);
         intent.putExtra("intentType", intentType);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    @Override
+    public ReportContract.Presenter initPresenter() {
+        return new ReportPresenter(this);
     }
 
     @Override
@@ -52,6 +66,7 @@ public class ReportActivity extends BaseActivity {
     public void initView() {
         Bundle extras = getIntent().getExtras();
         mIntentType = extras.getInt("intentType");
+        mVideoId = extras.getString("video_id");
         if (mIntentType == INTENT_TYPE_1) {
             mTitleBar.setTitle("举报");
             btnSubmit.setText("提交举报");
@@ -83,5 +98,12 @@ public class ReportActivity extends BaseActivity {
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
+        mPresenter.report(mVideoId, etContent.getText());
+    }
+
+    @Override
+    public void reportSuccess() {
+        EventBusUtils.sendEvent(new BaseEvent(EVENT_REPORT));
+        finish();
     }
 }

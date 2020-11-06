@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion 29
@@ -53,6 +54,27 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+}
+
+MobSDK {
+    appKey "301bc61c1fd7e"
+    appSecret "38c9f9e4ae215b6aeaf85a8ac500129a"
+
+    ShareSDK {
+        //平台配置信息
+        devInfo {
+            // 微信好友
+            Wechat {
+                appId "wx00290ee6e44c1cfd"
+                appSecret "3db5d02b7d93bcffbb15f3f0fb1ead4f"
+            }
+            // 微信朋友圈
+            WechatMoments {
+                appId "wx83b31e00c0a2ada0"
+                appSecret "3db5d02b7d93bcffbb15f3f0fb1ead4f"
+            }
+        }
     }
 }
 
