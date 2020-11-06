@@ -59,8 +59,8 @@
         android:id="@+id/rv_foods"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintRight_toLeftOf="@+id/tv_price"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -77,11 +77,39 @@
 
     <TextView
 
+        android:id="@+id/tv_reject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_store_business"
+        android:paddingStart="15dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp"
+        android:text="拒绝接单"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_food_status"
+        app:layout_constraintTop_toBottomOf="@+id/rv_foods"
+
+        />
+
+    <TextView
+
         android:id="@+id/tv_food_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_orgin_gradient"
+        android:paddingStart="15dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp"
         android:text="立即接单"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_foods"
 

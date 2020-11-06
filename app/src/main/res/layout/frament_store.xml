@@ -89,8 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#979797"
             android:gravity="center"
+            android:background="@drawable/shape_gray"
             android:text="去结算"
             android:textColor="@color/color_white"
             android:textSize="16sp" />

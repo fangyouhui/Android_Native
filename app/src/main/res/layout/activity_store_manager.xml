@@ -113,6 +113,7 @@
         android:layout_marginBottom="15dp">
 
         <RelativeLayout
+            android:id="@+id/rl_income"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
@@ -196,13 +197,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_store_info"
         android:layout_marginStart="16dp"
-        android:textColor="@color/text_store_manager"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape_store_recommend"
         android:drawableEnd="@mipmap/ic_store_share"
         android:padding="12dp"
         android:text="订单量太少？来试试流量推广吧"
+        android:textColor="@color/text_store_manager"
 
         />
 
@@ -271,6 +272,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_marketing_manager"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -304,8 +306,9 @@
 
 
         <RelativeLayout
+            android:id="@+id/rl_num_rank"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="15dp"
             android:gravity="center_vertical">
 
@@ -318,9 +321,30 @@
                 android:textColor="@color/text_black" />
 
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_toStartOf="@+id/iv_arrow1"
+
+                />
+
+
+            <ImageView
+                android:id="@+id/iv_arrow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@mipmap/me_right_arrow"
+
+                />
+
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_income_rank"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -334,6 +358,24 @@
                 android:text="商品月收入排行"
                 android:textColor="@color/text_black" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_toStartOf="@+id/iv_arrow2"
+                />
+
+
+            <ImageView
+                android:id="@+id/iv_arrow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="15dp"
+                android:background="@mipmap/me_right_arrow"
+
+                />
 
         </RelativeLayout>
 

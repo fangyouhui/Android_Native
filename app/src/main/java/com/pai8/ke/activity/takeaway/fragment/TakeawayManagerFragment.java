@@ -14,12 +14,12 @@ import com.pai8.ke.base.BasePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TakeawayManagerFragment extends BaseMvpFragment implements OnClickListener {
 
-    private RecyclerView mRvGroupBuy;
+    private RecyclerView mRvClassify,mRvGood;
     private GroupBuyManagerAdapter mAdapter;
 
     @Override
@@ -34,10 +34,16 @@ public class TakeawayManagerFragment extends BaseMvpFragment implements OnClickL
 
     @Override
     protected void initView(Bundle arguments) {
-        mRvGroupBuy = mRootView.findViewById(R.id.rv_group_buy);
+        mRvClassify = mRootView.findViewById(R.id.rv_classify);
         mRootView.findViewById(R.id.tv_add).setOnClickListener(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
-        mRvGroupBuy.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRvClassify.setLayoutManager(layoutManager);
+
+
+        mRvGood = mRootView.findViewById(R.id.rv_goods);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
+        mRvGood.setLayoutManager(layoutManager1);
+
     }
 
     @Override
@@ -48,7 +54,7 @@ public class TakeawayManagerFragment extends BaseMvpFragment implements OnClickL
             list.add("1");
         }
         mAdapter = new GroupBuyManagerAdapter(list);
-        mRvGroupBuy.setAdapter(mAdapter);
+        mRvClassify.setAdapter(mAdapter);
     }
 
     @Override

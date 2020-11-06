@@ -136,7 +136,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
 
 
     private void getToken() {
-//        showLoadingDialog("");
+        showLoadingDialog("");
         Api.getInstance().getQNToken()
                 .doOnSubscribe(disposable -> {
                 })
@@ -189,6 +189,8 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else{
+                dismissLoadingDialog();
             }
         }
     };
@@ -206,6 +208,8 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else{
+                dismissLoadingDialog();
             }
         }
     };
@@ -236,6 +240,8 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else{
+                dismissLoadingDialog();
             }
         }
     };
@@ -265,6 +271,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
                 .subscribe(new BaseObserver<String>() {
                     @Override
                     protected void onSuccess(String token) {
+                        dismissLoadingDialog();
                         finish();
                         startActivity(new Intent(MerchantSettledSecondActivity.this, MerchantSettledThreeActivity.class));
 
