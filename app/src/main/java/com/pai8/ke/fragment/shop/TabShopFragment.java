@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.TakeawayActivity;
+import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
 
 import androidx.fragment.app.Fragment;
 

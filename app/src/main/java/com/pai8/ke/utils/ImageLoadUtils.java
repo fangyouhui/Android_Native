@@ -197,5 +197,10 @@ public class ImageLoadUtils {
         Glide.get(context).onTrimMemory(level);
     }
 
+    public static void setRectImage(Context context, String path, ImageView imageView) {
+        Glide.with(context).load(path).apply(new RequestOptions().centerInside().dontAnimate())
+                .into(imageView);
+    }
+
 }
 

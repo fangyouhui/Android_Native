@@ -1,6 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp">
+
+
+    <ImageView
+        android:id="@+id/item_iv_pic"
+        android:layout_width="86dp"
+        android:layout_height="86dp"
+        android:layout_gravity="center"
+        android:background="@mipmap/ic_launcher_round"
+        android:padding="0.5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:singleLine="true"
+        android:text="淮南牛肉汤 (永安大街店)"
+        android:textColor="@color/text_black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv_pic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/item_iv_promotion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="6dp"
+        android:singleLine="true"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/text_black"
+        app:layout_constraintLeft_toRightOf="@+id/item_tv_name"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:background="@mipmap/icon_promotion"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <TextView
+        android:id="@+id/item_tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:drawableStart="@mipmap/icon_rating_bar_select"
+        android:drawablePadding="3dp"
+        android:text="0"
+        android:textColor="#FF7F47"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv_pic"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_name" />
+
+    <TextView
+        android:id="@+id/item_tv_month_sale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:text="月售 1024"
+        android:textColor="@color/color_mid_font"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/item_tv_score"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_name" />
+
+    <TextView
+        android:id="@+id/item_home_store_km"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:text="1.5km"
+        android:textColor="@color/color_mid_font"
+        android:textSize="12sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_name" />
+
+    <TextView
+        android:id="@+id/item_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="5dp"
+        android:text="30分钟"
+        android:textColor="@color/color_mid_font"
+        android:textSize="12sp"
+        app:layout_constraintRight_toLeftOf="@+id/item_home_store_km"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_name" />
+
+    <TextView
+        android:id="@+id/item_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:text="起送价 ¥15"
+        android:textColor="@color/color_mid_font"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv_pic"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_score" />
+
+    <TextView
+        android:id="@+id/item_tv_deliver_fee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="6dp"
+        android:text="| 配送费 ¥5"
+        android:textColor="@color/color_mid_font"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/item_tv_price"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_score" />
+
+
+    <TextView
+        android:id="@+id/item_tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:text="| 配送费 ¥5"
+        android:textColor="@color/color_mid_font"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@+id/item_iv_pic"
+        app:layout_constraintTop_toBottomOf="@+id/item_tv_deliver_fee" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

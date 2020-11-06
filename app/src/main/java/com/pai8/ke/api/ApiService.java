@@ -3,7 +3,6 @@ package com.pai8.ke.api;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
-import com.pai8.ke.entity.resp.Getcode;
 import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.entity.resp.VideoEntity;
 
@@ -13,9 +12,7 @@ import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /*
  * Api接口服务类
@@ -57,4 +54,16 @@ public interface ApiService {
     @POST("index/videoList")
     Observable<BaseRespose<List<VideoEntity>>> videoList(@Field("keywords") String keywords,
                                                          @Field("page") int page);
+
+
+
+    @POST("shop/area")
+    Observable<BaseRespose<String>> getArea();
+
+
+
+    @POST("public/qiniuToken")
+    Observable<BaseRespose<String>> getQNToken();
+
+
 }

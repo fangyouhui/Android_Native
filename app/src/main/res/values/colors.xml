@@ -25,4 +25,10 @@
     <!--涟漪颜色-->
     <color name="color_ripple">#82CCCCCC</color>
 
+
+    <color name="color_bg">#F2F4F7</color>
+    <color name="text_black">#2F2F2F</color>
+    <color name="text_store_manager">#FFD49F</color>
+    <color name="color_default">#C6C6C6</color>
+
 </resources>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white">
+
+
+    <LinearLayout
+
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_classify"
+            android:background="#F2F4F7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/rv_goods"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+
+            />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/color_white"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rl_shop_car_pop"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+
+            <ImageView
+                android:id="@+id/iv_shop_car"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="22dp"
+                android:background="@mipmap/ic_shop_car_gray" />
+
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/iv_shop_car"
+                android:text="aaa"
+                android:textColor="@color/text_black"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/seller_goods_tv_logistics_discounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_price"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/iv_shop_car"
+                android:text="另需配送费￥1.5"
+                android:textColor="@color/color_light_font"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_order"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#979797"
+            android:gravity="center"
+            android:text="去结算"
+            android:textColor="@color/color_white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</RelativeLayout>
