@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_dialog_bottom"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <ImageButton
+        android:id="@+id/itn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:background="@null"
+        android:padding="10dp"
+        android:src="@mipmap/ic_close_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/itn_close"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="店铺状态"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_busniess"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/itn_close"
+        android:layout_marginTop="27dp"
+        android:background="@drawable/shape_store_business"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:drawableStart="@mipmap/ic_store_business_origin"
+            android:drawablePadding="8dp"
+            android:gravity="start|center_vertical"
+            android:text="营业中"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:gravity="start|center_vertical"
+            android:text="(店铺开启，有单秒接)"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_rest"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/ll_busniess"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape_store_rest"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:drawableStart="@mipmap/ic_store_rest"
+            android:drawablePadding="8dp"
+            android:text="休息中"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:text="(店铺关闭，暂不接单)"
+            android:textColor="@color/text_black"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent" />
+    </LinearLayout>
+
+</RelativeLayout>

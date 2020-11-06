@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pai8.ke">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,10 +13,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -34,6 +31,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
+        tools:replace="android:theme"
         android:usesCleartextTraffic="true">
 
         <meta-data
@@ -68,17 +66,30 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.takeaway.TakeawayActivity"
-            android:screenOrientation="portrait" />
-        <!-- 举报/投诉 -->
-        <activity
-            android:name=".activity.video.ReportActivity"
-            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.takeaway.ui.TakeawayActivity" />
+        <activity android:name=".activity.takeaway.ui.AddressActivity" />
+        <activity android:name=".activity.takeaway.ui.StoreActivity" />
+        <activity android:name=".activity.takeaway.ui.StoreManagerActivity" />
+        <activity android:name=".activity.takeaway.ui.OrderProcessingActivity" />
         <!-- 视频详情 -->
         <activity
             android:name=".activity.video.VideoDetailActivity"
             android:screenOrientation="portrait" />
+        <!--  举报/投诉 -->
+        <activity
+            android:name=".activity.video.ReportActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.takeaway.ui.MerchantSettledFirstActivity" />
+        <activity android:name=".activity.takeaway.ui.MerchantSettledSecondActivity" />
+        <activity android:name=".activity.takeaway.ui.MerchantSettledThreeActivity" />
+        <activity android:name=".activity.takeaway.ui.GoodManagerActivity" />
+        <activity android:name=".activity.takeaway.ui.AddGoodActivity" />
+        <activity android:name=".activity.takeaway.ui.SecondAdminManagerActivity" />
+        <activity android:name=".activity.takeaway.ui.SecondStoreManagerActivity" />
+        <activity android:name=".activity.takeaway.order.ConfirmOrderActivity" />
+
+
     </application>
 
 </manifest>

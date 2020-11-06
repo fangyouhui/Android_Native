@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/shape_white"
+    android:paddingBottom="16dp">
+
+
+    <ImageView
+        android:id="@+id/iv_food"
+        android:layout_width="match_parent"
+
+        android:layout_height="164dp"
+        android:background="@color/color_default" />
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_food"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="1"
+        android:textColor="@color/text_black"
+        android:textSize="14sp" />
+
+    <TextView
+
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="16"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignTop="@+id/tv_price"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:text="编辑"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+
+</RelativeLayout>

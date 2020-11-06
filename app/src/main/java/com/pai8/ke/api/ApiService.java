@@ -149,4 +149,15 @@ public interface ApiService {
     Observable<BaseRespose> nearbyVideoList(@Field("longitude") String longitude,
                                             @Field("latitude") String latitude,
                                             @Field("longitude") String keywords);
+
+    //***************************视频模块End*******************************
+
+    @POST("shop/area")
+    Observable<BaseRespose<String>> getArea();
+
+
+    @POST("public/qiniuToken")
+    Observable<BaseRespose<String>> getQNToken();
+
+
 }

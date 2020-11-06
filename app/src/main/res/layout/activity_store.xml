@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_store"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorPrimary" />
+
+
+        <RelativeLayout
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="28dp">
+
+            <ImageView
+                android:id="@+id/toolbar_back_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:src="@mipmap/icon_back" />
+
+            <ImageView
+                android:id="@+id/iv_store_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/iv_store_collection"
+                android:padding="10dp"
+                android:src="@mipmap/ic_store_search" />
+
+            <ImageView
+                android:id="@+id/iv_store_collection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/iv_store_share"
+                android:padding="10dp"
+                android:src="@mipmap/ic_store_collection" />
+
+            <ImageView
+                android:id="@+id/iv_store_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@mipmap/ic_store_share" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@+id/tool_bar"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/shape_white">
+
+            <TextView
+                android:id="@+id/tv_store_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="10dp"
+                android:text="有家酸菜鱼"
+                android:textColor="@color/text_black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_store_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_store_name"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="6dp"
+                android:drawableStart="@mipmap/icon_rating_bar_select"
+                android:drawablePadding="3dp"
+                android:text="0"
+                android:textColor="#FF7F47"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_month_sale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_store_score"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/tv_store_score"
+                android:text="月售 1024"
+                android:textColor="@color/color_mid_font"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_store_km"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_store_score"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="18dp"
+                android:text="1.5km"
+                android:textColor="@color/color_mid_font"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/item_tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_store_score"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/tv_store_km"
+                android:text="30分钟"
+                android:textColor="@color/color_mid_font"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:id="@+id/item_tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="12dp"
+                android:text="公告：美好的一天，从有家酸菜鱼开始。欢迎品尝。"
+                android:textColor="@color/color_mid_font"
+                android:textSize="12sp" />
+
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/item_iv_pic"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_below="@+id/tool_bar"
+            android:layout_gravity="center"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="24dp"
+            android:background="@mipmap/ic_launcher_round"
+            android:padding="0.5dp" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+
+        >
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@color/color_white"
+            app:tl_divider_padding="2dp"
+            app:tl_indicator_color="@color/colorPrimary"
+            app:tl_indicator_height="2dp"
+            app:tl_indicator_width="25dp"
+            app:tl_tab_padding="2dp"
+            app:tl_tab_space_equal="true"
+            app:tl_textBold="BOTH"
+            app:tl_textSelectColor="@color/text_black"
+            app:tl_textUnselectColor="@color/color_light_font"
+            app:tl_textsize="14sp"
+            app:tl_underline_gravity="BOTTOM" />
+
+
+        <TextView
+            android:id="@+id/tv_coupon"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:text="领取优惠券"
+
+            />
+
+    </LinearLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_balance"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="1dp"
+        android:layout_weight="12" />
+
+</LinearLayout>

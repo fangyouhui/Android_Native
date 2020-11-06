@@ -21,7 +21,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -75,6 +74,18 @@ public abstract class BaseActivity extends AppCompatActivity {
             immersionBar.titleBarMarginTop(mTitleBar);
         }
         immersionBar.init();
+    }
+
+
+    public void setImmersionBar(int id) {
+        ImmersionBar.with(this)
+                .transparentBar()
+                .statusBarDarkFont(true, 0.5f)
+                .init();   //解决白色背景时状态栏字体不显示的问题
+        ImmersionBar.setTitleBar(this, findViewById(id));
+        if (ImmersionBar.hasNavigationBar(this)) {
+            ImmersionBar.with(this).fullScreen(false).navigationBarColor(R.color.color_white).init();
+        }
     }
 
     public void initCreate(Bundle savedInstanceState) {

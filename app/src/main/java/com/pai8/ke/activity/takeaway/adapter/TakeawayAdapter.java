@@ -14,6 +14,8 @@ public class TakeawayAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
         super(R.layout.item_takeaway, data);
     }
 
+
+
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
 
