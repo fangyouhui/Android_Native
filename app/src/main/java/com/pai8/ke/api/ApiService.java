@@ -3,6 +3,8 @@ package com.pai8.ke.api;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
+import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.UserInfo;
@@ -176,12 +178,20 @@ public interface ApiService {
 
     //***************************视频模块End*******************************
 
-    @POST("shop/area")
-    Observable<BaseRespose<String>> getArea();
+    @POST("public/area")
+    Observable<BaseRespose<List<Province>>> getArea();
 
 
     @POST("public/qiniuToken")
     Observable<BaseRespose<String>> getQNToken();
+
+
+    /**
+     * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
+     */
+    @POST("index/businessType")
+    Observable<BaseRespose<List<BusinessType>>> getBusinessType();
+
 
 
 }

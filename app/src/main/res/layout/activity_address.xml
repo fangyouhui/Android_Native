@@ -45,6 +45,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="36dp"
+            android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -62,9 +63,10 @@
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
@@ -73,6 +75,51 @@
 
 
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_location1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="当前位置："
+            android:textColor="@color/color_light_font"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/tv_relocation"
+            android:layout_toEndOf="@+id/tv_location1"
+            android:text="苏州中心北区B座1501号："
+            android:textColor="@color/text_black"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/tv_relocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="重新定位"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14dp" />
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_bg"
+
+        />
 
 
 </LinearLayout>

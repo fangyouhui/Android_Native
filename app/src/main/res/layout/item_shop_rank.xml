@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp">
+
+
+    <TextView
+        android:id="@+id/tv_position"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:text="adfaf"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+
+        />
+
+    <ImageView
+        android:id="@+id/iv_position"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_rank_one"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/tv_position"
+        android:background="@color/color_default" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/iv_pic"
+        android:text="adsfa"
+        android:textColor="#111111"
+        android:layout_marginStart="10dp"
+        android:textSize="14sp"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:text="adsfa"
+        android:textColor="#111111"
+        android:textSize="14sp"
+
+        />
+
+</RelativeLayout>

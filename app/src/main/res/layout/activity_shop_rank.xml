@@ -6,8 +6,8 @@
     <ImageView
         android:id="@+id/iv_top"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:background="#2A2423"
+        android:layout_height="208dp"
+        android:background="@mipmap/bg_store_month_income"
 
         />
 
@@ -29,315 +29,50 @@
             android:paddingBottom="10dp"
             android:src="@mipmap/icon_back" />
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="240dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="店铺管理"
-            android:textColor="@color/color_white"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/toolbar_iv_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:background="@mipmap/ic_store_setting" />
-
     </RelativeLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/base_tool_bar"
         android:layout_marginTop="15dp"
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:id="@+id/iv_store"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:src="@color/color_default" />
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
-            android:layout_toEndOf="@+id/iv_store"
+            android:layout_marginStart="16dp"
             android:gravity="center"
             android:singleLine="true"
-            android:text="店铺管理"
+            android:text="商品月收入排行"
             android:textColor="@color/color_white"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/shape_store_gradient"
-            android:drawableStart="@mipmap/ic_store_business_left"
-            android:drawableEnd="@mipmap/ic_store_business_right"
-            android:drawablePadding="5dp"
-            android:paddingStart="15dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="15dp"
-            android:paddingBottom="5dp"
-            android:text="营业中"
-            android:textColor="#43392D" />
-
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:id="@+id/ll_store_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_store"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="15dp">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:background="@mipmap/bg_store_income">
-
-            <TextView
-                android:id="@+id/tv_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="订单收入(月)"
-                android:textColor="@color/text_store_manager"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:paddingTop="20dp"
-                android:paddingEnd="16dp"
-                android:src="@mipmap/ic_store_arrow" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_order"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
-                android:text="1231"
-                android:textColor="@color/text_store_manager"
-                android:textSize="28sp" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_weight="1"
-            android:background="@mipmap/bg_store_num">
-
-            <TextView
-                android:id="@+id/tv_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="订单量(月)"
-                android:textColor="@color/text_store_manager"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:paddingTop="20dp"
-                android:paddingEnd="16dp"
-                android:src="@mipmap/ic_store_arrow" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_num"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
-                android:text="1231"
-                android:textColor="@color/text_store_manager"
-                android:textSize="28sp" />
-
-        </RelativeLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="以月为周期，2020.9.1~2020.9.30"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/tv_extension"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_store_info"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_store_recommend"
-        android:drawableEnd="@mipmap/ic_store_share"
-        android:padding="12dp"
-        android:text="订单量太少？来试试流量推广吧"
-        android:textColor="@color/text_store_manager"
-
-        />
-
-    <LinearLayout
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_rank"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tv_extension"
-        android:background="@drawable/shape_white_top"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:text="日常管理"
-            android:textColor="@color/text_black"
-            android:textStyle="bold" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="10dp"
-
-            >
-
-            <TextView
-                android:id="@+id/tv_good_manager"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@mipmap/ic_commodity_manager"
-                android:drawablePadding="12dp"
-                android:gravity="center"
-                android:text="商品管理"
-                android:textColor="@color/text_black"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_order_manager"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@mipmap/ic_order_manager"
-                android:drawablePadding="12dp"
-                android:gravity="center"
-                android:text="订单处理"
-                android:textColor="@color/text_black"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_second_manager"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@mipmap/ic_second_manager"
-                android:drawablePadding="12dp"
-                android:gravity="center"
-                android:text="二级管理员"
-                android:textColor="@color/text_black"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@mipmap/ic_marketing_manager"
-                android:drawablePadding="12dp"
-                android:gravity="center"
-                android:text="营销管理"
-                android:textColor="@color/text_black"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/color_divider"
-
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="数据统计"
-            android:textColor="@color/text_black"
-            android:textStyle="bold" />
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:text="商品月销量排行"
-                android:textColor="@color/text_black" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:text="商品月收入排行"
-                android:textColor="@color/text_black" />
-
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        android:layout_below="@+id/rl_store"
+        android:paddingTop="20dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/shape_white_top" />
 
 
 </RelativeLayout>

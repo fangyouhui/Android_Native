@@ -194,15 +194,32 @@
             app:tl_underline_gravity="BOTTOM" />
 
 
-        <TextView
-            android:id="@+id/tv_coupon"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_weight="2"
-            android:text="领取优惠券"
+            android:paddingEnd="16dp"
+            android:gravity="end"
+            android:layout_weight="2">
 
-            />
+
+            <TextView
+                android:id="@+id/tv_coupon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="3dp"
+                android:padding="5dp"
+                android:drawableStart="@mipmap/ic_store_get_coupon"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimary"
+                android:background="@drawable/shape_store_business"
+                android:text="领取优惠券"
+
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

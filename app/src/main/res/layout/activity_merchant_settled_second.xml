@@ -294,10 +294,9 @@
         <TextView
             android:id="@+id/tv_next"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:background="@drawable/shape_orgin_gradient_gray"
             android:gravity="center"
-            android:padding="15dp"
             android:text="提交资料"
             android:enabled="false"
             android:textColor="@color/color_white"

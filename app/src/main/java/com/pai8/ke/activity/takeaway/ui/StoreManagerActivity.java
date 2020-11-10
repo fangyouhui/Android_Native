@@ -31,11 +31,15 @@ public class StoreManagerActivity extends BaseMvpActivity implements View.OnClic
     public void initView() {
 
         setImmersionBar(R.id.iv_top);
+        findViewById(R.id.rl_income).setOnClickListener(this);
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
         findViewById(R.id.tv_order_manager).setOnClickListener(this);
         findViewById(R.id.tv_good_manager).setOnClickListener(this);
         findViewById(R.id.toolbar_iv_menu).setOnClickListener(this);
         findViewById(R.id.tv_second_manager).setOnClickListener(this);
+        findViewById(R.id.tv_marketing_manager).setOnClickListener(this);
+        findViewById(R.id.rl_num_rank).setOnClickListener(this);
+        findViewById(R.id.rl_income_rank).setOnClickListener(this);
         mTvStatus = findViewById(R.id.tv_status);
         mTvStatus.setOnClickListener(this);
 
@@ -47,6 +51,9 @@ public class StoreManagerActivity extends BaseMvpActivity implements View.OnClic
 
             case R.id.toolbar_back_all:
                 finish();
+                break;
+            case R.id.rl_income:
+                startActivity(new Intent(this,IncomeDetailActivity.class));
                 break;
             case R.id.tv_status:
                 showBottomDialog();
@@ -63,6 +70,17 @@ public class StoreManagerActivity extends BaseMvpActivity implements View.OnClic
             case R.id.tv_second_manager:
                 startActivity(new Intent(this,SecondAdminManagerActivity.class));
                 break;
+            case R.id.tv_marketing_manager:
+                startActivity(new Intent(this,MarketingManagerActivity.class));
+                break;
+            case R.id.rl_num_rank:  //月销售数量排行
+                startActivity(new Intent(this,ShopRankActivity.class)
+                .putExtra("type",0));
+                break;
+            case R.id.rl_income_rank:   //月销售收入排行
+                startActivity(new Intent(this,ShopRankActivity.class)
+                        .putExtra("type",1));
+                break;
         }
 
     }
@@ -70,6 +88,8 @@ public class StoreManagerActivity extends BaseMvpActivity implements View.OnClic
     private void showBottomDialog() {
         View view = View.inflate(this, R.layout.dialog_store_status, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);
+
+
         itnClose.setOnClickListener(view1 -> {
             mStoreStatusDialog.dismiss();
         });

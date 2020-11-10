@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rl_merchant"
     android:background="@color/color_bg"
     android:orientation="vertical">
 
@@ -195,7 +196,6 @@
                         android:layout_toEndOf="@+id/tv_email"
                         android:background="@color/color_transition"
                         android:singleLine="true"
-                        android:text="12"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
 
@@ -230,7 +230,6 @@
                         android:layout_toEndOf="@+id/tv_type"
                         android:background="@color/color_transition"
                         android:singleLine="true"
-                        android:text="12"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
 
@@ -244,6 +243,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/rl_address"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:paddingStart="16dp">
@@ -265,7 +265,6 @@
                         android:layout_toEndOf="@+id/tv_address1"
                         android:background="@color/color_transition"
                         android:singleLine="true"
-                        android:text="12"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
 
@@ -301,7 +300,6 @@
                         android:layout_toEndOf="@+id/tv_address_detail"
                         android:background="@color/color_transition"
                         android:singleLine="true"
-                        android:text="12"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
 
@@ -341,7 +339,6 @@
                         android:layout_toEndOf="@+id/tv_bank_no"
                         android:background="@color/color_transition"
                         android:singleLine="true"
-                        android:text="12"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
 
@@ -377,7 +374,6 @@
                         android:layout_toEndOf="@+id/tv_bank_address"
                         android:background="@color/color_transition"
                         android:singleLine="true"
-                        android:text="12"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
 
@@ -413,11 +409,10 @@
         <TextView
             android:id="@+id/tv_next"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:background="@drawable/shape_orgin_gradient_gray"
             android:gravity="center"
             android:padding="15dp"
-            android:text="下一步"
             android:textColor="@color/color_white"
             android:textSize="16sp" />
 

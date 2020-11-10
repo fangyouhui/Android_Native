@@ -93,6 +93,10 @@
         <activity android:name=".activity.takeaway.ui.SecondAdminManagerActivity" />
         <activity android:name=".activity.takeaway.ui.SecondStoreManagerActivity" />
         <activity android:name=".activity.takeaway.order.ConfirmOrderActivity" />
+        <activity android:name=".activity.takeaway.ui.ShopRankActivity" />
+        <activity android:name=".activity.takeaway.ui.AddCouponActivity" />
+        <activity android:name=".activity.takeaway.ui.MarketingManagerActivity" />
+        <activity android:name=".activity.takeaway.ui.IncomeDetailActivity" />
 
 
     </application>
