@@ -148,7 +148,7 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
                     mPresenter.followVideoList(mPageNo, REFRESH);
                     break;
             }
-        }, 400);
+        }, 100);
     }
 
     @Override

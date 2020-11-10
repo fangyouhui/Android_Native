@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
@@ -41,7 +43,6 @@ import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CircleImageView;
 import com.pai8.ke.widget.EditTextCountView;
-import com.pai8.ke.widget.FullScreenVideoView;
 import com.pai8.ke.widget.LikeView;
 
 import java.util.HashMap;
@@ -71,10 +72,10 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     RecyclerView mLuRv;
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout mRefreshLayout;
+    private VideoView mVideoView;
 
     private ImageView mIvCurCover;
     private ImageView mIvPlay;
-    private FullScreenVideoView mVideoView;
 
     private VideoDetailAdapter mVideoAdapter;
     private ViewPagerLayoutManager mViewPagerLayoutManager;
@@ -159,11 +160,13 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         //透明状态栏，字体深色
         ImmersionBar.with(this)
                 .transparentStatusBar()
-                .statusBarDarkFont(true)
+                .statusBarDarkFont(false)
                 .init();
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        mVideoView = new FullScreenVideoView(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.view_video, findViewById(android.R.id.content),
+                false);
+        mVideoView = view.findViewById(R.id.video_view);
 
         mVideoAdapter = new VideoDetailAdapter(this);
         mLuRv.setAdapter(mVideoAdapter);
@@ -189,7 +192,9 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         if (mIvPlay != null) {
             mIvPlay.setVisibility(View.GONE);
         }
-        mVideoView.start();
+        if (mVideoView != null) {
+            mVideoView.start();
+        }
     }
 
     @Override
@@ -217,9 +222,9 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
             @Override
             public void onPageRelease(boolean isNext, int position) {
                 LogUtils.d("onPageRelease:" + isNext + "-position:" + position);
-                if (mIvCurCover != null) {
-                    mIvCurCover.setVisibility(View.VISIBLE);
-                }
+//                if (mIvCurCover != null) {
+//                    mIvCurCover.setVisibility(View.VISIBLE);
+//                }
                 if (mIvPlay != null) {
                     mIvPlay.setVisibility(View.GONE);
                 }
@@ -279,8 +284,8 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
             mp.setLooping(true);
             // 延迟取消封面，避免加载视频黑屏
             MyApp.getMyAppHandler().postDelayed(() -> {
-                ivCover.setVisibility(View.GONE);
-                mIvCurCover = ivCover;
+//                ivCover.setVisibility(View.GONE);
+//                mIvCurCover = ivCover;
             }, 150);
         });
     }
@@ -639,10 +644,10 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         ImageButton itnClose = view.findViewById(R.id.itn_close);
         TextView tvBtnShare = view.findViewById(R.id.tv_btn_share);
         mCivShareCover = view.findViewById(R.id.civ_cover);
-        mCivShareCover.setImageResource(R.mipmap.img_share_cover);
         EditTextCountView etCv = view.findViewById(R.id.et_cv);
-        etCv.setEtText("");
         etCv.setLength(50);
+        etCv.setEtText(StringUtils.strSafe(getCurVideo().getVideo_desc()));
+        ImageLoadUtils.loadImage(this, mShareImgUrl = getCurVideo().getCover_path(), mCivShareCover, R.mipmap.img_share_cover);
         mCivShareCover.setOnClickListener(view1 -> {
             ChoosePicUtils.picSingle(VideoDetailActivity.this, 1);
         });
