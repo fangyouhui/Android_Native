@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:paddingTop="9dp"
+    android:paddingBottom="7dp">
+
+    <com.pai8.ke.widget.DrawableCenterTextView
+        android:id="@+id/iv_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/shape_home_shadow"
+        android:drawableLeft="@mipmap/ic_home_waimai"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:text="外卖"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/iv_2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.pai8.ke.widget.DrawableCenterTextView
+        android:id="@+id/iv_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/shape_home_shadow"
+        android:drawableLeft="@mipmap/ic_home_tuangou"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:text="团购"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_1"
+        app:layout_constraintLeft_toRightOf="@+id/iv_1"
+        app:layout_constraintRight_toLeftOf="@+id/iv_3"
+        app:layout_constraintTop_toTopOf="@+id/iv_1" />
+
+    <com.pai8.ke.widget.DrawableCenterTextView
+        android:id="@+id/iv_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/shape_home_shadow"
+        android:drawableLeft="@mipmap/ic_home_all"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:text="全部"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_1"
+        app:layout_constraintLeft_toRightOf="@+id/iv_2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

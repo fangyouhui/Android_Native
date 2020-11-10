@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.home.TabHomeFragment">
+    android:background="@color/color_white">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/magic_indicator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="TabHomeFragment" />
+        android:layout_height="40dp"
+        android:paddingLeft="54dp"
+        android:paddingRight="54dp"
+        app:layout_constraintTop_toTopOf="@+id/guide_line_top" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_search"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/shape_input_radius18"
+        android:drawableLeft="@mipmap/ic_home_search"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:hint="请输入你想要搜索的内容..."
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/color_light_font"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@+id/view_pager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/iv_liwu"
+        app:layout_constraintTop_toBottomOf="@+id/magic_indicator" />
+
+    <ImageView
+        android:id="@+id/iv_liwu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@mipmap/ic_home_liwu"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_search"
+        app:layout_constraintRight_toLeftOf="@+id/iv_scan"
+        app:layout_constraintTop_toTopOf="@+id/tv_search" />
+
+    <ImageView
+        android:id="@+id/iv_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:src="@mipmap/ic_home_scan"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_search"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_search" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/color_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

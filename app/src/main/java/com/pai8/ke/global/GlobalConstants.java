@@ -36,8 +36,6 @@ public class GlobalConstants {
     //上拉加载
     public static int LOADMORE = 0x02;
 
-    //微信授权登录
-    public static IWXAPI wx_api; //全局的微信api对象
     public static final String APP_ID = "wx00290ee6e44c1cfd"; //appid
     public static final String APP_SECRET = "3db5d02b7d93bcffbb15f3f0fb1ead4f";
 

@@ -1,6 +1,6 @@
 package com.pai8.ke.activity;
 
-import android.os.Bundle;
+import android.view.KeyEvent;
 
 import com.next.easynavigation.view.EasyNavigationBar;
 import com.pai8.ke.R;
@@ -11,11 +11,10 @@ import com.pai8.ke.fragment.pai.TabCameraFragment;
 import com.pai8.ke.fragment.shop.TabShopFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 
 public class MainActivity extends BaseActivity {
@@ -30,6 +29,7 @@ public class MainActivity extends BaseActivity {
     private EasyNavigationBar navigationBar;
     private List<Fragment> fragments = new ArrayList<>();
 
+    private long mExitTime;
 
     @Override
     public int getLayoutId() {
@@ -59,5 +59,19 @@ public class MainActivity extends BaseActivity {
                 .build();
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 1800) {
+                toast("再按一次退出app");
+                mExitTime = System.currentTimeMillis();
+            } else {
+                this.finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

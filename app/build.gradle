@@ -19,8 +19,9 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64'//'arm64-v8a',
+            abiFilters "armeabi-v7a", "x86", "armeabi"
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -63,6 +64,14 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
+        }
+    }
+
 }
 
 MobSDK {
@@ -87,7 +96,6 @@ MobSDK {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -127,6 +135,6 @@ dependencies {
     implementation 'com.hjq:titlebar:8.0'
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.qiniu:qiniu-android-sdk:8.0.+'
-
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 
 }

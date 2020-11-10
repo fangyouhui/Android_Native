@@ -30,18 +30,22 @@ public class VideoResp implements Serializable {
     private String video_desc;
     private String video_path;
     private String cover_path;
-    private String like_counts;
+    private int like_counts;
     private String longitude;
     private String latitude;
     private String shop_id;
-    private String comment_counts;
-    private String look_counts;
+    private int comment_counts;
+    private int look_counts;
     private String create_time;
     private String user_id;
     private String user_nickname;
     private String avatar;
     private int like_status;
     private int follow_status;
+    private String shop_name;
+    private String distance;
+    private String business_district;
+    private String mobile;
 
     public String getId() {
         return id;
@@ -75,11 +79,11 @@ public class VideoResp implements Serializable {
         this.cover_path = cover_path;
     }
 
-    public String getLike_counts() {
+    public int getLike_counts() {
         return like_counts;
     }
 
-    public void setLike_counts(String like_counts) {
+    public void setLike_counts(int like_counts) {
         this.like_counts = like_counts;
     }
 
@@ -107,19 +111,19 @@ public class VideoResp implements Serializable {
         this.shop_id = shop_id;
     }
 
-    public String getComment_counts() {
+    public int getComment_counts() {
         return comment_counts;
     }
 
-    public void setComment_counts(String comment_counts) {
+    public void setComment_counts(int comment_counts) {
         this.comment_counts = comment_counts;
     }
 
-    public String getLook_counts() {
+    public int getLook_counts() {
         return look_counts;
     }
 
-    public void setLook_counts(String look_counts) {
+    public void setLook_counts(int look_counts) {
         this.look_counts = look_counts;
     }
 
@@ -169,5 +173,37 @@ public class VideoResp implements Serializable {
 
     public void setFollow_status(int follow_status) {
         this.follow_status = follow_status;
+    }
+
+    public String getShop_name() {
+        return shop_name;
+    }
+
+    public void setShop_name(String shop_name) {
+        this.shop_name = shop_name;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getBusiness_district() {
+        return business_district;
+    }
+
+    public void setBusiness_district(String business_district) {
+        this.business_district = business_district;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

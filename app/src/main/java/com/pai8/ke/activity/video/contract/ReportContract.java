@@ -12,12 +12,10 @@ public interface ReportContract {
 
     interface View extends BaseView {
 
-        void reportSuccess();
-
     }
 
     interface Presenter extends BasePresenter {
 
-        void report(String video_id, String content);
+        void report(String video_id, String content, int type);
     }
 }

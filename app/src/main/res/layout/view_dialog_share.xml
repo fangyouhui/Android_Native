@@ -40,6 +40,7 @@
         android:id="@+id/tv_btn_wechat_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:drawableTop="@mipmap/ic_wechat_friend"
         android:drawablePadding="8dp"
         android:gravity="center"

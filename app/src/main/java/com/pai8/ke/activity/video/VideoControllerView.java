@@ -52,6 +52,10 @@ public class VideoControllerView extends RelativeLayout {
     TextView tvCoverName;
     @BindView(R.id.tv_btn_go_see)
     TextView tvBtnGoSee;
+    @BindView(R.id.tv_loc)
+    TextView tvLoc;
+    @BindView(R.id.tv_classify)
+    TextView tvClassify;
 
     private Context mContext;
     private VideoResp mVideoEntity;
@@ -75,9 +79,12 @@ public class VideoControllerView extends RelativeLayout {
     public void setVideoData(VideoResp videoData) {
         mVideoEntity = videoData;
         ImageLoadUtils.loadImage(mContext, videoData.getAvatar(), civAvatar, R.mipmap.img_avatar_def);
-        tvLike.setText(videoData.getLike_counts());
-        tvComment.setText(videoData.getComment_counts());
-
+        tvLike.setText(videoData.getLike_counts() + "");
+        tvComment.setText(videoData.getComment_counts() + "");
+        tvName.setText(videoData.getUser_nickname());
+        tvSign.setText(videoData.getVideo_desc());
+        tvCoverName.setText(videoData.getShop_name());
+        tvLoc.setText(videoData.getDistance() + " | " + videoData.getBusiness_district());
         //点赞状态
         if (videoData.getLike_status() == 1) {
             Drawable drawable = ResUtils.getDrawable(R.mipmap.ic_video_like_s);
@@ -138,5 +145,33 @@ public class VideoControllerView extends RelativeLayout {
                 mVideoControllerListener.onGoSee();
                 break;
         }
+    }
+
+    public int like(int likeStatus) {
+        int likeCount = mVideoEntity.getLike_counts();
+        if (likeStatus == 1) {
+            likeCount = likeCount + 1;
+            Drawable drawable = ResUtils.getDrawable(R.mipmap.ic_video_like_s);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvLike.setCompoundDrawables(null, drawable, null, null);
+        } else {
+            likeCount = likeCount - 1;
+            Drawable drawable = ResUtils.getDrawable(R.mipmap.ic_video_like_u);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            tvLike.setCompoundDrawables(null, drawable, null, null);
+        }
+        mVideoEntity.setLike_counts(likeCount);
+        tvLike.setText(likeCount + "");
+        return likeCount;
+    }
+
+    public void follow(int followStatus) {
+        //关注状态
+        if (followStatus == 1) {
+            ivFocus.setImageResource(R.mipmap.ic_video_follow_s);
+        } else {
+            ivFocus.setImageResource(R.mipmap.ic_video_follow_u);
+        }
+        mVideoEntity.setFollow_status(followStatus);
     }
 }

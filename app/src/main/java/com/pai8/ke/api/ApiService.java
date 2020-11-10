@@ -3,6 +3,7 @@ package com.pai8.ke.api;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
+import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.entity.resp.VideoResp;
@@ -45,36 +46,32 @@ public interface ApiService {
     //****************************视频模块********************************
 
     /**
-     * 视频列表
-     *
-     * @param keywords
-     * @param page
-     * @return
+     * 视频列表（仿抖音）
      */
     @FormUrlEncoded
-    @POST("index/videoList")
-    Observable<BaseRespose<List<VideoResp>>> videoList(@Field("keywords") String keywords,
-                                                       @Field("page") int page);
+    @POST("index/contentList")
+    Observable<BaseRespose<List<VideoResp>>> contentList(@Field("video_id") String video_id,
+                                                         @Field("page") int page);
 
     /**
      * 关注用户
      *
-     * @param from_user_id
+     * @param to_user_id
      * @return
      */
     @FormUrlEncoded
     @POST("index/follow")
-    Observable<BaseRespose> follow(@Field("from_user_id") String from_user_id);
+    Observable<BaseRespose> follow(@Field("to_user_id") String to_user_id);
 
     /**
      * 取消关注用户
      *
-     * @param from_user_id
+     * @param to_user_id
      * @return
      */
     @FormUrlEncoded
     @POST("index/unfollow")
-    Observable<BaseRespose> unfollow(@Field("from_user_id") String from_user_id);
+    Observable<BaseRespose> unfollow(@Field("to_user_id") String to_user_id);
 
     /**
      * 喜欢
@@ -127,6 +124,16 @@ public interface ApiService {
                                     @Field("to_user_id") String to_user_id);
 
     /**
+     * 评论列表
+     *
+     * @param video_id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("index/comments")
+    Observable<BaseRespose<List<CommentResp>>> comments(@Field("video_id") String video_id);
+
+    /**
      * 视频分享
      *
      * @param video_id
@@ -137,18 +144,35 @@ public interface ApiService {
     Observable<BaseRespose<ShareResp>> shareUrl(@Field("video_id") String video_id);
 
     /**
-     * 附近的视频
+     * 推荐的视频列表
      *
-     * @param longitude
-     * @param latitude
      * @param keywords
+     * @param page
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("index/videoList")
+    Observable<BaseRespose<List<VideoResp>>> videoList(@Field("keywords") String keywords,
+                                                       @Field("page") int page);
+
+    /**
+     * 附近的视频列表
+     *
      * @return
      */
     @FormUrlEncoded
     @POST("index/nearbyVideoList")
-    Observable<BaseRespose> nearbyVideoList(@Field("longitude") String longitude,
-                                            @Field("latitude") String latitude,
-                                            @Field("longitude") String keywords);
+    Observable<BaseRespose<List<VideoResp>>> nearbyVideoList(@Field("keywords") String keywords,
+                                                             @Field("page") int page);
+
+    /**
+     * 关注的视频列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("index/followVideoList")
+    Observable<BaseRespose<List<VideoResp>>> followVideoList(@Field("page") int page);
 
     //***************************视频模块End*******************************
 

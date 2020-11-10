@@ -17,7 +17,9 @@ import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -30,15 +32,20 @@ import okhttp3.Response;
 public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
     // 获取第一步的code后，请求以下链接获取access_token
-    private String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code" +
+    private String GetCodeRequest = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret" +
+            "=SECRET&code" +
             "=CODE&grant_type=authorization_code";
     // 获取用户个人信息
-    private String GetUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID";
+    private String GetUserInfo = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid" +
+            "=OPENID";
+
+    private static IWXAPI wxApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GlobalConstants.wx_api.handleIntent(getIntent(), this);
+        wxApi = WXAPIFactory.createWXAPI(this, GlobalConstants.APP_ID);
+        wxApi.handleIntent(getIntent(), this);
     }
 
     // 微信发送请求到第三方应用时，会回调到该方法
@@ -69,17 +76,18 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
                             String get_access_token_url = getCodeRequest(code);
                             Map<String, String> reqBody = new ConcurrentSkipListMap<>();
                             NetWorkUtils netUtils = NetWorkUtils.getInstance();
-                            netUtils.postDataAsynToNet(get_access_token_url, reqBody, new NetWorkUtils.MyNetCall() {
-                                @Override
-                                public void success(Call call, Response response) throws IOException {
-                                    String responseData = response.body().string();
-                                    parseJSONWithGSON(responseData);
-                                }
+                            netUtils.postDataAsynToNet(get_access_token_url, reqBody,
+                                    new NetWorkUtils.MyNetCall() {
+                                        @Override
+                                        public void success(Call call, Response response) throws IOException {
+                                            String responseData = response.body().string();
+                                            parseJSONWithGSON(responseData);
+                                        }
 
-                                @Override
-                                public void failed(Call call, IOException e) {
-                                }
-                            });
+                                        @Override
+                                        public void failed(Call call, IOException e) {
+                                        }
+                                    });
                         }
                         break;
                     case ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX://表示微信分享
@@ -126,7 +134,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        GlobalConstants.wx_api.handleIntent(intent, this);
+        wxApi.handleIntent(intent, this);
         finish();
     }
 

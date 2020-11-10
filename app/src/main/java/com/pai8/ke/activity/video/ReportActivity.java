@@ -53,6 +53,20 @@ public class ReportActivity extends BaseMvpActivity<ReportContract.Presenter> im
     }
 
     @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        switch (event.getCode()) {
+            case EVENT_REPORT://举报/投诉/拉黑 成功
+                finish();
+                break;
+        }
+    }
+
+    @Override
     public ReportContract.Presenter initPresenter() {
         return new ReportPresenter(this);
     }
@@ -98,12 +112,7 @@ public class ReportActivity extends BaseMvpActivity<ReportContract.Presenter> im
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
-        mPresenter.report(mVideoId, etContent.getText());
+        mPresenter.report(mVideoId, etContent.getText(), mIntentType);
     }
 
-    @Override
-    public void reportSuccess() {
-        EventBusUtils.sendEvent(new BaseEvent(EVENT_REPORT));
-        finish();
-    }
 }

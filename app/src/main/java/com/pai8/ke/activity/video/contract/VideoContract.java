@@ -3,6 +3,7 @@ package com.pai8.ke.activity.video.contract;
 
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.base.BaseView;
+import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.VideoResp;
 
 import java.util.List;
@@ -13,25 +14,35 @@ public interface VideoContract {
 
         void refreshComplete();
 
-        void getVideoList(List<VideoResp> data, int tag);
+        void contentList(List<VideoResp> data, int tag);
+
+        void getComments(List<CommentResp> data);
 
         void follow(int followStatus);
 
         void like(int likeStatus);
 
-        void share(String platform, String url);
+        void shareUrl(String url);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void getVideoList(String keywords, int pageNo, int tag);
+        void contentList(String video_id, int pageNo, int tag);
 
-        void follow(String from_user_id, int followStatus);
+        void getComments(String video_id);
+
+        void follow(String to_user_id, int followStatus);
 
         void like(String video_id, int likeStatus);
 
-        void share(String platform, String video_id);
+        void share(String video_id);
 
+        void comment(String video_id, String content, String to_user_id);
+
+        void comment1(String video_id, String commentId, String content, String to_user_id);
+
+        void comment2(String video_id, String commentId, String commentsId, String content,
+                      String to_user_id);
     }
 }

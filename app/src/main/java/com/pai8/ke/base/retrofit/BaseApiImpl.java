@@ -122,6 +122,8 @@ public class BaseApiImpl implements BaseApi {
             builder.addHeader("version", AppUtils.getVerName());
             // token
             builder.addHeader("authkey", AccountManager.getInstance().getToken());
+            builder.addHeader("longitude", "0");
+            builder.addHeader("latitude", "0");
             return chain.proceed(builder.build());
 
         };

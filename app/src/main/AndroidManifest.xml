@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".app.MyApp"
@@ -31,8 +33,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        tools:replace="android:theme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:replace="android:theme">
 
         <meta-data
             android:name="design_width_in_dp"
@@ -79,7 +81,10 @@
         <!--  举报/投诉 -->
         <activity
             android:name=".activity.video.ReportActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.video.ChatActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledFirstActivity" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledSecondActivity" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledThreeActivity" />

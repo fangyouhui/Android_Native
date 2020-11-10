@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/img_audio_bg">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.19" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.73" />
+
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/civ_avatar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img_avatar_def"
+        app:ease_border_color="#49528F"
+        app:ease_border_width="10dp"
+        app:es_shape_type="round"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guide_line_top" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="铁壁阿瞳木"
+        android:textColor="@color/color_white"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/civ_avatar" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="正在打电话给对方，请等待接听..."
+        android:textColor="#49528F"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_btn_mic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/img_audio_mic_off"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="点击闭麦"
+        android:textColor="#49528F"
+        android:textSize="13sp"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_btn_speaker"
+        app:layout_constraintTop_toTopOf="@+id/guide_line_bottom" />
+
+    <TextView
+        android:id="@+id/tv_btn_speaker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/img_audio_speaker_off"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="点击免提"
+        android:textColor="#49528F"
+        android:textSize="13sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_mic"
+        app:layout_constraintLeft_toRightOf="@+id/tv_btn_mic"
+        app:layout_constraintRight_toLeftOf="@+id/tv_btn_hang_up" />
+
+    <TextView
+        android:id="@+id/tv_btn_hang_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/img_audio_hangup"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="挂断"
+        android:textColor="#49528F"
+        android:textSize="13sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_mic"
+        app:layout_constraintLeft_toRightOf="@+id/tv_btn_speaker"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_btn_hang_up2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/img_audio_hangup"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="挂断"
+        android:textColor="#49528F"
+        android:textSize="13sp"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_btn_listener"
+        app:layout_constraintTop_toTopOf="@+id/guide_line_bottom" />
+
+    <TextView
+        android:id="@+id/tv_btn_listener"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/img_audio_listener"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="接听"
+        android:textColor="#49528F"
+        android:textSize="13sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_hang_up2"
+        app:layout_constraintLeft_toRightOf="@+id/tv_btn_hang_up2"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="00:10"
+        android:textColor="#49528F"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_tip"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_status"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="当前正在进行一对一语音聊天"
+        android:textColor="#49528F"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/guide_line_bottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_timer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

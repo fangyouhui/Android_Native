@@ -46,6 +46,7 @@ import com.permissionx.guolindev.callback.RequestCallback;
 import com.permissionx.guolindev.request.ExplainScope;
 import com.permissionx.guolindev.request.ForwardScope;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.IOException;
@@ -79,6 +80,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     Button btnRegister;
     @BindView(R.id.img_weixin)
     ImageView imgWeixin;
+    private IWXAPI mWxapi;
 
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -277,14 +279,13 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     public void onResult(boolean allGranted, List<String> grantedList,
                                          List<String> deniedList) {
                         if (allGranted) {
-                            GlobalConstants.wx_api = WXAPIFactory.createWXAPI(LoginActivity.this,
-                                    GlobalConstants.APP_ID, true);
-                            GlobalConstants.wx_api.registerApp(GlobalConstants.APP_ID);
-                            if (GlobalConstants.wx_api != null && GlobalConstants.wx_api.isWXAppInstalled()) {
+                            mWxapi = WXAPIFactory.createWXAPI(LoginActivity.this, GlobalConstants.APP_ID, true);
+                            mWxapi.registerApp(GlobalConstants.APP_ID);
+                            if (mWxapi != null && mWxapi.isWXAppInstalled()) {
                                 SendAuth.Req req = new SendAuth.Req();
                                 req.scope = "snsapi_userinfo";
                                 req.state = "wechat_sdk_demo";
-                                GlobalConstants.wx_api.sendReq(req);
+                                mWxapi.sendReq(req);
                                 finish();
                             } else {
                                 toast("请先安装微信");
