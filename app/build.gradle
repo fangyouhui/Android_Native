@@ -2,14 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.mob.sdk'
 
 android {
-    signingConfigs {
-//        debug {
-//            storeFile file('F:\\androidProject\\PaiKeApp\\app\\pai8.jks')
-//            storePassword 'pai8apppwd'
-//            keyAlias = 'p8'
-//            keyPassword 'pai8apppwd'
-//        }
-    }
+
     compileSdkVersion 29
     buildToolsVersion "29.0.0"
 

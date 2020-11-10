@@ -181,17 +181,13 @@ public interface ApiService {
     @POST("public/area")
     Observable<BaseRespose<List<Province>>> getArea();
 
-
     @POST("public/qiniuToken")
     Observable<BaseRespose<String>> getQNToken();
-
 
     /**
      * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
      */
     @POST("index/businessType")
     Observable<BaseRespose<List<BusinessType>>> getBusinessType();
-
-
 
 }
