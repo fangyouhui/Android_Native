@@ -176,6 +176,18 @@ public interface ApiService {
     @POST("index/followVideoList")
     Observable<BaseRespose<List<VideoResp>>> followVideoList(@Field("page") int page);
 
+
+    /**
+     * 通知极光推送通话
+     *
+     * @param id     接收通知的用户
+     * @param c_type 呼叫类型 0为音频 1为视频
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/Jpush/pushsingle")
+    Observable<BaseRespose> notifyPush(@Field("id") String id, @Field("c_type") String c_type);
+
     //***************************视频模块End*******************************
 
     @POST("public/area")

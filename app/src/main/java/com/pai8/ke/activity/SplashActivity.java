@@ -3,6 +3,9 @@ package com.pai8.ke.activity;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.me.LoginActivity;
 import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.utils.PermissionUtils;
+
+import java.util.List;
 
 public class SplashActivity extends BaseActivity {
 
@@ -13,11 +16,21 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if (mAccountManager.isLogin()) {
-            launch(MainActivity.class);
-        } else {
-            launch(LoginActivity.class);
-        }
-        finish();
+        PermissionUtils.apply(this, new PermissionUtils.RequestCallBack() {
+            @Override
+            public void granted() {
+                if (mAccountManager.isLogin()) {
+                    launch(MainActivity.class);
+                } else {
+                    launch(LoginActivity.class);
+                }
+                finish();
+            }
+
+            @Override
+            public void denied(List<String> deniedList) {
+
+            }
+        }, PermissionUtils.PERMISSIONS);
     }
 }

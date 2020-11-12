@@ -11,6 +11,7 @@ import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
 import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.manager.QNRTCManager;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.qiniu.android.common.FixedZone;
@@ -73,14 +74,13 @@ public class MyApp extends Application {
                 .zone(FixedZone.zone0)           // 设置区域，不指定会自动选择。指定不同区域的上传域名、备用域名、备用IP。
                 .build();
         mUpLoadManager = new UploadManager(config);
+        //七牛云音视频
+        QNRTCManager.getInstance().init();
     }
-
 
     public UploadManager getUploadManager() {
         return mUpLoadManager;
     }
-
-
 
     private void initTitleBar() {
         TitleBar.setDefaultInitializer(new LightBarInitializer() {

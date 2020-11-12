@@ -18,6 +18,12 @@ android {
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "5d3aab0ec2a3cdf6cc3272fb",
+                JPUSH_CHANNEL: "developer-default",
+        ]
     }
 
     compileOptions {
@@ -129,5 +135,8 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.qiniu:qiniu-android-sdk:8.0.+'
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+    //jPush
+    implementation 'cn.jiguang.sdk:jpush:3.8.6'
+    implementation 'cn.jiguang.sdk:jcore:2.5.5'
 
 }

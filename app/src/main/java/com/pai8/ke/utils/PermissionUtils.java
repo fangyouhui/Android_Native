@@ -1,18 +1,30 @@
 package com.pai8.ke.utils;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 
-import androidx.core.content.ContextCompat;
-
 import com.pai8.ke.app.MyApp;
+import com.permissionx.guolindev.PermissionX;
 
-import java.util.HashSet;
+import java.util.List;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 public final class PermissionUtils {
+
+    public static String[] PERMISSIONS = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_PHONE_STATE,
+    };
 
     /**
      * Return whether <em>you</em> have granted the permissions.
@@ -44,28 +56,29 @@ public final class PermissionUtils {
         MyApp.getMyApp().startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
-    /**
-     * 批量申请权限（如果当前没有权限的话)。授权结果在onRequestPermissionsResult中处理
-     */
-    public static void requestPermissionsIfNeed(Activity activity, String[] perms, int requestCode) {
-        if (perms.length == 0) {
-            return;
-        }
+    public static void apply(FragmentActivity activity, RequestCallBack callBack, String... permissions) {
+        PermissionX.init(activity)
+                .permissions(permissions)
+                .onExplainRequestReason((scope, deniedList, beforeRequest) -> {
+                    scope.showRequestReasonDialog(deniedList, "即将申请的权限是程序必须依赖的权限", "我已明白");
+                })
+                .onForwardToSettings((scope, deniedList) -> {
+                    scope.showForwardToSettingsDialog(deniedList, "您需要去应用程序设置当中手动开启权限", "我已明白");
+                })
+                .request((allGranted, grantedList, deniedList) -> {
+                    if (allGranted) {
+                        callBack.granted();
+                    } else {
+                        callBack.denied(deniedList);
+                    }
+                });
+    }
 
-        HashSet<String> needPerms = new HashSet<>();
-        for (String perm : perms) {
-            if (!isGranted(perm)) {
-                needPerms.add(perm);
-            }
-        }
 
-        if (needPerms.size() == 0) {
-            return;
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.requestPermissions(needPerms.toArray(new String[needPerms.size()]), requestCode);
-            }
-        }
+    public interface RequestCallBack {
+        void granted();
+
+        void denied(List<String> deniedList);
     }
 }
 

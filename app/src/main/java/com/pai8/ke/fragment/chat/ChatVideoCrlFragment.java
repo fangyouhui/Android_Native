@@ -1,7 +1,6 @@
 package com.pai8.ke.fragment.chat;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,6 +11,7 @@ import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.interfaces.OnChatCrlListener;
 import com.pai8.ke.utils.TextViewUtils;
 import com.pai8.ke.widget.CircleImageView;
+import com.qiniu.droid.rtc.QNSurfaceView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,9 +21,9 @@ import static com.pai8.ke.activity.video.ChatActivity.INTENT_TYPE_LISTENER;
 import static com.pai8.ke.activity.video.ChatActivity.INTENT_TYPE_WAIT;
 
 /**
- * 聊天音频控制面板
+ * 聊天视频控制面板
  */
-public class ChatAudioCrlFragment extends BaseFragment {
+public class ChatVideoCrlFragment extends BaseFragment {
 
     @BindView(R.id.civ_avatar)
     CircleImageView civAvatar;
@@ -33,8 +33,8 @@ public class ChatAudioCrlFragment extends BaseFragment {
     TextView tvStatus;
     @BindView(R.id.tv_btn_mic)
     TextView tvBtnMic;
-    @BindView(R.id.tv_btn_speaker)
-    TextView tvBtnSpeaker;
+    @BindView(R.id.tv_btn_camera)
+    TextView tvBtnCamera;
     @BindView(R.id.tv_btn_hang_up)
     TextView tvBtnHangUp;
     @BindView(R.id.tv_btn_hang_up2)
@@ -43,14 +43,13 @@ public class ChatAudioCrlFragment extends BaseFragment {
     TextView tvBtnListener;
     @BindView(R.id.tv_timer)
     TextView tvTimer;
-    @BindView(R.id.tv_tip)
-    TextView tvTip;
+
     private int mIntentType;
 
     private OnChatCrlListener mOnChatCrlListener;
 
-    public static ChatAudioCrlFragment newInstance(@ChatActivity.IntentType int intentType) {
-        ChatAudioCrlFragment fragment = new ChatAudioCrlFragment();
+    public static ChatVideoCrlFragment newInstance(@ChatActivity.IntentType int intentType) {
+        ChatVideoCrlFragment fragment = new ChatVideoCrlFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("intentType", intentType);
         fragment.setArguments(bundle);
@@ -59,7 +58,7 @@ public class ChatAudioCrlFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_chat_audio_crl;
+        return R.layout.fragment_chat_video_crl;
     }
 
     @Override
@@ -73,14 +72,14 @@ public class ChatAudioCrlFragment extends BaseFragment {
             tvBtnHangUp2.setVisibility(View.GONE);
             tvBtnListener.setVisibility(View.GONE);
             tvTimer.setVisibility(View.GONE);
-            tvTip.setVisibility(View.GONE);
         } else if (mIntentType == INTENT_TYPE_WAIT) {
             tvBtnMic.setVisibility(View.GONE);
-            tvBtnSpeaker.setVisibility(View.GONE);
+            tvBtnCamera.setVisibility(View.GONE);
             tvBtnHangUp.setVisibility(View.GONE);
             tvTimer.setVisibility(View.GONE);
-            tvTip.setVisibility(View.GONE);
         } else if (mIntentType == INTENT_TYPE_LISTENER) {
+            civAvatar.setVisibility(View.GONE);
+            tvName.setVisibility(View.GONE);
             tvStatus.setVisibility(View.GONE);
             tvBtnHangUp2.setVisibility(View.GONE);
             tvBtnListener.setVisibility(View.GONE);
@@ -94,9 +93,9 @@ public class ChatAudioCrlFragment extends BaseFragment {
     }
 
     private boolean isSilent;//是否静音
-    private boolean isSpeaker;//是否扬声器
+    private boolean isBackCamera;//是否后置摄像头
 
-    @OnClick({R.id.tv_btn_mic, R.id.tv_btn_speaker, R.id.tv_btn_hang_up, R.id.tv_btn_hang_up2,
+    @OnClick({R.id.tv_btn_mic, R.id.tv_btn_camera, R.id.tv_btn_hang_up, R.id.tv_btn_hang_up2,
             R.id.tv_btn_listener})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -112,15 +111,15 @@ public class ChatAudioCrlFragment extends BaseFragment {
                 }
                 mOnChatCrlListener.onCrlMic(isSilent);
                 break;
-            case R.id.tv_btn_speaker:
-                if (!isSpeaker) {
-                    TextViewUtils.drawableTop(tvBtnSpeaker, R.mipmap.img_audio_speaker_on);
-                    isSpeaker = true;
+            case R.id.tv_btn_camera:
+                if (!isBackCamera) {
+                    TextViewUtils.drawableTop(tvBtnCamera, R.mipmap.img_video_camera_off);
+                    isBackCamera = true;
                 } else {
-                    TextViewUtils.drawableTop(tvBtnSpeaker, R.mipmap.img_audio_speaker_off);
-                    isSpeaker = false;
+                    TextViewUtils.drawableTop(tvBtnCamera, R.mipmap.img_video_camera_on);
+                    isBackCamera = false;
                 }
-                mOnChatCrlListener.onCrlSpeaker(isSpeaker);
+                mOnChatCrlListener.onCrlCamera(isBackCamera);
                 break;
             case R.id.tv_btn_hang_up:
                 mOnChatCrlListener.onCrlHangUp(false);

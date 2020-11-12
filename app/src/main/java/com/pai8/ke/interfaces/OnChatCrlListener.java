@@ -2,9 +2,11 @@ package com.pai8.ke.interfaces;
 
 public interface OnChatCrlListener {
 
-    void onCrlMic(int status);
+    // 手机麦克风 isSilent = true静音
+    void onCrlMic(boolean isSilent);
 
-    void onCrlSpeaker(int status);
+    // 扬声器模式 isSpeaker = true打开
+    void onCrlSpeaker(boolean isSpeaker);
 
     // 挂断 isActive主动
     void onCrlHangUp(boolean isActive);
