@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
-    implementation 'com.youth.banner:banner:2.1.0'
+    implementation 'com.youth.banner:banner:1.4.9'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
@@ -129,5 +129,8 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.qiniu:qiniu-android-sdk:8.0.+'
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+
+    implementation 'com.github.razerdp:BasePopup_Candy:2.2.3.20200304'
+
 
 }

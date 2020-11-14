@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/shape_dialog_bottom"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:padding="10dp"
+        android:src="@mipmap/ic_close_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:text="选择折扣价格"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/iv_close"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:src="@drawable/divider" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_not_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view"
+        android:padding="16dp"
+
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="不添加折扣价"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+
+            />
+
+        <ImageView
+            android:id="@+id/iv_no_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_radio_selector"
+
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rl_not_add"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/divider" />
+
+    <RelativeLayout
+        android:id="@+id/rl_choose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view1"
+        android:padding="16dp"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_add_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="填写折扣价"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+
+            />
+        <TextView
+            android:id="@+id/tv_ren"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_add_price"
+            android:text="￥"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:layout_marginStart="20dp"
+
+            />
+
+        <EditText
+            android:id="@+id/et_discount_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_ren"
+            android:singleLine="true"
+            android:layout_toStartOf="@+id/iv_discount"
+            android:inputType="numberDecimal"
+            android:hint="请输入商品价格"
+            android:background="@color/transparent"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            android:layout_marginStart="5dp"
+            android:maxLength="10"
+            />
+        <ImageView
+            android:id="@+id/iv_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_radio_normal"
+
+            />
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rl_choose"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/divider" />
+
+    <TextView
+        android:id="@+id/tv_next"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/shape_orgin_gradient"
+        android:gravity="center"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/view3"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>
+

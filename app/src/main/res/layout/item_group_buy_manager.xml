@@ -12,7 +12,6 @@
     <ImageView
         android:id="@+id/iv_food"
         android:layout_width="match_parent"
-
         android:layout_height="164dp"
         android:background="@color/color_default" />
 
@@ -23,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_food"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:text="1"
         android:textColor="@color/text_black"
         android:textSize="14sp" />
@@ -35,17 +34,23 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_name"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:text="16"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp" />
 
     <TextView
 
+        android:id="@+id/tv_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_name"
         android:layout_alignTop="@+id/tv_price"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:background="@drawable/shape_store_business"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"

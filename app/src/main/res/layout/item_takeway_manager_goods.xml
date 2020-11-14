@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/item_goods_iv_goods"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="12dp"
+        android:scaleType="centerCrop"
+        android:src="@color/color_default" />
+
+    <LinearLayout
+        android:layout_toEndOf="@+id/item_goods_iv_goods"
+        android:id="@+id/item_goods_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_goods_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:text="鲜肉小笼包"
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:id="@+id/item_tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="88"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_edit_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_store_business"
+        android:paddingStart="15dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="15dp"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="3dp"
+        android:gravity="bottom|center_horizontal"
+        android:text="编辑"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp" />
+
+
+</RelativeLayout>

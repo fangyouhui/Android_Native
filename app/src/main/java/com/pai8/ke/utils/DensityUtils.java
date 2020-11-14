@@ -1,54 +1,91 @@
 package com.pai8.ke.utils;
 
+import android.content.Context;
+import android.graphics.Point;
+import android.util.TypedValue;
 
 import com.pai8.ke.app.MyApp;
 
 /**
- * dp与px相互转换的工具类
+ * 常用单位转换的辅助类
  */
 public class DensityUtils {
-
+    private DensityUtils() {
+        /* cannot be instantiated */
+        throw new UnsupportedOperationException("cannot be instantiated");
+    }
     /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     * 判断p是否在abcd组成的四边形内
      *
-     * @param dpValue dp值
-     * @return px值
+     * @param a
+     * @param b
+     * @param c
+     * @param d
+     * @param p
+     * @return 如果p在四边形内返回true, 否则返回false.
      */
-    public static int dip2px(float dpValue) {
-        final float scale = MyApp.getMyApp().getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    public static boolean pInQuadrangle(Point a, Point b, Point c, Point d,
+                                        Point p) {
+        double dTriangle = triangleArea(a, b, p) + triangleArea(b, c, p)
+                + triangleArea(c, d, p) + triangleArea(d, a, p);
+        double dQuadrangle = triangleArea(a, b, c) + triangleArea(c, d, a);
+        return dTriangle == dQuadrangle;
+    }
+    // 返回三个点组成三角形的面积
+    private static double triangleArea(Point a, Point b, Point c) {
+        double result = Math.abs((a.x * b.y + b.x * c.y + c.x * a.y - b.x * a.y
+                - c.x * b.y - a.x * c.y) / 2.0D);
+        return result;
+    }
+    /**
+     * dp转px
+     *
+     * @param context
+     * @param dpVal
+     * @return
+     */
+    public static int dp2px(Context context, float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dpVal, context.getResources().getDisplayMetrics());
+    }
+
+    public static int dip2px(float dpVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                dpVal, MyApp.getMyApp().getResources().getDisplayMetrics());
+    }
+    /**
+     * sp转px
+     *
+     * @param context
+     * @param spVal
+     * @return
+     */
+    public static int sp2px(Context context, float spVal) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                spVal, context.getResources().getDisplayMetrics());
     }
 
     /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     * px转dp
      *
-     * @param pxValue px值
-     * @return dp值
+     * @param context
+     * @param pxVal
+     * @return
      */
-    public static int px2dip(float pxValue) {
-        final float scale = MyApp.getMyApp().getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
+    public static int px2dp(Context context, float pxVal) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxVal / scale);
     }
 
     /**
-     * 将px值转换为sp值，保证文字大小不变
+     * px转sp
      *
-     * @param pxValue 字体大小像素
-     * @return 字体大小sp
+     * @param context
+     * @param pxVal
+     * @return
      */
-    public static int px2sp(float pxValue) {
-        final float fontScale = MyApp.getMyApp().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (pxValue / fontScale + 0.5f);
+    public static float px2sp(Context context, float pxVal) {
+        return (pxVal / context.getResources().getDisplayMetrics().scaledDensity);
     }
 
-    /**
-     * 将sp值转换为px值，保证文字大小不变
-     *
-     * @param spValue 字体大小sp
-     * @return 字体大小像素
-     */
-    public static int sp2px(float spValue) {
-        final float fontScale = MyApp.getMyApp().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
-    }
-}
+}  

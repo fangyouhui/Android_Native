@@ -6,21 +6,21 @@ import android.widget.RelativeLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 
 import java.util.List;
 
 import androidx.annotation.Nullable;
 
-public class GoodCategoryAdapter extends BaseQuickAdapter<OrderStatusInfo, BaseViewHolder> {
-    public GoodCategoryAdapter(@Nullable List<OrderStatusInfo> data) {
+public class GoodCategoryAdapter extends BaseQuickAdapter<ShopInfo, BaseViewHolder> {
+    public GoodCategoryAdapter(@Nullable List<ShopInfo> data) {
         super(R.layout.item_order_status, data);
     }
 
     private int lastClickPosition = -1;
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderStatusInfo item) {
+    protected void convert(BaseViewHolder helper, ShopInfo item) {
 
         RelativeLayout rlStatus = helper.getView(R.id.rl_status);
         helper.setText(R.id.tv_content, item.name);

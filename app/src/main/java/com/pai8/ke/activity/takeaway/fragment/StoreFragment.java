@@ -1,9 +1,7 @@
 package com.pai8.ke.activity.takeaway.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
@@ -12,7 +10,6 @@ import com.pai8.ke.activity.takeaway.adapter.FoodClassifyAdapter;
 import com.pai8.ke.activity.takeaway.adapter.FoodGoodAdapter;
 import com.pai8.ke.activity.takeaway.entity.FoodClassifyInfo;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
-import com.pai8.ke.activity.takeaway.order.ConfirmOrderActivity;
 import com.pai8.ke.activity.takeaway.presenter.StorePresenter;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.utils.RecyclerviewUtils;
@@ -31,7 +28,8 @@ public class StoreFragment extends BaseMvpFragment<StorePresenter> implements Vi
     private RecyclerView mRvGoods;
     private FoodClassifyAdapter mClassifyAdapter;
     private FoodGoodAdapter mGoodAdapter;
-    private TextView mTvOrder;
+
+
 
     private final List<FoodClassifyInfo> mLeftList = new ArrayList<>();
 
@@ -56,8 +54,7 @@ public class StoreFragment extends BaseMvpFragment<StorePresenter> implements Vi
         mRvGoods = mRootView.findViewById(R.id.rv_goods);
         mRvGoods.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mTvOrder = mRootView.findViewById(R.id.tv_order);
-        mTvOrder.setOnClickListener(this);
+
     }
 
 
@@ -123,9 +120,6 @@ public class StoreFragment extends BaseMvpFragment<StorePresenter> implements Vi
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.tv_order){
 
-            startActivity(new Intent(mActivity, ConfirmOrderActivity.class));
-        }
     }
 }
