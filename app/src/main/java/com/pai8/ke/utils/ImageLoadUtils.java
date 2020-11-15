@@ -30,16 +30,18 @@ public class ImageLoadUtils {
         throw new Error("Do not need instantiate!");
     }
 
-    public static void setCircularImage(final Context context, String url, ImageView iv,@DrawableRes final int id) {
+    public static void setCircularImage(final Context context, String url, ImageView iv,
+                                        @DrawableRes final int id) {
         if (context != null) {
             Glide.with(context)
                     .load(url).apply(new RequestOptions()
-                            .error(id)
+                    .error(id)
                     .placeholder(id).transform(new GlideRoundTransform2(context))
             ).into(iv);
         }
 
     }
+
     /**
      * 加载普通的图片
      *
@@ -203,7 +205,7 @@ public class ImageLoadUtils {
     }
 
 
-    public static String getImageUrl(String url){
+    public static String getImageUrl(String url) {
 
         return GlobalConstants.HTTP_URL_TEST + url + ".png";
     }
