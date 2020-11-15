@@ -9,6 +9,7 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderAdapter;
 import com.pai8.ke.activity.takeaway.adapter.OrderStatusAdapter;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
+import com.pai8.ke.activity.takeaway.order.OrderDetailActivity;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.widget.BottomDialog;
@@ -48,7 +49,6 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
         mRvOrder.setLayoutManager(new LinearLayoutManager(this));
 
 
-
     }
 
     @Override
@@ -66,7 +66,7 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                startActivity(new Intent(OrderProcessingActivity.this, StoreActivity.class));
+                startActivity(new Intent(OrderProcessingActivity.this, OrderDetailActivity.class));
             }
         });
 

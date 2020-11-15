@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.GroupBuyManagerAdapter;
 import com.pai8.ke.activity.takeaway.ui.AddGoodActivity;
@@ -48,12 +49,25 @@ public class GroupBuyManagerFragment extends BaseMvpFragment implements View.OnC
         }
         mAdapter = new GroupBuyManagerAdapter(list);
         mRvGroupBuy.setAdapter(mAdapter);
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.tv_edit){
+                    Intent intent = new Intent(mActivity,AddGoodActivity.class);
+                    intent.putExtra("type",3);
+                    startActivity(intent);
+
+                }
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.tv_add){
-            startActivity(new Intent(mActivity, AddGoodActivity.class));
+            Intent intent = new Intent(mActivity, AddGoodActivity.class);
+            intent.putExtra("type",2);
+            startActivity(intent);
         }
     }
 }

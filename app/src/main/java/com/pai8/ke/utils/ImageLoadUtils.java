@@ -10,10 +10,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
-import com.pai8.ke.R;
+import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.transform.GlideCircleTransform;
 import com.pai8.ke.utils.transform.GlideRadianTransform;
 import com.pai8.ke.utils.transform.GlideRoundTransform;
+import com.pai8.ke.utils.transform.GlideRoundTransform2;
 
 import androidx.annotation.DrawableRes;
 
@@ -29,6 +30,16 @@ public class ImageLoadUtils {
         throw new Error("Do not need instantiate!");
     }
 
+    public static void setCircularImage(final Context context, String url, ImageView iv,@DrawableRes final int id) {
+        if (context != null) {
+            Glide.with(context)
+                    .load(url).apply(new RequestOptions()
+                            .error(id)
+                    .placeholder(id).transform(new GlideRoundTransform2(context))
+            ).into(iv);
+        }
+
+    }
     /**
      * 加载普通的图片
      *
@@ -190,6 +201,13 @@ public class ImageLoadUtils {
             e.printStackTrace();
         }
     }
+
+
+    public static String getImageUrl(String url){
+
+        return GlobalConstants.HTTP_URL_TEST + url + ".png";
+    }
+
 
     /**
      * 内存优化

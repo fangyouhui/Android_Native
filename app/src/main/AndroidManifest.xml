@@ -110,6 +110,7 @@
         <activity android:name=".activity.takeaway.ui.AddCouponActivity" />
         <activity android:name=".activity.takeaway.ui.MarketingManagerActivity" />
         <activity android:name=".activity.takeaway.ui.IncomeDetailActivity" />
+        <activity android:name=".activity.takeaway.order.OrderDetailActivity" />
 
 
         <!-- **************************************极光推送**********************************************-->

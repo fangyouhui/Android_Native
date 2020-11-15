@@ -17,5 +17,8 @@ public class GroupBuyManagerAdapter extends BaseQuickAdapter<String, BaseViewHol
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
 
+
+        helper.addOnClickListener(R.id.tv_edit);
+
     }
 }
