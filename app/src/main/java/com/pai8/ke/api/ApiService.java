@@ -3,6 +3,8 @@ package com.pai8.ke.api;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
+import com.pai8.ke.entity.req.VideoPublishReq;
+import com.pai8.ke.entity.resp.ShopListResp;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.entity.resp.CommentResp;
@@ -185,8 +187,17 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST("/Jpush/pushsingle")
+    @POST("Jpush/pushsingle")
     Observable<BaseRespose> notifyPush(@Field("id") String id, @Field("c_type") String c_type);
+
+    /**
+     * 上传视频
+     *
+     * @param req
+     * @return
+     */
+    @POST("index/upVideo")
+    Observable<BaseRespose> upVideo(@Body VideoPublishReq req);
 
     //***************************视频模块End*******************************
 
@@ -201,5 +212,13 @@ public interface ApiService {
      */
     @POST("index/businessType")
     Observable<BaseRespose<List<BusinessType>>> getBusinessType();
+
+    /**
+     * 商家列表
+     */
+    @FormUrlEncoded
+    @POST("shop/shopList")
+    Observable<BaseRespose<ShopListResp>> shopList(@Field("page") int page,
+                                                   @Field("keywords") String keywords);
 
 }

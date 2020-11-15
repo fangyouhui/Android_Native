@@ -51,6 +51,7 @@ public class ReportPresenter extends BasePresenterImpl<ReportContract.View> impl
         view.showProgress(null);
         Api.getInstance().report(video_id, content)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<Object>() {

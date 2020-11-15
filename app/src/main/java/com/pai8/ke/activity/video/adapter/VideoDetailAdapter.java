@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.danikula.videocache.HttpProxyCacheServer;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.video.VideoControllerView;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
 import com.pai8.ke.entity.resp.VideoResp;
@@ -31,7 +33,17 @@ public class VideoDetailAdapter extends BaseRecyclerViewAdapter<VideoResp> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         VideoResp videoEntity = mDataList.get(position);
+
+        HttpProxyCacheServer proxy = MyApp.getProxy();
+        videoEntity.setProxyUrl(proxy.getProxyUrl(videoEntity.getVideo_path()));
+
+        if (position + 1 < mDataList.size()) {
+            VideoResp videoEntityNext = mDataList.get(position + 1);
+            videoEntityNext.setProxyUrl(proxy.getProxyUrl(videoEntityNext.getVideo_path()));
+        }
+
         viewHolder.videoControllerView.setVideoData(videoEntity);
+
 //        ImageLoadUtils.loadImageFitCenter(mContext, videoEntity.getCover_path(), viewHolder.ivCover,
 //                R.color.color_black);
     }

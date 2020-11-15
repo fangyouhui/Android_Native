@@ -70,6 +70,7 @@ public class TabCreateUtils {
         });
         commonNavigator.setAdjustMode(true);
         magicIndicator.setNavigator(commonNavigator);
+        magicIndicator.onPageSelected(1);
         ViewPagerHelper.bind(magicIndicator, viewPager);
     }
 

@@ -10,6 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestOptions;
+import com.pai8.ke.R;
 import com.pai8.ke.utils.transform.GlideCircleTransform;
 import com.pai8.ke.utils.transform.GlideRadianTransform;
 import com.pai8.ke.utils.transform.GlideRoundTransform;
@@ -199,6 +200,23 @@ public class ImageLoadUtils {
 
     public static void setRectImage(Context context, String path, ImageView imageView) {
         Glide.with(context).load(path).apply(new RequestOptions().centerInside().dontAnimate())
+                .into(imageView);
+    }
+
+    /**
+     * 加载帧作为封面
+     */
+    public static void loadCover(Context context, String url, ImageView imageView) {
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(context)
+                .setDefaultRequestOptions(
+                        new RequestOptions()
+                                .frame(4000000)
+                                .centerCrop()
+//                                .error(R.)
+//                                .placeholder(R.mipmap.ppppp)
+                )
+                .load(url)
                 .into(imageView);
     }
 

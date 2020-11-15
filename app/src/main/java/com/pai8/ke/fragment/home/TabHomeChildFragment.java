@@ -107,7 +107,9 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         });
         lrv.setAdapter(mLRvAdapter);
 
-        if (mPosition == 1) {
+        if (mPosition == 0) {
+            mAdapter.setNearby(true);
+        } else if (mPosition == 1) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_head_nearby,
                     getActivity().findViewById(android.R.id.content), false);
             mLRvAdapter.addHeaderView(view);

@@ -45,7 +45,7 @@ public class CommentAdapter extends BaseRecyclerViewAdapter<CommentResp> {
         ViewHolder viewHolder = (ViewHolder) holder;
         CommentResp data = mDataList.get(position);
         ImageLoadUtils.loadImage(mContext, data.getAvatar(), viewHolder.civCommentAvatar,
-                R.mipmap.img_avatar_def);
+                R.mipmap.img_head_def);
         viewHolder.tvCommentName.setText(data.getUser_nickname());
         viewHolder.tvParentComment.setText(data.getContent());
         viewHolder.tvDate.setText(DateUtils.formatYYYYMMDD(data.getCreate_time() + "000"));

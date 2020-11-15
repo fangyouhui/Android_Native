@@ -138,5 +138,8 @@ dependencies {
     //jPush
     implementation 'cn.jiguang.sdk:jpush:3.8.6'
     implementation 'cn.jiguang.sdk:jcore:2.5.5'
+    implementation 'com.danikula:videocache:2.7.1'
+
+    implementation project(':lib_shortvideo')
 
 }

@@ -47,6 +47,8 @@ public class VideoResp implements Serializable {
     private String business_district;
     private String mobile;
 
+    private String proxyUrl;
+
     public String getId() {
         return id;
     }
@@ -205,5 +207,13 @@ public class VideoResp implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getProxyUrl() {
+        return proxyUrl;
+    }
+
+    public void setProxyUrl(String proxyUrl) {
+        this.proxyUrl = proxyUrl;
     }
 }

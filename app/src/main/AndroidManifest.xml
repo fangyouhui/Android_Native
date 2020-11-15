@@ -54,10 +54,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.me.LoginActivity"
+            android:name=".activity.account.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.me.RegisterActivity"
+            android:name=".activity.account.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -78,12 +78,25 @@
         <activity
             android:name=".activity.video.VideoDetailActivity"
             android:screenOrientation="portrait" />
-        <!--  举报/投诉 -->
+        <!-- 举报/投诉 -->
         <activity
             android:name=".activity.video.ReportActivity"
             android:screenOrientation="portrait" />
+        <!-- 一对一视频/语音 -->
         <activity
             android:name=".activity.video.ChatActivity"
+            android:screenOrientation="portrait" />
+        <!-- 发布视频 -->
+        <activity
+            android:name=".activity.video.VideoPublishActivity"
+            android:screenOrientation="portrait" />
+        <!-- 视频浏览 -->
+        <activity
+            android:name=".activity.common.VideoViewActivity"
+            android:screenOrientation="portrait" />
+        <!-- 商家搜索列表 -->
+        <activity
+            android:name=".activity.video.ShopSearchListActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledFirstActivity" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledSecondActivity" />

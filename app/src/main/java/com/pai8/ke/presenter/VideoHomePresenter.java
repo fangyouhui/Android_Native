@@ -21,6 +21,7 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     public void videoList(String keywords, int pageNo, int tag) {
         Api.getInstance().videoList(keywords, pageNo)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<List<VideoResp>>() {

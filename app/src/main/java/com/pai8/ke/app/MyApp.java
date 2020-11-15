@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
+import com.danikula.videocache.HttpProxyCacheServer;
+import com.gh.qiniushortvideo.QNShortVideo;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
 import com.pai8.ke.R;
@@ -23,6 +25,7 @@ public class MyApp extends Application {
     private static MyApp mContext;
     private static Handler mHandler;
     private UploadManager mUpLoadManager;
+    private HttpProxyCacheServer proxy;
 
     public static MyApp getMyApp() {
         return mContext;
@@ -76,6 +79,19 @@ public class MyApp extends Application {
         mUpLoadManager = new UploadManager(config);
         //七牛云音视频
         QNRTCManager.getInstance().init();
+        //七牛短视频
+        QNShortVideo.init(this);
+    }
+
+    public static HttpProxyCacheServer getProxy() {
+        MyApp app = (MyApp) mContext.getApplicationContext();
+        return app.proxy == null ? (app.proxy = app.newProxy()) : app.proxy;
+    }
+
+    private HttpProxyCacheServer newProxy() {
+        return new HttpProxyCacheServer.Builder(this)
+                .maxCacheFilesCount(20)
+                .build();
     }
 
     public UploadManager getUploadManager() {

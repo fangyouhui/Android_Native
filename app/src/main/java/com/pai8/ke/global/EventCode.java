@@ -7,4 +7,5 @@ package com.pai8.ke.global;
 public interface EventCode {
     //举报/投诉成功
     int EVENT_REPORT = 0x01;
+    int EVENT_CHOOSE_SHOP = 0x02;
 }

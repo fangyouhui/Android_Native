@@ -278,7 +278,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
         VideoResp videoEntity = mVideoAdapter.getDataList().get(position);
         // VideoView设置并播放
-        mVideoView.setVideoURI(Uri.parse(videoEntity.getVideo_path()));
+        mVideoView.setVideoPath(videoEntity.getProxyUrl());
         mVideoView.start();
         mVideoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);
@@ -647,7 +647,8 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         EditTextCountView etCv = view.findViewById(R.id.et_cv);
         etCv.setLength(50);
         etCv.setEtText(StringUtils.strSafe(getCurVideo().getVideo_desc()));
-        ImageLoadUtils.loadImage(this, mShareImgUrl = getCurVideo().getCover_path(), mCivShareCover, R.mipmap.img_share_cover);
+        ImageLoadUtils.loadImage(this, mShareImgUrl = getCurVideo().getCover_path(), mCivShareCover,
+                R.mipmap.img_share_cover);
         mCivShareCover.setOnClickListener(view1 -> {
             ChoosePicUtils.picSingle(VideoDetailActivity.this, 1);
         });

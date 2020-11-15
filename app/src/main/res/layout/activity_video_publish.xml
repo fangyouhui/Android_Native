@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_comm_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_wrap_btn_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <com.pai8.ke.widget.DrawableCenterTextView
+            android:id="@+id/tv_btn_galley"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_input"
+            android:drawableTop="@mipmap/ic_video_publish_galley"
+            android:drawablePadding="8dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:text="从相册选择"
+            android:textColor="@color/color_dark_font"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.pai8.ke.widget.DrawableCenterTextView
+            android:id="@+id/tv_btn_take_photo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_input"
+            android:drawableTop="@mipmap/ic_video_publish_take_photo"
+            android:drawablePadding="8dp"
+            android:gravity="center_horizontal"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            android:text="手机拍摄"
+            android:textColor="@color/color_dark_font"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_wrap_video"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/civ_video_cover"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_bg"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_bar" />
+
+            <ImageView
+                android:id="@+id/iv_btn_player"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/ic_home_paly"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_video_publish_del"
+                app:layout_constraintBottom_toBottomOf="@+id/civ_video_cover"
+                app:layout_constraintRight_toRightOf="@+id/civ_video_cover" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="18dp"
+        android:text="文字描述"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_input_radius22"
+        android:hint="请添加一些文字描述…"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/color_mid_font"
+        android:textColorHint="@color/color_light_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="18dp"
+        android:text="其他信息"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:divider="@drawable/divider"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:showDividers="beginning|middle|end">
+
+        <RelativeLayout
+            android:id="@+id/rl_btn_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/tv_address_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@mipmap/ic_video_publish_loc"
+                android:drawablePadding="4dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:text="添加位置"
+                android:textColor="@color/color_dark_font"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_address_lable"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:hint="请选择"
+                android:lines="1"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_btn_link_shop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/tv_link_shop_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@mipmap/ic_video_publish_link_shop"
+                android:drawablePadding="4dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:text="关联商铺"
+                android:textColor="@color/color_dark_font"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_link_shop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_link_shop_lable"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:hint="请选择(位置信息将展示商家地址)"
+                android:lines="1"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_btn_classify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/tv_classify_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@mipmap/ic_video_publish_classify"
+                android:drawablePadding="6dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:text="选择分类"
+                android:textColor="@color/color_dark_font"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_classify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv_classify_lable"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:gravity="end"
+                android:hint="请选择"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/btn_selector_linear_radius"
+            android:text="立即发布"
+            android:textColor="@color/color_white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

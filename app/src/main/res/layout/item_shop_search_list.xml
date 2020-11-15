@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/btn_selector_white"
+    android:paddingLeft="16dp">
+
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/civ_cover"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        app:ease_radius="5dp"
+        app:es_shape_type="rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_shop_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/color_dark_font"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/civ_cover"
+        app:layout_constraintTop_toTopOf="@+id/civ_cover"
+        tool:text="哈哈" />
+
+    <TextView
+        android:id="@+id/tv_shop_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/color_mid_font"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/civ_cover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/civ_cover"
+        tool:text="哈哈" />
+</androidx.constraintlayout.widget.ConstraintLayout>

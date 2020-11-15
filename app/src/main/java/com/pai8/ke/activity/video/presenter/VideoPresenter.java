@@ -23,6 +23,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
     public void contentList(String video_id, int pageNo, int tag) {
         Api.getInstance().contentList(video_id, pageNo)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<List<VideoResp>>() {
@@ -54,6 +55,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         view.showProgress(null);
         Api.getInstance().comments(video_id)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<List<CommentResp>>() {
@@ -77,6 +79,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         if (followStatus == 1) { //取消关注
             Api.getInstance().unfollow(to_user_id)
                     .doOnSubscribe(disposable -> {
+                        addDisposable(disposable);
                     })
                     .compose(RxSchedulers.io_main())
                     .subscribe(new BaseObserver<Object>() {
@@ -97,6 +100,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         if (followStatus == 0) { //关注
             Api.getInstance().follow(to_user_id)
                     .doOnSubscribe(disposable -> {
+                        addDisposable(disposable);
                     })
                     .compose(RxSchedulers.io_main())
                     .subscribe(new BaseObserver<Object>() {
@@ -122,6 +126,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         if (likeStatus == 1) { //取消喜欢
             Api.getInstance().unlike(video_id)
                     .doOnSubscribe(disposable -> {
+                        addDisposable(disposable);
                     })
                     .compose(RxSchedulers.io_main())
                     .subscribe(new BaseObserver<Object>() {
@@ -143,6 +148,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         if (likeStatus == 0) { //喜欢
             Api.getInstance().unlike(video_id)
                     .doOnSubscribe(disposable -> {
+                        addDisposable(disposable);
                     })
                     .compose(RxSchedulers.io_main())
                     .subscribe(new BaseObserver<Object>() {
@@ -167,6 +173,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         view.showProgress(null);
         Api.getInstance().shareUrl(video_id)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<ShareResp>() {
@@ -198,6 +205,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         view.showProgress(null);
         Api.getInstance().comment(video_id, top_id, pid, content, to_user_id)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver() {

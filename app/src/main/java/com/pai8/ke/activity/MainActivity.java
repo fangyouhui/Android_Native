@@ -4,6 +4,7 @@ import android.view.KeyEvent;
 
 import com.next.easynavigation.view.EasyNavigationBar;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.video.VideoPublishActivity;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.fragment.home.TabHomeFragment;
 import com.pai8.ke.fragment.me.TabMeFragment;
@@ -56,9 +57,13 @@ public class MainActivity extends BaseActivity {
                 .centerImageRes(R.mipmap.icon_tabbar_camera)
                 .centerIconSize(60)
                 .navigationHeight(55)
+                .setOnCenterTabClickListener(view -> {
+                    launch(VideoPublishActivity.class);
+                    return true;
+                })
                 .build();
-    }
 
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

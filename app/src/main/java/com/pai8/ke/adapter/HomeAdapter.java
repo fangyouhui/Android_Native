@@ -14,12 +14,19 @@ import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.CircleImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
+
+    private boolean isNearby;
+
+    public void setNearby(boolean nearby) {
+        isNearby = nearby;
+    }
 
     public HomeAdapter(Context context) {
         mContext = context;
@@ -39,6 +46,12 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         viewHolder.tvName.setText(video.getUser_nickname());
         ImageLoadUtils.loadImage(mContext, video.getAvatar(), viewHolder.civAvatar, R.mipmap.img_avatar_def);
         viewHolder.tvTitle.setText(video.getVideo_desc());
+        if (isNearby) {
+            viewHolder.tvTagDistance.setVisibility(View.VISIBLE);
+            viewHolder.tvTagDistance.setText("1.2km");
+        } else {
+            viewHolder.tvTagDistance.setVisibility(View.GONE);
+        }
     }
 
     static class ViewHolder extends BaseViewHolder {
@@ -54,6 +67,8 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         TextView tvName;
         @BindView(R.id.tv_look_count)
         TextView tvLookCount;
+        @BindView(R.id.tv_tag_dist)
+        TextView tvTagDistance;
 
         public ViewHolder(View itemView) {
             super(itemView);

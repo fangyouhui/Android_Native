@@ -1,5 +1,6 @@
 package com.pai8.ke.fragment.pai;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,7 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gh.qiniushortvideo.activity.ConfigActivity;
+import com.gh.qiniushortvideo.activity.VideoRecordActivity;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.SplashActivity;
 
 /**
  * A simple {@link Fragment} subclass.
