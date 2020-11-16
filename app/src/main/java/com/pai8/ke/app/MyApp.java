@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.gh.qiniushortvideo.QNShortVideo;
 import com.hjq.bar.TitleBar;
@@ -14,11 +15,16 @@ import com.hjq.bar.initializer.LightBarInitializer;
 import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.QNRTCManager;
+import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UploadManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyApp extends Application {
 
@@ -26,6 +32,7 @@ public class MyApp extends Application {
     private static Handler mHandler;
     private UploadManager mUpLoadManager;
     private HttpProxyCacheServer proxy;
+    public static AMapLocation mAMapLocation;
 
     public static MyApp getMyApp() {
         return mContext;
@@ -61,6 +68,23 @@ public class MyApp extends Application {
         return "";
     }
 
+    /**
+     * 获取经纬度
+     *
+     * @return
+     */
+    public static List<String> getLngLat() {
+        List<String> locations = new ArrayList<>();
+        if (mAMapLocation == null) {
+            locations.add("0");
+            locations.add("0");
+        } else {
+            locations.add(mAMapLocation.getLongitude() + "");
+            locations.add(mAMapLocation.getLatitude() + "");
+        }
+        return locations;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -81,6 +105,12 @@ public class MyApp extends Application {
         QNRTCManager.getInstance().init();
         //七牛短视频
         QNShortVideo.init(this);
+        //高德定位sdk
+        AMapLocationUtils.init(this);
+        AMapLocationUtils.getLocation(location -> {
+            LogUtils.d("AMap Location:" + location.getAddress());
+            mAMapLocation = location;
+        }, false);
     }
 
     public static HttpProxyCacheServer getProxy() {

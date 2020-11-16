@@ -5,7 +5,10 @@ package com.pai8.ke.global;
  * Created by gh on 2020/11/5.
  */
 public interface EventCode {
-    //举报/投诉成功
+    // 举报/投诉成功
     int EVENT_REPORT = 0x01;
+    // 选择商铺
     int EVENT_CHOOSE_SHOP = 0x02;
+    // 选择地址
+    int EVENT_CHOOSE_ADDRESS = 0x03;
 }

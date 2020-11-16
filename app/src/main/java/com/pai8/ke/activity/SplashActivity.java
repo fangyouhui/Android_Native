@@ -3,6 +3,7 @@ package com.pai8.ke.activity;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.PermissionUtils;
 
 import java.util.List;

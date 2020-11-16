@@ -139,10 +139,12 @@ dependencies {
     implementation 'cn.jiguang.sdk:jpush:3.8.6'
     implementation 'cn.jiguang.sdk:jcore:2.5.5'
     implementation 'com.danikula:videocache:2.7.1'
+    implementation 'com.github.razerdp:BasePopup_Candy:2.2.3.20200304'
+    //高德地图
+    implementation 'com.amap.api:3dmap:latest.integration'
+    implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:search:latest.integration'
 
     implementation project(':lib_shortvideo')
-
-    implementation 'com.github.razerdp:BasePopup_Candy:2.2.3.20200304'
-
 
 }

@@ -42,6 +42,10 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="734" />
+        <!-- 高德key -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="ffce336496fa8d9aeac52afaac7ccefd" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -98,6 +102,10 @@
         <activity
             android:name=".activity.video.ShopSearchListActivity"
             android:screenOrientation="portrait" />
+        <!-- 地址选择 -->
+        <activity
+            android:name=".activity.me.AddressChooseActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledFirstActivity" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledSecondActivity" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledThreeActivity" />
@@ -112,6 +120,8 @@
         <activity android:name=".activity.takeaway.ui.IncomeDetailActivity" />
         <activity android:name=".activity.takeaway.order.OrderDetailActivity" />
 
+        <!-- **************************************高德定位**********************************************-->
+        <service android:name="com.amap.api.location.APSService" />
 
         <!-- **************************************极光推送**********************************************-->
 

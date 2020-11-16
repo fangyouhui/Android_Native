@@ -2,6 +2,8 @@ package com.pai8.ke.activity.video;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,6 +44,7 @@ import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CircleImageView;
+import com.pai8.ke.widget.CustomVideoView;
 import com.pai8.ke.widget.EditTextCountView;
 import com.pai8.ke.widget.LikeView;
 
@@ -72,7 +75,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     RecyclerView mLuRv;
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout mRefreshLayout;
-    private VideoView mVideoView;
+    private CustomVideoView mVideoView;
 
     private ImageView mIvCurCover;
     private ImageView mIvPlay;
@@ -167,6 +170,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         View view = LayoutInflater.from(this).inflate(R.layout.view_video, findViewById(android.R.id.content),
                 false);
         mVideoView = view.findViewById(R.id.video_view);
+        mVideoView.setGravityType(CustomVideoView.CENTER);
 
         mVideoAdapter = new VideoDetailAdapter(this);
         mLuRv.setAdapter(mVideoAdapter);
@@ -222,9 +226,9 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
             @Override
             public void onPageRelease(boolean isNext, int position) {
                 LogUtils.d("onPageRelease:" + isNext + "-position:" + position);
-//                if (mIvCurCover != null) {
-//                    mIvCurCover.setVisibility(View.VISIBLE);
-//                }
+                if (mIvCurCover != null) {
+                    mIvCurCover.setVisibility(View.VISIBLE);
+                }
                 if (mIvPlay != null) {
                     mIvPlay.setVisibility(View.GONE);
                 }
@@ -232,6 +236,9 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             @Override
             public void onPageSelected(int position, boolean isBottom) {
+                if (mIvCurCover != null && mVideoView.isPlaying()) {
+                    mIvCurCover.setVisibility(View.GONE);
+                }
                 playVideo(position);
                 if (isBottom) {//加载更多
                     mPageNo++;
@@ -282,11 +289,19 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         mVideoView.start();
         mVideoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);
-            // 延迟取消封面，避免加载视频黑屏
-            MyApp.getMyAppHandler().postDelayed(() -> {
-//                ivCover.setVisibility(View.GONE);
-//                mIvCurCover = ivCover;
-            }, 150);
+            mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+                @Override
+                public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                    if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                        // 延迟取消封面，避免加载视频黑屏
+                        MyApp.getMyAppHandler().postDelayed(() -> {
+                            ivCover.setVisibility(View.INVISIBLE);
+                            mIvCurCover = ivCover;
+                        }, 150);
+                    }
+                    return true;
+                }
+            });
         });
     }
 

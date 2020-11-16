@@ -46,7 +46,8 @@ public class ShopSearchListAdapter extends BaseRecyclerViewAdapter<ShopList> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         ShopList data = mDataList.get(position);
-        ImageLoadUtils.loadImage(mContext, data.getShop_img(), viewHolder.civCover, 0);
+        ImageLoadUtils.loadImage(mContext, data.getShop_img(), viewHolder.civCover,
+                R.mipmap.ic_shop_def_react);
         viewHolder.tvShopName.setText(data.getShop_name());
         viewHolder.tvShopAddress.setText(data.getShop_desc());
     }

@@ -27,7 +27,7 @@
             android:background="@drawable/shape_input_radius22"
             android:drawableLeft="@mipmap/ic_search"
             android:gravity="center_vertical"
-            android:hint="请输入你逍遥搜索的内容..."
+            android:hint="请输入你要搜索的内容..."
             android:imeOptions="actionSearch"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"

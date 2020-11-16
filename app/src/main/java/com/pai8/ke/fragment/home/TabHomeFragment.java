@@ -63,6 +63,7 @@ public class TabHomeFragment extends BaseFragment {
 
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(mTabAdapter);
+        viewPager.setCurrentItem(1);
         TabCreateUtils.setHomeTab(getActivity(), magicIndicator, viewPager, mTitles);
     }
 

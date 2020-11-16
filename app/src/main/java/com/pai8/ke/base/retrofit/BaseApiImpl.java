@@ -1,12 +1,15 @@
 package com.pai8.ke.base.retrofit;
 
 import com.google.gson.GsonBuilder;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.HttpsUtils;
 import com.pai8.ke.utils.LogUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -122,8 +125,8 @@ public class BaseApiImpl implements BaseApi {
             builder.addHeader("version", AppUtils.getVerName());
             // token
             builder.addHeader("authkey", AccountManager.getInstance().getToken());
-            builder.addHeader("longitude", "0");
-            builder.addHeader("latitude", "0");
+            builder.addHeader("longitude", MyApp.getLngLat().get(0));
+            builder.addHeader("latitude", MyApp.getLngLat().get(1));
             return chain.proceed(builder.build());
 
         };

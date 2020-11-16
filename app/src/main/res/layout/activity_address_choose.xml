@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/iv_bg_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.pai8.ke.widget.MarkerView
+        android:id="@+id/marker_view"
+        android:layout_width="24dp"
+        android:layout_height="40dp"
+        android:background="@mipmap/ic_loc"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="@+id/map_view"
+        app:layout_constraintStart_toStartOf="@+id/map_view"
+        app:layout_constraintTop_toTopOf="@+id/map_view" />
+
+    <ImageView
+        android:id="@+id/iv_btn_my_loc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:src="@mipmap/ic_btn_loc"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintEnd_toEndOf="@+id/map_view" />
+
+    <ImageView
+        android:id="@+id/iv_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="18dp"
+        android:src="@mipmap/ic_navi_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/btn_selector_linear_radius"
+        android:paddingLeft="11dp"
+        android:paddingTop="4.5dp"
+        android:paddingRight="11dp"
+        android:paddingBottom="4.5dp"
+        android:text="确定"
+        android:textColor="@color/color_white"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_btn_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_btn_back" />
+
+    <ImageView
+        android:id="@+id/iv_bg_bottom"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_dialog_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_view" />
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_input_radius22"
+        android:drawableLeft="@mipmap/ic_search"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:hint="请输入你要搜索的地址…"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/color_mid_font"
+        android:textColorHint="@color/color_light_font"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_bg_bottom" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_address"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/color_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_search" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

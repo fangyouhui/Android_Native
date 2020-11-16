@@ -14,11 +14,13 @@ import com.gh.qiniushortvideo.activity.VideoRecordActivity;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.common.VideoViewActivity;
+import com.pai8.ke.activity.me.AddressChooseActivity;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.entity.resp.ShopListResp;
@@ -67,6 +69,7 @@ public class VideoPublishActivity extends BaseActivity {
     private String mCoverVideoUrl = "";
     private String mCoverVideoPath = "";
     private ShopList mShopInfo;
+    private Address mAddress;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventChooseVideo(ChooseVideo event) {
@@ -105,6 +108,10 @@ public class VideoPublishActivity extends BaseActivity {
             case EventCode.EVENT_CHOOSE_SHOP:
                 mShopInfo = (ShopList) event.getData();
                 tvLinkShop.setText(mShopInfo.getShop_name());
+                break;
+            case EventCode.EVENT_CHOOSE_ADDRESS:
+                mAddress = (Address) event.getData();
+                tvAddress.setText(mAddress.getTitle());
                 break;
         }
     }
@@ -174,6 +181,7 @@ public class VideoPublishActivity extends BaseActivity {
                 mCoverVideoUrl = "";
                 break;
             case R.id.rl_btn_address:
+                launch(AddressChooseActivity.class);
                 break;
             case R.id.rl_btn_link_shop:
                 launch(ShopSearchListActivity.class);
@@ -199,6 +207,10 @@ public class VideoPublishActivity extends BaseActivity {
                     toast("请添加文字描述");
                     return;
                 }
+                if (mAddress == null) {
+                    toast("请添加地址");
+                    return;
+                }
                 if (mShopInfo == null || mShopInfo.getId() == 0) {
                     toast("请选择关联商铺");
                     return;
@@ -208,8 +220,8 @@ public class VideoPublishActivity extends BaseActivity {
                     return;
                 }
                 VideoPublishReq req = new VideoPublishReq();
-                req.setLatitude("0");
-                req.setLongitude("0");
+                req.setLatitude(mAddress.getLat() + "");
+                req.setLongitude(mAddress.getLon() + "");
                 req.setType_id(String.valueOf(mBusinessTypeId));
                 req.setVideo_desc(StringUtils.getEditText(etContent));
                 req.setVideo_path(mCoverVideoUrl);

@@ -44,8 +44,8 @@ public class VideoDetailAdapter extends BaseRecyclerViewAdapter<VideoResp> {
 
         viewHolder.videoControllerView.setVideoData(videoEntity);
 
-//        ImageLoadUtils.loadImageFitCenter(mContext, videoEntity.getCover_path(), viewHolder.ivCover,
-//                R.color.color_black);
+        ImageLoadUtils.loadPicsFitWidth(mContext, videoEntity.getCover_path(), viewHolder.ivCover);
+
     }
 
     static class ViewHolder extends BaseViewHolder {
