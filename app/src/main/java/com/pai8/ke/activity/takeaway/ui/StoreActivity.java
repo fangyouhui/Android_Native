@@ -204,7 +204,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         double originalTotlMoney = 0;
         for (FoodGoodInfo pro : mShopCarGoods) {
             if(!TextUtils.isEmpty(pro.sell_price)){
-                toMoney += Double.parseDouble(pro.sell_price);
+                toMoney += (Double.parseDouble(pro.sell_price)*pro.num) ;
             }
             shopNum = shopNum + pro.num;
         }
@@ -249,7 +249,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             if (mGoodInfoList == null || mGoodInfoList.size() <= 0) {
                 return;
             }
-            ShopCarPop pop = new ShopCarPop(this,mGoodInfoList);
+            ShopCarPop pop = new ShopCarPop(this,mTvShopNum.getText().toString(),mGoodInfoList);
             pop.showPopupWindow();
         } else if (v.getId() == R.id.tv_order) {
             Intent intent = new Intent(this,ConfirmOrderActivity.class);

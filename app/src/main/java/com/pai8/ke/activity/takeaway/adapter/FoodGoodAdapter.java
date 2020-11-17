@@ -104,10 +104,10 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_ADD_CAR,endXY[0],endXY[1],num,goodInfoList));
                             } else {
-                                int num_add = 0;
-                                for (int i = 0; i < goodInfoList.size(); i++) {
-                                    num_add += goodInfoList.get(i).num;
-                                }
+                                int num_add = food.num;
+//                                for (int i = 0; i < goodInfoList.size(); i++) {
+//                                    num_add += goodInfoList.get(i).num;
+//                                }
                                 num = num_add + 1;
                                 food.num = num;
                                 tvNum.setText(String.valueOf(num));
@@ -123,27 +123,28 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvReduce.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            int num = 0;
+                            int num = food.num;
                             int position = 0;
-                            for (int i = 0; i < currentList.size(); i++) {
-                                num += currentList.get(i).num;
-                                position = i;
-                            }
+//                            for (int i = 0; i < currentList.size(); i++) {
+//                                num += currentList.get(i).num;
+//                                position = i;
+//                            }
                             if (num <= 1) {
                                 //删除当前的商品
                                 tvNum.setVisibility(View.INVISIBLE);
                                 tvReduce.setVisibility(View.INVISIBLE);
                                 tvNum.setText("");
+                                food.num = 0;
                                 goodInfoList.remove(position);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));
                             } else {
                                 num -= 1;
-                                currentList.get(position).num = num;
+                                food.num = num;
                                 tvNum.setVisibility(View.VISIBLE);
                                 tvReduce.setVisibility(View.VISIBLE);
                                 tvNum.setText(String.valueOf(num));
-                                updateSellerGoods(currentList,num);
+                                updateSellerGoods(food,num);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));                             }
                         }
@@ -168,13 +169,11 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         }
 
 
-        public  void updateSellerGoods(List<FoodGoodInfo> sellerGoods,int num) {
-            if (sellerGoods != null && sellerGoods.size() > 0) {
-                for (int i = 0; i < sellerGoods.size(); i++) {
-                    for(int j=0;j<goodInfoList.size();j++){
-                        if(sellerGoods.get(i).id == goodInfoList.get(j).id){
-                            goodInfoList.get(i).num = num;
-                        }
+        public  void updateSellerGoods(FoodGoodInfo food,int num) {
+            if (food != null) {
+                for (int i = 0; i < goodInfoList.size(); i++) {
+                    if(food.id == goodInfoList.get(i).id){
+                        goodInfoList.get(i).num = num;
                     }
                 }
             }

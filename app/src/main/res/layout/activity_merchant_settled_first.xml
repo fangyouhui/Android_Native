@@ -238,7 +238,7 @@
                         android:id="@+id/arrow1"
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_next_arrow"
+                        android:src="@mipmap/me_right_arrow"
                         android:tint="#A8A8A8"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
@@ -283,7 +283,7 @@
                         android:textSize="15sp" />
                     <ImageView
                         android:id="@+id/arrow2"
-                        android:src="@drawable/ic_next_arrow"
+                        android:src="@mipmap/me_right_arrow"
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:tint="#A8A8A8"

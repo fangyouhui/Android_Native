@@ -1,8 +1,11 @@
 package com.pai8.ke.activity.takeaway.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.ShopCarAdapter;
@@ -20,11 +23,18 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
     private RecyclerView mRvShopCar;
     private ShopCarAdapter mAdapter;
     private List<FoodGoodInfo> mFoodGoodInfo;
-
-    public ShopCarPop(Context context, List<FoodGoodInfo> goodInfoList) {
+    private TextView mTvShopNum;
+    private TextView mTvPrice;
+    private TextView mTvOrder;
+    private ImageView mIvShopCar;
+    private String number;
+    Context context;
+    public ShopCarPop(Context context,String number, List<FoodGoodInfo> goodInfoList) {
         super(context);
+        this.context = context;
         setPopupGravity(Gravity.BOTTOM);
         this.mFoodGoodInfo = goodInfoList;
+        this.number = number;
         setOutSideDismiss(true);
         initUI();
     }
@@ -33,11 +43,44 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
 
         findViewById(R.id.iv_close).setOnClickListener(this);
         mRvShopCar = findViewById(R.id.rv_shop_car);
+        mTvOrder = findViewById(R.id.tv_order);
+        mTvOrder.setOnClickListener(this);
+        mIvShopCar = findViewById(R.id.iv_shop_car);
+        mTvShopNum = findViewById(R.id.tv_shop_num);
+        mTvPrice = findViewById(R.id.tv_price);
         mRvShopCar.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ShopCarAdapter(mFoodGoodInfo);
         mRvShopCar.setAdapter(mAdapter);
+        mTvShopNum.setText(number);
+        mTvShopNum.setVisibility(View.VISIBLE);
+        setPrice(mFoodGoodInfo);
+
+    }
 
 
+    public void setPrice(List<FoodGoodInfo> mShopCarGoods) {
+        int shopNum = 0;
+        double toMoney = 0;
+        boolean discount = false;
+        double originalTotlMoney = 0;
+        for (FoodGoodInfo pro : mShopCarGoods) {
+            if(!TextUtils.isEmpty(pro.sell_price)){
+                toMoney += (Double.parseDouble(pro.sell_price)*pro.num) ;
+            }
+            shopNum = shopNum + pro.num;
+        }
+        mTvPrice.setText("￥" + toMoney);
+        if(shopNum<=0){
+            mTvOrder.setEnabled(false);
+            mTvOrder.setBackgroundResource(R.drawable.shape_orgin_gradient_gray);
+        }else{
+            mTvOrder.setBackgroundResource(R.drawable.shape_orgin_gradient);
+            mTvOrder.setEnabled(true);
+
+        }
+        mIvShopCar.setBackground(context.getResources().getDrawable(R.mipmap.ic_shop_car));
+
+        //只要有优惠就跳出循环
     }
 
     @Override
