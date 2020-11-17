@@ -13,8 +13,9 @@
     <ImageView
         android:id="@+id/iv_choose"
         android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_height="wrap_content"
-        android:background="@mipmap/ic_radio_selector"
+        android:background="@mipmap/ic_radio_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,20 +24,34 @@
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="10dp"
         android:gravity="center_vertical"
         android:text="这里是用户昵称"
         android:textColor="@color/color_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/iv_choose"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="10dp"
+        android:gravity="center_vertical"
+        android:text="这里是用户昵称"
+        android:textColor="@color/color_light_font"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_address"
+        app:layout_constraintLeft_toRightOf="@+id/iv_choose"
+  />
 
     <ImageView
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:background="@mipmap/ic_edit_gray"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"

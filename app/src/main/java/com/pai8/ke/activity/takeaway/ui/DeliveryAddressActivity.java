@@ -1,23 +1,29 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.content.Intent;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.DeliveryAddressAdapter;
+import com.pai8.ke.activity.takeaway.contract.DeliveryContract;
+import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
+import com.pai8.ke.activity.takeaway.presenter.DeliveryPresenter;
+import com.pai8.ke.activity.takeaway.widget.AddAddressPop;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.BasePresenter;
+import com.pai8.ke.utils.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DeliveryAddressActivity  extends BaseMvpActivity implements View.OnClickListener {
+public class DeliveryAddressActivity  extends BaseMvpActivity<DeliveryPresenter> implements View.OnClickListener, DeliveryContract.View {
 
 
     private RecyclerView mRvAddress;
     private DeliveryAddressAdapter mAdapter;
+    private int mId;
 
 
     @Override
@@ -32,6 +38,7 @@ public class DeliveryAddressActivity  extends BaseMvpActivity implements View.On
         mRvAddress = findViewById(R.id.rv_address);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRvAddress.setLayoutManager(layoutManager);
+        findViewById(R.id.tv_add_address).setOnClickListener(this);
 
     }
 
@@ -39,12 +46,52 @@ public class DeliveryAddressActivity  extends BaseMvpActivity implements View.On
     @Override
     public void initData() {
         super.initData();
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("1");
-        }
-        mAdapter = new DeliveryAddressAdapter(list);
+
+        mId = getIntent().getIntExtra("id",0);
+
+        mAdapter = new DeliveryAddressAdapter(null);
         mRvAddress.setAdapter(mAdapter);
+
+
+
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.tv_status){
+                    AddAddressPop pop = new AddAddressPop(DeliveryAddressActivity.this,mAdapter.getData().get(position));
+                    pop.setOnSelectListener(new AddAddressPop.OnSelectListener() {
+                        @Override
+                        public void onSelect(String name, String phone, String address) {
+                            mPresenter.upAddress(name, phone, address);
+                        }
+
+                        @Override
+                        public void delete(int id) {
+                            mPresenter.deleteAddress(id,position);
+                        }
+                    });
+
+                    pop.showPopupWindow();
+                }
+            }
+        });
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                Intent intent = new Intent();
+                intent.putExtra("name",mAdapter.getData().get(position).linkman);
+                intent.putExtra("phone",mAdapter.getData().get(position).phone);
+                intent.putExtra("address",mAdapter.getData().get(position).address);
+                intent.putExtra("id",mAdapter.getData().get(position).id);
+                setResult(RESULT_OK, intent);
+                finish();
+
+
+            }
+        });
+
+        mPresenter.getAddress();
 
     }
 
@@ -52,12 +99,56 @@ public class DeliveryAddressActivity  extends BaseMvpActivity implements View.On
     public void onClick(View v) {
         if(v.getId() == R.id.toolbar_back_all){
             finish();
+        }else if(v.getId() == R.id.tv_add_address){
+            AddAddressPop pop = new AddAddressPop(this,null);
+            pop.setOnSelectListener(new AddAddressPop.OnSelectListener() {
+                @Override
+                public void onSelect(String name, String phone, String address) {
+                    mPresenter.upAddress(name, phone, address);
+                }
+
+                @Override
+                public void delete(int id) {
+
+                }
+            });
+
+            pop.showPopupWindow();
+
+
         }
     }
 
     @Override
-    public BasePresenter initPresenter() {
-        return null;
+    public DeliveryPresenter initPresenter() {
+        return new DeliveryPresenter(this);
+    }
+
+    @Override
+    public void getAddressSuccess(List<AddressInfo> data) {
+        mAdapter.setNewData(data);
+        for(int i=0;i<data.size();i++){
+            if(mId == data.get(i).id){
+                mAdapter.setCheckedPosition(i);
+            }
+
+        }
+
+    }
+
+    @Override
+    public void addAddressSuccess(String msg) {
+        ToastUtils.showShort("添加成功");
+        mPresenter.getAddress();
+    }
+
+    @Override
+    public void deleteAddressSuccess(String msg, int position) {
+        ToastUtils.showShort("删除成功");
+
+        mAdapter.remove(position);
+
+
     }
 }
 

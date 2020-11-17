@@ -17,4 +17,6 @@ public class MerchantSettledReq {
     public String idcard_front;  //	身份证正面
     public String idcard_back;  //身份证反面
     public String shop_img;  //商家图片
+    public String longitude;
+    public String latitude;
 }

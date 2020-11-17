@@ -6,6 +6,13 @@ public class TakeawayResq {
 
 
     public List<StoreInfo> shop_list;
-    public String banner;
+    public List<BannerBean> banner;
+
+
+
+    public static class BannerBean{
+
+        public String imgurl;
+    }
 
 }

@@ -1,28 +1,41 @@
 package com.pai8.ke.activity.takeaway.presenter;
 
-import com.pai8.ke.base.BasePresenter;
+import com.pai8.ke.activity.takeaway.Constants;
+import com.pai8.ke.activity.takeaway.api.TakeawayApi;
+import com.pai8.ke.activity.takeaway.contract.StoreContract;
+import com.pai8.ke.activity.takeaway.entity.event.ShopDataEvent;
+import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
+import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
+import com.pai8.ke.base.BasePresenterImpl;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
 
-import io.reactivex.disposables.Disposable;
+import org.greenrobot.eventbus.EventBus;
 
-public class StorePresenter implements BasePresenter {
+public class StorePresenter extends BasePresenterImpl<StoreContract.View> {
 
-    @Override
-    public void start() {
 
+    public StorePresenter(StoreContract.View view) {
+        super(view);
     }
 
-    @Override
-    public void detach() {
+    public void addGood(ShopIdReq req){
 
-    }
+        TakeawayApi.getInstance().shopContent(req)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<ShopContent>() {
+                    @Override
+                    protected void onSuccess(ShopContent data){
 
-    @Override
-    public void addDisposable(Disposable subscription) {
+                        EventBus.getDefault().post(new ShopDataEvent(Constants.EVENT_TYPE_SHOP_CONTENT,data));
+                    }
 
-    }
-
-    @Override
-    public void unDisposable() {
-
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 }

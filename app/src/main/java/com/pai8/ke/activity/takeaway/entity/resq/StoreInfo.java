@@ -13,6 +13,8 @@ public class StoreInfo implements Serializable {
     public double score;
     public String send_cost;
     public String floor_send_cost;
+    public String address;
+    public String mobile;
 
 
 }

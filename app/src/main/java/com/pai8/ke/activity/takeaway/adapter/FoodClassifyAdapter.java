@@ -15,13 +15,19 @@ public class FoodClassifyAdapter extends BaseQuickAdapter<FoodClassifyInfo, Base
     private int mSelectedPosition;
 
 
+    public void setCheckedPosition(int checkedPosition) {
+        this.mSelectedPosition = checkedPosition;
+        notifyDataSetChanged();
+    }
+
+
     public FoodClassifyAdapter(@Nullable List<FoodClassifyInfo> data) {
         super(R.layout.item_food_classify, data);
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, FoodClassifyInfo item) {
-        helper.setText(R.id.tv_food_classify,item.bigSortName);
+        helper.setText(R.id.tv_food_classify,item.name);
     }
 
 

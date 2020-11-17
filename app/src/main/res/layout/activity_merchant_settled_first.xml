@@ -224,6 +224,7 @@
 
                     <TextView
                         android:id="@+id/tv_cate"
+                        android:layout_toStartOf="@+id/arrow1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -232,6 +233,18 @@
                         android:singleLine="true"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/arrow1"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_next_arrow"
+                        android:tint="#A8A8A8"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+
+
+                        />
 
                 </RelativeLayout>
 
@@ -263,10 +276,21 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/tv_address1"
+                        android:layout_toStartOf="@+id/arrow2"
                         android:background="@color/color_transition"
                         android:singleLine="true"
                         android:textColor="@color/text_black"
                         android:textSize="15sp" />
+                    <ImageView
+                        android:id="@+id/arrow2"
+                        android:src="@drawable/ic_next_arrow"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:tint="#A8A8A8"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+
+                        />
 
                 </RelativeLayout>
 
@@ -292,7 +316,7 @@
                         android:textColor="@color/color_light_font"
                         android:textSize="15sp" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/et_address_detail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

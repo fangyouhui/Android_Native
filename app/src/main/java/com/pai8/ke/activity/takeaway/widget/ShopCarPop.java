@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.ShopCarAdapter;
+import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,10 +19,12 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
 
     private RecyclerView mRvShopCar;
     private ShopCarAdapter mAdapter;
+    private List<FoodGoodInfo> mFoodGoodInfo;
 
-    public ShopCarPop(Context context) {
+    public ShopCarPop(Context context, List<FoodGoodInfo> goodInfoList) {
         super(context);
         setPopupGravity(Gravity.BOTTOM);
+        this.mFoodGoodInfo = goodInfoList;
         setOutSideDismiss(true);
         initUI();
     }
@@ -32,14 +34,7 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
         findViewById(R.id.iv_close).setOnClickListener(this);
         mRvShopCar = findViewById(R.id.rv_shop_car);
         mRvShopCar.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            list.add("1");
-        }
-
-        mAdapter = new ShopCarAdapter(list);
+        mAdapter = new ShopCarAdapter(mFoodGoodInfo);
         mRvShopCar.setAdapter(mAdapter);
 
 
