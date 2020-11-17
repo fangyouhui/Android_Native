@@ -31,6 +31,7 @@ import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.interfaces.OnItemClickListener;
+import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.MyAMapUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -79,6 +80,7 @@ public class AddressChooseActivity extends BaseActivity implements AMap.OnCamera
     private PoiSearch.Query mPoiquery;
 
     private String mSearch = "";
+    private boolean isCanSearch = true;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -139,6 +141,8 @@ public class AddressChooseActivity extends BaseActivity implements AMap.OnCamera
     @Override
     public void initListener() {
         mAdapter.setClick(address -> {
+            isCanSearch = false;
+            moveMapCamera(address.getLat(), address.getLon());
         });
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -263,6 +267,10 @@ public class AddressChooseActivity extends BaseActivity implements AMap.OnCamera
             }
             mAdapter.setDataList(lists);
             mAdapter.setSelectDef();
+            if (CollectionUtils.isNotEmpty(poiItems)) {
+                LatLonPoint latLonPoint = poiItems.get(0).getLatLonPoint();
+                moveMapCamera(latLonPoint.getLatitude(), latLonPoint.getLongitude());
+            }
             markerView.transactionAnimWithMarker();
         }
         dismissLoadingDialog();
@@ -280,9 +288,12 @@ public class AddressChooseActivity extends BaseActivity implements AMap.OnCamera
 
     @Override
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
-        LatLonPoint latLonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target
-                .longitude);
-        doSearchQuery(latLonPoint, mAMapLocation.getCity());
+        if (isCanSearch) {
+            LatLonPoint latLonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target
+                    .longitude);
+            doSearchQuery(latLonPoint, mAMapLocation.getCity());
+        }
+        isCanSearch = true;
     }
 
 }
