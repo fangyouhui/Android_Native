@@ -11,6 +11,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.SettingActivity;
+import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.entity.resp.UserInfo;
@@ -84,15 +85,15 @@ public class TabMeFragment extends BaseFragment {
         mTitles.add("收藏");
         mTitles.add("喜欢");
 
-        for (int i = 0; i < mTitles.size(); i++) {
-            mFragments.add(TabHomeChildFragment.newInstance(i));
-        }
+        mFragments.add(TabHomeChildFragment.newInstance(0));
+        mFragments.add(TabHomeChildFragment.newInstance(2));
+        mFragments.add(TabHomeChildFragment.newInstance(2));
 
         mTabAdapter = new TabAdapter(getChildFragmentManager(), mFragments, mTitles);
 
         viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(mTabAdapter);
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
         TabCreateUtils.setMeTab(getActivity(), magicIndicator, viewPager, mTitles);
     }
 
@@ -213,6 +214,7 @@ public class TabMeFragment extends BaseFragment {
             case R.id.tv_history_count:
                 break;
             case R.id.tv_apply_status:
+                launch(MerchantSettledFirstActivity.class);
                 break;
             case R.id.tv_btn_order:
                 break;
