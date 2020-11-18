@@ -5,6 +5,8 @@ import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopListReq;
 import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
+import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.base.BaseRespose;
@@ -12,6 +14,7 @@ import com.pai8.ke.base.BaseRespose;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
@@ -59,12 +62,37 @@ public interface TakeawayApiService {
     Observable<BaseRespose<String>> addFood(@Body AddFoodReq parm);
 
 
+    /**
+     * 收获地址
+     * @return
+     */
+    @POST("shop/addressList")
+    Observable<BaseRespose<List<AddressInfo>>> addressList();
+
+
+    @POST("shop/upAddress")
+    Observable<BaseRespose<String>> upAddress(@Body RequestBody body);
+
+
+    @POST("shop/addressDelete")
+    Observable<BaseRespose<String>> deleteAddress(@Body RequestBody body);
+
+    /**
+     * 收藏
+     * @param parm
+     * @return
+     */
     @POST("shop/shopCollect")
     Observable<BaseRespose<String>> collection(@Body ShopIdReq parm);
 
 
     @POST("shop/shopUncollect")
     Observable<BaseRespose<String>> unCollection(@Body ShopIdReq parm);
+
+
+    @POST("shop/shopContent")
+    Observable<BaseRespose<ShopContent>> shopContent(@Body ShopIdReq parm);
+
 
     /**
      * 商家列表
@@ -73,6 +101,22 @@ public interface TakeawayApiService {
      */
     @POST("shop/shopList")
     Observable<BaseRespose<TakeawayResq>> getShopList(@Body ShopListReq parm);
+
+
+    /**
+     * 下单
+     */
+    @POST("Order/addOrder")
+    Observable<BaseRespose<String>> addOrder(@Body RequestBody body);
+
+
+    /**
+     * 获取订单列表
+     * @param body
+     * @return
+     */
+    @POST("Order/orderList")
+    Observable<BaseRespose<String>> orderList(@Body RequestBody body);
 
 
 }

@@ -4,15 +4,10 @@ import java.util.List;
 
 
 public class FoodClassifyInfo {
-    public int bigSortId;
-    public String bigSortName;
-
-    public List<ListBean> list;
-
-    public static class ListBean {
-        public int smallSortId;
-        public String smallSortName;
-    }
-
+    public int id;
+    public int shop_id;
+    public String name;
+    public String desc;
+    public List<FoodGoodInfo> goods;
     public boolean isSelected;
 }

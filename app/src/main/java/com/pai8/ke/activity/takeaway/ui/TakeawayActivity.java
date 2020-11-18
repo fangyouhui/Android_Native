@@ -2,7 +2,6 @@ package com.pai8.ke.activity.takeaway.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,7 +12,6 @@ import com.pai8.ke.activity.takeaway.contract.TakeawayContract;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.activity.takeaway.presenter.TakeawayPresenter;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -25,7 +23,7 @@ import java.util.List;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TakeawayActivity extends BaseMvpActivity implements View.OnClickListener , TakeawayContract.View {
+public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> implements View.OnClickListener , TakeawayContract.View {
 
 
     private TakeawayPresenter p;
@@ -83,9 +81,11 @@ public class TakeawayActivity extends BaseMvpActivity implements View.OnClickLis
 
     @Override
     public void getTakeawaySuccess(TakeawayResq data) {
-        if (!TextUtils.isEmpty(data.banner )) {
+        if (data.banner!=null && data.banner.size()>0) {
             final List<String> images = new ArrayList<>();
-            images.add(data.banner);
+            for(int i=0;i<data.banner.size();i++){
+                images.add(data.banner.get(i).imgurl);
+            }
             mBanner.setImageLoader(new GlideImageLoader());
             mBanner.setImages(images);
             mBanner.start();
@@ -94,7 +94,7 @@ public class TakeawayActivity extends BaseMvpActivity implements View.OnClickLis
     }
 
     @Override
-    public BasePresenter initPresenter() {
+    public TakeawayPresenter initPresenter() {
         return new TakeawayPresenter(this);
     }
 

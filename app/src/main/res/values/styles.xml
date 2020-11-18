@@ -13,6 +13,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="rating_bar_custom" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_custom</item>
+        <item name="android:minHeight">20dp</item>
+        <item name="android:maxHeight">20dp</item>
+    </style>
+
     <!-- Base Dialog style. -->
     <style name="style_BaseDialog" parent="Base.AlertDialog.AppCompat.Light">
         <item name="android:windowFrame">@null</item>

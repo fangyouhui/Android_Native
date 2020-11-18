@@ -21,6 +21,7 @@ import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.City;
 import com.pai8.ke.entity.resp.District;
@@ -33,18 +34,20 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 public class MerchantSettledFirstActivity extends BaseMvpActivity implements View.OnClickListener, TextWatcher {
 
-    private EditText mEtStoreName, mEtPhone, mEtEmail, mEtAddressDetail, mEtBankNo, mEtBankAddress;
+    private EditText mEtStoreName, mEtPhone, mEtEmail, mEtBankNo, mEtBankAddress;
     private TextView mTvCate, mTvAddress;
-    private TextView mTvNext;
+    private TextView mEtAddressDetail, mTvNext;
 
 
     private String mCate;
 
-    private String mProvince,mCity,mDistrict;
+    private String mProvince, mCity, mDistrict;
 
-    private OptionsPickerView pvOptions,mPvType;
+    private OptionsPickerView pvOptions, mPvType;
     private List<Province> mProvinceList;
     private List<List<City>> mCityList;
     private List<List<List<District>>> mDistrictList;
@@ -74,6 +77,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
         mEtEmail = findViewById(R.id.et_email);
         mEtPhone = findViewById(R.id.et_phone);
         mEtAddressDetail = findViewById(R.id.et_address_detail);
+        mEtAddressDetail.setOnClickListener(this);
         mEtBankAddress = findViewById(R.id.et_bank_address);
         mEtBankNo = findViewById(R.id.et_bank_no);
         mTvAddress = findViewById(R.id.tv_address);
@@ -100,9 +104,9 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
 
     private void editListener() {
         if (TextUtils.isEmpty(mEtStoreName.getText().toString()) || TextUtils.isEmpty(mEtPhone.getText().toString())
-                || TextUtils.isEmpty(mEtEmail.getText().toString())|| TextUtils.isEmpty(mEtAddressDetail.getText().toString())
-                || TextUtils.isEmpty(mEtBankNo.getText().toString())|| TextUtils.isEmpty(mEtBankAddress.getText().toString())
-                || TextUtils.isEmpty(mTvCate.getText().toString())|| TextUtils.isEmpty(mTvAddress.getText().toString())) {
+                || TextUtils.isEmpty(mEtEmail.getText().toString()) || TextUtils.isEmpty(mEtAddressDetail.getText().toString())
+                || TextUtils.isEmpty(mEtBankNo.getText().toString()) || TextUtils.isEmpty(mEtBankAddress.getText().toString())
+                || TextUtils.isEmpty(mTvCate.getText().toString()) || TextUtils.isEmpty(mTvAddress.getText().toString())) {
             mTvNext.setBackgroundResource(R.drawable.shape_orgin_gradient_gray);
             mTvNext.setEnabled(false);
         } else {
@@ -110,7 +114,6 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             mTvNext.setEnabled(true);
         }
     }
-
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -122,14 +125,19 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     }
 
 
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.toolbar_back_all) {
             finish();
-        }else if(v.getId() == R.id.tv_cate){
+        } else if (v.getId() == R.id.tv_cate) {
             getBusinessType();
         } else if (v.getId() == R.id.tv_address) {
             getProvince();
+        } else if (v.getId() == R.id.et_address_detail) {
+            startActivityForResult(new Intent(MerchantSettledFirstActivity.this
+                    ,MapAddressChooseActivity.class),100);
+
         } else if (v.getId() == R.id.tv_next) {
 
             String storeName = mEtStoreName.getText().toString();
@@ -151,12 +159,13 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             intent.putExtra("addressDetail", addressDetail);
             intent.putExtra("bankAddress", bankAddress);
             intent.putExtra("bankNo", bankNo);
+            intent.putExtra("address",mAddress);
             startActivity(intent);
         }
     }
 
 
-    private void getBusinessType(){
+    private void getBusinessType() {
         List<String> options1Items = new ArrayList<>();
         Api.getInstance().getBusinessType()
                 .doOnSubscribe(disposable -> {
@@ -177,7 +186,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                                     //返回的分别是三个级别的选中位置
                                     String tx = list.get(options1).type_name;
                                     mTvCate.setText(tx);
-                                    mCate = list.get(options1).id+"";
+                                    mCate = list.get(options1).id + "";
 
                                 }
                             })
@@ -197,7 +206,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     }
 
 
-    private void getProvince(){
+    private void getProvince() {
         Api.getInstance().getArea()
                 .doOnSubscribe(disposable -> {
                 })
@@ -266,12 +275,12 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 Province province = mProvinceList.get(options1);
                 int mProvinceId = province.getId();
                 mProvince = province.getName();
-                if (mCityList.get(options1).size() > 0 ) {
+                if (mCityList.get(options1).size() > 0) {
                     City city = mCityList.get(options1).get(options2);
                     int mCityId = city.getId();
                     mCity = city.getName();
                 }
-                if (mDistrictList.get(options1).get(options2).size() > 0 ) {
+                if (mDistrictList.get(options1).get(options2).size() > 0) {
                     District district = mDistrictList.get(options1).get(options2).get(options3);
                     mDistrict = district.getName();
                 }
@@ -317,6 +326,23 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
 
     @Override
     public void afterTextChanged(Editable s) {
+
+    }
+
+
+    Address mAddress;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (null != data) {
+            switch (requestCode) {
+                case 100:
+                    mAddress = (Address) data.getSerializableExtra("address");
+                    mEtAddressDetail.setText(mAddress.getAddress());
+                    break;
+            }
+        }
 
     }
 }

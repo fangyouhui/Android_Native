@@ -70,8 +70,17 @@
             android:paddingBottom="5dp">
 
             <TextView
+                android:id="@+id/item_tv"
+                android:layout_width="wrap_content"
+                android:text="￥"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+            <TextView
                 android:id="@+id/item_tv_price"
                 android:layout_width="wrap_content"
+                android:layout_toEndOf="@+id/item_tv"
                 android:text="88"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"

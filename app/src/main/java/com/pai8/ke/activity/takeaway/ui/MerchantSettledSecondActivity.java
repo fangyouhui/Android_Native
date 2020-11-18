@@ -19,6 +19,7 @@ import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.Address;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -49,6 +50,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
     private String addressDetail;
     private String bankAddress;
     private String bankNo;
+    private Address mAddress;
     private ImageView mIvBusinessLicense;  //营业执照
     private ImageView mIvHealthLicense;  //卫生许可证
     private ImageView mIvCardFrond;  //身份证正面
@@ -103,6 +105,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
         addressDetail = intent.getStringExtra("addressDetail");
         bankAddress = intent.getStringExtra("bankAddress");
         bankNo = intent.getStringExtra("bankNo");
+        mAddress = (Address) intent.getSerializableExtra("address");
 
     }
 
@@ -264,6 +267,9 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
         red.idcard_front = cardFrontPath;
         red.idcard_back = cardBackPath;
         red.shop_img = storeFrontPath;
+        red.latitude = mAddress.getLat()+"";
+        red.longitude = mAddress.getLon()+"";
+
         TakeawayApi.getInstance().merchantSettled(red)
                 .doOnSubscribe(disposable -> {
                 })

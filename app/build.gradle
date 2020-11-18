@@ -107,7 +107,6 @@ dependencies {
     implementation 'com.github.Vincent7Wong:EasyNavigation:2.0.5'
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-    implementation 'com.github.bumptech.glide:glide:4.5.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
