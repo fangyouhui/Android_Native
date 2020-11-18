@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F2F4F7">
+
+    <ImageView
+        android:id="@+id/iv_bg_blur"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_bg" />
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/img_bg_personal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/civ_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
+        android:src="@mipmap/img_head_def"
+        app:ease_border_color="@color/color_white"
+        app:ease_border_width="2dp"
+        app:es_shape_type="round"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_nick_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="登录/注册"
+        android:textColor="@color/color_dark_font"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/civ_avatar"
+        app:layout_constraintStart_toEndOf="@+id/civ_avatar"
+        app:layout_constraintTop_toTopOf="@+id/civ_avatar" />
+
+    <ImageView
+        android:id="@+id/iv_btn_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/btn_selector_ripple"
+        android:padding="6dp"
+        android:src="@mipmap/ic_edit_me"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_nick_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_nick_name" />
+
+    <ImageView
+        android:id="@+id/iv_btn_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/btn_selector_ripple"
+        android:padding="6dp"
+        android:src="@mipmap/ic_tixing_me"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_nick_name"
+        app:layout_constraintEnd_toStartOf="@+id/iv_btn_edit"
+        app:layout_constraintTop_toTopOf="@+id/tv_nick_name" />
+
+    <TextView
+        android:id="@+id/tv_like_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/color_dark_font"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_follow_count"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/civ_avatar" />
+
+    <TextView
+        android:id="@+id/tv_follow_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/color_dark_font"
+        android:textSize="13sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_like_count"
+        app:layout_constraintEnd_toStartOf="@+id/tv_fans_count"
+        app:layout_constraintStart_toEndOf="@+id/tv_like_count" />
+
+    <TextView
+        android:id="@+id/tv_fans_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/color_dark_font"
+        android:textSize="13sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_like_count"
+        app:layout_constraintEnd_toStartOf="@+id/tv_history_count"
+        app:layout_constraintStart_toEndOf="@+id/tv_follow_count" />
+
+    <TextView
+        android:id="@+id/tv_history_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@color/color_dark_font"
+        android:textSize="13sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_like_count"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_fans_count"
+        app:layout_constraintTop_toBottomOf="@+id/civ_avatar" />
+
+    <TextView
+        android:id="@+id/tv_apply_status"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/btn_selector_white_radius8"
+        android:drawableLeft="@mipmap/ic_shop_me"
+        android:drawableRight="@mipmap/ic_enter_gray"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="申请商家入驻"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_like_count" />
+
+    <ImageView
+        android:id="@+id/iv_bg_middle"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_white_radius8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_apply_status" />
+
+    <TextView
+        android:id="@+id/tv_my_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="我的账户"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/iv_bg_middle"
+        app:layout_constraintTop_toTopOf="@+id/iv_bg_middle" />
+
+    <TextView
+        android:id="@+id/tv_btn_order"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:drawableTop="@mipmap/ic_orde_mer"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="订单"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_btn_wallet"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_my_count" />
+
+    <TextView
+        android:id="@+id/tv_btn_wallet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:drawableTop="@mipmap/ic_money"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="钱包"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_order"
+        app:layout_constraintEnd_toStartOf="@+id/tv_btn_address"
+        app:layout_constraintStart_toEndOf="@+id/tv_btn_order" />
+
+    <TextView
+        android:id="@+id/tv_btn_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:drawableTop="@mipmap/ic_address_me"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="地址"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_order"
+        app:layout_constraintEnd_toStartOf="@+id/tv_btn_coupon"
+        app:layout_constraintStart_toEndOf="@+id/tv_btn_wallet" />
+
+    <TextView
+        android:id="@+id/tv_btn_coupon"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="20dp"
+        android:drawableTop="@mipmap/ic_youhui_me"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="优惠券"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_btn_address" />
+
+    <ImageView
+        android:id="@+id/iv_bg_more"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_white_radius8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_bg_middle" />
+
+    <TextView
+        android:id="@+id/tv_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="更多服务"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/iv_bg_more"
+        app:layout_constraintTop_toTopOf="@+id/iv_bg_more" />
+
+    <TextView
+        android:id="@+id/tv_btn_invite"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:drawableTop="@mipmap/ic_yaoqing_me"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="邀请"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_btn_feedback"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_more" />
+
+    <TextView
+        android:id="@+id/tv_btn_feedback"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/ic_suggestion_me"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="意见反馈"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_invite"
+        app:layout_constraintEnd_toStartOf="@+id/tv_btn_contact_us"
+        app:layout_constraintStart_toEndOf="@+id/tv_btn_invite" />
+
+    <TextView
+        android:id="@+id/tv_btn_contact_us"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/ic_content"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="联系我们"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_invite"
+        app:layout_constraintEnd_toStartOf="@+id/tv_btn_setting"
+        app:layout_constraintStart_toEndOf="@+id/tv_btn_feedback" />
+
+    <TextView
+        android:id="@+id/tv_btn_setting"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:drawableTop="@mipmap/ic_setting"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="设置"
+        android:textColor="@color/color_dark_font"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_invite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_btn_contact_us" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

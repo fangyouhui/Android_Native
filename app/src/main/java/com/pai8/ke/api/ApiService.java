@@ -47,6 +47,16 @@ public interface ApiService {
     @POST("public/mobileLogin")
     Observable<BaseRespose<UserInfo>> mobileLogin(@Body LoginReq param);
 
+    /**
+     * 微信登录
+     *
+     * @param code 微信平台code
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("public/getUid")
+    Observable<BaseRespose<UserInfo>> getUid(@Field("code") String code);
+
     //****************************视频模块********************************
 
     /**
@@ -189,6 +199,19 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Jpush/pushsingle")
     Observable<BaseRespose> notifyPush(@Field("id") String id, @Field("c_type") String c_type);
+
+
+    /**
+     * 获取七牛音视频token值
+     *
+     * @param roomNumber 房间号（5p+用户id）
+     * @param userid     用户标识号（5p8+用户id）
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("qiniu/qiniuToken")
+    Observable<BaseRespose<String>> qnToken(@Field("roomNumber") String roomNumber,
+                                            @Field("userid") String userid);
 
     /**
      * 上传视频

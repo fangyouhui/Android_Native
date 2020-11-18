@@ -13,6 +13,11 @@ public class ScaleTransitionPagerTitleView extends ColorTransitionPagerTitleView
         super(context);
     }
 
+    public ScaleTransitionPagerTitleView(Context context, boolean isScale) {
+        super(context);
+        if (!isScale) mMinScale = 1;
+    }
+
     @Override
     public void onEnter(int index, int totalCount, float enterPercent, boolean leftToRight) {
         super.onEnter(index, totalCount, enterPercent, leftToRight);    // 实现颜色渐变

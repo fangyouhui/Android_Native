@@ -2,9 +2,7 @@ package com.pai8.ke.activity.video;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
@@ -40,6 +37,7 @@ import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
@@ -480,11 +478,13 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         });
         tvBtnAudio.setOnClickListener(view1 -> {
             mChatBottomDialog.dismiss();
-            ChatActivity.launch(this, ChatActivity.BIZ_TYPE_AUDIO, ChatActivity.INTENT_TYPE_CALL);
+            ChatActivity.launch(this, ChatActivity.BIZ_TYPE_AUDIO, ChatActivity.INTENT_TYPE_CALL,
+                    getCurVideo().getUser_id());
         });
         tvBtnVideo.setOnClickListener(view1 -> {
             mChatBottomDialog.dismiss();
-            ChatActivity.launch(this, ChatActivity.BIZ_TYPE_VIDEO, ChatActivity.INTENT_TYPE_CALL);
+            ChatActivity.launch(this, ChatActivity.BIZ_TYPE_VIDEO, ChatActivity.INTENT_TYPE_CALL,
+                    getCurVideo().getUser_id());
         });
         if (mChatBottomDialog == null) {
             mChatBottomDialog = new BottomDialog(this, view);

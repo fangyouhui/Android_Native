@@ -5,14 +5,23 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.WindowManager;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
+import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.fragment.chat.ChatAudioCrlFragment;
 import com.pai8.ke.fragment.chat.ChatVideoCrlFragment;
+import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnChatCrlListener;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.QNRTCManager;
+import com.pai8.ke.utils.CollectionUtils;
 import com.qiniu.droid.rtc.QNCustomMessage;
 import com.qiniu.droid.rtc.QNRTCEngine;
 import com.qiniu.droid.rtc.QNRTCEngineEventListener;
@@ -21,8 +30,10 @@ import com.qiniu.droid.rtc.QNSourceType;
 import com.qiniu.droid.rtc.QNStatisticsReport;
 import com.qiniu.droid.rtc.QNSurfaceView;
 import com.qiniu.droid.rtc.QNTrackInfo;
+import com.qiniu.droid.rtc.QNTrackKind;
 import com.qiniu.droid.rtc.model.QNAudioDevice;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IntDef;
@@ -66,11 +77,28 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
     private int mBizType;
     private int mIntentType;
 
+    private String mUid;
+    private String mRemoteUid;
+
+    private List<QNTrackInfo> mLocalAudioTracks = new ArrayList<>();
+    private List<QNTrackInfo> mLocalVideoTracks = new ArrayList<>();
+
     public static void launch(Context context, @BizType int bizType, @IntentType int intentType) {
         Intent intent = new Intent(context, ChatActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("bizType", bizType);
         intent.putExtra("intentType", intentType);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    public static void launch(Context context, @BizType int bizType, @IntentType int intentType,
+                              String remoteUid) {
+        Intent intent = new Intent(context, ChatActivity.class);
+        Bundle bundle = new Bundle();
+        intent.putExtra("bizType", bizType);
+        intent.putExtra("intentType", intentType);
+        intent.putExtra("remoteUid", remoteUid);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
@@ -87,10 +115,12 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                 .transparentStatusBar()
                 .statusBarDarkFont(false)
                 .init();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Bundle extras = getIntent().getExtras();
         mBizType = extras.getInt("bizType");
         mIntentType = extras.getInt("intentType");
+        mRemoteUid = extras.getString("remoteUid");
 
         mEngine = QNRTCManager.getInstance().getQNRTCEngine();
 
@@ -124,11 +154,42 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                 .setMaster(true)
                 .create();
 
+        //设置初始化或音频设备状态改变时使用的默认音频路由，true-扬声器 false-听筒
+        mEngine.setDefaultAudioRouteToSpeakerphone(false);
+
+        if (mLocalVideoTrack != null) {
+            mLocalVideoTracks.add(mLocalVideoTrack);
+            mLocalVideoTracks.add(mLocalAudioTrack);
+        }
+
+        if (mLocalAudioTrack != null) {
+            mLocalAudioTracks.add(mLocalAudioTrack);
+        }
+
     }
 
     @Override
     public void initData() {
+        mUid = mAccountManager.getUid();
 
+        if (mIntentType == INTENT_TYPE_CALL) {
+            // 拨打电话/视频 进行push通知
+            Api.getInstance().notifyPush(mRemoteUid, String.valueOf(mBizType))
+                    .doOnSubscribe(disposable -> {
+                    })
+                    .compose(RxSchedulers.io_main())
+                    .subscribe(new BaseObserver<Object>() {
+                        @Override
+                        protected void onSuccess(Object o) {
+
+                        }
+
+                        @Override
+                        protected void onError(String msg, int errorCode) {
+                            super.onError(msg, errorCode);
+                        }
+                    });
+        }
     }
 
     @Override
@@ -137,6 +198,31 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             @Override
             public void onRoomStateChanged(QNRoomState qnRoomState) {
                 // 当房间状态改变时会触发此回调
+                switch (qnRoomState) {
+                    case IDLE:
+                        break;
+                    case RECONNECTING:
+                        if (mChatAudioCrlFragment != null) mChatAudioCrlFragment.stopTimer();
+                        if (mChatVideoCrlFragment != null) mChatVideoCrlFragment.stopTimer();
+                        break;
+                    case CONNECTED:
+                        // 加入房间后可以进行tracks的发布
+                        if (mChatAudioCrlFragment != null) {
+                            mChatAudioCrlFragment.startTimer();
+                            mEngine.publishTracks(mLocalAudioTracks);
+                        }
+                        if (mChatVideoCrlFragment != null) {
+                            mChatVideoCrlFragment.startTimer();
+                            mEngine.publishTracks(mLocalVideoTracks);
+                        }
+                        break;
+                    case RECONNECTED:
+                        if (mChatAudioCrlFragment != null) mChatAudioCrlFragment.startTimer();
+                        if (mChatVideoCrlFragment != null) mChatVideoCrlFragment.startTimer();
+                        break;
+                    case CONNECTING:
+                        break;
+                }
             }
 
             @Override
@@ -147,6 +233,14 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             @Override
             public void onRemoteUserJoined(String remoteUserId, String userData) {
                 // 当远端用户加入房间时会触发此回调
+                if (mChatAudioCrlFragment != null) {
+                    mChatAudioCrlFragment.setListener();
+                    mChatAudioCrlFragment.startTimer();
+                }
+                if (mChatVideoCrlFragment != null) {
+                    mChatVideoCrlFragment.setListener();
+                    mChatVideoCrlFragment.startTimer();
+                }
             }
 
             @Override
@@ -163,6 +257,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             public void onRemoteUserLeft(String remoteUserId) {
                 // 当远端用户离开房间时会触发此回调
                 toast("对方已经挂断！");
+                finish();
             }
 
             @Override
@@ -188,6 +283,11 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             @Override
             public void onSubscribed(String remoteUserId, List<QNTrackInfo> list) {
                 // 当订阅Track成功时会触发此回调
+                for (QNTrackInfo track : list) {
+                    if (track.getTrackKind().equals(QNTrackKind.VIDEO)) {
+                        mEngine.setRenderWindow(track, mRemoteWindow);
+                    }
+                }
             }
 
             @Override
@@ -282,6 +382,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
         } else {
             toast("已切换成听筒");
         }
+        mEngine.setSpeakerphoneOn(isSpeaker);
     }
 
     @Override
@@ -293,8 +394,25 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
     }
 
     @Override
-    public void onCrlListener() {
+    public void onCrlListener() { //接听
+        if (mIntentType == INTENT_TYPE_WAIT) {
+            // 等待接听电话/视频 先获取roomToken再加入聊天
+            Api.getInstance().qnToken("5p" + mUid, "5p8" + mUid)
+                    .doOnSubscribe(disposable -> {
+                    })
+                    .compose(RxSchedulers.io_main())
+                    .subscribe(new BaseObserver<String>() {
+                        @Override
+                        protected void onSuccess(String roomToken) {
+                            mEngine.joinRoom(roomToken);
+                        }
 
+                        @Override
+                        protected void onError(String msg, int errorCode) {
+                            super.onError(msg, errorCode);
+                        }
+                    });
+        }
     }
 
     @Override
@@ -308,4 +426,5 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
     }
 
     //***************************************/页面控制***********************************************
+
 }

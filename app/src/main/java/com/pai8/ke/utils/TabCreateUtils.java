@@ -74,6 +74,49 @@ public class TabCreateUtils {
         ViewPagerHelper.bind(magicIndicator, viewPager);
     }
 
+    public static void setMeTab(Context context, MagicIndicator magicIndicator, ViewPager viewPager,
+                                List<String> tabNames) {
+        CommonNavigator commonNavigator = new CommonNavigator(context);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+
+            @Override
+            public int getCount() {
+                return tabNames == null ? 0 : tabNames.size();
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                ScaleTransitionPagerTitleView scaleTransTitleView =
+                        new ScaleTransitionPagerTitleView(context, false);
+                scaleTransTitleView.setNormalColor(ContextCompat.getColor(context, R.color.color_dark_font));
+                scaleTransTitleView.setSelectedColor(ContextCompat.getColor(context,
+                        R.color.colorPrimary));
+                scaleTransTitleView.setTextSize(17);
+                scaleTransTitleView.setText(tabNames.get(index));
+                scaleTransTitleView.setOnClickListener(view -> viewPager.setCurrentItem(index));
+                return scaleTransTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
+                indicator.setColors(ContextCompat.getColor(context, R.color.colorPrimary));
+                //设置宽度
+                indicator.setLineWidth(DensityUtils.dip2px(18));
+                //设置高度
+                indicator.setLineHeight(DensityUtils.dip2px(3));
+                //设置圆角
+                indicator.setRoundRadius(DensityUtils.dip2px(8));
+                return indicator;
+            }
+        });
+        commonNavigator.setAdjustMode(true);
+        magicIndicator.setNavigator(commonNavigator);
+        magicIndicator.onPageSelected(1);
+        ViewPagerHelper.bind(magicIndicator, viewPager);
+    }
+
     public static void setHomeTypeTab(Context context, MagicIndicator magicIndicator, ViewPager viewPager,
                                       List<String> tabNames) {
         magicIndicator.setBackgroundColor(Color.WHITE);

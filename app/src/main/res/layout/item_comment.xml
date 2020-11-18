@@ -10,6 +10,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@mipmap/img_avatar_def"
+        app:es_shape_type="round"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

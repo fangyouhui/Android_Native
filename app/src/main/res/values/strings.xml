@@ -15,4 +15,10 @@
     <string name="str_conn_timeout">连接超时!</string>
 
     <string name="str_cancel">取消</string>
+
+    <string name="str_me_like_count">%S\n获赞</string>
+    <string name="str_me_follow_count">%S\n关注</string>
+    <string name="str_me_fans_count">%S\n粉丝</string>
+    <string name="str_me_history_count">%S\n足迹</string>
+
 </resources>

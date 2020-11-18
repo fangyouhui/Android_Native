@@ -2,7 +2,9 @@ package com.pai8.ke.fragment.chat;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
@@ -41,8 +43,8 @@ public class ChatVideoCrlFragment extends BaseFragment {
     TextView tvBtnHangUp2;
     @BindView(R.id.tv_btn_listener)
     TextView tvBtnListener;
-    @BindView(R.id.tv_timer)
-    TextView tvTimer;
+    @BindView(R.id.timer)
+    Chronometer mTimer;
 
     private int mIntentType;
 
@@ -71,18 +73,19 @@ public class ChatVideoCrlFragment extends BaseFragment {
         if (mIntentType == INTENT_TYPE_CALL) {
             tvBtnHangUp2.setVisibility(View.GONE);
             tvBtnListener.setVisibility(View.GONE);
-            tvTimer.setVisibility(View.GONE);
+            mTimer.setVisibility(View.GONE);
         } else if (mIntentType == INTENT_TYPE_WAIT) {
             tvBtnMic.setVisibility(View.GONE);
             tvBtnCamera.setVisibility(View.GONE);
             tvBtnHangUp.setVisibility(View.GONE);
-            tvTimer.setVisibility(View.GONE);
+            mTimer.setVisibility(View.GONE);
         } else if (mIntentType == INTENT_TYPE_LISTENER) {
             civAvatar.setVisibility(View.GONE);
             tvName.setVisibility(View.GONE);
             tvStatus.setVisibility(View.GONE);
             tvBtnHangUp2.setVisibility(View.GONE);
             tvBtnListener.setVisibility(View.GONE);
+            mTimer.setVisibility(View.VISIBLE);
         }
     }
 
@@ -131,5 +134,26 @@ public class ChatVideoCrlFragment extends BaseFragment {
                 mOnChatCrlListener.onCrlListener();
                 break;
         }
+    }
+
+    /**
+     * 接听
+     */
+    public void setListener() {
+        civAvatar.setVisibility(View.GONE);
+        tvName.setVisibility(View.GONE);
+        tvStatus.setVisibility(View.GONE);
+        tvBtnHangUp2.setVisibility(View.GONE);
+        tvBtnListener.setVisibility(View.GONE);
+        mTimer.setVisibility(View.VISIBLE);
+    }
+
+    public void startTimer() {
+        mTimer.setBase(SystemClock.elapsedRealtime());
+        mTimer.start();
+    }
+
+    public void stopTimer() {
+        mTimer.stop();
     }
 }

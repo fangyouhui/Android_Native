@@ -1,6 +1,5 @@
 package com.pai8.ke.activity.account;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -14,34 +13,26 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import androidx.annotation.Nullable;
-
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.MainActivity;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.StringUtils;
-import com.permissionx.guolindev.PermissionX;
-import com.permissionx.guolindev.callback.ExplainReasonCallback;
-import com.permissionx.guolindev.callback.ForwardToSettingsCallback;
-import com.permissionx.guolindev.callback.RequestCallback;
-import com.permissionx.guolindev.request.ExplainScope;
-import com.permissionx.guolindev.request.ForwardScope;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.util.List;
-
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -67,6 +58,27 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     @BindView(R.id.img_weixin)
     ImageView imgWeixin;
     private IWXAPI mWxapi;
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EventCode.EVENT_WX_CODE:
+                String code = (String) event.getData();
+                showLoadingDialog("登录中...");
+                Api.getInstance().getUid(code)
+                        .doOnSubscribe(disposable -> {
+                        })
+                        .compose(RxSchedulers.io_main())
+                        .subscribe(loginObserver);
+                break;
+        }
+    }
 
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -244,41 +256,17 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     }
 
     public void wxLogin() {
-        PermissionX.init(this)
-                .permissions(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_PHONE_STATE)
-                .onExplainRequestReason(new ExplainReasonCallback() {
-                    @Override
-                    public void onExplainReason(ExplainScope scope, List<String> deniedList) {
-                        scope.showRequestReasonDialog(deniedList, "该权限是必须依赖的权限", "去开启", "关闭");
-                    }
-                })
-                .onForwardToSettings(new ForwardToSettingsCallback() {
-                    @Override
-                    public void onForwardToSettings(ForwardScope scope, List<String> deniedList) {
-                        scope.showForwardToSettingsDialog(deniedList, "需要您去应用程序设置当中手动开启权限", "去开启", "关闭");
-                    }
-                })
-                .request(new RequestCallback() {
-                    @Override
-                    public void onResult(boolean allGranted, List<String> grantedList,
-                                         List<String> deniedList) {
-                        if (allGranted) {
-                            mWxapi = WXAPIFactory.createWXAPI(LoginActivity.this, GlobalConstants.APP_ID, true);
-                            mWxapi.registerApp(GlobalConstants.APP_ID);
-                            if (mWxapi != null && mWxapi.isWXAppInstalled()) {
-                                SendAuth.Req req = new SendAuth.Req();
-                                req.scope = "snsapi_userinfo";
-                                req.state = "wechat_sdk_demo";
-                                mWxapi.sendReq(req);
-                                finish();
-                            } else {
-                                toast("请先安装微信");
-                            }
-                        }
-                    }
-                });
+        mWxapi = WXAPIFactory.createWXAPI(LoginActivity.this, GlobalConstants.APP_ID, true);
+        mWxapi.registerApp(GlobalConstants.APP_ID);
+        if (mWxapi != null && mWxapi.isWXAppInstalled()) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo";
+            mWxapi.sendReq(req);
+        } else {
+            toast("请先安装微信");
+        }
+
     }
 
     @Override

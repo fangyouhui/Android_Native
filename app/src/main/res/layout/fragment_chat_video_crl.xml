@@ -127,12 +127,13 @@
         app:layout_constraintLeft_toRightOf="@+id/tv_btn_hang_up2"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_timer"
+    <Chronometer
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="00:10"
+        android:format="%s"
+        android:text="00:00"
         android:textColor="@color/color_white"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/guide_line_bottom"

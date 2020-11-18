@@ -11,4 +11,6 @@ public interface EventCode {
     int EVENT_CHOOSE_SHOP = 0x02;
     // 选择地址
     int EVENT_CHOOSE_ADDRESS = 0x03;
+    // 微信code
+    int EVENT_WX_CODE = 0x04;
 }

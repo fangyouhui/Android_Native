@@ -16,6 +16,7 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.me.AddressChooseActivity;
 import com.pai8.ke.api.Api;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
@@ -207,25 +208,34 @@ public class VideoPublishActivity extends BaseActivity {
                     toast("请添加文字描述");
                     return;
                 }
-                if (mAddress == null) {
-                    toast("请添加地址");
-                    return;
-                }
-                if (mShopInfo == null || mShopInfo.getId() == 0) {
-                    toast("请选择关联商铺");
-                    return;
-                }
-                if (mBusinessTypeId == 0) {
-                    toast("请选择分类");
-                    return;
-                }
+//                if (mAddress == null) {
+//                    toast("请添加地址");
+//                    return;
+//                }
+//                if (mShopInfo == null || mShopInfo.getId() == 0) {
+//                    toast("请选择关联商铺");
+//                    return;
+//                }
+//                if (mBusinessTypeId == 0) {
+//                    toast("请选择分类");
+//                    return;
+//                }
                 VideoPublishReq req = new VideoPublishReq();
-                req.setLatitude(mAddress.getLat() + "");
-                req.setLongitude(mAddress.getLon() + "");
+                if (mAddress == null) {
+                    req.setLatitude(MyApp.getLngLat().get(0));
+                    req.setLongitude(MyApp.getLngLat().get(1));
+                } else {
+                    req.setLatitude(String.valueOf(mAddress.getLat()));
+                    req.setLongitude(String.valueOf(mAddress.getLon()));
+                }
                 req.setType_id(String.valueOf(mBusinessTypeId));
                 req.setVideo_desc(StringUtils.getEditText(etContent));
                 req.setVideo_path(mCoverVideoUrl);
-                req.setShop_id(String.valueOf(mShopInfo.getId()));
+                if (mShopInfo == null) {
+                    req.setShop_id(String.valueOf(0));
+                } else {
+                    req.setShop_id(String.valueOf(mShopInfo.getId()));
+                }
                 Api.getInstance().upVideo(req)
                         .doOnSubscribe(disposable -> {
 
