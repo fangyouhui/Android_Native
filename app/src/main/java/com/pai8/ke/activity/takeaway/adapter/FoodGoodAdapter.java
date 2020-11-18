@@ -135,7 +135,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                                 tvReduce.setVisibility(View.INVISIBLE);
                                 tvNum.setText("");
                                 food.num = 0;
-                                goodInfoList.remove(position);
+                                goodInfoList.remove(food);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));
                             } else {

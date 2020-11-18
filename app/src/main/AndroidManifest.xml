@@ -125,7 +125,9 @@
         <activity android:name=".activity.takeaway.ui.IncomeDetailActivity" />
         <activity android:name=".activity.takeaway.order.OrderDetailActivity" />
         <activity android:name=".activity.takeaway.ui.DeliveryAddressActivity" />
-        <activity android:name=".activity.takeaway.ui.MapAddressChooseActivity" />
+        <activity android:name=".activity.takeaway.ui.MapAddressChooseActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activity.takeaway.order.OrderActivity" />
 
         <!-- **************************************高德定位**********************************************-->
         <service android:name="com.amap.api.location.APSService" />

@@ -10,11 +10,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.AddressChooseActivity;
 import com.pai8.ke.activity.takeaway.adapter.GoodCategoryAdapter;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.AddGoodContract;
@@ -52,7 +49,7 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
     private TextView mTvPublish;
     private int cateId;
     private String cateName;
-    private EditText mEtName,mEtPrice,mEtDesc;
+    private EditText mEtName, mEtPrice, mEtDesc, mEtPackPrice;
     private AddFoodReq addFoodReq;
     private int mType;     //3:编辑团购商品
 
@@ -88,7 +85,8 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
         mTvDiscountPrice.setOnClickListener(this);
         mEtName = findViewById(R.id.et_name);
         mEtPrice = findViewById(R.id.et_price);
-        mEtDesc  = findViewById(R.id.et_desc);
+        mEtDesc = findViewById(R.id.et_desc);
+        mEtPackPrice = findViewById(R.id.et_pack_price);
 
     }
 
@@ -138,34 +136,43 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
             });
             pricePop.showPopupWindow();
 
-        } else if(v.getId() == R.id.tv_publish){  //发布
-
-            if(!TextUtils.isEmpty(mFoodPath)){
-                UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
-                    @Override
-                    public void onSuccess(String url, String key) {
-                        addFoodReq.cover = key;
-                        addFoodReq.shop_id = "1";
-                        addFoodReq.title = mEtName.getText().toString();  //名称
-                        addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
-                        addFoodReq.discount = mTvDiscountPrice.getText().toString();
-                        addFoodReq.origin_price = "100";  //原价
-                        addFoodReq.desc = mEtDesc.getText().toString();
-                        addFoodReq.cate_id = cateId+"";
-                        p.addGood(addFoodReq);
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-                        ToastUtils.showShort(msg);
-                    }
-                });
+        } else if (v.getId() == R.id.tv_publish) {  //发布
+            if (TextUtils.isEmpty(mFoodPath)){
+                ToastUtils.showShort("图片不能为空");
+                return;
             }
+            showLoadingDialog("");
+            UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
+                @Override
+                public void onSuccess(String url, String key) {
+                    double origin = 0;
+                    String price = mEtPrice.getText().toString();
+                    String discount = mTvDiscountPrice.getText().toString();
+                    if (!TextUtils.isEmpty(price) && !TextUtils.isEmpty(discount)) {
+                        origin = Double.parseDouble(price) + Double.parseDouble(discount);
+                    }
+                    addFoodReq.cover = key;
+                    addFoodReq.shop_id = "1";
+                    addFoodReq.title = mEtName.getText().toString();  //名称
+                    addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
+                    addFoodReq.discount = mTvDiscountPrice.getText().toString();
+                    addFoodReq.origin_price = String.valueOf(origin);  //原价
+                    addFoodReq.desc = mEtDesc.getText().toString();
+                    addFoodReq.cate_id = cateId + "";
+                    p.addGood(addFoodReq);
+                    dismissLoadingDialog();
+                }
+
+                @Override
+                public void onError(String msg) {
+                    ToastUtils.showShort(msg);
+                }
+            });
 
         }
     }
 
-    private void getCategoryList(){
+    private void getCategoryList() {
         UpCategoryReq upCategoryReq = new UpCategoryReq();
         upCategoryReq.shop_id = "1";
         TakeawayApi.getInstance().getCategoryList(upCategoryReq)

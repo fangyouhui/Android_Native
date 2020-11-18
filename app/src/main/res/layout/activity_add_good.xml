@@ -132,13 +132,22 @@
                         android:text="商品价格"
                         android:textColor="@color/color_light_font"
                         android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/tv_contact1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tv_contact"
+                        android:text="￥"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp" />
 
                     <EditText
                         android:id="@+id/et_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tv_contact"
+                        android:layout_toEndOf="@+id/tv_contact1"
                         android:background="@color/color_transition"
                         android:hint="请输入商品价格"
                         android:singleLine="true"
@@ -199,6 +208,55 @@
 
 
                 </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/color_divider" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_pack_price"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="包装费"
+                        android:textColor="@color/color_light_font"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_pack_price1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tv_pack_price"
+                        android:text="￥"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_pack_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tv_pack_price1"
+                        android:background="@color/color_transition"
+                        android:hint="请输入该单个商品包装费"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="#D8D8D8"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+
 
                 <View
                     android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.SettingActivity;
+import com.pai8.ke.activity.takeaway.order.OrderActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseFragment;
@@ -217,6 +218,7 @@ public class TabMeFragment extends BaseFragment {
                 launch(MerchantSettledFirstActivity.class);
                 break;
             case R.id.tv_btn_order:
+                launch(OrderActivity.class);
                 break;
             case R.id.tv_btn_wallet:
                 break;
