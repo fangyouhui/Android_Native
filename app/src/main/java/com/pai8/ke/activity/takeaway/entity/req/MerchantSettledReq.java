@@ -19,4 +19,5 @@ public class MerchantSettledReq {
     public String shop_img;  //商家图片
     public String longitude;
     public String latitude;
+    public String shop_video;
 }

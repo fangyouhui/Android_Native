@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import razerdp.util.KeyboardUtils;
 
 public class MerchantSettledFirstActivity extends BaseMvpActivity implements View.OnClickListener, TextWatcher {
 
@@ -131,8 +132,10 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
         if (v.getId() == R.id.toolbar_back_all) {
             finish();
         } else if (v.getId() == R.id.tv_cate) {
+            KeyboardUtils.close(this);
             getBusinessType();
         } else if (v.getId() == R.id.tv_address) {
+            KeyboardUtils.close(this);
             getProvince();
         } else if (v.getId() == R.id.et_address_detail) {
             startActivityForResult(new Intent(MerchantSettledFirstActivity.this
