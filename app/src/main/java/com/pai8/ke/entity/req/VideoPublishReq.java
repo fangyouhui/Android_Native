@@ -7,6 +7,7 @@ public class VideoPublishReq {
     private String latitude;
     private String type_id;
     private String shop_id;
+    private String city;
 
     public String getVideo_desc() {
         return video_desc;
@@ -54,5 +55,13 @@ public class VideoPublishReq {
 
     public void setShop_id(String shop_id) {
         this.shop_id = shop_id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

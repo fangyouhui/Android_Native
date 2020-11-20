@@ -669,9 +669,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
     @Override
     public void getComments(List<CommentResp> data) {
-        if (CollectionUtils.isNotEmpty(data)) {
-            showCommentsDialog(data);
-        }
+        showCommentsDialog(data);
     }
 
     @Override

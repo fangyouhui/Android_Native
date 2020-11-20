@@ -90,7 +90,6 @@
         <!-- 一对一视频/语音 -->
         <activity
             android:name=".activity.video.ChatActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 发布视频 -->
         <activity

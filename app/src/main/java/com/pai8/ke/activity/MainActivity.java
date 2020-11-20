@@ -54,21 +54,6 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean isRegisterEventBus() {
-        return true;
-    }
-
-    @Override
-    protected void receiveEvent(BaseEvent event) {
-        super.receiveEvent(event);
-        switch (event.getCode()) {
-            case EventCode.EVENT_PUSH:
-                ChatActivity.launch(this, ChatActivity.BIZ_TYPE_VIDEO, ChatActivity.INTENT_TYPE_WAIT);
-                break;
-        }
-    }
-
-    @Override
     public int getLayoutId() {
         return R.layout.activity_main;
     }

@@ -90,4 +90,8 @@ public class ActivityManager {
         return null;
     }
 
+    public boolean isChatActivity() {
+        return ActivityManager.getInstance().getTopActivity().contains("ChatActivity");
+    }
+
 }

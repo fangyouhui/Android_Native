@@ -231,6 +231,7 @@ public class VideoPublishActivity extends BaseActivity {
                 req.setType_id(String.valueOf(mBusinessTypeId));
                 req.setVideo_desc(StringUtils.getEditText(etContent));
                 req.setVideo_path(mCoverVideoUrl);
+                req.setCity(MyApp.getCity());
                 if (mShopInfo == null) {
                     req.setShop_id(String.valueOf(0));
                 } else {

@@ -4,8 +4,11 @@ import android.content.Context;
 
 import com.pai8.ke.activity.video.ChatActivity;
 import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.entity.PushBiz;
 import com.pai8.ke.global.EventCode;
+import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.utils.EventBusUtils;
+import com.pai8.ke.utils.GsonUtils;
 import com.pai8.ke.utils.LogUtils;
 
 import cn.jpush.android.api.CustomMessage;
@@ -46,7 +49,11 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
     public void onNotifyMessageArrived(Context context, NotificationMessage notificationMessage) {
         super.onNotifyMessageArrived(context, notificationMessage);
         LogUtils.d(TAG, "onNotifyMessageArrived:" + notificationMessage.toString());
-        EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_PUSH));
+        try {
+            pushBiz(context, GsonUtils.fromJson(notificationMessage.notificationExtras, PushBiz.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -55,4 +62,30 @@ public class MyJPushMessageReceiver extends JPushMessageReceiver {
         LogUtils.d(TAG, "onNotifyMessageOpened:" + notificationMessage.toString());
     }
 
+    /**
+     * 推送自定义业务
+     *
+     * @param context
+     * @param pushBiz
+     */
+    private void pushBiz(Context context, PushBiz pushBiz) {
+        // 1-音频提醒，2-视频提醒，3-拒接
+        switch (pushBiz.getM_type()) {
+            case "1":
+                if (!ActivityManager.getInstance().isChatActivity()) {
+                    ChatActivity.launch(context, ChatActivity.BIZ_TYPE_AUDIO, ChatActivity.INTENT_TYPE_WAIT
+                            , pushBiz.getContent());
+                }
+                break;
+            case "2":
+                if (!ActivityManager.getInstance().isChatActivity()) {
+                    ChatActivity.launch(context, ChatActivity.BIZ_TYPE_VIDEO, ChatActivity.INTENT_TYPE_WAIT,
+                            pushBiz.getContent());
+                }
+                break;
+            case "3":
+                EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_PUSH, pushBiz));
+                break;
+        }
+    }
 }

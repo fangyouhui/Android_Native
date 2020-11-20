@@ -202,12 +202,13 @@ public interface ApiService {
      * 通知极光推送通话
      *
      * @param id     接收通知的用户
-     * @param c_type 呼叫类型 0为音频 1为视频
+     * @param m_type 1-音频 2-视频 3-拒绝
      * @return
      */
     @FormUrlEncoded
     @POST("Jpush/pushsingle")
-    Observable<BaseRespose> notifyPush(@Field("id") String id, @Field("c_type") String c_type);
+    Observable<BaseRespose> notifyPush(@Field("id") String id, @Field("m_type") String m_type, @Field(
+            "content") String content);
 
 
     /**

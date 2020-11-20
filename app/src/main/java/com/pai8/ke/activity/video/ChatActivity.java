@@ -4,25 +4,36 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
+import com.gh.qiniushortvideo.activity.MediaSelectActivity;
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.PushBiz;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.fragment.chat.ChatAudioCrlFragment;
 import com.pai8.ke.fragment.chat.ChatVideoCrlFragment;
+import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnChatCrlListener;
 import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.manager.QNRTCManager;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.StringUtils;
 import com.qiniu.droid.rtc.QNCustomMessage;
 import com.qiniu.droid.rtc.QNRTCEngine;
 import com.qiniu.droid.rtc.QNRTCEngineEventListener;
@@ -39,8 +50,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.gh.qiniushortvideo.utils.Utils.dip2px;
+import static com.mob.tools.utils.ResHelper.getScreenHeight;
+import static net.lucode.hackware.magicindicator.buildins.UIUtil.getScreenWidth;
 
 public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
@@ -48,6 +66,10 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
     QNSurfaceView mLocalWindow;
     @BindView(R.id.surface_view_remote)
     QNSurfaceView mRemoteWindow;
+    @BindView(R.id.rl_local)
+    RelativeLayout rlLocal;
+    @BindView(R.id.rl_remote)
+    RelativeLayout rlRemote;
 
     //拨打
     public static final int INTENT_TYPE_CALL = 1;
@@ -80,29 +102,45 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
     private int mIntentType;
 
     private String mUid;
-    private String mRemoteUid;
+    private String mRemoteId;
 
     private List<QNTrackInfo> mLocalAudioTracks = new ArrayList<>();
     private List<QNTrackInfo> mLocalVideoTracks = new ArrayList<>();
 
-    public static void launch(Context context, @BizType int bizType, @IntentType int intentType) {
+    private boolean mSate = false;
+    private int defaultLocalMargin = dip2px(this, 28);
+    private int defaultLocalWidth = dip2px(this, 120);
+    private int defaultLocalHeight = dip2px(this, 180);
+
+    public static void launch(Context context, @BizType int bizType, @IntentType int intentType,
+                              String remoteId) {
         Intent intent = new Intent(context, ChatActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("bizType", bizType);
         intent.putExtra("intentType", intentType);
+        intent.putExtra("remoteId", remoteId);
         intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
-    public static void launch(Context context, @BizType int bizType, @IntentType int intentType,
-                              String remoteUid) {
-        Intent intent = new Intent(context, ChatActivity.class);
-        Bundle bundle = new Bundle();
-        intent.putExtra("bizType", bizType);
-        intent.putExtra("intentType", intentType);
-        intent.putExtra("remoteUid", remoteUid);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EventCode.EVENT_PUSH:
+                //拒绝&聊天页面
+                if (((PushBiz) event.getData()).getM_type().equals("3") && ActivityManager.getInstance().isChatActivity()) {
+                    toast("对方已拒绝");
+                    finish();
+                }
+                break;
+        }
     }
 
     @Override
@@ -122,7 +160,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
         Bundle extras = getIntent().getExtras();
         mBizType = extras.getInt("bizType");
         mIntentType = extras.getInt("intentType");
-        mRemoteUid = extras.getString("remoteUid");
+        mRemoteId = extras.getString("remoteId");
 
         mEngine = QNRTCManager.getInstance().getQNRTCEngine();
 
@@ -141,6 +179,8 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                     .create();
             mEngine.setRenderWindow(mLocalVideoTrack, mLocalWindow);
 
+            zoomOpera(rlLocal, mLocalWindow, rlRemote, mRemoteWindow);
+
         } else if (mBizType == BIZ_TYPE_AUDIO) {
             // 语音面板Fragment
             mChatAudioCrlFragment = ChatAudioCrlFragment.newInstance(mIntentType);
@@ -156,7 +196,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                 .setMaster(true)
                 .create();
 
-        //设置初始化或音频设备状态改变时使用的默认音频路由，true-扬声器 false-听筒
+        // true-扬声器 false-听筒
         mEngine.setDefaultAudioRouteToSpeakerphone(false);
 
         if (mLocalVideoTrack != null) {
@@ -170,28 +210,72 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            toast("对方无人接听,请稍后再试！");
+            if (mEngine != null) {
+                mEngine.leaveRoom();
+            }
+            finish();
+        }
+    };
+
     @Override
     public void initData() {
         mUid = mAccountManager.getUid();
-
         if (mIntentType == INTENT_TYPE_CALL) {
-            // 拨打电话/视频 进行push通知
-            Api.getInstance().notifyPush(mRemoteUid, String.valueOf(mBizType))
-                    .doOnSubscribe(disposable -> {
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<Object>() {
-                        @Override
-                        protected void onSuccess(Object o) {
-
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            super.onError(msg, errorCode);
-                        }
-                    });
+            joinRoom(false);
+            mHandler.sendEmptyMessageDelayed(0, 60 * 1000);
         }
+    }
+
+    private void push(String msgType) {
+        // 拨打电话/视频 进行push通知
+        Api.getInstance().notifyPush(mRemoteId, msgType, mUid)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<Object>() {
+                    @Override
+                    protected void onSuccess(Object o) {
+
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+    public void joinRoom(boolean isRemote) {
+        String uid = isRemote ? mRemoteId : mUid;
+        Api.getInstance().qnToken("5p" + uid, "5p8" + mUid)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onSuccess(String roomToken) {
+                        mEngine.joinRoom(roomToken);
+                        if (isRemote) {
+                            // 我主动加入到对方
+                            if (mChatAudioCrlFragment != null) mChatAudioCrlFragment.setListener();
+                            if (mChatVideoCrlFragment != null) mChatVideoCrlFragment.setListener();
+                        } else {
+                            // 发推送邀请对方加入
+                            push(String.valueOf(mBizType));
+                        }
+
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 
     @Override
@@ -211,11 +295,9 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                     case CONNECTED:
                         // 加入房间后可以进行tracks的发布
                         if (mChatAudioCrlFragment != null) {
-                            mChatAudioCrlFragment.startTimer();
                             mEngine.publishTracks(mLocalAudioTracks);
                         }
                         if (mChatVideoCrlFragment != null) {
-                            mChatVideoCrlFragment.startTimer();
                             mEngine.publishTracks(mLocalVideoTracks);
                         }
                         break;
@@ -244,6 +326,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                     mChatAudioCrlFragment.startTimer();
                 }
                 if (mChatVideoCrlFragment != null) {
+                    rlRemote.setVisibility(View.VISIBLE);
                     mChatVideoCrlFragment.setListener();
                     mChatVideoCrlFragment.startTimer();
                 }
@@ -399,6 +482,9 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
     @Override
     public void onCrlHangUp(boolean isActive) { //挂断
+        if (mIntentType == INTENT_TYPE_WAIT) {
+            push(String.valueOf(3));
+        }
         if (mEngine != null) {
             mEngine.leaveRoom();
         }
@@ -409,24 +495,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
     public void onCrlListener() { //接听
         if (mIntentType == INTENT_TYPE_WAIT) {
             // 等待接听电话/视频 先获取roomToken再加入聊天
-            Api.getInstance().qnToken("5p" + mUid, "5p8" + mUid)
-                    .doOnSubscribe(disposable -> {
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<String>() {
-                        @Override
-                        protected void onSuccess(String roomToken) {
-                            LogUtils.d("chat roomToken:" + roomToken);
-                            mEngine.joinRoom(roomToken);
-                            if (mChatAudioCrlFragment != null) mChatAudioCrlFragment.setListener();
-                            if (mChatVideoCrlFragment != null) mChatVideoCrlFragment.setListener();
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            super.onError(msg, errorCode);
-                        }
-                    });
+            joinRoom(true);
         }
     }
 
@@ -442,4 +511,50 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
     //***************************************/页面控制***********************************************
 
+    @OnClick({R.id.surface_view_local, R.id.surface_view_remote})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.surface_view_local:
+                if (mSate) {
+                    zoomOpera(rlLocal, mLocalWindow, rlRemote, mRemoteWindow);
+                    mSate = false;
+                }
+                break;
+            case R.id.surface_view_remote:
+                if (!mSate) {
+                    zoomOpera(rlRemote, mRemoteWindow, rlLocal, mLocalWindow);
+                    mSate = true;
+                }
+                break;
+        }
+    }
+
+    private void zoomOpera(View sourcView, QNSurfaceView beforeview,
+                           View detView, QNSurfaceView afterview) {
+        RelativeLayout paretview = (RelativeLayout) sourcView.getParent();
+        paretview.removeView(detView);
+        paretview.removeView(sourcView);
+
+        //设置远程大视图RelativeLayout 的属性
+        RelativeLayout.LayoutParams params1 =
+                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.MATCH_PARENT);
+        params1.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        beforeview.setZOrderMediaOverlay(true);
+        beforeview.getHolder().setFormat(PixelFormat.TRANSPARENT);
+        sourcView.setLayoutParams(params1);
+
+        //设置本地小视图RelativeLayout 的属性
+        params1 = new RelativeLayout.LayoutParams(defaultLocalWidth, defaultLocalHeight);
+        params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        params1.setMargins(0, defaultLocalMargin, defaultLocalMargin, 0);
+        //在调用setZOrderOnTop(true)之后调用了setZOrderMediaOverlay(true)  遮挡问题
+        afterview.setZOrderOnTop(true);
+        afterview.setZOrderMediaOverlay(true);
+        afterview.getHolder().setFormat(PixelFormat.TRANSPARENT);
+        detView.setLayoutParams(params1);
+
+        paretview.addView(sourcView);
+        paretview.addView(detView);
+    }
 }

@@ -89,6 +89,13 @@ public class MyApp extends Application {
         return locations;
     }
 
+    public static String getCity() {
+        if (mAMapLocation == null) {
+            return "北京市";
+        }
+        return mAMapLocation.getCity();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
