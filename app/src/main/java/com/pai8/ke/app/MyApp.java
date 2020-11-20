@@ -14,17 +14,21 @@ import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
 import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.QNRTCManager;
 import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.ResUtils;
+import com.pai8.ke.utils.StringUtils;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UploadManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class MyApp extends Application {
 
@@ -111,6 +115,9 @@ public class MyApp extends Application {
             LogUtils.d("AMap Location:" + location.getAddress());
             mAMapLocation = location;
         }, false);
+        //JPush
+        JPushInterface.setDebugMode(getBuildType() != BuildType.RELEASE);
+        JPushInterface.init(this);
     }
 
     public static HttpProxyCacheServer getProxy() {
@@ -122,6 +129,14 @@ public class MyApp extends Application {
         return new HttpProxyCacheServer.Builder(this)
                 .maxCacheFilesCount(20)
                 .build();
+    }
+
+    public static void setJPushAlias() {
+        String uid = AccountManager.getInstance().getUid();
+        if (StringUtils.isNotEmpty(uid)) {
+            LogUtils.d("Jpush：设置别名：" + uid);
+            JPushInterface.setAlias(getMyApp().getApplicationContext(), 1, uid);
+        }
     }
 
     public UploadManager getUploadManager() {

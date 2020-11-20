@@ -6,6 +6,8 @@ import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 账户统一管理
  * Created by gh on 2020/11/2.
@@ -58,6 +60,7 @@ public class AccountManager {
         PreferencesUtils.put(myApp, "avatar", StringUtils.strSafe(userInfo.getAvatar()));
         PreferencesUtils.put(myApp, "phone", StringUtils.strSafe(userInfo.getPhone()));
         PreferencesUtils.put(myApp, "token", StringUtils.strSafe(userInfo.getToken()));
+        MyApp.setJPushAlias();
     }
 
     /**

@@ -146,6 +146,7 @@ dependencies {
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.amap.api:search:latest.integration'
 
+    implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
     implementation project(':lib_shortvideo')
 
 }

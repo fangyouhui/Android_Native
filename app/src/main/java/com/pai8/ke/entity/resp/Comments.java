@@ -1,11 +1,14 @@
 package com.pai8.ke.entity.resp;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * 子评论
  */
 public class Comments implements Serializable {
+    @SerializedName(value = "id")
     private String commentId;
     private String userId;
     private String content;

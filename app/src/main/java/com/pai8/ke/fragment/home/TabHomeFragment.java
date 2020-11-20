@@ -1,14 +1,19 @@
 package com.pai8.ke.fragment.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.common.ScanActivity;
 import com.pai8.ke.activity.video.VideoDetailActivity;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseFragment;
+import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.TabCreateUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -16,6 +21,7 @@ import net.lucode.hackware.magicindicator.MagicIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -79,7 +85,17 @@ public class TabHomeFragment extends BaseFragment {
             case R.id.iv_liwu:
                 break;
             case R.id.iv_scan:
+                new IntentIntegrator(getActivity())
+                        .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+                        .setPrompt("请对准二维码进行扫描")
+                        .setOrientationLocked(false)
+                        .setCameraId(0)// 选择摄像头
+                        .setBeepEnabled(true)// 是否开启声音
+                        .setCaptureActivity(ScanActivity.class)
+                        .initiateScan();
                 break;
         }
     }
+
+
 }

@@ -1,20 +1,31 @@
 package com.pai8.ke.activity;
 
+import android.content.Intent;
 import android.view.KeyEvent;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.next.easynavigation.view.EasyNavigationBar;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.video.ChatActivity;
 import com.pai8.ke.activity.video.VideoPublishActivity;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.fragment.home.TabHomeFragment;
 import com.pai8.ke.fragment.me.TabMeFragment;
 import com.pai8.ke.fragment.pai.TabCameraFragment;
 import com.pai8.ke.fragment.shop.TabShopFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
+import com.pai8.ke.global.EventCode;
+import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
@@ -31,6 +42,31 @@ public class MainActivity extends BaseActivity {
     private List<Fragment> fragments = new ArrayList<>();
 
     private long mExitTime;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult == null) return;
+        String contents = intentResult.getContents();
+        if (StringUtils.isEmpty(contents)) return;
+        LogUtils.d("二维码：" + contents);
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EventCode.EVENT_PUSH:
+                ChatActivity.launch(this, ChatActivity.BIZ_TYPE_VIDEO, ChatActivity.INTENT_TYPE_WAIT);
+                break;
+        }
+    }
 
     @Override
     public int getLayoutId() {
@@ -63,6 +99,16 @@ public class MainActivity extends BaseActivity {
                 })
                 .build();
 
+    }
+
+    @Override
+    public void initData() {
+        MyApp.getMyAppHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MyApp.setJPushAlias();
+            }
+        }, 1000);
     }
 
     @Override

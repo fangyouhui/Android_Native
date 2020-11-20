@@ -94,11 +94,11 @@ public class CommentsView extends LinearLayout {
         SpannableStringBuilder builder = new SpannableStringBuilder();
 
         if (hasReply) {
-            builder.append(setClickableSpan(filterMe(commentUserNickName), commentUserId));
+            builder.append(setClickableSpan(filterMe(commentUserNickName, commentUserId), commentUserId));
             builder.append(" 回复 ");
-            builder.append(setClickableSpan(filterMe(replyUserNickName), replyUserId));
+            builder.append(setClickableSpan(filterMe(replyUserNickName, replyUserId), replyUserId));
         } else {
-            builder.append(setClickableSpan(filterMe(commentUserNickName), commentUserId));
+            builder.append(setClickableSpan(filterMe(commentUserNickName, replyUserId), commentUserId));
         }
         builder.append(" : ");
         builder.append(setClickableSpanContent(item.getContent(), position));
@@ -176,8 +176,8 @@ public class CommentsView extends LinearLayout {
         void onItemClick(int position, Comments bean);
     }
 
-    private String filterMe(String name) {
-        if (AccountManager.getInstance().getUid().equals(name)) {
+    private String filterMe(String name, String userId) {
+        if (AccountManager.getInstance().getUid().equals(userId)) {
             return "我";
         }
         return name;

@@ -76,12 +76,14 @@ public class ChatAudioCrlFragment extends BaseFragment {
             tvBtnListener.setVisibility(View.GONE);
             mTimer.setVisibility(View.GONE);
             tvTip.setVisibility(View.GONE);
+            tvStatus.setText("正在打给对方，请等待接听…");
         } else if (mIntentType == INTENT_TYPE_WAIT) {
             tvBtnMic.setVisibility(View.GONE);
             tvBtnSpeaker.setVisibility(View.GONE);
             tvBtnHangUp.setVisibility(View.GONE);
             mTimer.setVisibility(View.GONE);
             tvTip.setVisibility(View.GONE);
+            tvStatus.setText("邀请你进行语音通话…");
         } else if (mIntentType == INTENT_TYPE_LISTENER) {
             tvStatus.setVisibility(View.GONE);
             tvBtnHangUp2.setVisibility(View.GONE);
@@ -143,6 +145,12 @@ public class ChatAudioCrlFragment extends BaseFragment {
         tvStatus.setVisibility(View.GONE);
         tvBtnHangUp2.setVisibility(View.GONE);
         tvBtnListener.setVisibility(View.GONE);
+
+        tvBtnMic.setVisibility(View.VISIBLE);
+        tvBtnSpeaker.setVisibility(View.VISIBLE);
+        tvBtnHangUp.setVisibility(View.VISIBLE);
+        mTimer.setVisibility(View.VISIBLE);
+        tvTip.setVisibility(View.VISIBLE);
     }
 
     public void startTimer() {

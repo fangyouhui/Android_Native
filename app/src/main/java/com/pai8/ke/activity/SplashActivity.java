@@ -2,6 +2,7 @@ package com.pai8.ke.activity;
 
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.PermissionUtils;
@@ -17,15 +18,11 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        setBarTrans(false);
         PermissionUtils.apply(this, new PermissionUtils.RequestCallBack() {
             @Override
             public void granted() {
-                if (mAccountManager.isLogin()) {
-                    launch(MainActivity.class);
-                } else {
-                    launch(LoginActivity.class);
-                }
-                finish();
+                router();
             }
 
             @Override
@@ -34,4 +31,19 @@ public class SplashActivity extends BaseActivity {
             }
         }, PermissionUtils.PERMISSIONS);
     }
+
+    private void router() {
+        MyApp.getMyAppHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mAccountManager.isLogin()) {
+                    launch(MainActivity.class);
+                } else {
+                    launch(LoginActivity.class);
+                }
+                finish();
+            }
+        }, 2000);
+    }
+    
 }

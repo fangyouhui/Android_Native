@@ -4,6 +4,7 @@ import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
+import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.ShopListResp;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.Province;
@@ -56,6 +57,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("public/getUid")
     Observable<BaseRespose<UserInfo>> getUid(@Field("code") String code);
+
+    /**
+     * 获取个人中心
+     *
+     * @return
+     */
+    @POST("user/ucenter")
+    Observable<BaseRespose<MyInfoResp>> getMyInfo();
 
     //****************************视频模块********************************
 

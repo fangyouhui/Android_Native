@@ -17,6 +17,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.MainActivity;
 import com.pai8.ke.api.Api;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;

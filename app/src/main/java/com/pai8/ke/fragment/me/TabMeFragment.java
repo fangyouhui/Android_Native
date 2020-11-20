@@ -12,10 +12,19 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.SettingActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
+import com.pai8.ke.activity.takeaway.ui.ShopRankActivity;
+import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
 import com.pai8.ke.adapter.TabAdapter;
+import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseFragment;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
+import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.ResUtils;
@@ -64,6 +73,7 @@ public class TabMeFragment extends BaseFragment {
     private List<Fragment> mFragments;
     private List<String> mTitles;
     private TabAdapter mTabAdapter;
+    private int mStatus;
 
     @Override
     protected int getLayoutId() {
@@ -100,9 +110,9 @@ public class TabMeFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        setLikeCount(100);
-        setFollowCount(100);
-        setFansCount(200);
+        setLikeCount(0);
+        setFollowCount(0);
+        setFansCount(0);
         setHistoryCount(0);
     }
 
@@ -131,18 +141,41 @@ public class TabMeFragment extends BaseFragment {
     }
 
     private void initUserInfo() {
-        if (mActivity.mAccountManager.isLogin()) {
-            UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
-            if (StringUtils.isNotEmpty(userInfo.getUser_nickname())) {
-                tvNickName.setText(userInfo.getUser_nickname());
-            } else {
-                tvNickName.setText(userInfo.getPhone());
-            }
-            ImageLoadUtils.loadImage(getActivity(), userInfo.getAvatar(), civAvatar, R.mipmap.img_head_def);
-        } else {
+        if (!mActivity.mAccountManager.isLogin()) {
             tvNickName.setText("登录/注册");
             civAvatar.setImageResource(R.mipmap.img_head_def);
+            setLikeCount(0);
+            setFansCount(0);
+            setFollowCount(0);
+            setHistoryCount(0);
+            return;
         }
+        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
+        tvNickName.setText(StringUtils.isNotEmpty(userInfo.getUser_nickname()) ?
+                userInfo.getUser_nickname() : userInfo.getPhone());
+        ImageLoadUtils.loadImage(getActivity(), userInfo.getAvatar(), civAvatar, R.mipmap.img_head_def);
+        Api.getInstance().getMyInfo()
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<MyInfoResp>() {
+                    @Override
+                    protected void onSuccess(MyInfoResp myInfoResp) {
+                        setLikeCount(myInfoResp.getMy_likes());
+                        setFansCount(myInfoResp.getMy_fans());
+                        setFollowCount(myInfoResp.getMy_fans());
+                        setHistoryCount(myInfoResp.getMy_history());
+                        initVerifyStatus(myInfoResp.getVerify_status());
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        setLikeCount(0);
+                        setFansCount(0);
+                        setFollowCount(0);
+                        setHistoryCount(0);
+                    }
+                });
     }
 
     private void setLikeCount(int likeCount) {
@@ -189,6 +222,33 @@ public class TabMeFragment extends BaseFragment {
         tvHistoryCount.setText(span);
     }
 
+    /**
+     * 0:未申请 - 申请商家入驻
+     * 1:请求审核 - 正在审核中
+     * 2:审核通过 - 店铺管理
+     * 3:审核驳回 - 申请商家入驻
+     *
+     * @param status
+     */
+    private void initVerifyStatus(int status) {
+        mStatus = status;
+        switch (status) {
+            case 0:
+            case 3:
+                tvApplyStatus.setEnabled(true);
+                tvApplyStatus.setText("申请商家入驻");
+                break;
+            case 1:
+                tvApplyStatus.setEnabled(false);
+                tvApplyStatus.setText("正在审核中...");
+                break;
+            case 2:
+                tvApplyStatus.setEnabled(true);
+                tvApplyStatus.setText("店铺管理");
+                break;
+        }
+    }
+
     @OnClick({R.id.civ_avatar, R.id.tv_nick_name, R.id.iv_btn_edit, R.id.iv_btn_msg, R.id.tv_like_count,
             R.id.tv_follow_count, R.id.tv_fans_count, R.id.tv_history_count, R.id.tv_apply_status,
             R.id.tv_btn_order, R.id.tv_btn_wallet, R.id.tv_btn_address, R.id.tv_btn_coupon,
@@ -214,7 +274,11 @@ public class TabMeFragment extends BaseFragment {
             case R.id.tv_history_count:
                 break;
             case R.id.tv_apply_status:
-                launch(MerchantSettledFirstActivity.class);
+                if (mStatus == 0 || mStatus == 3) { //申请商家入驻
+                    launchInterceptLogin(MerchantSettledFirstActivity.class);
+                } else if (mStatus == 2) { //店铺管理
+                    launchInterceptLogin(StoreManagerActivity.class);
+                }
                 break;
             case R.id.tv_btn_order:
                 break;

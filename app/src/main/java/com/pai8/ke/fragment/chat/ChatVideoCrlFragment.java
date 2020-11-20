@@ -74,11 +74,13 @@ public class ChatVideoCrlFragment extends BaseFragment {
             tvBtnHangUp2.setVisibility(View.GONE);
             tvBtnListener.setVisibility(View.GONE);
             mTimer.setVisibility(View.GONE);
+            tvStatus.setText("正在打给对方，请等待接听…");
         } else if (mIntentType == INTENT_TYPE_WAIT) {
             tvBtnMic.setVisibility(View.GONE);
             tvBtnCamera.setVisibility(View.GONE);
             tvBtnHangUp.setVisibility(View.GONE);
             mTimer.setVisibility(View.GONE);
+            tvStatus.setText("邀请你进行视频通话…");
         } else if (mIntentType == INTENT_TYPE_LISTENER) {
             civAvatar.setVisibility(View.GONE);
             tvName.setVisibility(View.GONE);
@@ -146,6 +148,9 @@ public class ChatVideoCrlFragment extends BaseFragment {
         tvBtnHangUp2.setVisibility(View.GONE);
         tvBtnListener.setVisibility(View.GONE);
         mTimer.setVisibility(View.VISIBLE);
+        tvBtnMic.setVisibility(View.VISIBLE);
+        tvBtnCamera.setVisibility(View.VISIBLE);
+        tvBtnHangUp.setVisibility(View.VISIBLE);
     }
 
     public void startTimer() {

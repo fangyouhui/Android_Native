@@ -197,4 +197,8 @@ public abstract class BaseFragment extends Fragment {
         mActivity.launch(clazz, bundle);
     }
 
+    public void launchInterceptLogin(Class clazz) {
+        mActivity.launchInterceptLogin(clazz);
+    }
+
 }

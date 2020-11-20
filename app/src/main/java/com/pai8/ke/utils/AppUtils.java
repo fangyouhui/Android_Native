@@ -7,6 +7,8 @@ import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.content.res.Resources;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -691,5 +694,24 @@ public final class AppUtils {
             return false;
         }
         return true;
+    }
+
+    public static void copyText(String text) {
+        ClipboardManager cm = (ClipboardManager) MyApp.getMyApp().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData mClipData = ClipData.newPlainText("Label", text);
+        cm.setPrimaryClip(mClipData);
+    }
+
+    public static void intentContactAdd(Activity activity,String name, String title, String phone) {
+        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
+        intent.putExtra(android.provider.ContactsContract.Intents.Insert.NAME, name);
+        intent.putExtra(android.provider.ContactsContract.Intents.Insert.JOB_TITLE, title);
+        intent.putExtra(android.provider.ContactsContract.Intents.Insert.PHONE, phone);
+        activity.startActivity(intent);
+    }
+
+    public static void intentCallPhone(Activity activity, String phone) {
+        Intent Intent = new Intent(android.content.Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+        activity.startActivity(Intent);
     }
 }

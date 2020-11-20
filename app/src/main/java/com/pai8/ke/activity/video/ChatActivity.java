@@ -22,6 +22,7 @@ import com.pai8.ke.interfaces.OnChatCrlListener;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.QNRTCManager;
 import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.LogUtils;
 import com.qiniu.droid.rtc.QNCustomMessage;
 import com.qiniu.droid.rtc.QNRTCEngine;
 import com.qiniu.droid.rtc.QNRTCEngineEventListener;
@@ -34,6 +35,7 @@ import com.qiniu.droid.rtc.QNTrackKind;
 import com.qiniu.droid.rtc.model.QNAudioDevice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.IntDef;
@@ -197,6 +199,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
         mEngine.setEventListener(new QNRTCEngineEventListener() {
             @Override
             public void onRoomStateChanged(QNRoomState qnRoomState) {
+                LogUtils.d("qu_chat onRoomStateChanged:" + qnRoomState);
                 // 当房间状态改变时会触发此回调
                 switch (qnRoomState) {
                     case IDLE:
@@ -228,10 +231,13 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             @Override
             public void onRoomLeft() {
                 // 当退出房间执行完毕后触发该回调
+                LogUtils.d("qu_chat onRoomLeft");
             }
 
             @Override
             public void onRemoteUserJoined(String remoteUserId, String userData) {
+                LogUtils.d("qu_chat onRemoteUserJoined remoteUserId:" + remoteUserId);
+
                 // 当远端用户加入房间时会触发此回调
                 if (mChatAudioCrlFragment != null) {
                     mChatAudioCrlFragment.setListener();
@@ -246,16 +252,19 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             @Override
             public void onRemoteUserReconnecting(String remoteUserId) {
                 // 当远端用户重连时会触发此回调
+                LogUtils.d("qu_chat onRemoteUserReconnecting:" + remoteUserId);
             }
 
             @Override
             public void onRemoteUserReconnected(String remoteUserId) {
                 // 当远端用户重连成功时会触发此回调
+                LogUtils.d("qu_chat onRemoteUserReconnected:" + remoteUserId);
             }
 
             @Override
             public void onRemoteUserLeft(String remoteUserId) {
                 // 当远端用户离开房间时会触发此回调
+                LogUtils.d("qu_chat onRemoteUserLeft:" + remoteUserId);
                 toast("对方已经挂断！");
                 finish();
             }
@@ -263,11 +272,13 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             @Override
             public void onLocalPublished(List<QNTrackInfo> list) {
                 // 当本地Track发布时会触发此回调
+                LogUtils.d("qu_chat onLocalPublished QNTrackInfo:" + list.size());
             }
 
             @Override
             public void onRemotePublished(String remoteUserId, List<QNTrackInfo> list) {
                 // 当远端Track发布时会触发此回调
+                LogUtils.d("qu_chat onRemotePublished remoteUserId:" + remoteUserId + "-list" + list.size());
             }
 
             @Override
@@ -282,6 +293,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
             @Override
             public void onSubscribed(String remoteUserId, List<QNTrackInfo> list) {
+                LogUtils.d("qu_chat onSubscribed:" + remoteUserId);
                 // 当订阅Track成功时会触发此回调
                 for (QNTrackInfo track : list) {
                     if (track.getTrackKind().equals(QNTrackKind.VIDEO)) {
@@ -404,7 +416,10 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                     .subscribe(new BaseObserver<String>() {
                         @Override
                         protected void onSuccess(String roomToken) {
+                            LogUtils.d("chat roomToken:" + roomToken);
                             mEngine.joinRoom(roomToken);
+                            if (mChatAudioCrlFragment != null) mChatAudioCrlFragment.setListener();
+                            if (mChatVideoCrlFragment != null) mChatVideoCrlFragment.setListener();
                         }
 
                         @Override

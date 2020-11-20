@@ -13,4 +13,6 @@ public interface EventCode {
     int EVENT_CHOOSE_ADDRESS = 0x03;
     // 微信code
     int EVENT_WX_CODE = 0x04;
+    // 推送
+    int EVENT_PUSH = 0x05;
 }

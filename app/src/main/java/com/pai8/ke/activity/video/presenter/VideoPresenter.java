@@ -231,7 +231,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
 
     @Override
     public void comment1(String video_id, String commentId, String content, String to_user_id) {
-        comment(video_id, "0", commentId, content, to_user_id);
+        comment(video_id, commentId, commentId, content, to_user_id);
     }
 
     @Override

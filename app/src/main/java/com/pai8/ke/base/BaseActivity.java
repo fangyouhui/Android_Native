@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.gyf.immersionbar.ImmersionBar;
 import com.hjq.bar.TitleBar;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.utils.EventBusUtils;
@@ -76,6 +77,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         immersionBar.init();
     }
 
+    public void setBarTrans(boolean isBarDarkFont) {
+        ImmersionBar.with(this)
+                .transparentStatusBar()
+                .statusBarDarkFont(isBarDarkFont)
+                .init();
+    }
 
     public void setImmersionBar(int id) {
         ImmersionBar.with(this)
@@ -193,6 +200,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    public void launchInterceptLogin(Class clazz) {
+        if (mAccountManager.isLogin()) {
+            Intent intent = new Intent(this, clazz);
+            startActivity(intent);
+        } else {
+            launch(LoginActivity.class);
+        }
     }
 
 }

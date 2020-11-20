@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.video;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
+import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.video.adapter.CommentAdapter;
 import com.pai8.ke.activity.video.adapter.VideoDetailAdapter;
 import com.pai8.ke.activity.video.contract.ReportContract;
@@ -31,8 +34,11 @@ import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.interfaces.OnViewPagerListener;
+import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.manager.ViewPagerLayoutManager;
+import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -446,13 +452,41 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
             mContactBottomDialog.dismiss();
         });
         tvBtnPhone.setOnClickListener(view1 -> {//电话
-
+            String[] options = {"呼叫", "复制号码", "添加至手机通讯录"};
+            new AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setTitle("这是电话号码，你可以")
+                    .setItems(options, (dialogInterface, which) -> {
+                        switch (which) {
+                            case 0:
+                                AppUtils.intentCallPhone(VideoDetailActivity.this, "15061009506");
+                                break;
+                            case 1:
+                                AppUtils.copyText("15061009506");
+                                toast("复制成功");
+                                break;
+                            case 2:
+                                AppUtils.intentContactAdd(VideoDetailActivity.this, "郭浩", "郭浩",
+                                        "15061009506");
+                                break;
+                        }
+                    }).show();
         });
         tvBtnSms.setOnClickListener(view1 -> {//私信
-
+            new AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setTitle("私信")
+                    .setMessage("我的联系方式是：x")
+                    .setPositiveButton("确认", null)
+                    .show();
         });
         tvBtnWechat.setOnClickListener(view1 -> {//微信
-
+            new AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setTitle("微信")
+                    .setMessage("我的微信号是：x")
+                    .setPositiveButton("确认", null)
+                    .show();
         });
         tvBtnPtp.setOnClickListener(view1 -> {//一对一聊天
             mContactBottomDialog.dismiss();
@@ -559,7 +593,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
                     break;
                 case 2:
                     mPresenter.comment2(getCurVideo().getId(), comment.getCommentId(),
-                            comments.getCommentId(), txt, comment.getFrom_user_id());
+                            comments.getCommentId(), txt, comments.getFrom_user_id());
                     break;
             }
 
