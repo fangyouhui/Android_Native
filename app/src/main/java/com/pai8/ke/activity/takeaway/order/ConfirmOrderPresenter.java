@@ -2,6 +2,7 @@ package com.pai8.ke.activity.takeaway.order;
 
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.ConfirmContract;
+import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
@@ -16,6 +17,27 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
     }
 
 
+
+    public void waimaiPrice(String shop_id,int address_id){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("shop_id",shop_id);
+        map.put("address_id",address_id);
+        TakeawayApi.getInstance().waimaiPrice(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<WaimaiResq>() {
+                    @Override
+                    protected void onSuccess(WaimaiResq data){
+                        view.waimaiSuccess(data);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
 
 
     public void addOrder(String goods_info,String shop_id,int order_type,int address_id,String express_price

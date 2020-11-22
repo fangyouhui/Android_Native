@@ -66,6 +66,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private TextView mTvDesc;
     private TextView mTvStoreDis;
     private TextView mTvTime;
+    private TextView mTvlogisticsDiscounts;
 
     private int mStart = 0;
     private List<FoodGoodInfo> mGoodInfoList ;  //购物车
@@ -100,6 +101,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mTvDesc = findViewById(R.id.item_tv_desc);
         mTvStoreDis = findViewById(R.id.tv_store_km);
         mTvTime = findViewById(R.id.item_tv_time);
+        mTvlogisticsDiscounts = findViewById(R.id.seller_goods_tv_logistics_discounts);
 
         mTvScore = findViewById(R.id.tv_store_score);
         mIvShopCar.setOnClickListener(this);
@@ -243,26 +245,30 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         EventBus.getDefault().register(this);
 
         mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
-        ImageLoadUtils.setCircularImage(this,mStoreInfo.shop_img,mIvStorePic,R.mipmap.ic_launcher);
-        mTvStoreName.setText(mStoreInfo.shop_name);
-        mTvScore.setText(mStoreInfo.score+"");
-        mTvMonthSale.setText("月售 "+mStoreInfo.monthly_sale);
-        mTvDesc.setText(mStoreInfo.shop_desc);
-        mTvTime.setText(mStoreInfo.delivery_time);
-        String distance ;
-//        if(mStoreInfo.distance>1000){
-//            distance = mStoreInfo.distance/1000+"km";
-//        }else{
-//            distance = mStoreInfo.distance+"m";
-//        }
-        mTvStoreDis.setText(mStoreInfo.distance);
-
+        setData(mStoreInfo);
         ShopIdReq shopIdReq = new ShopIdReq();
         shopIdReq.shop_id = mStoreInfo.id+"";
         mPresenter.addGood(shopIdReq);
 
 
     }
+
+
+
+    private void setData(StoreInfo mStoreInfo){
+        if(!TextUtils.isEmpty(mStoreInfo.shop_name)){
+            ImageLoadUtils.setCircularImage(this,mStoreInfo.shop_img,mIvStorePic,R.mipmap.ic_launcher);
+            mTvStoreName.setText(mStoreInfo.shop_name);
+            mTvScore.setText(mStoreInfo.score+"");
+            mTvMonthSale.setText("月售 "+mStoreInfo.monthly_sale);
+            mTvDesc.setText(mStoreInfo.shop_desc);
+            mTvTime.setText(mStoreInfo.delivery_time);
+            mTvlogisticsDiscounts.setText("另需配送费￥"+mStoreInfo.send_cost);
+            mTvStoreDis.setText(mStoreInfo.distance);
+        }
+
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -317,6 +323,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     @Override
     public void getShopContentSuccess(ShopContent data) {
+        setData(data.shop_info);
         if(data.shop_info.is_collect == 1){
             mIvCollection.setImageResource(R.mipmap.icon_rating_bar_normal);
         }else{
