@@ -43,6 +43,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     private TextView mTvCate, mTvAddress;
     private TextView mEtAddressDetail, mTvNext;
 
+    private EditText mEtAddressNumber;
 
     private String mCate;
 
@@ -85,6 +86,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
         mTvAddress.setOnClickListener(this);
         mTvCate = findViewById(R.id.tv_cate);
         mTvCate.setOnClickListener(this);
+        mEtAddressNumber = findViewById(R.id.et_address_number);
         editListener();
     }
 
@@ -150,6 +152,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             String addressDetail = mEtAddressDetail.getText().toString();
             String bankAddress = mEtBankAddress.getText().toString();
             String bankNo = mEtBankNo.getText().toString();
+            String addressNumber = mEtAddressNumber.getText().toString();
 
             Intent intent = new Intent(this, MerchantSettledSecondActivity.class);
             intent.putExtra("storeName", storeName);
@@ -163,6 +166,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             intent.putExtra("bankAddress", bankAddress);
             intent.putExtra("bankNo", bankNo);
             intent.putExtra("address",mAddress);
+            intent.putExtra("addressNumber",addressNumber);
             startActivity(intent);
         }
     }

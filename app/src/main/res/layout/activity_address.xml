@@ -42,7 +42,8 @@
 
         >
 
-        <TextView
+        <EditText
+            android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_centerVertical="true"
@@ -54,8 +55,9 @@
             android:drawableStart="@mipmap/ic_search"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
+            android:textSize="14sp"
             android:paddingStart="16dp"
-            android:text="请输入你想搜索的内容…"
+            android:hint="请输入你想搜索的内容…"
 
             />
 
@@ -120,6 +122,13 @@
         android:background="@color/color_bg"
 
         />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_address"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_bg"
+    />
 
 
 </LinearLayout>

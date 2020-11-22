@@ -13,10 +13,12 @@ public class TakeawayPresenter extends BasePresenterImpl<TakeawayContract.View> 
     public TakeawayPresenter(TakeawayContract.View view) {
         super(view);
     }
-    public void getShopList(String key,int page){
+    public void getShopList(String key,int page,String longitude,String latitude){
         ShopListReq shopListReq = new ShopListReq();
         shopListReq.keywords = key;
         shopListReq.page = page+"";
+        shopListReq.longitude =longitude;
+        shopListReq.latitude = latitude;
         TakeawayApi.getInstance().getShopList(shopListReq)
                 .doOnSubscribe(disposable -> {
                 })

@@ -1,36 +1,34 @@
 package com.pai8.ke.activity.takeaway.presenter;
 
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
-import com.pai8.ke.activity.takeaway.contract.EvaluateContract;
-import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
+import com.pai8.ke.activity.takeaway.contract.OrderContract;
+import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.manager.AccountManager;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class EvaluatePresenter extends BasePresenterImpl<EvaluateContract.View> {
+public class OrderPresenter extends BasePresenterImpl<OrderContract.View> {
 
-
-    public EvaluatePresenter(EvaluateContract.View view) {
+    public OrderPresenter(OrderContract.View view) {
         super(view);
     }
 
-
-
-    public void shopComments(String shop_id,int page){
+    public void orderList(int order_type){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("page",page);
-        map.put("shop_id",shop_id);
-        TakeawayApi.getInstance().shopComments(createRequestBody(map))
+        map.put("buyer_id", AccountManager.getInstance().getUid());
+        map.put("order_type",order_type+"");
+        TakeawayApi.getInstance().orderList(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<CommentInfo>>() {
+                .subscribe(new BaseObserver<List<OrderInfo>>() {
                     @Override
-                    protected void onSuccess(List<CommentInfo> data){
-                        view.getCommentSuccess(data);
+                    protected void onSuccess(List<OrderInfo> data){
+                        view.orderListSuccess(data);
                     }
 
                     @Override
@@ -39,5 +37,7 @@ public class EvaluatePresenter extends BasePresenterImpl<EvaluateContract.View> 
                     }
                 });
     }
+
+
 
 }

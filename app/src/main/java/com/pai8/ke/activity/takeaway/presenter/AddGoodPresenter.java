@@ -7,6 +7,8 @@ import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 
+import java.util.HashMap;
+
 public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
 
     public AddGoodPresenter(AddGoodContract.View view) {
@@ -29,6 +31,49 @@ public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
                     @Override
                     protected void onError(String msg, int errorCode) {
                         super.onError(msg, errorCode);
+                        view.fail();
+                    }
+                });
+    }
+
+
+    public void editGoods(AddFoodReq req){
+        TakeawayApi.getInstance().editGoods(req)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onSuccess(String data){
+                        view.editGoodSuccess(data);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                        view.fail();
+                    }
+                });
+    }
+
+
+    public void foodDelete(String food_id){
+        HashMap<String,Object>  map = new HashMap<>();
+        map.put("food_id",food_id);
+        TakeawayApi.getInstance().foodDelete(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onSuccess(String data){
+                        view.deleteGoodSuccess(data);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                        view.fail();
                     }
                 });
     }

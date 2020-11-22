@@ -15,6 +15,7 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.GoodCategoryAdapter;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.AddGoodContract;
+import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
@@ -24,14 +25,16 @@ import com.pai8.ke.activity.takeaway.widget.ChooseDiscountPricePop;
 import com.pai8.ke.activity.takeaway.widget.ChooseShopCoverPop;
 import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -39,27 +42,31 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AddGoodActivity extends BaseMvpActivity implements View.OnClickListener, AddGoodContract.View {
+import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GOOD;
 
-    private AddGoodPresenter p;
+public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implements View.OnClickListener, AddGoodContract.View {
+
     private final int RESULT_PICTURE = 1000;  //图片
     private final int RESULT_VIDEO = 1001;
     private TextView mTvCategory, mTvDiscountPrice;   //分类,折扣加个
     private ImageView mIvCover;  //封面
     private TextView mTvPublish;
-    private int cateId;
+    private String cateId;
     private String cateName;
     private EditText mEtName, mEtPrice, mEtDesc, mEtPackPrice;
     private AddFoodReq addFoodReq;
     private int mType;     //3:编辑团购商品
 
+    private AddFoodReq mFood;
+
+    private TextView mTvDel;
 
     private TextView mTvTile;
     private BottomDialog mGoodCategoryDialog;
 
 
     @Override
-    public BasePresenter initPresenter() {
+    public AddGoodPresenter initPresenter() {
         return new AddGoodPresenter(this);
     }
 
@@ -76,6 +83,8 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
         mTvPublish = findViewById(R.id.tv_publish);
         mTvPublish.setOnClickListener(this);
+        mTvDel = findViewById(R.id.tv_del);
+        mTvDel.setOnClickListener(this);
         mTvTile = findViewById(R.id.toolbar_title);
         mTvCategory = findViewById(R.id.tv_category);
         mTvCategory.setOnClickListener(this);
@@ -94,13 +103,23 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
     @Override
     public void initData() {
         super.initData();
-        p = new AddGoodPresenter(this);
         addFoodReq = new AddFoodReq();
         mType = getIntent().getIntExtra("type", 0);
         if (mType == 0) {
             mTvTile.setText("添加外卖商品");
         } else if (mType == 1) {
+            mTvDel.setVisibility(View.VISIBLE);
+            mTvPublish.setText("确定");
             mTvTile.setText("编辑外卖商品");
+            mFood = (AddFoodReq) getIntent().getSerializableExtra("food");
+            mTvCategory.setText(mFood.cateName);
+            ImageLoadUtils.setCircularImage(this, mFood.cover, mIvCover, R.mipmap.ic_launcher);
+            mTvDiscountPrice.setText(mFood.discount);
+            mEtName.setText(mFood.title);
+            cateId = mFood.cate_id+"";
+            mEtPrice.setText(mFood.sell_price);
+            mEtDesc.setText(mFood.desc);
+            mEtPackPrice.setText(mFood.packing_price);
         } else if (mType == 2) {
             mTvTile.setText("添加团购商品");
         } else if (mType == 3) {
@@ -137,44 +156,88 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
             pricePop.showPopupWindow();
 
         } else if (v.getId() == R.id.tv_publish) {  //发布
-            if (TextUtils.isEmpty(mFoodPath)){
+            if (TextUtils.isEmpty(mFoodPath) && mType == 0) {
                 ToastUtils.showShort("图片不能为空");
                 return;
             }
             showLoadingDialog("");
-            UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
-                @Override
-                public void onSuccess(String url, String key) {
+            if (mType == 0) {
+                upload(0);
+            } else if (mType == 1) {
+                if (TextUtils.isEmpty(mFood.cover)) {
+                    upload(1);
+                } else {
                     double origin = 0;
                     String price = mEtPrice.getText().toString();
                     String discount = mTvDiscountPrice.getText().toString();
                     if (!TextUtils.isEmpty(price) && !TextUtils.isEmpty(discount)) {
                         origin = Double.parseDouble(price) + Double.parseDouble(discount);
                     }
-                    addFoodReq.cover = key;
-                    addFoodReq.shop_id = "1";
+                    addFoodReq.goods_id = mFood.id;
+                    addFoodReq.cover = mFood.cover;
+                    addFoodReq.shop_id = AccountManager.getInstance().getShopId();
                     addFoodReq.title = mEtName.getText().toString();  //名称
                     addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
                     addFoodReq.discount = mTvDiscountPrice.getText().toString();
                     addFoodReq.origin_price = String.valueOf(origin);  //原价
                     addFoodReq.desc = mEtDesc.getText().toString();
                     addFoodReq.cate_id = cateId + "";
-                    p.addGood(addFoodReq);
-                    dismissLoadingDialog();
+                    addFoodReq.packing_price = mEtPackPrice.getText().toString();
+                    mPresenter.editGoods(addFoodReq);
                 }
+            }
 
-                @Override
-                public void onError(String msg) {
-                    ToastUtils.showShort(msg);
-                }
-            });
+
+        } else if (v.getId() == R.id.tv_del) {
+
+
+            mPresenter.foodDelete(mFood.id + "");
+
 
         }
     }
 
+
+    private void upload(int type) {
+        UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
+            @Override
+            public void onSuccess(String url, String key) {
+                double origin = 0;
+                String price = mEtPrice.getText().toString();
+                String discount = mTvDiscountPrice.getText().toString();
+                if (!TextUtils.isEmpty(price) && !TextUtils.isEmpty(discount)) {
+                    origin = Double.parseDouble(price) + Double.parseDouble(discount);
+                }
+                addFoodReq.shop_id = AccountManager.getInstance().getShopId();
+                addFoodReq.cover = key;
+                addFoodReq.title = mEtName.getText().toString();  //名称
+                addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
+                addFoodReq.discount = mTvDiscountPrice.getText().toString();
+                addFoodReq.origin_price = String.valueOf(origin);  //原价
+                addFoodReq.desc = mEtDesc.getText().toString();
+                addFoodReq.cate_id = cateId + "";
+                addFoodReq.packing_price = mEtPackPrice.getText().toString();
+                if (type == 0) {
+
+                    mPresenter.addGood(addFoodReq);
+                } else if (type == 1) {
+                    addFoodReq.goods_id = mFood.id;
+                    mPresenter.editGoods(addFoodReq);
+                }
+                dismissLoadingDialog();
+            }
+
+            @Override
+            public void onError(String msg) {
+                ToastUtils.showShort(msg);
+            }
+        });
+    }
+
+
     private void getCategoryList() {
         UpCategoryReq upCategoryReq = new UpCategoryReq();
-        upCategoryReq.shop_id = "1";
+        upCategoryReq.shop_id = AccountManager.getInstance().getShopId();
         TakeawayApi.getInstance().getCategoryList(upCategoryReq)
                 .doOnSubscribe(disposable -> {
                 })
@@ -209,7 +272,7 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
             public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
                 adapter.singleChoose(position);
                 cateName = adapter.getData().get(position).name;
-                cateId = adapter.getData().get(position).id;
+                cateId = adapter.getData().get(position).id+"";
             }
         });
 
@@ -263,6 +326,8 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
             mFoodPath = path;
 
         } else if (type == 1) {
+
+
         }
 
     }
@@ -272,8 +337,29 @@ public class AddGoodActivity extends BaseMvpActivity implements View.OnClickList
 
     @Override
     public void addGoodSuccess(String data) {
-
+        EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
         ToastUtils.showShort("发布成功");
         finish();
+    }
+
+    @Override
+    public void editGoodSuccess(String data) {
+        EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
+        ToastUtils.showShort("编辑成功");
+        dismissLoadingDialog();
+        finish();
+    }
+
+    @Override
+    public void deleteGoodSuccess(String data) {
+        EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
+        ToastUtils.showShort("下架成功");
+        dismissLoadingDialog();
+        finish();
+    }
+
+    @Override
+    public void fail() {
+        dismissLoadingDialog();
     }
 }

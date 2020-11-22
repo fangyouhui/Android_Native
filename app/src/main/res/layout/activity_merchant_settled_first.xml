@@ -239,12 +239,9 @@
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/me_right_arrow"
-                        android:tint="#A8A8A8"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-
-
-                        />
+                        app:tint="#A8A8A8" />
 
                 </RelativeLayout>
 
@@ -286,11 +283,9 @@
                         android:src="@mipmap/me_right_arrow"
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:tint="#A8A8A8"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-
-                        />
+                        app:tint="#A8A8A8" />
 
                 </RelativeLayout>
 
@@ -329,7 +324,40 @@
 
                 </RelativeLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@color/color_divider" />
 
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/tv_address_number"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="门牌号"
+                        android:textColor="@color/color_light_font"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_address_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/tv_address_number"
+                        android:background="@color/color_transition"
+                        android:singleLine="true"
+                        android:textColor="@color/text_black"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
             </LinearLayout>
 
 

@@ -14,6 +14,7 @@ import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
+import com.pai8.ke.activity.takeaway.widget.OrderPayPop;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
 
@@ -31,10 +32,8 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     public int mId;
     private TextView mTvName, mTvAddress;
     public static final int ACTIVITY_CONFIRM_ORDER = R.layout.activity_confirm_order;
-
-    private View mViewHead,mViewFooter;
+    private View mViewHead, mViewFooter;
     private ConfirmOrderAdapter mAdapter;
-
     private TextView mTvStoreName;
     private ImageView mIvStore;
     private StoreInfo mStoreInfo;
@@ -94,14 +93,14 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         if (v.getId() == R.id.toolbar_back_all) {
             finish();
         } else if (v.getId() == R.id.rl_address) {
-            Intent intent = new Intent(this,DeliveryAddressActivity.class);
-            intent.putExtra("id",mId);
-            startActivityForResult(intent,100);
+            Intent intent = new Intent(this, DeliveryAddressActivity.class);
+            intent.putExtra("id", mId);
+            startActivityForResult(intent, 100);
 
-        }else if(v.getId() == R.id.tv_pay){
+        } else if (v.getId() == R.id.tv_pay) {
             Gson gson = new Gson();
             List<OrderGoodInfo> goodList = new ArrayList<>();
-            for(int i=0;i<mFoodInfoList.size();i++){
+            for (int i = 0; i < mFoodInfoList.size(); i++) {
                 OrderGoodInfo goodInfo = new OrderGoodInfo();
                 goodInfo.goods_id = mFoodInfoList.get(i).id;
                 goodInfo.goods_num = mFoodInfoList.get(i).num;
@@ -109,9 +108,9 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                 goodList.add(goodInfo);
             }
             String json = gson.toJson(goodList);
-            mPresenter.addOrder(json,"1",2,mId,"10","10","10");
-//            OrderPayPop pop = new OrderPayPop(this);
-//            pop.showPopupWindow();
+
+
+            mPresenter.addOrder(json, mStoreInfo.id+"", 2, mId, "10", "", "");
 
 
         }
@@ -127,7 +126,7 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                     mName = data.getStringExtra("name");
                     mPhone = data.getStringExtra("phone");
                     mAddress = data.getStringExtra("address");
-                    mId = data.getIntExtra("id",0);
+                    mId = data.getIntExtra("id", 0);
                     mTvAddress.setText(mAddress);
                     mTvName.setVisibility(View.VISIBLE);
                     mTvName.setText(mName + "     " + mPhone);
@@ -137,4 +136,9 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         }
     }
 
+    @Override
+    public void orderSuccess(String data) {
+        OrderPayPop pop = new OrderPayPop(this);
+        pop.showPopupWindow();
+    }
 }

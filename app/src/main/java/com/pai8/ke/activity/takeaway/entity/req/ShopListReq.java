@@ -4,4 +4,6 @@ public class ShopListReq {
 
     public String keywords;
     public String page;
+    public String longitude;
+    public String latitude;
 }

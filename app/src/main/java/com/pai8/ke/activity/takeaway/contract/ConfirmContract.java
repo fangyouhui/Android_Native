@@ -10,6 +10,8 @@ public interface ConfirmContract {
     interface View extends BaseView {
 
 
+        void orderSuccess(String data);
+
 
     }
 

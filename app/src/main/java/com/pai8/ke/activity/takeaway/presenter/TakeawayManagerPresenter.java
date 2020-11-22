@@ -7,8 +7,10 @@ import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ToastUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class TakeawayManagerPresenter extends BasePresenterImpl<TakeawayManagerContract.View> {
@@ -42,6 +44,34 @@ public class TakeawayManagerPresenter extends BasePresenterImpl<TakeawayManagerC
                 });
 
     }
+
+
+    public void goodslist(){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("shop_id", AccountManager.getInstance().getShopId());
+        TakeawayApi.getInstance().goodslist(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<List<ShopInfo>>() {
+                    @Override
+                    protected void onSuccess(List<ShopInfo> data) {
+                        view.getCategoryListSuccess(data);
+
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+
+    }
+
+
+
+
+
     /**
      * 添加类别
      */

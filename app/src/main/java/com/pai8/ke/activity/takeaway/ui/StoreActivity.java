@@ -18,6 +18,7 @@ import com.pai8.ke.activity.takeaway.contract.StoreContract;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
+import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.fragment.EvaluateFragment;
 import com.pai8.ke.activity.takeaway.fragment.GoodFragment;
@@ -29,6 +30,7 @@ import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.DensityUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 
@@ -59,6 +61,11 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private TextView mTvStoreName;
     private TextView mTvShopNum;
     private TextView mTvPrice;
+    private TextView mTvScore;
+    private TextView mTvMonthSale;
+    private TextView mTvDesc;
+    private TextView mTvStoreDis;
+    private TextView mTvTime;
 
     private int mStart = 0;
     private List<FoodGoodInfo> mGoodInfoList ;  //购物车
@@ -89,7 +96,12 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mIvShopCar = findViewById(R.id.iv_shop_car);
         mTvShopNum = findViewById(R.id.tv_shop_num);
         mTvPrice = findViewById(R.id.tv_price);
+        mTvMonthSale = findViewById(R.id.tv_month_sale);
+        mTvDesc = findViewById(R.id.item_tv_desc);
+        mTvStoreDis = findViewById(R.id.tv_store_km);
+        mTvTime = findViewById(R.id.item_tv_time);
 
+        mTvScore = findViewById(R.id.tv_store_score);
         mIvShopCar.setOnClickListener(this);
         findViewById(R.id.collapsing_toolbar).setBackgroundColor(Color.parseColor("#FFFFFF"));
         fragments = new ArrayList<>();
@@ -233,9 +245,20 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
         ImageLoadUtils.setCircularImage(this,mStoreInfo.shop_img,mIvStorePic,R.mipmap.ic_launcher);
         mTvStoreName.setText(mStoreInfo.shop_name);
+        mTvScore.setText(mStoreInfo.score+"");
+        mTvMonthSale.setText("月售 "+mStoreInfo.monthly_sale);
+        mTvDesc.setText(mStoreInfo.shop_desc);
+        mTvTime.setText(mStoreInfo.delivery_time);
+        String distance ;
+//        if(mStoreInfo.distance>1000){
+//            distance = mStoreInfo.distance/1000+"km";
+//        }else{
+//            distance = mStoreInfo.distance+"m";
+//        }
+        mTvStoreDis.setText(mStoreInfo.distance);
 
         ShopIdReq shopIdReq = new ShopIdReq();
-        shopIdReq.shop_id = "1";
+        shopIdReq.shop_id = mStoreInfo.id+"";
         mPresenter.addGood(shopIdReq);
 
 
@@ -258,7 +281,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             startActivity(intent);
         } else if(v.getId() == R.id.iv_store_collection){
             ShopIdReq addFoodReq = new ShopIdReq();
-            addFoodReq.shop_id = "6";
+            addFoodReq.shop_id = AccountManager.getInstance().getShopId();
             TakeawayApi.getInstance().collection(addFoodReq)
                     .doOnSubscribe(disposable -> {
                     })
@@ -290,5 +313,16 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     @Override
     public StorePresenter initPresenter() {
         return new StorePresenter(this);
+    }
+
+    @Override
+    public void getShopContentSuccess(ShopContent data) {
+        if(data.shop_info.is_collect == 1){
+            mIvCollection.setImageResource(R.mipmap.icon_rating_bar_normal);
+        }else{
+            mIvCollection.setImageResource(R.mipmap.icon_rating_bar_select);
+
+        }
+
     }
 }

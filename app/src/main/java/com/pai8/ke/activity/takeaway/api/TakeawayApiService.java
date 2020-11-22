@@ -1,11 +1,13 @@
 package com.pai8.ke.activity.takeaway.api;
 
+import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopListReq;
 import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
@@ -36,6 +38,11 @@ public interface TakeawayApiService {
     @POST("shop/upCategory")
     Observable<BaseRespose<ShopInfo>> addUpCategory(@Body UpCategoryReq parm);
 
+
+    @POST("shop/categoryEdit")
+    Observable<BaseRespose<ShopInfo>> categoryEdit(@Body UpCategoryReq parm);
+
+
     /**
      * 商家商品类别
      * @param parm
@@ -62,6 +69,11 @@ public interface TakeawayApiService {
     Observable<BaseRespose<String>> addFood(@Body AddFoodReq parm);
 
 
+    @POST("shop/editGoods")
+    Observable<BaseRespose<String>> editGoods(@Body AddFoodReq parm);
+
+    @POST("shop/foodDelete")
+    Observable<BaseRespose<String>> foodDelete(@Body RequestBody body);
     /**
      * 收获地址
      * @return
@@ -116,7 +128,21 @@ public interface TakeawayApiService {
      * @return
      */
     @POST("Order/orderList")
-    Observable<BaseRespose<String>> orderList(@Body RequestBody body);
+    Observable<BaseRespose<List<OrderInfo>>> orderList(@Body RequestBody body);
+
+
+    @POST("Order/orderDetail")
+    Observable<BaseRespose<OrderInfo>> orderDetail(@Body RequestBody body);
+
+
+    @POST("shop/shopComments")
+    Observable<BaseRespose<List<CommentInfo>>> shopComments(@Body RequestBody body);
+
+
+    @POST("shop/goodslist")
+    Observable<BaseRespose<List<ShopInfo>>> goodslist(@Body RequestBody body);
+
+
 
 
 }

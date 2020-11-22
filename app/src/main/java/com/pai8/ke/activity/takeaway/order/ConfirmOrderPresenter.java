@@ -36,7 +36,7 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
                 .subscribe(new BaseObserver<String>() {
                     @Override
                     protected void onSuccess(String data){
-
+                        view.orderSuccess(data);
                     }
 
                     @Override

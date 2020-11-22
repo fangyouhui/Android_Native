@@ -11,6 +11,15 @@ public interface AddGoodContract {
 
         void addGoodSuccess(String data);
 
+
+        void editGoodSuccess(String data);
+
+
+
+        void deleteGoodSuccess(String data);
+
+
+        void fail();
     }
 
 

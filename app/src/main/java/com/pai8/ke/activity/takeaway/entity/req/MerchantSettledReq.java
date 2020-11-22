@@ -20,4 +20,5 @@ public class MerchantSettledReq {
     public String longitude;
     public String latitude;
     public String shop_video;
+    public String house_number;
 }
