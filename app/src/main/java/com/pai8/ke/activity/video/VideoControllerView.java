@@ -79,7 +79,7 @@ public class VideoControllerView extends RelativeLayout {
     public void setVideoData(VideoResp videoData) {
         mVideoEntity = videoData;
         ImageLoadUtils.loadImage(mContext, videoData.getAvatar(), civAvatar, R.mipmap.img_head_def);
-        ImageLoadUtils.loadImage(mContext, videoData.getCover_path(), civCover, R.mipmap.ic_shop_def_circle);
+        ImageLoadUtils.loadImage(mContext, videoData.getShop_img(), civCover, R.mipmap.ic_shop_def_circle);
         tvLike.setText(videoData.getLike_counts() + "");
         tvComment.setText(videoData.getComment_counts() + "");
         tvName.setText(videoData.getUser_nickname());

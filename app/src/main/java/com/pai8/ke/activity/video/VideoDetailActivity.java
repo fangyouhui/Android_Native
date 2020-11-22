@@ -293,18 +293,15 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         mVideoView.start();
         mVideoView.setOnPreparedListener(mp -> {
             mp.setLooping(true);
-            mp.setOnInfoListener(new MediaPlayer.OnInfoListener() {
-                @Override
-                public boolean onInfo(MediaPlayer mp, int what, int extra) {
-                    if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                        // 延迟取消封面，避免加载视频黑屏
-                        MyApp.getMyAppHandler().postDelayed(() -> {
-                            ivCover.setVisibility(View.INVISIBLE);
-                            mIvCurCover = ivCover;
-                        }, 150);
-                    }
-                    return true;
+            mp.setOnInfoListener((mp1, what, extra) -> {
+                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                    // 延迟取消封面，避免加载视频黑屏
+                    MyApp.getMyAppHandler().postDelayed(() -> {
+                        ivCover.setVisibility(View.INVISIBLE);
+                        mIvCurCover = ivCover;
+                    }, 150);
                 }
+                return true;
             });
         });
     }
@@ -362,6 +359,9 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             @Override
             public void onGoSee() {
+                String shop_id = getCurVideo().getShop_id();
+                if (StringUtils.isNotEmpty(shop_id) || shop_id.equals("0")) return;
+
             }
         });
     }
@@ -453,21 +453,23 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         });
         tvBtnPhone.setOnClickListener(view1 -> {//电话
             String[] options = {"呼叫", "复制号码", "添加至手机通讯录"};
+            String mobile = getCurVideo().getMobile();
+            String shopName = getCurVideo().getShop_name();
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("这是电话号码，你可以")
                     .setItems(options, (dialogInterface, which) -> {
                         switch (which) {
                             case 0:
-                                AppUtils.intentCallPhone(VideoDetailActivity.this, "15061009506");
+                                AppUtils.intentCallPhone(VideoDetailActivity.this, mobile);
                                 break;
                             case 1:
-                                AppUtils.copyText("15061009506");
+                                AppUtils.copyText(mobile);
                                 toast("复制成功");
                                 break;
                             case 2:
-                                AppUtils.intentContactAdd(VideoDetailActivity.this, "郭浩", "郭浩",
-                                        "15061009506");
+                                AppUtils.intentContactAdd(VideoDetailActivity.this, shopName, shopName,
+                                        mobile);
                                 break;
                         }
                     }).show();
@@ -476,7 +478,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("私信")
-                    .setMessage("我的联系方式是：x")
+                    .setMessage("我的联系方式是：" + getCurVideo().getMobile())
                     .setPositiveButton("确认", null)
                     .show();
         });
@@ -484,7 +486,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("微信")
-                    .setMessage("我的微信号是：x")
+                    .setMessage("我的微信号是：" + getCurVideo().getWechat())
                     .setPositiveButton("确认", null)
                     .show();
         });

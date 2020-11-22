@@ -1,5 +1,6 @@
 package com.pai8.ke.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 
@@ -47,6 +48,12 @@ public class MainActivity extends BaseActivity {
     private List<Fragment> fragments = new ArrayList<>();
 
     private long mExitTime;
+
+    public static void launch(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

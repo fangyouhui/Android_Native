@@ -46,9 +46,9 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         viewHolder.tvName.setText(video.getUser_nickname());
         ImageLoadUtils.loadImage(mContext, video.getAvatar(), viewHolder.civAvatar, R.mipmap.img_head_def);
         viewHolder.tvTitle.setText(video.getVideo_desc());
-        if (isNearby) {
+        if (isNearby && StringUtils.isNotEmpty(video.getDistance())) {
             viewHolder.tvTagDistance.setVisibility(View.VISIBLE);
-            viewHolder.tvTagDistance.setText("1.2km");
+            viewHolder.tvTagDistance.setText(video.getDistance());
         } else {
             viewHolder.tvTagDistance.setVisibility(View.GONE);
         }

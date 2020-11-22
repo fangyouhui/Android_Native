@@ -7,25 +7,6 @@ import java.io.Serializable;
  */
 public class VideoResp implements Serializable {
 
-    /**
-     * id : 6
-     * video_desc : 给个广告
-     * video_path : https://jianshen.fyh5p8.com/short_video_20201012145738.mp4
-     * cover_path : https://jianshen.fyh5p8.com/short_video_20201012145738.mp4?vframe/jpg/offset/0
-     * like_counts : 0
-     * longitude : 120.734261
-     * latitude : 31.260296
-     * shop_id : 1
-     * comment_counts : 27
-     * look_counts : 0
-     * create_time : 2020-10-12
-     * user_id : 6
-     * user_nickname : 15050137225
-     * avatar :
-     * like_status : 0
-     * follow_status : 1
-     */
-
     private String id;
     private String video_desc;
     private String video_path;
@@ -33,7 +14,6 @@ public class VideoResp implements Serializable {
     private int like_counts;
     private String longitude;
     private String latitude;
-    private String shop_id;
     private int comment_counts;
     private int look_counts;
     private String create_time;
@@ -42,10 +22,14 @@ public class VideoResp implements Serializable {
     private String avatar;
     private int like_status;
     private int follow_status;
+
+    private String shop_id;
     private String shop_name;
+    private String shop_img;
     private String distance;
     private String business_district;
     private String mobile;
+    private String wechat;
 
     private String proxyUrl;
 
@@ -215,5 +199,21 @@ public class VideoResp implements Serializable {
 
     public void setProxyUrl(String proxyUrl) {
         this.proxyUrl = proxyUrl;
+    }
+
+    public String getShop_img() {
+        return shop_img;
+    }
+
+    public void setShop_img(String shop_img) {
+        this.shop_img = shop_img;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
     }
 }
