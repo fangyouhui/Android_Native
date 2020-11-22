@@ -76,7 +76,10 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
         mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return mRightList.get(position).isTitle() ? 1 : 1;
+                if(mRightList.size()>0){
+                    return mRightList.get(position).isTitle() ? 1 : 1;
+                }
+                return 0;
             }
         });
         mRvGoods.setLayoutManager(mManager);
@@ -100,7 +103,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                     FoodGoodInfo body = new FoodGoodInfo(goodInfos.get(j).name);
                     body.setTag(String.valueOf(i));
                     String name = goodInfos.get(j).title;
-//                    body.name = goodInfos.get(i).name;
+                    body.name = goods.get(i).name;
                     body.sell_price = goodInfos.get(j).sell_price;
                     body.id = goodInfos.get(j).id;
                     body.cover = goodInfos.get(j).cover;
@@ -187,9 +190,6 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                     case R.id.root:
                         content = "title";
                         break;
-                    case R.id.content:
-                        content = "content";
-                        break;
 
                 }
 
@@ -232,7 +232,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
 
     @Override
     public void check(int position, boolean isScroll) {
-        checkListener.check(position, isScroll);
+//        checkListener.check(position, isScroll);
         setChecked(position, isScroll);
     }
 

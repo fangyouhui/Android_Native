@@ -49,6 +49,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
     private String addressDetail;
     private String bankAddress;
     private String bankNo;
+    private String addressNumber;
     private Address mAddress;
     private ImageView mIvBusinessLicense;  //营业执照
     private ImageView mIvHealthLicense;  //卫生许可证
@@ -103,6 +104,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
         district = intent.getStringExtra("district");
         addressDetail = intent.getStringExtra("addressDetail");
         bankAddress = intent.getStringExtra("bankAddress");
+        addressNumber = intent.getStringExtra("addressNumber");
         bankNo = intent.getStringExtra("bankNo");
         mAddress = (Address) intent.getSerializableExtra("address");
 
@@ -269,7 +271,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
         red.latitude = mAddress.getLat() + "";
         red.longitude = mAddress.getLon() + "";
         red.shop_video = storeFrontPath;
-
+        red.house_number = addressNumber;
         TakeawayApi.getInstance().merchantSettled(red)
                 .doOnSubscribe(disposable -> {
                 })

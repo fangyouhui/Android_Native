@@ -82,9 +82,12 @@ public class MyApp extends Application {
         if (mAMapLocation == null) {
             locations.add("0");
             locations.add("0");
+            locations.add("0");
         } else {
             locations.add(mAMapLocation.getLongitude() + "");
             locations.add(mAMapLocation.getLatitude() + "");
+            locations.add(mAMapLocation.getAddress() + "");
+
         }
         return locations;
     }

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
+import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
+public class ItemHeaderDecoration1 extends RecyclerView.ItemDecoration {
     private int mTitleHeight;
-    private List<FoodGoodInfo> mDatas;
+    private List<AddFoodReq> mDatas;
     private LayoutInflater mInflater;
     private CheckListener mCheckListener;
     public static String currentTag = "0";//标记当前左侧选中的position，因为有可能选中的item，右侧不能置顶，所以强制替换掉当前的tag
@@ -32,7 +32,7 @@ public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
         mCheckListener = checkListener;
     }
 
-    public ItemHeaderDecoration(Context context, List<FoodGoodInfo> datas) {
+    public ItemHeaderDecoration1(Context context, List<AddFoodReq> datas) {
         this.mDatas = datas;
         Paint paint = new Paint();
         mTitleHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, context.getResources().getDisplayMetrics());
@@ -43,13 +43,13 @@ public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
     }
 
 
-    public ItemHeaderDecoration setData(List<FoodGoodInfo> mDatas) {
+    public ItemHeaderDecoration1 setData(List<AddFoodReq> mDatas) {
         this.mDatas = mDatas;
         return this;
     }
 
     public static void setCurrentTag(String currentTag) {
-        ItemHeaderDecoration.currentTag = currentTag;
+        ItemHeaderDecoration1.currentTag = currentTag;
     }
 
 
@@ -103,7 +103,7 @@ public class ItemHeaderDecoration extends RecyclerView.ItemDecoration {
     private void drawHeader(RecyclerView parent, int pos, Canvas canvas) {
         View topTitleView = mInflater.inflate(R.layout.item_food_title, parent, false);
         TextView tvTitle = (TextView) topTitleView.findViewById(R.id.tv_title);
-        tvTitle.setText(mDatas.get(pos).name);
+        tvTitle.setText(mDatas.get(pos).title);
         //绘制title开始
         int toDrawWidthSpec;//用于测量的widthMeasureSpec
         int toDrawHeightSpec;//用于测量的heightMeasureSpec

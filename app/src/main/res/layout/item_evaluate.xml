@@ -58,7 +58,7 @@
                     android:layout_gravity="center"
                     android:isIndicator="true"
                     android:numStars="5"
-                    android:rating="1.5"
+                    android:rating="0"
                     android:stepSize="0.1" />
 
             </RelativeLayout>
@@ -66,11 +66,12 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ImageView
         android:id="@+id/rv_comment_picture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:visibility="visible" />
 

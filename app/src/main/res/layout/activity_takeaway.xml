@@ -40,6 +40,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:singleLine="true"
+            android:maxLength="6"
+            android:drawablePadding="5dp"
+            android:textColor="@color/white"
+            android:gravity="center"
             android:layout_centerVertical="true"
             android:drawableStart="@mipmap/icon_location"
             android:paddingEnd="15dp" />
@@ -47,18 +52,23 @@
     </RelativeLayout>
 
 
-    <TextView
+
+
+    <EditText
+        android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:singleLine="true"
         android:background="@drawable/shape_search"
         android:drawableStart="@mipmap/ic_search"
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
+        android:textSize="14sp"
         android:paddingStart="16dp"
-        android:text="请输入你想搜索的内容…"
+        android:hint="请输入你想搜索的内容…"
 
         />
 

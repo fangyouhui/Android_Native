@@ -74,8 +74,10 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.takeaway.ui.TakeawayActivity" />
-        <activity android:name=".activity.takeaway.ui.AddressActivity" />
+        <activity android:name=".activity.takeaway.ui.TakeawayActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activity.takeaway.ui.AddressActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".activity.takeaway.ui.StoreActivity" />
         <activity android:name=".activity.takeaway.ui.StoreManagerActivity" />
         <activity android:name=".activity.takeaway.ui.OrderProcessingActivity" />

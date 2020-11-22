@@ -2,8 +2,11 @@ package com.pai8.ke.activity.takeaway.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
@@ -11,10 +14,16 @@ import com.pai8.ke.activity.takeaway.adapter.TakeawayAdapter;
 import com.pai8.ke.activity.takeaway.contract.TakeawayContract;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.activity.takeaway.presenter.TakeawayPresenter;
+import com.pai8.ke.app.MyApp;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.entity.Address;
+import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +31,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import razerdp.util.KeyboardUtils;
 
 public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> implements View.OnClickListener , TakeawayContract.View {
 
@@ -30,6 +40,11 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
     private TakeawayAdapter mAdapter;
     private RecyclerView mRvStore;
     private Banner mBanner;
+    private EditText mEtSearch;
+    private String key;
+    private TextView mTvAddress;
+    private int page = 1;
+    private String lon,lat;
 
     @Override
     public int getLayoutId() {
@@ -42,11 +57,21 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
         mRvStore = findViewById(R.id.rv_store);
         mBanner = findViewById(R.id.banner);
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
-        findViewById(R.id.toolbar_iv_menu).setOnClickListener(this);
+        mTvAddress = findViewById(R.id.toolbar_iv_menu);
+        mEtSearch = findViewById(R.id.et_search);
+        mTvAddress.setOnClickListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRvStore.setLayoutManager(linearLayoutManager);
         mAdapter = new TakeawayAdapter(null);
         mRvStore.setAdapter(mAdapter);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                page++;
+                p.getShopList(key,page,lon,lat);
+            }
+        }, mRvStore);
+
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -56,14 +81,47 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
                 startActivity(intent);
             }
         });
-    }
 
+        mEtSearch.setOnKeyListener((v, keyCode, event) -> {        // 开始搜索
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                KeyboardUtils.close(this);
+                //搜索逻辑
+                page = 1;
+                key = mEtSearch.getText().toString();
+                p.getShopList(key,page,lon,lat);
+                return true;
+            }
+            return false;
+        });
+
+    }
+    private Address mAddress;
+
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EventCode.EVENT_CHOOSE_ADDRESS:
+                page = 1;
+                mAddress = (Address) event.getData();
+                mTvAddress.setText(mAddress.getAddress());
+                lat = mAddress.getLat()+"";
+                lon = mAddress.getLon()+"";
+                mPresenter.getShopList(key,page,lon,lat);
+                break;
+        }
+    }
 
     @Override
     public void initData() {
         super.initData();
+        EventBus.getDefault().register(this);
+        mTvAddress.setText(MyApp.getLngLat().get(2));
         p = new TakeawayPresenter(this);
-        p.getShopList("",1);
+        lat = MyApp.getLngLat().get(0);
+        lon =  MyApp.getLngLat().get(1);
+        mPresenter.getShopList(key,page,lon,lat);
 
 
     }
@@ -72,9 +130,7 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
     public void onClick(View v) {
         if (v.getId() == R.id.toolbar_back_all) {
             startActivity(new Intent(this, StoreManagerActivity.class));
-
         } else if (v.getId() == R.id.toolbar_iv_menu) {
-
             startActivity(new Intent(this, AddressActivity.class));
         }
     }
@@ -90,7 +146,11 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
             mBanner.setImages(images);
             mBanner.start();
         }
-        mAdapter.setNewData(data.shop_list);
+        if(page == 1){
+            mAdapter.setNewData(data.shop_list);
+        }else{
+            mAdapter.addData(data.shop_list);
+        }
     }
 
     @Override
@@ -108,5 +168,11 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
 
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -60,7 +60,7 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
         for (int i = 0; i < 10; i++) {
             list.add("1");
         }
-        mAdapter = new OrderAdapter(list);
+        mAdapter = new OrderAdapter(null);
         mRvOrder.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

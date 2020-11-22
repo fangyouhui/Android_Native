@@ -2,6 +2,7 @@ package com.pai8.ke.activity.takeaway.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
@@ -11,6 +12,7 @@ import com.pai8.ke.activity.takeaway.entity.event.ShopDataEvent;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.presenter.StoreFragmentPresenter;
 import com.pai8.ke.base.BaseMvpFragment;
+import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,6 +22,8 @@ public class StoreFragment extends BaseMvpFragment<StoreFragmentPresenter> imple
 
     private TextView mTvStoreName;
     private TextView mTvAddress,mTvPhone;
+    private ImageView mIvShopImg;
+    private ImageView mIvHealthImg;
 
     @Override
     public StoreFragmentPresenter initPresenter() {
@@ -37,6 +41,8 @@ public class StoreFragment extends BaseMvpFragment<StoreFragmentPresenter> imple
         mTvStoreName = mRootView.findViewById(R.id.tv_store_name);
         mTvAddress = mRootView.findViewById(R.id.tv_address);
         mTvPhone = mRootView.findViewById(R.id.tv_phone);
+        mIvShopImg = mRootView.findViewById(R.id.iv_shop_img);
+        mIvHealthImg = mRootView.findViewById(R.id.iv_health_img);
 
 
     }
@@ -49,6 +55,9 @@ public class StoreFragment extends BaseMvpFragment<StoreFragmentPresenter> imple
             mTvStoreName.setText(data.shop_name);
             mTvAddress.setText(data.address);
             mTvPhone.setText(data.mobile);
+            ImageLoadUtils.setRectImage(getActivity(),data.business_license,mIvShopImg);
+            ImageLoadUtils.setRectImage(getActivity(),data.health_permit,mIvHealthImg);
+
 
         }
 

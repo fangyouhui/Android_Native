@@ -7,22 +7,23 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderAdapter;
+import com.pai8.ke.activity.takeaway.contract.OrderContract;
+import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.presenter.OrderPresenter;
 import com.pai8.ke.base.BaseMvpFragment;
-import com.pai8.ke.base.BasePresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class OrderFragment extends BaseMvpFragment {
+public class OrderFragment extends BaseMvpFragment<OrderPresenter> implements OrderContract.View {
 
     private RecyclerView mRvOrder;
     private OrderAdapter mAdapter;
     @Override
-    public BasePresenter initPresenter() {
-        return null;
+    public OrderPresenter initPresenter() {
+        return new OrderPresenter(this);
     }
 
     @Override
@@ -40,11 +41,8 @@ public class OrderFragment extends BaseMvpFragment {
     protected void initData() {
         super.initData();
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("1");
-        }
-        mAdapter = new OrderAdapter(list);
+        mPresenter.orderList(2);
+        mAdapter = new OrderAdapter(null);
         mRvOrder.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -54,5 +52,14 @@ public class OrderFragment extends BaseMvpFragment {
             }
         });
 
+
+
+
+
+    }
+
+    @Override
+    public void orderListSuccess(List<OrderInfo> data) {
+        mAdapter.setNewData(data);
     }
 }

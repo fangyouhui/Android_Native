@@ -135,7 +135,6 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
         android:layout_marginTop="6dp"
-        android:text="| 配送费 ¥5"
         android:textColor="@color/color_mid_font"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@+id/item_iv_pic"
