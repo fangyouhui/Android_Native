@@ -13,6 +13,7 @@ import com.pai8.ke.activity.takeaway.contract.ConfirmContract;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
 import com.pai8.ke.activity.takeaway.widget.OrderPayPop;
 import com.pai8.ke.base.BaseMvpActivity;
@@ -130,6 +131,7 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                     mTvAddress.setText(mAddress);
                     mTvName.setVisibility(View.VISIBLE);
                     mTvName.setText(mName + "     " + mPhone);
+                    mPresenter.waimaiPrice(mStoreInfo.id+"",mId);
 
                     break;
             }
@@ -140,5 +142,10 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     public void orderSuccess(String data) {
         OrderPayPop pop = new OrderPayPop(this);
         pop.showPopupWindow();
+    }
+
+    @Override
+    public void waimaiSuccess(WaimaiResq data) {
+
     }
 }

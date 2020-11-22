@@ -41,7 +41,7 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
     private RecyclerView mRvStore;
     private Banner mBanner;
     private EditText mEtSearch;
-    private String key;
+    private String key = "";
     private TextView mTvAddress;
     private int page = 1;
     private String lon,lat;
@@ -119,8 +119,8 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
         EventBus.getDefault().register(this);
         mTvAddress.setText(MyApp.getLngLat().get(2));
         p = new TakeawayPresenter(this);
-        lat = MyApp.getLngLat().get(0);
-        lon =  MyApp.getLngLat().get(1);
+        lat = MyApp.getLngLat().get(1);
+        lon =  MyApp.getLngLat().get(0);
         mPresenter.getShopList(key,page,lon,lat);
 
 

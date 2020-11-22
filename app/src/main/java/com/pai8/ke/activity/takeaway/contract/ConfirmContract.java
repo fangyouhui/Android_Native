@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.takeaway.contract;
 
 
+import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.base.BaseView;
 
 /*
@@ -11,6 +12,9 @@ public interface ConfirmContract {
 
 
         void orderSuccess(String data);
+
+
+        void waimaiSuccess(WaimaiResq data);
 
 
     }

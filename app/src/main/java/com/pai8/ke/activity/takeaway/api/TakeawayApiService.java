@@ -11,6 +11,7 @@ import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
+import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.base.BaseRespose;
 
 import java.util.List;
@@ -143,6 +144,8 @@ public interface TakeawayApiService {
     Observable<BaseRespose<List<ShopInfo>>> goodslist(@Body RequestBody body);
 
 
+    @POST("Order/waimaiPrice")
+    Observable<BaseRespose<WaimaiResq>> waimaiPrice(@Body RequestBody body);
 
 
 }
