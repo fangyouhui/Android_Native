@@ -2,6 +2,16 @@ package com.pai8.ke.entity.resp;
 
 
 public class UserInfo {
+    private String id;
+    private String name;
+    private String avatar;
+    private String token;
+    private String user_nickname;
+    private String create_time;
+    private String pwd;
+    private String openid;
+    private String uid;
+    private String phone;
 
     public String getId() {
         return id;
@@ -82,17 +92,5 @@ public class UserInfo {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    private String id;
-    private String name;
-    private String avatar;
-    private String token;
-    private String user_nickname;
-    private String create_time;
-    private String pwd;
-    private String openid;
-    private String uid;
-    private String phone;
-
 
 }

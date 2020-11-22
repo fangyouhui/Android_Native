@@ -2,11 +2,13 @@ package com.pai8.ke.manager;
 
 
 import com.pai8.ke.app.MyApp;
+import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
 
 import cn.jpush.android.api.JPushInterface;
+import retrofit2.http.PUT;
 
 /**
  * 账户统一管理
@@ -89,6 +91,7 @@ public class AccountManager {
         PreferencesUtils.put(MyApp.getMyApp(), "avatar", "");
         PreferencesUtils.put(MyApp.getMyApp(), "phone", "");
         PreferencesUtils.put(MyApp.getMyApp(), "token", "");
+        clearShopInfo();
     }
 
     /**
@@ -97,6 +100,28 @@ public class AccountManager {
     public void logout() {
         clearUserInfo();
         ActivityManager.getInstance().finishToHome();
+    }
+
+    public void saveShopInfo(MyInfoResp infoResp) {
+        if (infoResp == null) return;
+        PreferencesUtils.put(MyApp.getMyApp(), "shop_id", StringUtils.strSafe(infoResp.getShop_id()));
+        PreferencesUtils.put(MyApp.getMyApp(), "verify_status", infoResp.getVerify_status());
+    }
+
+    public MyInfoResp getShopInfo() {
+        MyInfoResp myInfoResp = new MyInfoResp();
+        myInfoResp.setShop_id((String) PreferencesUtils.get(MyApp.getMyApp(), "shop_id", ""));
+        myInfoResp.setVerify_status((int) PreferencesUtils.get(MyApp.getMyApp(), "verify_status", 0));
+        return myInfoResp;
+    }
+
+    public String getShopId() {
+        return (String) PreferencesUtils.get(MyApp.getMyApp(), "shop_id", "");
+    }
+
+    public void clearShopInfo() {
+        PreferencesUtils.put(MyApp.getMyApp(), "shop_id", "");
+        PreferencesUtils.put(MyApp.getMyApp(), "verify_status", 0);
     }
 
 }

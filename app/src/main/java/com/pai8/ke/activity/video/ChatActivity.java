@@ -8,12 +8,10 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
-import com.gh.qiniushortvideo.activity.MediaSelectActivity;
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.api.Api;
@@ -22,18 +20,14 @@ import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.PushBiz;
-import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.fragment.chat.ChatAudioCrlFragment;
 import com.pai8.ke.fragment.chat.ChatVideoCrlFragment;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnChatCrlListener;
-import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.manager.QNRTCManager;
-import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.DensityUtils;
 import com.pai8.ke.utils.LogUtils;
-import com.pai8.ke.utils.StringUtils;
 import com.qiniu.droid.rtc.QNCustomMessage;
 import com.qiniu.droid.rtc.QNRTCEngine;
 import com.qiniu.droid.rtc.QNRTCEngineEventListener;
@@ -46,19 +40,15 @@ import com.qiniu.droid.rtc.QNTrackKind;
 import com.qiniu.droid.rtc.model.QNAudioDevice;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityOptionsCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.gh.qiniushortvideo.utils.Utils.dip2px;
-import static com.mob.tools.utils.ResHelper.getScreenHeight;
-import static net.lucode.hackware.magicindicator.buildins.UIUtil.getScreenWidth;
 
 public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
@@ -108,9 +98,10 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
     private List<QNTrackInfo> mLocalVideoTracks = new ArrayList<>();
 
     private boolean mSate = false;
-    private int defaultLocalMargin = dip2px(this, 28);
-    private int defaultLocalWidth = dip2px(this, 120);
-    private int defaultLocalHeight = dip2px(this, 180);
+
+    private int defaultLocalMargin;
+    private int defaultLocalWidth;
+    private int defaultLocalHeight;
 
     public static void launch(Context context, @BizType int bizType, @IntentType int intentType,
                               String remoteId) {
@@ -178,6 +169,10 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
                     .setMaster(true)
                     .create();
             mEngine.setRenderWindow(mLocalVideoTrack, mLocalWindow);
+
+            defaultLocalMargin = DensityUtils.dp2px(this, 28);
+            defaultLocalWidth = DensityUtils.dp2px(this, 120);
+            defaultLocalHeight = DensityUtils.dp2px(this, 180);
 
             zoomOpera(rlLocal, mLocalWindow, rlRemote, mRemoteWindow);
 
@@ -468,6 +463,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
             toast("已开启声音");
         }
         mLocalAudioTrack.setMuted(isSilent);
+        mEngine.muteTracks(Collections.singletonList(mLocalAudioTrack));
     }
 
     @Override

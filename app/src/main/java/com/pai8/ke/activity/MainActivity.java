@@ -9,15 +9,20 @@ import com.next.easynavigation.view.EasyNavigationBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.video.ChatActivity;
 import com.pai8.ke.activity.video.VideoPublishActivity;
+import com.pai8.ke.api.Api;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.fragment.home.TabHomeFragment;
 import com.pai8.ke.fragment.me.TabMeFragment;
 import com.pai8.ke.fragment.pai.TabCameraFragment;
 import com.pai8.ke.fragment.shop.TabShopFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
 import com.pai8.ke.global.EventCode;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -88,12 +93,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        MyApp.getMyAppHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                MyApp.setJPushAlias();
-            }
-        }, 1000);
+        getShopInfo();
+        MyApp.getMyAppHandler().postDelayed(() -> MyApp.setJPushAlias(), 1000);
     }
 
     @Override
@@ -108,6 +109,25 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void getShopInfo() {
+        if (!mAccountManager.isLogin()) return;
+        Api.getInstance().getMyInfo()
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<MyInfoResp>() {
+                    @Override
+                    protected void onSuccess(MyInfoResp myInfoResp) {
+                        AccountManager.getInstance().saveShopInfo(myInfoResp);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+
+                    }
+                });
     }
 
 }

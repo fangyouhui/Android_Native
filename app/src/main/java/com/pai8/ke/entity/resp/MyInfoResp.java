@@ -6,6 +6,7 @@ public class MyInfoResp {
     private int my_likes;
     private int my_history;
     private int verify_status;
+    private String shop_id;
 
     public int getMy_follows() {
         return my_follows;
@@ -45,5 +46,13 @@ public class MyInfoResp {
 
     public void setVerify_status(int verify_status) {
         this.verify_status = verify_status;
+    }
+
+    public String getShop_id() {
+        return shop_id;
+    }
+
+    public void setShop_id(String shop_id) {
+        this.shop_id = shop_id;
     }
 }
