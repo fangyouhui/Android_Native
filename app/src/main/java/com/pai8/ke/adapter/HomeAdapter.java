@@ -52,6 +52,11 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         } else {
             viewHolder.tvTagDistance.setVisibility(View.GONE);
         }
+        if (video.getOnsale() == 1) {
+            viewHolder.tvTagOnsale.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.tvTagOnsale.setVisibility(View.GONE);
+        }
     }
 
     static class ViewHolder extends BaseViewHolder {
@@ -69,6 +74,8 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         TextView tvLookCount;
         @BindView(R.id.tv_tag_dist)
         TextView tvTagDistance;
+        @BindView(R.id.tv_tag_onsale)
+        TextView tvTagOnsale;
 
         public ViewHolder(View itemView) {
             super(itemView);

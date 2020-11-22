@@ -11,6 +11,7 @@ import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
 
 import java.util.List;
@@ -185,8 +186,8 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("index/nearbyVideoList")
-    Observable<BaseRespose<List<VideoResp>>> nearbyVideoList(@Field("keywords") String keywords,
-                                                             @Field("page") int page);
+    Observable<BaseRespose<VideoNearResp>> nearbyVideoList(@Field("keywords") String keywords,
+                                                           @Field("page") int page);
 
     /**
      * 关注的视频列表

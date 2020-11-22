@@ -22,7 +22,7 @@ public class VideoResp implements Serializable {
     private String avatar;
     private int like_status;
     private int follow_status;
-
+    private int onsale;
     private String shop_id;
     private String shop_name;
     private String shop_img;
@@ -215,5 +215,13 @@ public class VideoResp implements Serializable {
 
     public void setWechat(String wechat) {
         this.wechat = wechat;
+    }
+
+    public int getOnsale() {
+        return onsale;
+    }
+
+    public void setOnsale(int onsale) {
+        this.onsale = onsale;
     }
 }

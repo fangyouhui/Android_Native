@@ -4,6 +4,7 @@ import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
@@ -54,19 +55,20 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<VideoNearResp>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> list) {
+                    protected void onSuccess(VideoNearResp data) {
                         view.refreshComplete();
+                        List<VideoResp> videos = data.getVidoe_list();
                         if (tag == GlobalConstants.REFRESH) {
-                            if (CollectionUtils.isEmpty(list)) {
+                            if (CollectionUtils.isEmpty(videos)) {
                                 view.toast("数据为空");
                                 return;
                             }
-                            view.videoList(list, tag);
+                            view.videoList(videos, tag);
                         }
                         if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(list, tag);
+                            view.videoList(videos, tag);
                         }
                     }
 
