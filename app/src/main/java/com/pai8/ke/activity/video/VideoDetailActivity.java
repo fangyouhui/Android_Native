@@ -18,6 +18,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.common.VideoViewActivity;
+import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.activity.video.adapter.CommentAdapter;
 import com.pai8.ke.activity.video.adapter.VideoDetailAdapter;
 import com.pai8.ke.activity.video.contract.ReportContract;
@@ -360,8 +361,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
             @Override
             public void onGoSee() {
                 String shop_id = getCurVideo().getShop_id();
-                if (StringUtils.isNotEmpty(shop_id) || shop_id.equals("0")) return;
-
+                StoreActivity.launch(VideoDetailActivity.this, shop_id);
             }
         });
     }
