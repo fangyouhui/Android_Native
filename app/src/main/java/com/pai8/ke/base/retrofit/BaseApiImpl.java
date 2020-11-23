@@ -8,6 +8,7 @@ import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.HttpsUtils;
 import com.pai8.ke.utils.LogUtils;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -127,6 +128,7 @@ public class BaseApiImpl implements BaseApi {
             builder.addHeader("authKey", AccountManager.getInstance().getToken());
             builder.addHeader("longitude", MyApp.getLngLat().get(0));
             builder.addHeader("latitude", MyApp.getLngLat().get(1));
+            builder.addHeader("city", URLEncoder.encode(MyApp.getCity(), "UTF-8"));
             return chain.proceed(builder.build());
 
         };
