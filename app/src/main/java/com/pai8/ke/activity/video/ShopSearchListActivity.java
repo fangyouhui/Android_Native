@@ -181,15 +181,14 @@ public class ShopSearchListActivity extends BaseActivity implements SwipeRefresh
         } else {
             tvStatus.setText("附件店铺");
         }
-        Api.getInstance().shopList(mPageNo, mKeywords)
+        Api.getInstance().shopSelect(mPageNo, mKeywords)
                 .doOnSubscribe(disposable -> {
 
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<ShopListResp>() {
+                .subscribe(new BaseObserver<List<ShopList>>() {
                     @Override
-                    protected void onSuccess(ShopListResp shopListResp) {
-                        List<ShopList> list = shopListResp.getShop_list();
+                    protected void onSuccess(List<ShopList> list) {
                         refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             mAdapter.setDataList(list);

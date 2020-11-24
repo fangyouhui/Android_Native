@@ -49,7 +49,7 @@ public class ShopSearchListAdapter extends BaseRecyclerViewAdapter<ShopList> {
         ImageLoadUtils.loadImage(mContext, data.getShop_img(), viewHolder.civCover,
                 R.mipmap.ic_shop_def_react);
         viewHolder.tvShopName.setText(data.getShop_name());
-        viewHolder.tvShopAddress.setText(data.getShop_desc());
+        viewHolder.tvShopAddress.setText(data.getAddress());
     }
 
     static class ViewHolder extends BaseViewHolder {

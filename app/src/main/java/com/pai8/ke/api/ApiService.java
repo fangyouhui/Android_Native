@@ -5,6 +5,7 @@ import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.MyInfoResp;
+import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.entity.resp.ShopListResp;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.Province;
@@ -271,9 +272,9 @@ public interface ApiService {
      * 商家列表
      */
     @FormUrlEncoded
-    @POST("shop/shopList")
-    Observable<BaseRespose<ShopListResp>> shopList(@Field("page") int page,
-                                                   @Field("keywords") String keywords);
+    @POST("shop/shopSelect")
+    Observable<BaseRespose<List<ShopList>>> shopSelect(@Field("page") int page,
+                                                       @Field("keywords") String keywords);
 
     @FormUrlEncoded
     @POST("Order/orderPrepay")
