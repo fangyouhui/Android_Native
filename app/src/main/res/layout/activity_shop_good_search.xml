@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F4F7"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/base_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/color_white"
         android:gravity="center_vertical">
 
         <ImageView
@@ -22,8 +19,7 @@
             android:paddingTop="10dp"
             android:paddingRight="20dp"
             android:paddingBottom="10dp"
-            android:src="@mipmap/icon_back"
-            app:tint="@color/color_black" />
+            android:src="@mipmap/icon_close" />
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -33,29 +29,61 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:singleLine="true"
-            android:text="订单处理"
-            android:textColor="@color/color_black"
+            android:text="商品搜索"
+            android:textColor="@color/text_black"
             android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/toolbar_iv_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:text="筛选"
-            android:textColor="@color/color_black"
-            android:textSize="15sp" />
 
     </RelativeLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_order"
-        android:layout_marginTop="16dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+
+        >
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_toStartOf="@+id/tv_cancel"
+            android:background="@drawable/shape_search"
+            android:drawableStart="@mipmap/ic_search"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            android:paddingStart="16dp"
+            android:hint="请输入你想搜索的内容…"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:text="取消"
+            android:textColor="@color/colorPrimary" />
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_shop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_bg"
+    />
 
 
 </LinearLayout>

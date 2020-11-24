@@ -5,16 +5,27 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
+import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
+import com.pai8.ke.activity.takeaway.entity.OrderGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
 
@@ -83,6 +94,20 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvAddGoods.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            if(goodInfoList.size()<=0){
+                                Gson gson = new Gson();
+                                List<OrderGoodInfo> goodList = new ArrayList<>();
+                                OrderGoodInfo orderGoodInfo = new OrderGoodInfo();
+                                orderGoodInfo.goods_price = food.sell_price;
+                                orderGoodInfo.goods_num = food.num;
+                                orderGoodInfo.id  = food.id;
+                                goodList.add(orderGoodInfo);
+                                String json = gson.toJson(goodList);
+                                addCart(json,food.shop_id+"");
+
+                            }
+
+
                             final int[] endXY = new int[2];
                             v.getLocationInWindow(endXY);
                             boolean isAdd = false;//不存在相同ID
@@ -181,6 +206,34 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
     }
 
 
+    public void addCart(String goods_info,String shop_id){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("goods_info",goods_info);
+        map.put("buyer_id", AccountManager.getInstance().getUid());
+        map.put("shop_id",shop_id);
+        TakeawayApi.getInstance().addCart(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onSuccess(String data){
+
+                    }
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+
+
+    public RequestBody createRequestBody(Map map) {
+        String json = new Gson().toJson(map);
+        RequestBody requestBody = RequestBody.create(json, MediaType.parse("application/json"));
+        return requestBody;
+    }
 
 
 }

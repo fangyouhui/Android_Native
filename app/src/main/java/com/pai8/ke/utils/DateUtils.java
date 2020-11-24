@@ -1,6 +1,5 @@
 package com.pai8.ke.utils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -13,6 +12,7 @@ public class DateUtils {
 
     public static final String FORMAT_YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
     public static final String FORMAT_YYYY_MM_DD_HHMMSS = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_YYYY_MM_DD_HHMM = "yyyy-MM-dd HH:mm";
     public static final String FORMAT_HHMMSS = "HH:mm:ss";
     public static final String FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
 

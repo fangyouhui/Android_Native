@@ -32,11 +32,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_pack_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -60,11 +60,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_send_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -88,11 +88,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_coupon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -117,6 +117,7 @@
 
             <TextView
 
+                android:id="@+id/tv_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -144,7 +145,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="18"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp" />
 
@@ -189,7 +189,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -216,7 +215,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -239,11 +237,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -286,11 +284,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_order_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 
@@ -313,11 +311,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_order_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 

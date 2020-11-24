@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.takeaway.api;
 
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
@@ -123,6 +124,10 @@ public interface TakeawayApiService {
     Observable<BaseRespose<String>> addOrder(@Body RequestBody body);
 
 
+
+    @POST("Order/shopOrderList")
+    Observable<BaseRespose<List<OrderInfo>>> shopOrderList(@Body RequestBody body);
+
     /**
      * 获取订单列表
      * @param body
@@ -130,6 +135,9 @@ public interface TakeawayApiService {
      */
     @POST("Order/orderList")
     Observable<BaseRespose<List<OrderInfo>>> orderList(@Body RequestBody body);
+
+    @POST("Order/cancelOrder")
+    Observable<BaseRespose<String>> cancelOrder(@Body RequestBody body);
 
 
     @POST("Order/orderDetail")
@@ -146,6 +154,14 @@ public interface TakeawayApiService {
 
     @POST("Order/waimaiPrice")
     Observable<BaseRespose<WaimaiResq>> waimaiPrice(@Body RequestBody body);
+
+
+    @POST("Order/addCart")
+    Observable<BaseRespose<String>> addCart(@Body RequestBody body);
+
+    @POST("Order/getCart")
+    Observable<BaseRespose<ShopFoodGoodInfo>> getCart(@Body RequestBody body);
+
 
 
 }

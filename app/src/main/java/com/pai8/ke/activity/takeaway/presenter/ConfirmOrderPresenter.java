@@ -1,4 +1,4 @@
-package com.pai8.ke.activity.takeaway.order;
+package com.pai8.ke.activity.takeaway.presenter;
 
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.ConfirmContract;
@@ -18,7 +18,7 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
 
 
 
-    public void waimaiPrice(String shop_id,int address_id){
+    public void waimaiPrice(int shop_id,int address_id){
         HashMap<String, Object> map = new HashMap<>();
         map.put("shop_id",shop_id);
         map.put("address_id",address_id);
@@ -41,7 +41,7 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
 
 
     public void addOrder(String goods_info,String shop_id,int order_type,int address_id,String express_price
-            ,String order_discount_coupon_id,String express_discount_coupon_id){
+            ,String order_discount_coupon_id,String express_discount_coupon_id,String box_price){
         HashMap<String, Object> map = new HashMap<>();
         map.put("goods_info",goods_info);
         map.put("buyer_id", AccountManager.getInstance().getUid());
@@ -51,6 +51,7 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
         map.put("express_price",express_price);  //配送费用
         map.put("order_discount_coupon_id",order_discount_coupon_id);  //满减优惠券ID
         map.put("express_discount_coupon_id",express_discount_coupon_id);
+        map.put("box_price",box_price);
         TakeawayApi.getInstance().addOrder(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })

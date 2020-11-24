@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_bank_no"
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="待付款"
@@ -24,10 +24,11 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_bank_address"
+            android:id="@+id/tv_status_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:text="请在29:59s内进行付款，否则订单讲自动取消"
             android:textColor="@color/color_light_font"
@@ -35,7 +36,7 @@
 
 
         <TextView
-            android:id="@+id/tv_next"
+            android:id="@+id/tv_status_pay"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:background="@drawable/shape_orgin_gradient"

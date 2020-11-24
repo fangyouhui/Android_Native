@@ -1,17 +1,17 @@
 package com.pai8.ke.activity.takeaway.ui;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.adapter.OrderAdapter;
 import com.pai8.ke.activity.takeaway.adapter.OrderStatusAdapter;
+import com.pai8.ke.activity.takeaway.adapter.ShopOrderAdapter;
+import com.pai8.ke.activity.takeaway.contract.ShopOrderContract;
+import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
-import com.pai8.ke.activity.takeaway.order.OrderDetailActivity;
+import com.pai8.ke.activity.takeaway.presenter.ShopOrderPresenter;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.widget.BottomDialog;
 
 import java.util.ArrayList;
@@ -21,17 +21,18 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class OrderProcessingActivity extends BaseMvpActivity implements View.OnClickListener {
+public class OrderProcessingActivity extends BaseMvpActivity<ShopOrderPresenter> implements View.OnClickListener, ShopOrderContract.View {
 
     private RecyclerView mRvOrder;
-    private OrderAdapter mAdapter;
+    private ShopOrderAdapter mAdapter;
 
     private BottomDialog mOrderFilterDialog;
 
+    private int page = 1;
 
     @Override
-    public BasePresenter initPresenter() {
-        return null;
+    public ShopOrderPresenter initPresenter() {
+        return new ShopOrderPresenter(this);
     }
 
     @Override
@@ -56,20 +57,10 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
         super.initData();
 
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("1");
-        }
-        mAdapter = new OrderAdapter(null);
+        mAdapter = new ShopOrderAdapter(null);
         mRvOrder.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                startActivity(new Intent(OrderProcessingActivity.this, OrderDetailActivity.class));
-            }
-        });
-
+        mPresenter.orderList("",page);
 
     }
 
@@ -132,4 +123,8 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
     }
 
 
+    @Override
+    public void getShopListSuccess(List<OrderInfo> data) {
+        mAdapter.setNewData(data);
+    }
 }
