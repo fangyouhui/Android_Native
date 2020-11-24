@@ -33,46 +33,17 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:singleLine="true"
-            android:text="商品管理"
+            android:text="选择优惠券"
             android:textColor="@color/text_black"
             android:textSize="18sp" />
 
     </RelativeLayout>
 
 
-    <LinearLayout
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_coupon"
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="wrap_content"
-        android:background="@color/color_white">
-
-        <com.flyco.tablayout.SlidingTabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="@color/color_white"
-            app:tl_divider_padding="2dp"
-            app:tl_indicator_color="@color/colorPrimary"
-            app:tl_indicator_height="2dp"
-            app:tl_indicator_width="25dp"
-            app:tl_tab_padding="2dp"
-            app:tl_tab_space_equal="true"
-            app:tl_textBold="BOTH"
-            app:tl_textSelectColor="@color/text_black"
-            app:tl_textUnselectColor="@color/color_light_font"
-            app:tl_textsize="14sp"
-            app:tl_underline_gravity="BOTTOM" />
-
-    </LinearLayout>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp_balance"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:layout_weight="1" />
-
+        />
 
 </LinearLayout>

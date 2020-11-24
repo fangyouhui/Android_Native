@@ -3,7 +3,6 @@ package com.pai8.ke.activity.takeaway.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,6 @@ import com.pai8.ke.activity.takeaway.order.ConfirmOrderActivity;
 import com.pai8.ke.activity.takeaway.presenter.StorePresenter;
 import com.pai8.ke.activity.takeaway.utils.AddToCartUtil;
 import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
-import com.pai8.ke.activity.video.ChatActivity;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
@@ -264,7 +262,8 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         setData(mStoreInfo);
         ShopIdReq shopIdReq = new ShopIdReq();
         shopIdReq.shop_id = mStoreInfo.id + "";
-        mPresenter.addGood(shopIdReq);
+        mPresenter.shopContent(shopIdReq);
+        mPresenter.getCart( mStoreInfo.id + "");
 
 
     }
@@ -289,7 +288,9 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     public void onClick(View v) {
         if (v.getId() == R.id.back_all) {
             finish();
-        } else if (v.getId() == R.id.iv_shop_car) {
+        } else if(v.getId() == R.id.iv_store_search){
+            startActivity(new Intent(this,ShopGoodSearchActivity.class));
+        }else if (v.getId() == R.id.iv_shop_car) {
             if (mGoodInfoList == null || mGoodInfoList.size() <= 0) {
                 return;
             }

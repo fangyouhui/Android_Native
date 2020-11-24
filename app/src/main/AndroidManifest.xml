@@ -146,6 +146,8 @@
         <activity
             android:name=".activity.common.ScanActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.takeaway.ui.ChooseCouponActivity" />
+        <activity android:name=".activity.takeaway.ui.ShopGoodSearchActivity" />
 
         <!-- **************************************高德定位**********************************************-->
         <service android:name="com.amap.api.location.APSService" />

@@ -1,8 +1,12 @@
 package com.pai8.ke.activity.takeaway.entity;
 
+import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderInfo {
+public class OrderInfo implements Serializable {
 
     public int id;
     public String order_no;
@@ -25,9 +29,12 @@ public class OrderInfo {
     public String shop_name;
     public String shop_img;
     public String shop_phone;
-    public List<OrderGoodInfo> goods_info;
+    public StoreInfo shop_info;
+    public List<FoodGoodInfo> goods_info;
     public int count;
     public String remain_pay_time;
+
+    public AddressInfo address_info;
 
 
 }

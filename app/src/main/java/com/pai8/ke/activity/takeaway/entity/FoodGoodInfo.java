@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 public class FoodGoodInfo implements Serializable {
 
+
     public int viewType;
     public int id;
     public int shop_id;
@@ -13,13 +14,17 @@ public class FoodGoodInfo implements Serializable {
     public String name;
     public String desc;
     public String cover;
+    public String goods_price;
     public String origin_price;
     public String sell_price;
     public String discount;
+    public String goods_discount;
     public String option;
     public int status;
+    public String packing_price;
     private String tag;
     public int num;
+    public int goods_num;
     public int position = -1;
 
     public boolean isTitle;

@@ -1,11 +1,15 @@
 package com.pai8.ke.activity.takeaway.order;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.ConfirmOrderAdapter;
@@ -14,9 +18,10 @@ import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
+import com.pai8.ke.activity.takeaway.presenter.ConfirmOrderPresenter;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
-import com.pai8.ke.activity.takeaway.widget.OrderPayPop;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.fragment.pay.PayDialogFragment;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import java.util.ArrayList;
@@ -34,6 +39,18 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     private TextView mTvName, mTvAddress;
     public static final int ACTIVITY_CONFIRM_ORDER = R.layout.activity_confirm_order;
     private View mViewHead, mViewFooter;
+    private TextView mTvCoupon;
+    private TextView mTvSendPrice;
+    private TextView mTvPackPrice;
+    private TextView mTvSendTime;
+
+
+    private TextView mTvPirice;
+
+
+    private OptionsPickerView pvTime;
+
+
     private ConfirmOrderAdapter mAdapter;
     private TextView mTvStoreName;
     private ImageView mIvStore;
@@ -61,6 +78,8 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         mTvAddress = findViewById(R.id.tv_address);
         mTvName = findViewById(R.id.tv_name);
         mRvOrder = findViewById(R.id.rv_order_food);
+        mTvSendTime = findViewById(R.id.tv_send_time);
+        mTvSendTime.setOnClickListener(this);
         mRvOrder.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ConfirmOrderAdapter(null);
         mRvOrder.setAdapter(mAdapter);
@@ -70,8 +89,13 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         mAdapter.addFooterView(mViewFooter);
         mTvStoreName = mViewHead.findViewById(R.id.tv_store_name);
         mIvStore = mViewHead.findViewById(R.id.iv_store);
+        mTvPackPrice = mViewFooter.findViewById(R.id.tv_pack_price);
+        mTvCoupon = mViewFooter.findViewById(R.id.tv_coupon);
+        mTvSendPrice = mViewFooter.findViewById(R.id.tv_send_price);
+        mTvPirice = mViewFooter.findViewById(R.id.tv_price);
 
     }
+
 
 
     @Override
@@ -85,9 +109,36 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         ImageLoadUtils.setCircularImage(this, mStoreInfo.shop_img, mIvStore, R.mipmap.ic_launcher);
 
         mAdapter.setNewData(mFoodInfoList);
-
+        double price = 0;
+        for(int i=0;i<mFoodInfoList.size();i++){
+            if(!TextUtils.isEmpty(mFoodInfoList.get(i).packing_price)){
+                price += Double.parseDouble(mFoodInfoList.get(i).packing_price.trim());
+            }
+        }
+        mTvPackPrice.setText(price+"");
+        setPrice(mFoodInfoList);
 
     }
+
+    private double price;
+
+
+    public void setPrice(List<FoodGoodInfo> mShopCarGoods) {
+        int shopNum = 0;
+        double toMoney = 0;
+        boolean discount = false;
+        double originalTotlMoney = 0;
+        for (FoodGoodInfo pro : mShopCarGoods) {
+            if (!TextUtils.isEmpty(pro.sell_price)) {
+                toMoney += (Double.parseDouble(pro.sell_price) * pro.num);
+            }
+            shopNum = shopNum + pro.num;
+        }
+        price = toMoney;
+        mTvPirice.setText("￥" + toMoney);
+
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -97,7 +148,8 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
             Intent intent = new Intent(this, DeliveryAddressActivity.class);
             intent.putExtra("id", mId);
             startActivityForResult(intent, 100);
-
+        } else if(v.getId() == R.id.tv_send_time){
+            time();
         } else if (v.getId() == R.id.tv_pay) {
             Gson gson = new Gson();
             List<OrderGoodInfo> goodList = new ArrayList<>();
@@ -109,12 +161,32 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                 goodList.add(goodInfo);
             }
             String json = gson.toJson(goodList);
-
-
-            mPresenter.addOrder(json, mStoreInfo.id+"", 2, mId, "10", "", "");
+            mPresenter.addOrder(json, mStoreInfo.id+"", 2, mId, "10", "", "",mTvPackPrice.getText().toString());
 
 
         }
+    }
+
+
+    private void time(){
+        List<String> list = new ArrayList<>();
+        list.add("1天");
+        list.add("2天");
+        if (pvTime == null) {
+            pvTime = new OptionsPickerBuilder(ConfirmOrderActivity.this, new OnOptionsSelectListener() {
+                @Override
+                public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                    //返回的分别是三个级别的选中位置
+                    String tx = list.get(options1);
+                    mTvSendTime.setText(tx);
+
+                }
+            })
+                    .setDecorView(findViewById(R.id.rl_merchant))
+                    .build();
+        }
+        pvTime.setPicker(list);
+        pvTime.show();
     }
 
 
@@ -131,7 +203,7 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                     mTvAddress.setText(mAddress);
                     mTvName.setVisibility(View.VISIBLE);
                     mTvName.setText(mName + "     " + mPhone);
-                    mPresenter.waimaiPrice(mStoreInfo.id+"",mId);
+                    mPresenter.waimaiPrice(mStoreInfo.id,mId);
 
                     break;
             }
@@ -140,12 +212,14 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
 
     @Override
     public void orderSuccess(String data) {
-        OrderPayPop pop = new OrderPayPop(this);
-        pop.showPopupWindow();
+        PayDialogFragment payDialogFragment = PayDialogFragment.newInstance(price+"", data);
+        payDialogFragment.show(getSupportFragmentManager(), "pay");
+
     }
 
     @Override
     public void waimaiSuccess(WaimaiResq data) {
-
+        mTvCoupon.setText(data.coupon);
+        mTvSendPrice.setText(data.amount);
     }
 }

@@ -8,4 +8,5 @@ public class AddressInfo {
     public String linkman;
     public String phone;
 
+
 }

@@ -109,6 +109,24 @@
         />
 
     <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_store_business"
+        android:paddingStart="15dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="5dp"
+        android:text="取消接单"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_food_status"
+        app:layout_constraintTop_toBottomOf="@+id/rv_foods"
+        />
+
+    <TextView
 
         android:id="@+id/tv_food_status"
         android:layout_width="wrap_content"

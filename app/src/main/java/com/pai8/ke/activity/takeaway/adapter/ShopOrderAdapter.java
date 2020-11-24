@@ -16,8 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
-    public OrderAdapter(@Nullable List<OrderInfo> data) {
+public class ShopOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
+    public ShopOrderAdapter(@Nullable List<OrderInfo> data) {
         super(R.layout.item_order, data);
     }
 
@@ -28,6 +28,7 @@ public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
         TextView mTvReject = helper.getView(R.id.tv_reject);
         TextView mTvCancel = helper.getView(R.id.tv_cancel);
         helper.addOnClickListener(R.id.tv_cancel,R.id.tv_reject);
+       // 0为待支付 1为已支付 2为商家已接单 7为订单制作完成 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
        //订单状态 0为待支付 1为已支付 2为商家已接单 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
         mTvReject.setVisibility(View.GONE);
         mTvCancel.setVisibility(View.GONE);

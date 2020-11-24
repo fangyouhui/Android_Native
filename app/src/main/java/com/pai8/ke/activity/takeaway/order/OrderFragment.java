@@ -48,11 +48,21 @@ public class OrderFragment extends BaseMvpFragment<OrderPresenter> implements Or
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                startActivity(new Intent(getActivity(), OrderDetailActivity.class));
+                startActivity(new Intent(getActivity(), OrderDetailActivity.class)
+                .putExtra("order",mAdapter.getData().get(position)));
             }
         });
 
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.tv_cancel){
+                    mPresenter.cancelOrder(mAdapter.getData().get(position).order_no);
 
+                }
+
+            }
+        });
 
 
 
@@ -61,5 +71,10 @@ public class OrderFragment extends BaseMvpFragment<OrderPresenter> implements Or
     @Override
     public void orderListSuccess(List<OrderInfo> data) {
         mAdapter.setNewData(data);
+    }
+
+    @Override
+    public void orderCancelSuccess(String data) {
+        mPresenter.orderList(2);
     }
 }
