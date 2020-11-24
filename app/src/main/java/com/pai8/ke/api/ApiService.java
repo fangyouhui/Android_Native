@@ -199,6 +199,25 @@ public interface ApiService {
     @POST("index/followVideoList")
     Observable<BaseRespose<List<VideoResp>>> followVideoList(@Field("page") int page);
 
+    /**
+     * 我的视频列表（个人中心）
+     *
+     * @param page
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/myVideoList")
+    Observable<BaseRespose<List<VideoResp>>> myVideoList(@Field("page") int page);
+
+    /**
+     * 我喜欢的列表
+     *
+     * @param page
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/mylikeVideoList")
+    Observable<BaseRespose<List<VideoResp>>> myLikeVideoList(@Field("page") int page);
 
     /**
      * 通知极光推送通话

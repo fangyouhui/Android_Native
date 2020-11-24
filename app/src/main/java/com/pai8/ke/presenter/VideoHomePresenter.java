@@ -109,4 +109,63 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     }
                 });
     }
+
+    @Override
+    public void myVideoList(int pageNo, int tag) {
+        Api.getInstance().myVideoList(pageNo)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<List<VideoResp>>() {
+                    @Override
+                    protected void onSuccess(List<VideoResp> list) {
+                        view.refreshComplete();
+                        if (tag == GlobalConstants.REFRESH) {
+                            if (CollectionUtils.isEmpty(list)) {
+                                view.toast("数据为空");
+                                return;
+                            }
+                            view.videoList(list, tag);
+                        }
+                        if (tag == GlobalConstants.LOADMORE) {
+                            view.videoList(list, tag);
+                        }
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.refreshComplete();
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+    @Override
+    public void myLikeVideoList(int pageNo, int tag) {
+        Api.getInstance().myLikeVideoList(pageNo)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<List<VideoResp>>() {
+                    @Override
+                    protected void onSuccess(List<VideoResp> list) {
+                        view.refreshComplete();
+                        if (tag == GlobalConstants.REFRESH) {
+                            if (CollectionUtils.isEmpty(list)) {
+                                return;
+                            }
+                            view.videoList(list, tag);
+                        }
+                        if (tag == GlobalConstants.LOADMORE) {
+                            view.videoList(list, tag);
+                        }
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.refreshComplete();
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
 }

@@ -158,6 +158,12 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
                 case 2:
                     mPresenter.followVideoList(mPageNo, REFRESH);
                     break;
+                case 3:
+                    mPresenter.myVideoList(mPageNo, REFRESH);
+                    break;
+                case 4:
+                    mPresenter.myLikeVideoList(mPageNo, REFRESH);
+                    break;
             }
         }, 100);
     }
@@ -175,6 +181,12 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
                     break;
                 case 2:
                     mPresenter.followVideoList(mPageNo, LOADMORE);
+                    break;
+                case 3:
+                    mPresenter.myVideoList(mPageNo, LOADMORE);
+                    break;
+                case 4:
+                    mPresenter.myLikeVideoList(mPageNo, LOADMORE);
                     break;
             }
         }, 400);

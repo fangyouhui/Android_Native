@@ -33,5 +33,9 @@ public interface VideoHomeContract {
 
         void followVideoList(int pageNo, int tag);
 
+        void myVideoList(int pageNo, int tag);
+
+        void myLikeVideoList(int pageNo, int tag);
+
     }
 }

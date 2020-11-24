@@ -25,6 +25,7 @@ import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
@@ -96,9 +97,9 @@ public class TabMeFragment extends BaseFragment {
         mTitles.add("收藏");
         mTitles.add("喜欢");
 
-        mFragments.add(TabHomeChildFragment.newInstance(0));
+        mFragments.add(TabHomeChildFragment.newInstance(3));
         mFragments.add(TabHomeChildFragment.newInstance(2));
-        mFragments.add(TabHomeChildFragment.newInstance(2));
+        mFragments.add(TabHomeChildFragment.newInstance(4));
 
         mTabAdapter = new TabAdapter(getChildFragmentManager(), mFragments, mTitles);
 
@@ -151,6 +152,7 @@ public class TabMeFragment extends BaseFragment {
             setHistoryCount(0);
             return;
         }
+        LogUtils.d("token：" + AccountManager.getInstance().getToken());
         UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
         tvNickName.setText(StringUtils.isNotEmpty(userInfo.getUser_nickname()) ?
                 userInfo.getUser_nickname() : userInfo.getPhone());
