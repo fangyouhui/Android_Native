@@ -13,6 +13,7 @@ import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.entity.resp.WxOrderPrepayResp;
 
 import java.util.List;
 
@@ -255,4 +256,7 @@ public interface ApiService {
     Observable<BaseRespose<ShopListResp>> shopList(@Field("page") int page,
                                                    @Field("keywords") String keywords);
 
+    @FormUrlEncoded
+    @POST("Order/orderPrepay")
+    Observable<BaseRespose<WxOrderPrepayResp>> orderPrepay(@Field("order_no") String order_no);
 }

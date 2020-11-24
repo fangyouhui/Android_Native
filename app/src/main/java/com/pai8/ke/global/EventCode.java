@@ -15,4 +15,6 @@ public interface EventCode {
     int EVENT_WX_CODE = 0x04;
     // 推送
     int EVENT_PUSH = 0x05;
+    // 支付结果
+    int EVENT_PAY_RESULT = 0xff6;
 }
