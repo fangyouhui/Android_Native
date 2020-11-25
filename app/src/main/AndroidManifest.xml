@@ -115,6 +115,10 @@
         <activity
             android:name=".activity.me.SettingActivity"
             android:screenOrientation="portrait" />
+        <!-- 优惠券列表 -->
+        <activity
+            android:name=".activity.me.CouponListActivity"
+            android:screenOrientation="portrait" />
         <!--微信支付回调-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"

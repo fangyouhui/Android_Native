@@ -60,5 +60,7 @@
         <item name="android:windowExitAnimation">@anim/bottom_out</item>
     </style>
 
-
+    <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/cb_selector</item>
+    </style>
 </resources>

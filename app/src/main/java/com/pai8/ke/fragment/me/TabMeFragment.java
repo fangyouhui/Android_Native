@@ -10,6 +10,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
+import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.me.SettingActivity;
 import com.pai8.ke.activity.takeaway.order.OrderActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
@@ -290,7 +291,8 @@ public class TabMeFragment extends BaseFragment {
                 break;
             case R.id.tv_btn_address:
                 break;
-            case R.id.tv_btn_coupon:
+            case R.id.tv_btn_coupon://优惠券
+                CouponListActivity.launch(getActivity(), CouponListActivity.INTENT_TYPE_CAN_USE);
                 break;
             case R.id.tv_btn_invite:
                 break;

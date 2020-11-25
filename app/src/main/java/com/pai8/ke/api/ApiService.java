@@ -4,6 +4,7 @@ import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
+import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.entity.resp.ShopListResp;
@@ -279,4 +280,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/orderPrepay")
     Observable<BaseRespose<WxOrderPrepayResp>> orderPrepay(@Field("order_no") String order_no);
+
+    /**
+     * 用户所有优惠券
+     *
+     * @param time_type 优惠券时效类型 1为可用 2为超时 3为所有
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Coupon/allUserCouponList")
+    Observable<BaseRespose<List<CouponListResp>>> allUserCouponList(@Field("time_type") int time_type);
 }
