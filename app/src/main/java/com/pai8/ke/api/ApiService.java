@@ -70,6 +70,16 @@ public interface ApiService {
     @POST("user/ucenter")
     Observable<BaseRespose<MyInfoResp>> getMyInfo();
 
+    /**
+     * 根据id获取用户信息
+     *
+     * @param uid
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/getInfoByUid")
+    Observable<BaseRespose<UserInfo>> getUserInfoById(@Field("uid") String uid);
+
     //****************************视频模块********************************
 
     /**

@@ -9,8 +9,13 @@ import android.widget.TextView;
 
 import com.pai8.ke.R;
 import com.pai8.ke.activity.video.ChatActivity;
+import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseFragment;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.interfaces.OnChatCrlListener;
+import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TextViewUtils;
 import com.pai8.ke.widget.CircleImageView;
 import com.qiniu.droid.rtc.QNSurfaceView;
@@ -49,11 +54,13 @@ public class ChatVideoCrlFragment extends BaseFragment {
     private int mIntentType;
 
     private OnChatCrlListener mOnChatCrlListener;
+    private String mRemoteId;
 
-    public static ChatVideoCrlFragment newInstance(@ChatActivity.IntentType int intentType) {
+    public static ChatVideoCrlFragment newInstance(@ChatActivity.IntentType int intentType, String remoteId) {
         ChatVideoCrlFragment fragment = new ChatVideoCrlFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("intentType", intentType);
+        bundle.putString("remoteId", remoteId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -66,6 +73,7 @@ public class ChatVideoCrlFragment extends BaseFragment {
     @Override
     protected void initView(Bundle arguments) {
         mIntentType = arguments.getInt("intentType");
+        mRemoteId = arguments.getString("remoteId");
     }
 
     @Override
@@ -89,6 +97,23 @@ public class ChatVideoCrlFragment extends BaseFragment {
             tvBtnListener.setVisibility(View.GONE);
             mTimer.setVisibility(View.VISIBLE);
         }
+
+        Api.getInstance().getUserInfoById(mRemoteId)
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<UserInfo>() {
+                    @Override
+                    protected void onSuccess(UserInfo userInfo) {
+                        tvName.setText(userInfo.getUser_nickname());
+                        ImageLoadUtils.loadImage(getActivity(), userInfo.getAvatar(), civAvatar, 0);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 
     @Override

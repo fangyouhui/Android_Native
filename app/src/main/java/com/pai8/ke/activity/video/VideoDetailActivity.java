@@ -225,7 +225,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         mViewPagerLayoutManager.setOnViewPagerListener(new OnViewPagerListener() {
             @Override
             public void onInitComplete() {
-                playVideo(3);
+                playVideo(0);
             }
 
             @Override

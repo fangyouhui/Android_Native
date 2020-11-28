@@ -157,7 +157,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
         if (mBizType == BIZ_TYPE_VIDEO) {
             // 视频面板Fragment
-            mChatVideoCrlFragment = ChatVideoCrlFragment.newInstance(mIntentType);
+            mChatVideoCrlFragment = ChatVideoCrlFragment.newInstance(mIntentType, mRemoteId);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
                     mChatVideoCrlFragment).commitAllowingStateLoss();
@@ -178,7 +178,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
 
         } else if (mBizType == BIZ_TYPE_AUDIO) {
             // 语音面板Fragment
-            mChatAudioCrlFragment = ChatAudioCrlFragment.newInstance(mIntentType);
+            mChatAudioCrlFragment = ChatAudioCrlFragment.newInstance(mIntentType, mRemoteId);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
                     mChatAudioCrlFragment).commitAllowingStateLoss();
