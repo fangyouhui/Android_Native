@@ -19,6 +19,7 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.fragment.home.TabHomeFragment;
 import com.pai8.ke.fragment.me.TabMeFragment;
+import com.pai8.ke.fragment.msg.TabMsgFragment;
 import com.pai8.ke.fragment.pai.TabCameraFragment;
 import com.pai8.ke.fragment.shop.TabShopFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
@@ -38,11 +39,11 @@ import androidx.fragment.app.Fragment;
 public class MainActivity extends BaseActivity {
 
     //未选中icon
-    private int[] normalIcon = {R.mipmap.icon_tabbar_home_normal, R.mipmap.icon_tabbar_type_normal,
-            R.mipmap.icon_tabbar_shopping_normal, R.mipmap.icon_tabbar_me_normal};
+    private int[] normalIcon = {R.mipmap.icon_tabbar_home_normal, R.mipmap.icon_tabbar_shopping_normal,
+            R.mipmap.icon_tabbar_msg_normal, R.mipmap.icon_tabbar_me_normal};
     //选中时icon
-    private int[] selectIcon = {R.mipmap.icon_tabbar_home_select, R.mipmap.icon_tabbar_type_select,
-            R.mipmap.icon_tabbar_shopping_select, R.mipmap.icon_tabbar_me_select};
+    private int[] selectIcon = {R.mipmap.icon_tabbar_home_select, R.mipmap.icon_tabbar_shopping_select,
+            R.mipmap.icon_tabbar_msg_select, R.mipmap.icon_tabbar_me_select};
     private String[] menuTextItems = {"", "", "", ""};
     private EasyNavigationBar navigationBar;
     private List<Fragment> fragments = new ArrayList<>();
@@ -74,9 +75,9 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         navigationBar = findViewById(R.id.navigationBar);
         fragments.add(new TabHomeFragment());
-        fragments.add(new TabTypeFragment());
-        fragments.add(new TabCameraFragment());
         fragments.add(new TabShopFragment());
+        fragments.add(new TabCameraFragment());
+        fragments.add(new TabMsgFragment());
         fragments.add(new TabMeFragment());
 
         navigationBar
