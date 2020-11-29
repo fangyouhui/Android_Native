@@ -150,4 +150,47 @@ public class TabCreateUtils {
         magicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(magicIndicator, viewPager);
     }
+
+    public static void setShopTab(Context context, MagicIndicator magicIndicator, ViewPager viewPager,
+                                  List<String> tabNames) {
+        CommonNavigator commonNavigator = new CommonNavigator(context);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
+
+            @Override
+            public int getCount() {
+                return tabNames == null ? 0 : tabNames.size();
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                ScaleTransitionPagerTitleView scaleTransTitleView =
+                        new ScaleTransitionPagerTitleView(context);
+                scaleTransTitleView.setNormalColor(ContextCompat.getColor(context, R.color.color_mid_font));
+                scaleTransTitleView.setSelectedColor(ContextCompat.getColor(context,
+                        R.color.color_dark_font));
+                scaleTransTitleView.setTextSize(16);
+                scaleTransTitleView.setText(tabNames.get(index));
+                scaleTransTitleView.setOnClickListener(view -> viewPager.setCurrentItem(index));
+                return scaleTransTitleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
+                indicator.setColors(ContextCompat.getColor(context, R.color.colorPrimary));
+                //设置宽度
+                indicator.setLineWidth(DensityUtils.dip2px(15));
+                //设置高度
+                indicator.setLineHeight(DensityUtils.dip2px(3));
+                //设置圆角
+                indicator.setRoundRadius(DensityUtils.dip2px(8));
+                return indicator;
+            }
+        });
+        commonNavigator.setAdjustMode(false);
+        magicIndicator.setNavigator(commonNavigator);
+        magicIndicator.onPageSelected(0);
+        ViewPagerHelper.bind(magicIndicator, viewPager);
+    }
 }

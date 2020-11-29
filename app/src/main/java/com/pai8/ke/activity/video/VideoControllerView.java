@@ -14,6 +14,7 @@ import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.ResUtils;
+import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.CircleImageView;
 
 import butterknife.BindView;
@@ -102,6 +103,12 @@ public class VideoControllerView extends RelativeLayout {
             ivFocus.setImageResource(R.mipmap.ic_video_follow_s);
         } else {
             ivFocus.setImageResource(R.mipmap.ic_video_follow_u);
+        }
+
+        if (StringUtils.isEmpty(videoData.getShop_id()) || StringUtils.equals("0", videoData.getShop_id())) {
+            tvBtnGoSee.setVisibility(GONE);
+        } else {
+            tvBtnGoSee.setVisibility(VISIBLE);
         }
     }
 

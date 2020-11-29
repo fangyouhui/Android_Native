@@ -1,6 +1,5 @@
 package com.pai8.ke.fragment.home;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.home.ClassifyActivity;
 import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
 import com.pai8.ke.activity.video.VideoDetailActivity;
 import com.pai8.ke.adapter.HomeAdapter;
@@ -113,13 +113,11 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         } else if (mPosition == 1) {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_head_nearby,
                     getActivity().findViewById(android.R.id.content), false);
-            view.findViewById(R.id.iv_1).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), TakeawayActivity.class));
-                }
-            });
+            view.findViewById(R.id.iv_1).setOnClickListener(v -> launch(TakeawayActivity.class));
 
+            view.findViewById(R.id.iv_2).setOnClickListener(v -> toast("此功能暂未开放,敬请期待"));
+
+            view.findViewById(R.id.iv_3).setOnClickListener(v -> launch(ClassifyActivity.class));
 
             mLRvAdapter.addHeaderView(view);
         }

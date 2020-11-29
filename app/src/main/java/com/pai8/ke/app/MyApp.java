@@ -19,6 +19,7 @@ import com.pai8.ke.manager.QNRTCManager;
 import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.qiniu.android.common.FixedZone;
@@ -79,24 +80,17 @@ public class MyApp extends Application {
      */
     public static List<String> getLngLat() {
         List<String> locations = new ArrayList<>();
-        if (mAMapLocation == null) {
-            locations.add("0");
-            locations.add("0");
-            locations.add("0");
-        } else {
-            locations.add(mAMapLocation.getLongitude() + "");
-            locations.add(mAMapLocation.getLatitude() + "");
-            locations.add(mAMapLocation.getAddress() + "");
-
-        }
+        String longitude = (String) PreferencesUtils.get(getMyApp(), "longitude", "120.610868");
+        String latitude = (String) PreferencesUtils.get(getMyApp(), "latitude", "31.329679");
+        String address = (String) PreferencesUtils.get(getMyApp(), "address", "");
+        locations.add(longitude);
+        locations.add(latitude);
+        locations.add(address);
         return locations;
     }
 
     public static String getCity() {
-        if (mAMapLocation == null) {
-            return "北京市";
-        }
-        return mAMapLocation.getCity();
+        return (String) PreferencesUtils.get(getMyApp(), "city", "苏州市");
     }
 
     @Override
@@ -124,6 +118,10 @@ public class MyApp extends Application {
         AMapLocationUtils.getLocation(location -> {
             LogUtils.d("AMap Location:" + location.getAddress());
             mAMapLocation = location;
+            PreferencesUtils.put(this, "latitude", location.getLatitude() + "");
+            PreferencesUtils.put(this, "longitude", location.getLongitude() + "");
+            PreferencesUtils.put(this, "address", location.getAddress());
+            PreferencesUtils.put(this, "city", location.getCity());
         }, false);
         //JPush
         JPushInterface.setDebugMode(getBuildType() != BuildType.RELEASE);

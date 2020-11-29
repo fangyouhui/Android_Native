@@ -119,6 +119,10 @@
         <activity
             android:name=".activity.me.CouponListActivity"
             android:screenOrientation="portrait" />
+        <!-- 分类 -->
+        <activity
+            android:name=".activity.home.ClassifyActivity"
+            android:screenOrientation="portrait" />
         <!--微信支付回调-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"

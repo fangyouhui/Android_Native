@@ -1,77 +1,75 @@
 package com.pai8.ke.fragment.shop;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
+import com.pai8.ke.adapter.TabAdapter;
+import com.pai8.ke.base.BaseFragment;
+import com.pai8.ke.fragment.home.TabHomeChildFragment;
+import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.TabCreateUtils;
 
+import net.lucode.hackware.magicindicator.MagicIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import butterknife.BindView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TabShopFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TabShopFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class TabShopFragment extends BaseFragment {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.cv_banner)
+    CardView cvBanner;
+    @BindView(R.id.magic_indicator)
+    MagicIndicator magicIndicator;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.iv_banner)
+    ImageView ivBanner;
 
-    public TabShopFragment() {
-        // Required empty public constructor
-    }
+    private List<Fragment> mFragments;
+    private List<String> mTitles;
+    private TabAdapter mTabAdapter;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TabShopFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TabShopFragment newInstance(String param1, String param2) {
-        TabShopFragment fragment = new TabShopFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_tab_shop;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    protected void initView(Bundle arguments) {
+        mTitles = new ArrayList<>();
+        mFragments = new ArrayList<>();
+
+        mTitles.add("全部");
+        mTitles.add("美食");
+        mTitles.add("娱乐");
+        mTitles.add("教育");
+        mTitles.add("购物");
+        mTitles.add("建材");
+        mTitles.add("酒店");
+
+        for (int i = 0; i < mTitles.size(); i++) {
+            mFragments.add(TabShopChildFragment.newInstance(i));
         }
 
+        mTabAdapter = new TabAdapter(getChildFragmentManager(), mFragments, mTitles);
 
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setAdapter(mTabAdapter);
+        viewPager.setCurrentItem(0);
+        TabCreateUtils.setShopTab(getActivity(), magicIndicator, viewPager, mTitles);
 
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tab_shop, container, false);
-        view.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), TakeawayActivity.class));
-            }
-        });
-        return view;
+        ImageLoadUtils.loadImage(getActivity(), "https://timgsa.baidu" +
+                ".com/timg?image&quality=80&size=b9999_10000&sec=1606673026873&di" +
+                "=55d468d616150eb70fdf593f7e826610&imgtype=0&src=http%3A%2F%2Fimage.suning" +
+                ".cn%2Fuimg%2Fsop%2Fcommodity%2F194646643740991480165390_x.jpg", ivBanner, 0);
     }
 }
