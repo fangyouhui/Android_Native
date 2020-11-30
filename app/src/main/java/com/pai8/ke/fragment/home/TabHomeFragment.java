@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.common.ScanActivity;
+import com.pai8.ke.activity.home.SearchVideoActivity;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.utils.TabCreateUtils;
@@ -76,6 +77,7 @@ public class TabHomeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_search:
+                launch(SearchVideoActivity.class);
                 break;
             case R.id.iv_liwu:
                 break;

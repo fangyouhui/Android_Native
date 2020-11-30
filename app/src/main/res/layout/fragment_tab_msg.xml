@@ -1,13 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.shop.TabShopFragment">
+    android:background="@color/color_white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_line_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.06" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="消息" />
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="消息"
+        android:textColor="@color/color_dark_font"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/cv_banner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guide_line_top" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_msg_type_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:drawableTop="@mipmap/ic_msg_type_like"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="点赞"
+        android:textColor="@color/color_dark_font"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_msg_type_comment"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_msg_type_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:drawableTop="@mipmap/ic_msg_type_comment"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="评论"
+        android:textColor="@color/color_dark_font"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_msg_type_like"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintLeft_toRightOf="@+id/tv_msg_type_like"
+        app:layout_constraintRight_toLeftOf="@+id/tv_msg_type_follow"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
+    <TextView
+        android:id="@+id/tv_msg_type_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@mipmap/ic_msg_type_follow"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="关注"
+        android:textColor="@color/color_dark_font"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_msg_type_like"
+        app:layout_constraintLeft_toRightOf="@+id/tv_msg_type_comment"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/color_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tv_msg_type_follow" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/color_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_divider" />
+</androidx.constraintlayout.widget.ConstraintLayout>

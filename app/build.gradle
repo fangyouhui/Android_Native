@@ -149,6 +149,7 @@ dependencies {
 
     implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
     implementation 'com.gavin.com.library:stickyDecoration:1.5.2'
+
     implementation project(':lib_shortvideo')
 
 }

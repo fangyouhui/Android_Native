@@ -123,6 +123,10 @@
         <activity
             android:name=".activity.home.ClassifyActivity"
             android:screenOrientation="portrait" />
+        <!-- 首页搜索视频 -->
+        <activity
+            android:name=".activity.home.SearchVideoActivity"
+            android:screenOrientation="portrait" />
         <!--微信支付回调-->
         <activity
             android:name=".wxapi.WXPayEntryActivity"

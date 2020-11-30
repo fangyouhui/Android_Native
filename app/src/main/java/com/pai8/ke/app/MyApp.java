@@ -135,7 +135,7 @@ public class MyApp extends Application {
 
     private HttpProxyCacheServer newProxy() {
         return new HttpProxyCacheServer.Builder(this)
-                .maxCacheFilesCount(20)
+                .maxCacheFilesCount(100)
                 .build();
     }
 

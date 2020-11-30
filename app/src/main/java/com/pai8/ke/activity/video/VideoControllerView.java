@@ -106,8 +106,14 @@ public class VideoControllerView extends RelativeLayout {
         }
 
         if (StringUtils.isEmpty(videoData.getShop_id()) || StringUtils.equals("0", videoData.getShop_id())) {
+            ivBottomBg.setVisibility(GONE);
+            tvCoverName.setVisibility(GONE);
+            civCover.setVisibility(GONE);
             tvBtnGoSee.setVisibility(GONE);
         } else {
+            ivBottomBg.setVisibility(VISIBLE);
+            tvCoverName.setVisibility(VISIBLE);
+            civCover.setVisibility(VISIBLE);
             tvBtnGoSee.setVisibility(VISIBLE);
         }
     }
