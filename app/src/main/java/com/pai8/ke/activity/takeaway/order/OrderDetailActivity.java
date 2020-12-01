@@ -111,6 +111,13 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         mAdapter.setNewData(mOrderInfo.goods_info);
         setData(mOrderInfo);
         mPresenter.orderDetail(mOrderInfo.order_no);
+
+        if(mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4){
+            ivMore.setVisibility(View.VISIBLE);
+        }else{
+            ivMore.setVisibility(View.GONE);
+        }
+
     }
 
 

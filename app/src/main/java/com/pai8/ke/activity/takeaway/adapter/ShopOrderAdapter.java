@@ -100,6 +100,7 @@ public class ShopOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         rvFood.setLayoutManager(linearLayoutManager);
+
         OrderFoodAdapter adapter = new OrderFoodAdapter(item.goods_info);
         rvFood.setAdapter(adapter);
 
