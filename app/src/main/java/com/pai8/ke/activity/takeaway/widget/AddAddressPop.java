@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.takeaway.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,6 +12,14 @@ import android.widget.TextView;
 
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
+import com.pai8.ke.activity.takeaway.ui.MapAddressChooseActivity;
+import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.entity.Address;
+import com.pai8.ke.global.EventCode;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import razerdp.basepopup.BasePopupWindow;
 
@@ -18,14 +27,19 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
 
 
 
-    private EditText mEtName,mEtPhone,mEtAddress;
-    private TextView mTvTitle,mTvDelete;
+    private Context mContext;
+    private EditText mEtName,mEtPhone;
+    private TextView mTvTitle,mTvDelete,mEtAddress;
     private TextView mTvNext;
     public AddressInfo addressInfo;
+    private EditText mEtNumber;
+    private Address mAddress;
+    private String lat,lon;
 
 
     public AddAddressPop(Context context,AddressInfo addressInfo) {
         super(context);
+        mContext = context;
         this.addressInfo = addressInfo;
         setPopupGravity(Gravity.BOTTOM);
         setOutSideDismiss(true);
@@ -40,18 +54,23 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
         mTvNext = findViewById(R.id.tv_next);
         mTvDelete = findViewById(R.id.tv_delete);
         mTvTitle = findViewById(R.id.tv_title);
+        mEtNumber = findViewById(R.id.et_number);
         mTvNext.setOnClickListener(this);
         mTvDelete.setOnClickListener(this);
+        mEtAddress.setOnClickListener(this);
         mEtName.addTextChangedListener(this);
         mEtPhone.addTextChangedListener(this);
         mEtAddress.addTextChangedListener(this);
         editListener();
-
+        EventBus.getDefault().register(this);
 
         if(addressInfo!=null){
             mEtName.setText(addressInfo.linkman);
             mEtPhone.setText(addressInfo.phone);
             mEtAddress.setText(addressInfo.address);
+            mEtNumber.setText(addressInfo.house_number);
+            lat = addressInfo.latitude;
+            lon = addressInfo.longitude;
             mTvDelete.setVisibility(View.VISIBLE);
             mTvTitle.setText("编辑地址");
         }else{
@@ -71,6 +90,8 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
             mTvNext.setEnabled(true);
         }
     }
+
+
 
 
 
@@ -95,14 +116,18 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
             String name = mEtName.getText().toString();
             String phone = mEtPhone.getText().toString();
             String address = mEtAddress.getText().toString();
+            String number = mEtNumber.getText().toString();
             if(onSelectListener!=null)
-                onSelectListener.onSelect(name,phone,address);
+                onSelectListener.onSelect(name,phone,address,number,lat,lon);
             dismiss();
         }else if(id == R.id.tv_delete){
             if(onSelectListener!=null)
                 onSelectListener.delete(addressInfo.id);
             dismiss();
 
+        }else if(id == R.id.et_address){
+            mContext.startActivity(new Intent(mContext
+                    , MapAddressChooseActivity.class));
         }
     }
 
@@ -122,8 +147,22 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BaseEvent event) {
+        if (event.getCode() == EventCode.EVENT_CHOOSE_ADDRESS) {
+            mAddress = (Address) event.getData();
+            mEtAddress.setText(mAddress.getAddress());
+            lat = mAddress.getLat()+"";
+            lon = mAddress.getLon()+"";
+
+        }
+
+    }
+
+
+
     public interface OnSelectListener {
-        void onSelect(String name,String phone,String address);
+        void onSelect(String name,String phone,String address,String number,String lat,String lon);
 
         void delete(int id);
 

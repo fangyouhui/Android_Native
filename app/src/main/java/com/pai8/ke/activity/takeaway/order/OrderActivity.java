@@ -23,7 +23,7 @@ public class OrderActivity extends BaseMvpActivity implements View.OnClickListen
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_good_manager;
+        return R.layout.activity_order;
     }
 
     @Override

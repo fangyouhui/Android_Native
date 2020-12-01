@@ -1,7 +1,13 @@
 package com.pai8.ke.base;
 
 
+import com.google.gson.Gson;
 import com.pai8.ke.utils.ToastUtils;
+
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * MVP模式-BaseMvpActivity
@@ -57,6 +63,14 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
     public void showNetWorkErrorPage() {
 
     }
+
+    public RequestBody createRequestBody(Map map) {
+        Gson gson = new Gson();
+        String json = gson.toJson(map);
+        RequestBody requestBody = RequestBody.create(json, MediaType.parse("application/json"));
+        return requestBody;
+    }
+
 
     @Override
     public void showSucessPage() {

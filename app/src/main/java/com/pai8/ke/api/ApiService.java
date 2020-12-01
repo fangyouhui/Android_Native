@@ -5,14 +5,13 @@ import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.CouponGetListResp;
+import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.entity.resp.MyInfoResp;
-import com.pai8.ke.entity.resp.ShopList;
-import com.pai8.ke.entity.resp.ShopListResp;
-import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.Province;
-import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.ShareResp;
+import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
@@ -290,7 +289,8 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("Order/orderPrepay")
-    Observable<BaseRespose<WxOrderPrepayResp>> orderPrepay(@Field("order_no") String order_no);
+    Observable<BaseRespose<WxOrderPrepayResp>> orderPrepay(@Field("order_no") String order_no
+    ,@Field("buyer_id") String buyer_id,@Field("pay_type") int pay_type);
 
     /**
      * 用户所有优惠券

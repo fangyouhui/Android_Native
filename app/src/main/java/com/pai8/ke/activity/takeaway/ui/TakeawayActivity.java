@@ -148,6 +148,11 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
         }
         if(page == 1){
             mAdapter.setNewData(data.shop_list);
+            if(data.shop_list.size()<10){
+                mAdapter.setEnableLoadMore(false);
+            }
+
+
         }else{
             mAdapter.addData(data.shop_list);
         }

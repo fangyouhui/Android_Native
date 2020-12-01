@@ -30,9 +30,11 @@ import okhttp3.RequestBody;
 public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
 
     List<FoodGoodInfo> goodInfoList = new ArrayList<>();
+    int shopId;
 
-    public FoodGoodAdapter(Context context, List<FoodGoodInfo> list, RvListener listener) {
+    public FoodGoodAdapter(Context context, List<FoodGoodInfo> list,int shopId,RvListener listener) {
         super(context, list, listener);
+        this.shopId = shopId;
     }
 
 
@@ -91,23 +93,26 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvTitle.setText(food.title);
                     tvPrice.setText(food.sell_price);
                     ImageLoadUtils.setCircularImage(mContext,food.cover,ivGoods,R.mipmap.ic_launcher);
+                    if (goodInfoList != null && goodInfoList.size() > 0) {
+                        int num = 0;
+                        for (int i = 0; i < goodInfoList.size(); i++) {
+                            if (food.id == goodInfoList.get(i).id) {
+                                num += goodInfoList.get(i).goods_num;
+                            }
+                        }
+                        tvNum.setText(String.valueOf(num));
+                        tvNum.setVisibility(View.VISIBLE);
+                        tvReduce.setVisibility(View.VISIBLE);
+                    } else {
+                        tvNum.setVisibility(View.INVISIBLE);
+                        tvReduce.setVisibility(View.INVISIBLE);
+                    }
+
+
+
                     tvAddGoods.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(goodInfoList.size()<=0){
-                                Gson gson = new Gson();
-                                List<OrderGoodInfo> goodList = new ArrayList<>();
-                                OrderGoodInfo orderGoodInfo = new OrderGoodInfo();
-                                orderGoodInfo.goods_price = food.sell_price;
-                                orderGoodInfo.goods_num = food.num;
-                                orderGoodInfo.id  = food.id;
-                                goodList.add(orderGoodInfo);
-                                String json = gson.toJson(goodList);
-                                addCart(json,food.shop_id+"");
-
-                            }
-
-
                             final int[] endXY = new int[2];
                             v.getLocationInWindow(endXY);
                             boolean isAdd = false;//不存在相同ID
@@ -121,26 +126,40 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                             int num = 0;
                             if (!isAdd) {
                                 num = num + 1;
-                                food.num = num;
+                                food.goods_num = num;
                                 tvNum.setText(String.valueOf(num));
                                 tvReduce.setVisibility(View.VISIBLE);
                                 tvNum.setVisibility(View.VISIBLE);
                                 goodInfoList.add(food);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_ADD_CAR,endXY[0],endXY[1],num,goodInfoList));
+
+
+                                // net
+                                Gson gson = new Gson();
+                                List<OrderGoodInfo> goodList = new ArrayList<>();
+                                OrderGoodInfo orderGoodInfo = new OrderGoodInfo();
+                                orderGoodInfo.goods_price = food.sell_price;
+                                orderGoodInfo.goods_num = food.goods_num;
+                                orderGoodInfo.packing_price = food.packing_price;
+                                orderGoodInfo.goods_id  = food.id;
+                                goodList.add(orderGoodInfo);
+                                String json = gson.toJson(goodList);
+                                addCart(json);
+
                             } else {
-                                int num_add = food.num;
+                                int num_add = food.goods_num;
 //                                for (int i = 0; i < goodInfoList.size(); i++) {
 //                                    num_add += goodInfoList.get(i).num;
 //                                }
                                 num = num_add + 1;
-                                food.num = num;
+                                food.goods_num = num;
                                 tvNum.setText(String.valueOf(num));
                                 tvReduce.setVisibility(View.VISIBLE);
                                 tvNum.setVisibility(View.VISIBLE);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_ADD_CAR,endXY[0],endXY[1],num,goodInfoList));
-
+                                updateCartNum(1 ,food.id+"",num);
                             }
                         }
                     });
@@ -148,7 +167,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvReduce.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            int num = food.num;
+                            int num = food.goods_num;
                             int position = 0;
 //                            for (int i = 0; i < currentList.size(); i++) {
 //                                num += currentList.get(i).num;
@@ -159,17 +178,19 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                                 tvNum.setVisibility(View.INVISIBLE);
                                 tvReduce.setVisibility(View.INVISIBLE);
                                 tvNum.setText("");
-                                food.num = 0;
+                                food.goods_num = 0;
                                 goodInfoList.remove(food);
+                                updateCartNum(2 ,food.id+"", food.goods_num);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));
                             } else {
                                 num -= 1;
-                                food.num = num;
+                                food.goods_num = num;
                                 tvNum.setVisibility(View.VISIBLE);
                                 tvReduce.setVisibility(View.VISIBLE);
                                 tvNum.setText(String.valueOf(num));
                                 updateSellerGoods(food,num);
+                                updateCartNum(2 ,food.id+"",num);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));                             }
                         }
@@ -198,7 +219,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
             if (food != null) {
                 for (int i = 0; i < goodInfoList.size(); i++) {
                     if(food.id == goodInfoList.get(i).id){
-                        goodInfoList.get(i).num = num;
+                        goodInfoList.get(i).goods_num = num;
                     }
                 }
             }
@@ -206,11 +227,11 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
     }
 
 
-    public void addCart(String goods_info,String shop_id){
+    public void addCart(String goods_info){
         HashMap<String, Object> map = new HashMap<>();
         map.put("goods_info",goods_info);
         map.put("buyer_id", AccountManager.getInstance().getUid());
-        map.put("shop_id",shop_id);
+        map.put("shop_id",shopId+"");
         TakeawayApi.getInstance().addCart(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
@@ -226,6 +247,32 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     }
                 });
     }
+
+
+
+    public void updateCartNum(int type ,String goods_id,int num){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("type",type+"");   //1 增加 2减少
+        map.put("goods_id",goods_id);
+        map.put("buyer_id", AccountManager.getInstance().getUid());
+        map.put("shop_id",shopId+"");
+        map.put("num",num);
+        TakeawayApi.getInstance().updateCartNum(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onSuccess(String data){
+
+                    }
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
 
 
 

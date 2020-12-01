@@ -23,7 +23,6 @@ public class FoodGoodInfo implements Serializable {
     public int status;
     public String packing_price;
     private String tag;
-    public int num;
     public int goods_num;
     public int position = -1;
 

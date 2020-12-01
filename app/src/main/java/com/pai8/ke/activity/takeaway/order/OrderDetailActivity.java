@@ -13,7 +13,9 @@ import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.presenter.OrderDetailPresenter;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
+import com.pai8.ke.activity.takeaway.widget.CancelOrderPop;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.fragment.pay.PayDialogFragment;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -38,6 +40,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
     private TextView mTvStatusPay;
     private TextView mTvCall;
 
+    ImageView ivMore;
 
     private OrderInfo mOrderInfo;
 
@@ -49,6 +52,8 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
     private TextView mTvOrderNum;
     private TextView mTvPrice;
     private TextView mTvDiscount;
+
+    private TextView mTvPayWay;
 
     private TextView mTvAdderss;
 
@@ -66,7 +71,8 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
     public void initView() {
         setImmersionBar(R.id.base_tool_bar);
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
-        findViewById(R.id.toolbar_more).setOnClickListener(this);
+        ivMore = findViewById(R.id.toolbar_more);
+        ivMore.setOnClickListener(this);
         mRvOrderDetail = findViewById(R.id.rv_order_detail);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRvOrderDetail.setLayoutManager(layoutManager);
@@ -94,6 +100,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         mTvAdderss = mViewFooter.findViewById(R.id.tv_address);
         mTvPrice = mViewFooter.findViewById(R.id.tv_price);
         mTvDiscount = mViewFooter.findViewById(R.id.tv_discount);
+        mTvPayWay = mViewFooter.findViewById(R.id.tv_pay_type);
     }
 
 
@@ -109,13 +116,13 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
 
 
     private void setData(OrderInfo orderInfo){
-
         ImageLoadUtils.setCircularImage(this, orderInfo.shop_img, mIvStore, R.mipmap.ic_launcher);
         mTvPrice.setText(orderInfo.order_price);
+        mTvPackPrice.setText(orderInfo.box_price);
         mTvCoupon.setText(orderInfo.order_discount_price);
-        mTvSendPrice.setText(orderInfo.express_discount_price);
+        mTvSendPrice.setText(orderInfo.express_price);
         mTvOrderNum.setText(orderInfo.order_no);
-        mTvOrderTime.setText(DateUtils.millisToTime(FORMAT_YYYY_MM_DD_HHMM,orderInfo.add_time));
+        mTvOrderTime.setText(DateUtils.millisToTime(FORMAT_YYYY_MM_DD_HHMM,orderInfo.add_time*1000));
         mAdapter.setNewData(orderInfo.goods_info);
         mTvDiscount.setText("优惠 ¥"+orderInfo.order_discount_price);
         if(orderInfo.address_info!=null){
@@ -124,17 +131,20 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         if(orderInfo.shop_info!=null){
             mTvStoreName.setText(orderInfo.shop_info.shop_name);
         }
+        mTvStatusName.setText("");
+        mTvStatusPay.setVisibility(View.GONE);
         if(orderInfo.order_status == 0){
             mTvStatus.setText("待支付");
             mTvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
             mTvStatusPay.setText("立即支付");
+            mTvStatusPay.setVisibility(View.VISIBLE);
         }else if(orderInfo.order_status == 1){
             mTvStatus.setText("待商家接单");
             mTvStatusName.setText("支付成功，请等待商家接单");
             mTvStatusPay.setText("联系商家");
+            mTvStatusPay.setVisibility(View.VISIBLE);
         }else if(orderInfo.order_status == 2){
             mTvStatus.setText("商品准备中");
-
         }else if(orderInfo.order_status == 3){
             mTvStatus.setText("商品配送中");
         }else if(orderInfo.order_status == 4){
@@ -149,7 +159,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
             mTvStatus.setText("拒绝退款");
             mTvStatusName.setText("您发起的退款申请审批未通过，请与商家进行联系");
             mTvStatusPay.setText("联系商家");
-
+            mTvStatusPay.setVisibility(View.VISIBLE);
         }else if(orderInfo.order_status == 8){
             mTvStatus.setText("订单已退款");
             mTvStatusName.setText("退款完成，在5~7个工作日内欠款将原路退回到你支付时的账户");
@@ -158,6 +168,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
             mTvStatus.setText("订单已取消");
             mTvStatusName.setText("您的订单已经取消，可重新选购下单");
             mTvStatusPay.setText("重新下单");
+            mTvStatusPay.setVisibility(View.VISIBLE);
         }else if(orderInfo.order_status == -1){
             mTvStatus.setText("订单超时");
 
@@ -177,6 +188,23 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
             if(mOrderInfo.shop_info!=null){
                 AppUtils.intentCallPhone(this, mOrderInfo.shop_info.mobile);
             }
+        }else if(v.getId() == R.id.toolbar_more){
+            if(mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4){
+                CancelOrderPop pop = new CancelOrderPop(this,mOrderInfo.order_status);
+                pop.setOnSelectListener(new CancelOrderPop.OnSelectListener() {
+                    @Override
+                    public void onSelect(int status) {
+                        if(status == 0){
+                            mPresenter.cancelOrder(mOrderInfo.order_no);
+                        }else{
+                            mPresenter.applyRefund(mOrderInfo.order_no);
+                        }
+
+                    }
+                });
+                pop.showPopupWindow();
+            }
+
         }else if(v.getId() == R.id.tv_status_pay){
 
 
@@ -184,6 +212,8 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
                 mTvStatus.setText("待支付");
                 mTvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
                 mTvStatusPay.setText("立即支付");
+                PayDialogFragment payDialogFragment = PayDialogFragment.newInstance(mOrderInfo.order_price, mOrderInfo.order_no);
+                payDialogFragment.show(getSupportFragmentManager(), "pay");
             }else if(mOrderInfo.order_status == 1){
                 mTvStatus.setText("待商家接单");
                 mTvStatusName.setText("支付成功，请等待商家接单");
@@ -227,6 +257,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
                 storeInfo.id = mOrderInfo.shop_id;
                 Intent intent = new Intent(this, StoreActivity.class);
                 intent.putExtra("storeInfo",storeInfo);
+                intent.putExtra("orderNo",mOrderInfo.order_no);
                 startActivity(intent);
             }else if(mOrderInfo.order_status == -1){
                 mTvStatus.setText("订单超时");
@@ -246,6 +277,6 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
 
     @Override
     public void orderCancelSuccess(String data) {
-
+        mPresenter.orderDetail(mOrderInfo.order_no);
     }
 }

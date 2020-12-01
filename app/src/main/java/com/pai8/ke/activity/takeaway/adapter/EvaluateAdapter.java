@@ -30,7 +30,7 @@ public class EvaluateAdapter extends BaseQuickAdapter<CommentInfo, BaseViewHolde
 
 
         RatingBar ratingBar = helper.getView(R.id.item_comment_rb_seller);
-        ratingBar.setNumStars((int) item.score);
+        ratingBar.setRating((float) item.score);
 
         ImageLoadUtils.setCircularImage(mContext,item.image,helper.getView(R.id.rv_comment_picture)
         ,R.mipmap.ic_launcher);

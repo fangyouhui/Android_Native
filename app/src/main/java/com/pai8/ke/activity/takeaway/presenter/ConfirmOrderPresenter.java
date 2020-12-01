@@ -18,10 +18,11 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
 
 
 
-    public void waimaiPrice(int shop_id,int address_id){
+    public void waimaiPrice(int shop_id,int address_id,String box_price){
         HashMap<String, Object> map = new HashMap<>();
         map.put("shop_id",shop_id);
         map.put("address_id",address_id);
+        map.put("box_price",box_price);
         TakeawayApi.getInstance().waimaiPrice(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })

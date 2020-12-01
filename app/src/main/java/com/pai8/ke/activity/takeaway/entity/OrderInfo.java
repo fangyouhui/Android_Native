@@ -17,6 +17,7 @@ public class OrderInfo implements Serializable {
     public String express_price;
     public String order_discount_coupon_id;
     public String order_discount_price;
+    public String box_price;  //包装费
     public String express_discount_coupon_id;
     public String express_discount_price;
     public int order_status;  //订单状态 0为待支付 1为已支付 2为商家已接单 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
@@ -30,11 +31,17 @@ public class OrderInfo implements Serializable {
     public String shop_img;
     public String shop_phone;
     public StoreInfo shop_info;
+    public int pay_type;
     public List<FoodGoodInfo> goods_info;
     public int count;
     public String remain_pay_time;
 
+//    public RiderInfo rider_info;
     public AddressInfo address_info;
 
+
+    public static class RiderInfo{
+
+    }
 
 }

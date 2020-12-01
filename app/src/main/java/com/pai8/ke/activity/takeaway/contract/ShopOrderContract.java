@@ -15,6 +15,8 @@ public interface ShopOrderContract {
 
         void getShopListSuccess(List<OrderInfo> data);
 
+        void getStatusSuccess(String data);
+
     }
 
 

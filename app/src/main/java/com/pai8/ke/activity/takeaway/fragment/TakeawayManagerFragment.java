@@ -128,6 +128,7 @@ public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPres
                     view.findViewById(R.id.iv_edit).setFocusableInTouchMode(true);
                     view.findViewById(R.id.iv_edit).requestFocus();
 
+
                 } else if (view.getId() == R.id.iv_del) {
                     presenter.deleteCategory(mTakeawayAdapter.getData().get(position).id, position);
                 }

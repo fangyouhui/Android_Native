@@ -52,17 +52,16 @@ public class DeliveryAddressActivity  extends BaseMvpActivity<DeliveryPresenter>
         mAdapter = new DeliveryAddressAdapter(null);
         mRvAddress.setAdapter(mAdapter);
 
-
-
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if(view.getId() == R.id.tv_status){
                     AddAddressPop pop = new AddAddressPop(DeliveryAddressActivity.this,mAdapter.getData().get(position));
                     pop.setOnSelectListener(new AddAddressPop.OnSelectListener() {
+
                         @Override
-                        public void onSelect(String name, String phone, String address) {
-                            mPresenter.upAddress(name, phone, address);
+                        public void onSelect(String name, String phone, String address, String number, String lat, String lon) {
+                            mPresenter.editAddress(mAdapter.getData().get(position).id+"",name, phone, address,number,lat,lon);
                         }
 
                         @Override
@@ -103,10 +102,9 @@ public class DeliveryAddressActivity  extends BaseMvpActivity<DeliveryPresenter>
             AddAddressPop pop = new AddAddressPop(this,null);
             pop.setOnSelectListener(new AddAddressPop.OnSelectListener() {
                 @Override
-                public void onSelect(String name, String phone, String address) {
-                    mPresenter.upAddress(name, phone, address);
+                public void onSelect(String name, String phone, String address, String number, String lat, String lon) {
+                    mPresenter.upAddress(name, phone, address,number,lat,lon);
                 }
-
                 @Override
                 public void delete(int id) {
 
@@ -139,6 +137,12 @@ public class DeliveryAddressActivity  extends BaseMvpActivity<DeliveryPresenter>
     @Override
     public void addAddressSuccess(String msg) {
         ToastUtils.showShort("添加成功");
+        mPresenter.getAddress();
+    }
+
+    @Override
+    public void editAddressSuccess(String msg) {
+        ToastUtils.showShort("更新成功");
         mPresenter.getAddress();
     }
 

@@ -16,6 +16,8 @@ public interface DeliveryContract {
 
         void addAddressSuccess(String msg);
 
+        void editAddressSuccess(String msg);
+
         void deleteAddressSuccess(String msg,int position);
 
     }

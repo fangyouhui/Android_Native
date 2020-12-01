@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:layout_gravity="bottom">
+
+
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="@dimen/layout_padding_15dp"
+        android:paddingBottom="@dimen/layout_padding_15dp"
+        android:text="取消订单"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:background="@drawable/shape_white_radius8"
+
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:textColor="#2A80FF"
+        android:textSize="16sp" />
+
+
+
+
+
+    <TextView
+        android:id="@+id/btn_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/shape_white_radius8"
+        android:gravity="center"
+        android:paddingTop="@dimen/layout_padding_15dp"
+        android:paddingBottom="@dimen/layout_padding_15dp"
+        android:text="取消"
+        android:textColor="#999999"
+        android:textSize="16sp" />
+
+</LinearLayout>

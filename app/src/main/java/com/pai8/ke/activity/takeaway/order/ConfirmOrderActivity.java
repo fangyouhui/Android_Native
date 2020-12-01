@@ -12,6 +12,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.takeaway.adapter.ConfirmOrderAdapter;
 import com.pai8.ke.activity.takeaway.contract.ConfirmContract;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
@@ -20,8 +21,11 @@ import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.activity.takeaway.presenter.ConfirmOrderPresenter;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.entity.event.PayResultEvent;
 import com.pai8.ke.fragment.pay.PayDialogFragment;
+import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import java.util.ArrayList;
@@ -43,6 +47,8 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     private TextView mTvSendPrice;
     private TextView mTvPackPrice;
     private TextView mTvSendTime;
+
+    private TextView mCoupon;
 
 
     private TextView mTvPirice;
@@ -80,6 +86,8 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         mRvOrder = findViewById(R.id.rv_order_food);
         mTvSendTime = findViewById(R.id.tv_send_time);
         mTvSendTime.setOnClickListener(this);
+        mCoupon = findViewById(R.id.tv_coupon);
+        mCoupon.setOnClickListener(this);
         mRvOrder.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ConfirmOrderAdapter(null);
         mRvOrder.setAdapter(mAdapter);
@@ -109,31 +117,33 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         ImageLoadUtils.setCircularImage(this, mStoreInfo.shop_img, mIvStore, R.mipmap.ic_launcher);
 
         mAdapter.setNewData(mFoodInfoList);
-        double price = 0;
-        for(int i=0;i<mFoodInfoList.size();i++){
-            if(!TextUtils.isEmpty(mFoodInfoList.get(i).packing_price)){
-                price += Double.parseDouble(mFoodInfoList.get(i).packing_price.trim());
-            }
-        }
-        mTvPackPrice.setText(price+"");
+
+        mTvSendPrice.setText(mStoreInfo.send_cost);
         setPrice(mFoodInfoList);
 
     }
 
     private double price;
-
+    public double boxPrice;
 
     public void setPrice(List<FoodGoodInfo> mShopCarGoods) {
         int shopNum = 0;
         double toMoney = 0;
-        boolean discount = false;
-        double originalTotlMoney = 0;
         for (FoodGoodInfo pro : mShopCarGoods) {
             if (!TextUtils.isEmpty(pro.sell_price)) {
-                toMoney += (Double.parseDouble(pro.sell_price) * pro.num);
+                toMoney += (Double.parseDouble(pro.sell_price) * pro.goods_num);
             }
-            shopNum = shopNum + pro.num;
+            shopNum = shopNum + pro.goods_num;
         }
+        double price1 = 0;
+        for(int i=0;i<mFoodInfoList.size();i++){
+            if(!TextUtils.isEmpty(mFoodInfoList.get(i).packing_price)){
+                price1 += Double.parseDouble(mFoodInfoList.get(i).packing_price.trim())*mFoodInfoList.get(i).goods_num;
+            }
+        }
+        boxPrice = price1;
+        toMoney = sendPrice + toMoney + price1;
+        mTvPackPrice.setText(price1+"");
         price = toMoney;
         mTvPirice.setText("￥" + toMoney);
 
@@ -156,14 +166,15 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
             for (int i = 0; i < mFoodInfoList.size(); i++) {
                 OrderGoodInfo goodInfo = new OrderGoodInfo();
                 goodInfo.goods_id = mFoodInfoList.get(i).id;
-                goodInfo.goods_num = mFoodInfoList.get(i).num;
+                goodInfo.goods_num = mFoodInfoList.get(i).goods_num;
                 goodInfo.goods_price = mFoodInfoList.get(i).sell_price;
                 goodList.add(goodInfo);
             }
             String json = gson.toJson(goodList);
-            mPresenter.addOrder(json, mStoreInfo.id+"", 2, mId, "10", "", "",mTvPackPrice.getText().toString());
+            mPresenter.addOrder(json, mStoreInfo.id+"", 2, mId, sendPrice+"", "", "",mTvPackPrice.getText().toString());
 
-
+        }else if(v.getId() == R.id.tv_coupon){
+            CouponListActivity.launch(this, CouponListActivity.INTENT_TYPE_SELECT);
         }
     }
 
@@ -203,12 +214,34 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                     mTvAddress.setText(mAddress);
                     mTvName.setVisibility(View.VISIBLE);
                     mTvName.setText(mName + "     " + mPhone);
-                    mPresenter.waimaiPrice(mStoreInfo.id,mId);
+                    mPresenter.waimaiPrice(mStoreInfo.id,mId,boxPrice+"");
 
                     break;
             }
         }
     }
+
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EventCode.EVENT_PAY_RESULT:
+                PayResultEvent data = (PayResultEvent) event.getData();
+                if (data.getResult() == PayResultEvent.PAY_SUCESS) {
+                    finish();
+                } else if (data.getResult() == PayResultEvent.PAY_FAIL) {
+                } else {
+                }
+                break;
+        }
+    }
+
 
     @Override
     public void orderSuccess(String data) {
@@ -217,9 +250,18 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
 
     }
 
+
+
+    private double sendPrice;
+
     @Override
     public void waimaiSuccess(WaimaiResq data) {
         mTvCoupon.setText(data.coupon);
         mTvSendPrice.setText(data.amount);
+
+        if(TextUtils.isEmpty(data.amount)){
+            sendPrice = Double.parseDouble(data.amount);
+        }
+        setPrice(mFoodInfoList);
     }
 }

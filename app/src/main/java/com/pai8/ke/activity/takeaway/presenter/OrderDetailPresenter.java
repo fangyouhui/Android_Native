@@ -58,5 +58,27 @@ public class OrderDetailPresenter extends BasePresenterImpl<OrderDetailContract.
                 });
     }
 
+    public void applyRefund(String order_no){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("buyer_id", AccountManager.getInstance().getUid());
+        map.put("order_no",order_no);
+        map.put("reason","");
+        TakeawayApi.getInstance().applyRefund(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onSuccess(String data){
+
+                        view.orderCancelSuccess(data);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
 
 }

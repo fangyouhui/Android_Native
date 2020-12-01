@@ -27,6 +27,7 @@ public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
         TextView tvStatus = helper.getView(R.id.tv_status);
         TextView mTvReject = helper.getView(R.id.tv_reject);
         TextView mTvCancel = helper.getView(R.id.tv_cancel);
+        TextView mTvFoodStatus = helper.getView(R.id.tv_food_status);
         helper.addOnClickListener(R.id.tv_cancel,R.id.tv_reject);
        //订单状态 0为待支付 1为已支付 2为商家已接单 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
         mTvReject.setVisibility(View.GONE);
@@ -34,46 +35,61 @@ public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
         if(item.order_status == 0){
             tvStatus.setText("待支付");
             mTvCancel.setVisibility(View.VISIBLE);
+            mTvCancel.setText("取消订单");
+            mTvFoodStatus.setText("立即支付");
         }else if(item.order_status == 1){
             tvStatus.setText("待商家接单");
             mTvCancel.setVisibility(View.VISIBLE);
-
+            mTvCancel.setText("取消订单");
+            mTvFoodStatus.setText("联系商家");
         }else if(item.order_status == 2){
 
             tvStatus.setText("商品准备中");
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
 
         }else if(item.order_status == 3){
 
             tvStatus.setText("商品配送中");
-
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == 4){
 
             tvStatus.setText("订单已完成");
-
+            mTvCancel.setText("再来一单");
+            mTvFoodStatus.setText("立即评价");
         }else if(item.order_status == 5){
 
             tvStatus.setText("退款申请中");
-
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == 6){
 
             tvStatus.setText("拒绝退款");
-
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == 8){
 
             tvStatus.setText("订单已退款");
-
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == 9){
 
             tvStatus.setText("订单已取消");
+            mTvCancel.setVisibility(View.GONE);
+
+            mTvFoodStatus.setText("重新下单");
 
         }else if(item.order_status == -1){
 
             tvStatus.setText("订单超时");
-
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == -2){
 
             tvStatus.setText("商家拒绝接单");
-
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }
 
 

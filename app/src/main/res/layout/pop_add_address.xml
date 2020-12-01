@@ -153,7 +153,7 @@
                 android:textColor="@color/color_mid_font"
                 android:textSize="15sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/et_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -177,6 +177,44 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
                 android:background="@mipmap/me_right_arrow" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/color_divider"
+
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingStart="16dp">
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="门牌号"
+                android:textColor="@color/color_mid_font"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/et_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/tv_number"
+                android:background="@color/color_transition"
+                android:hint="请输入门牌号"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/color_mid_font"
+                android:textSize="15sp" />
+
 
         </RelativeLayout>
         <View
