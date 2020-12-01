@@ -3,6 +3,7 @@ package com.pai8.ke.activity.takeaway.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.DensityUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -47,6 +49,8 @@ import java.util.List;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StoreActivity extends BaseMvpActivity<StorePresenter> implements View.OnClickListener,
         StoreContract.View {
@@ -73,6 +77,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     private int mStart = 0;
     private List<FoodGoodInfo> mGoodInfoList;  //购物车
+    private ShopIdReq mShopIdReq;
 
     public static void launch(Context context, String shopId) {
         if (StringUtils.isEmpty(shopId)) return;
@@ -260,10 +265,10 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
         mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
         setData(mStoreInfo);
-        ShopIdReq shopIdReq = new ShopIdReq();
-        shopIdReq.shop_id = mStoreInfo.id + "";
-        mPresenter.shopContent(shopIdReq);
-        mPresenter.getCart( mStoreInfo.id + "");
+        mShopIdReq = new ShopIdReq();
+        mShopIdReq.shop_id = mStoreInfo.id + "";
+        mPresenter.shopContent(mShopIdReq);
+        mPresenter.getCart(mStoreInfo.id + "");
 
 
     }
@@ -288,9 +293,9 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     public void onClick(View v) {
         if (v.getId() == R.id.back_all) {
             finish();
-        } else if(v.getId() == R.id.iv_store_search){
-            startActivity(new Intent(this,ShopGoodSearchActivity.class));
-        }else if (v.getId() == R.id.iv_shop_car) {
+        } else if (v.getId() == R.id.iv_store_search) {
+            startActivity(new Intent(this, ShopGoodSearchActivity.class));
+        } else if (v.getId() == R.id.iv_shop_car) {
             if (mGoodInfoList == null || mGoodInfoList.size() <= 0) {
                 return;
             }
@@ -347,5 +352,15 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
         }
 
+    }
+
+    @OnClick(R.id.tv_coupon)
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_coupon:
+                CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance(mShopIdReq.shop_id);
+                newInstance.show(getSupportFragmentManager(), "CouponGetDialog");
+                break;
+        }
     }
 }

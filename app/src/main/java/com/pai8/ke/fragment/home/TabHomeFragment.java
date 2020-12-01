@@ -9,8 +9,10 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.common.ScanActivity;
 import com.pai8.ke.activity.home.SearchVideoActivity;
+import com.pai8.ke.activity.video.fragment.InputCommentDialogFragment;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseFragment;
+import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.utils.TabCreateUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -80,6 +82,8 @@ public class TabHomeFragment extends BaseFragment {
                 launch(SearchVideoActivity.class);
                 break;
             case R.id.iv_liwu:
+                CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance();
+                newInstance.show(getChildFragmentManager(), "CouponGetDialog");
                 break;
             case R.id.iv_scan:
                 new IntentIntegrator(getActivity())

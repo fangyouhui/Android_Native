@@ -4,6 +4,7 @@ import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
+import com.pai8.ke.entity.resp.CouponGetListResp;
 import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.ShopList;
@@ -300,4 +301,25 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Coupon/allUserCouponList")
     Observable<BaseRespose<List<CouponListResp>>> allUserCouponList(@Field("time_type") int time_type);
+
+    /**
+     * 当前店铺可领取优惠券列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Coupon/shopCouponList")
+    Observable<BaseRespose<List<CouponGetListResp>>> shopCouponList(@Field("shop_id") String shop_id,
+                                                                    @Field("buyer_id") String buyer_id);
+
+
+    /**
+     * 领取
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Coupon/getCoupon")
+    Observable<BaseRespose> getCoupon(@Field("buyer_id") String buyer_id,
+                                      @Field("coupon_ids") String coupon_ids);
 }

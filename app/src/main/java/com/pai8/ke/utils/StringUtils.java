@@ -296,4 +296,16 @@ public class StringUtils {
         }
         return result.toString();
     }
+
+    public static String intJoinStr(final List<String> lists, final String separator) {
+        StringBuffer result = new StringBuffer();
+        if (lists != null && !lists.isEmpty()) {
+            for (String str : lists) {
+                result.append(str);
+                result.append(separator);
+            }
+            result.delete(result.length() - 1, result.length());
+        }
+        return result.toString();
+    }
 }
