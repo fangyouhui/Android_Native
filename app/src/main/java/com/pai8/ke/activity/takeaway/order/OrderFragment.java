@@ -6,15 +6,20 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.OrderAdapter;
 import com.pai8.ke.activity.takeaway.contract.OrderContract;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.presenter.OrderPresenter;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.fragment.pay.PayDialogFragment;
 import com.pai8.ke.utils.AppUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -94,8 +99,19 @@ public class OrderFragment extends BaseMvpFragment<OrderPresenter> implements Or
             }
         });
 
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(NotifyEvent event) {
+        if (event.type == Constants.EVENT_TYPE_CANCEL_ORDER) {
+            mPresenter.orderList(2);
+        }
 
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
     }
 
     @Override

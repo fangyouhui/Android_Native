@@ -29,7 +29,7 @@ public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
         TextView mTvCancel = helper.getView(R.id.tv_cancel);
         TextView mTvFoodStatus = helper.getView(R.id.tv_food_status);
         helper.addOnClickListener(R.id.tv_cancel,R.id.tv_reject);
-       //订单状态 0为待支付 1为已支付 2为商家已接单 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
+       //订单状态 0为待支付 1为已支付 2为商家已接单 7为订单制作完成 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
         mTvReject.setVisibility(View.GONE);
         mTvCancel.setVisibility(View.GONE);
         if(item.order_status == 0){
@@ -68,6 +68,10 @@ public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
             tvStatus.setText("拒绝退款");
             mTvCancel.setVisibility(View.GONE);
             mTvFoodStatus.setVisibility(View.GONE);
+        }else if(item.order_status == 7){
+            tvStatus.setText("商品制作完成");
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == 8){
 
             tvStatus.setText("订单已退款");
@@ -102,6 +106,9 @@ public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         rvFood.setLayoutManager(linearLayoutManager);
 
+
+        if(item.goods_info.size()>3)
+            item.goods_info.subList(0,2);
         OrderFoodAdapter adapter = new OrderFoodAdapter(item.goods_info);
         rvFood.setAdapter(adapter);
 

@@ -129,7 +129,8 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.toolbar_back_all) {
-            startActivity(new Intent(this, StoreManagerActivity.class));
+//            startActivity(new Intent(this, StoreManagerActivity.class));
+            finish();
         } else if (v.getId() == R.id.toolbar_iv_menu) {
             startActivity(new Intent(this, AddressActivity.class));
         }

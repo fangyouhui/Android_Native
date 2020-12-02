@@ -265,4 +265,9 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     public void orderCancelSuccess(String data) {
 
     }
+
+    @Override
+    public void getStatusSuccess(String data) {
+
+    }
 }

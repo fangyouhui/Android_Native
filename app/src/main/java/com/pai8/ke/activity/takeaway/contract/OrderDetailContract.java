@@ -15,6 +15,8 @@ public interface OrderDetailContract {
 
         void orderCancelSuccess(String data);
 
+        void getStatusSuccess(String data);
+
     }
 
 
