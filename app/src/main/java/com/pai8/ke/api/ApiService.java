@@ -312,7 +312,6 @@ public interface ApiService {
     Observable<BaseRespose<List<CouponGetListResp>>> shopCouponList(@Field("shop_id") String shop_id,
                                                                     @Field("buyer_id") String buyer_id);
 
-
     /**
      * 领取
      *
@@ -322,4 +321,44 @@ public interface ApiService {
     @POST("Coupon/getCoupon")
     Observable<BaseRespose> getCoupon(@Field("buyer_id") String buyer_id,
                                       @Field("coupon_ids") String coupon_ids);
+
+
+    /**
+     * 添加优惠券
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Coupon/addCoupon")
+    Observable<BaseRespose> addCoupon(@Field("shop_id") String shop_id,
+                                      @Field("dis_price") String dis_price,
+                                      @Field("trig_price") String trig_price,
+                                      @Field("days") String days,
+                                      @Field("type") String type,
+                                      @Field("num") String num);
+
+    /**
+     * 编辑优惠券
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Coupon/editCoupon")
+    Observable<BaseRespose> editCoupon(@Field("coupon_id") String coupon_id,
+                                       @Field("shop_id") String shop_id,
+                                       @Field("dis_price") String dis_price,
+                                       @Field("trig_price") String trig_price,
+                                       @Field("days") String days,
+                                       @Field("type") String type,
+                                       @Field("num") String num);
+
+    /**
+     * 删除优惠券
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("Coupon/delCoupon")
+    Observable<BaseRespose> delCoupon(@Field("coupon_id") String coupon_id,
+                                      @Field("shop_id") String shop_id);
 }
