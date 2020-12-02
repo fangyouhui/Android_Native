@@ -34,6 +34,16 @@ public class CouponGetListResp implements Serializable {
     private String trig_price;
     private String dis_price;
 
+    private boolean isGuize = false;
+
+    public boolean isGuize() {
+        return isGuize;
+    }
+
+    public void setGuize(boolean guize) {
+        isGuize = guize;
+    }
+
     public String getId() {
         return id;
     }

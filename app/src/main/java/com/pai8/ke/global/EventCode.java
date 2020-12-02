@@ -17,4 +17,6 @@ public interface EventCode {
     int EVENT_PUSH = 0x05;
     // 支付结果
     int EVENT_PAY_RESULT = 0xff6;
+    // 优惠券列表变化
+    int EVENT_COUPON = 0xff7;
 }

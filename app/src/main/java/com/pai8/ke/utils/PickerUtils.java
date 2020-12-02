@@ -52,7 +52,24 @@ public class PickerUtils {
 
     }
 
+    public static void showDays(Context context, DaysCallback callback) {
+        List<String> a = new ArrayList<>();
+        for (int i = 1; i <= 120; i++) {
+            a.add(i + "天");
+        }
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(context, (options1, option2, options3, v) -> {
+            callback.data(options1, a.get(options1));
+        }).build();
+        pvOptions.setNPicker(a, null, null);
+        pvOptions.setTitleText("有效时间");
+        pvOptions.show();
+    }
+
     public interface BusinessTypeCallback {
         void data(int position, int id, String name);
+    }
+
+    public interface DaysCallback {
+        void data(int position, String day);
     }
 }
