@@ -19,10 +19,12 @@ import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.entity.resp.WxOrderPrepayResp;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
@@ -181,56 +183,96 @@ public interface ApiService {
     @POST("index/shareUrl")
     Observable<BaseRespose<ShareResp>> shareUrl(@Field("video_id") String video_id);
 
+//    /**
+//     * 推荐的视频列表
+//     *
+//     * @param keywords
+//     * @param page
+//     * @return
+//     */
+//    @FormUrlEncoded
+//    @POST("index/videoList")
+//    Observable<BaseRespose<List<VideoResp>>> videoList(@Field("video_id") String video_id,
+//                                                       @Field("keywords") String keywords,
+//                                                       @Field("page") int page);
+//
+//    /**
+//     * 附近的视频列表
+//     *
+//     * @return
+//     */
+//    @FormUrlEncoded
+//    @POST("index/nearbyVideoList")
+//    Observable<BaseRespose<VideoNearResp>> nearbyVideoList(@Field("video_id") String video_id,
+//                                                           @Field("keywords") String keywords,
+//                                                           @Field("page") int page);
+//
+//    /**
+//     * 关注的视频列表
+//     *
+//     * @return
+//     */
+//    @FormUrlEncoded
+//    @POST("index/followVideoList")
+//    Observable<BaseRespose<List<VideoResp>>> followVideoList(@Field("video_id") String video_id,
+//                                                             @Field("page") int page);
+//
+//    /**
+//     * 我的视频列表（个人中心）
+//     *
+//     * @param page
+//     * @return
+//     */
+//    @FormUrlEncoded
+//    @POST("user/myVideoList")
+//    Observable<BaseRespose<List<VideoResp>>> myVideoList(@Field("video_id") String video_id,
+//                                                         @Field("page") int page);
+//
+//    /**
+//     * 我喜欢的列表
+//     *
+//     * @param page
+//     * @return
+//     */
+//    @FormUrlEncoded
+//    @POST("user/mylikeVideoList")
+//    Observable<BaseRespose<List<VideoResp>>> myLikeVideoList(@Field("video_id") String video_id,
+//                                                             @Field("page") int page);
+
     /**
-     * 推荐的视频列表
-     *
-     * @param keywords
-     * @param page
-     * @return
+     * 推荐视频列表
      */
     @FormUrlEncoded
     @POST("index/videoList")
-    Observable<BaseRespose<List<VideoResp>>> videoList(@Field("keywords") String keywords,
-                                                       @Field("page") int page);
+    Observable<BaseRespose<List<VideoResp>>> videoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 附近的视频列表
-     *
-     * @return
      */
     @FormUrlEncoded
     @POST("index/nearbyVideoList")
-    Observable<BaseRespose<VideoNearResp>> nearbyVideoList(@Field("keywords") String keywords,
-                                                           @Field("page") int page);
+    Observable<BaseRespose<VideoNearResp>> nearbyVideoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 关注的视频列表
-     *
-     * @return
      */
     @FormUrlEncoded
     @POST("index/followVideoList")
-    Observable<BaseRespose<List<VideoResp>>> followVideoList(@Field("page") int page);
+    Observable<BaseRespose<List<VideoResp>>> followVideoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 我的视频列表（个人中心）
-     *
-     * @param page
-     * @return
      */
     @FormUrlEncoded
     @POST("user/myVideoList")
-    Observable<BaseRespose<List<VideoResp>>> myVideoList(@Field("page") int page);
+    Observable<BaseRespose<List<VideoResp>>> myVideoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 我喜欢的列表
-     *
-     * @param page
-     * @return
      */
     @FormUrlEncoded
     @POST("user/mylikeVideoList")
-    Observable<BaseRespose<List<VideoResp>>> myLikeVideoList(@Field("page") int page);
+    Observable<BaseRespose<List<VideoResp>>> myLikeVideoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 通知极光推送通话

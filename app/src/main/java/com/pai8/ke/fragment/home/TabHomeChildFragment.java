@@ -135,7 +135,8 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         lrv.setOnLoadMoreListener(this);
         mLRvAdapter.setOnItemClickListener((view, position) -> {
             VideoResp videoResp = mAdapter.getDataList().get(position);
-            VideoDetailActivity.launch(getActivity(), videoResp.getId());
+            VideoDetailActivity.launch(getActivity(), videoResp.getId(), "", videoResp.getPageNo(),
+                    videoResp.getPosition(), mPosition);
         });
 
     }
