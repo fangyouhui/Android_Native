@@ -22,9 +22,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void videoList(String videoId, String keywords, int pos, int page, int tag) {
+    public void videoList(String video_id, String keywords, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
-        fields.put("videoId", videoId);
+        fields.put("video_id", video_id);
         fields.put("keywords", keywords);
         fields.put("page", page);
         fields.put("position", pos);
@@ -58,9 +58,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void nearbyVideoList(String videoId, String keywords, int pos, int page, int tag) {
+    public void nearbyVideoList(String video_id, String keywords, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
-        fields.put("videoId", videoId);
+        fields.put("video_id", video_id);
         fields.put("keywords", keywords);
         fields.put("page", page);
         fields.put("position", pos);
@@ -94,9 +94,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void followVideoList(String videoId, int pos, int page, int tag) {
+    public void followVideoList(String video_id, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
-        fields.put("videoId", videoId);
+        fields.put("video_id", video_id);
         fields.put("page", page);
         fields.put("position", pos);
         Api.getInstance().followVideoList(fields)
@@ -128,9 +128,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void myVideoList(String videoId, int pos, int page, int tag) {
+    public void myVideoList(String video_id, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
-        fields.put("videoId", videoId);
+        fields.put("video_id", video_id);
         fields.put("page", page);
         fields.put("position", pos);
         Api.getInstance().myVideoList(fields)
@@ -162,9 +162,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void myLikeVideoList(String videoId, int pos, int page, int tag) {
+    public void myLikeVideoList(String video_id, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
-        fields.put("videoId", videoId);
+        fields.put("video_id", video_id);
         fields.put("page", page);
         fields.put("position", pos);
         Api.getInstance().myLikeVideoList(fields)
