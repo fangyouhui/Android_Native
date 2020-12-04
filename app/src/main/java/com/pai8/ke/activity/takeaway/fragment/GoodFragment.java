@@ -89,6 +89,28 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
     public void onEvent(ShopDataEvent event) {
         if (event.type == Constants.EVENT_TYPE_SHOP_CONTENT) {
             mLeftList = event.data.goods;
+
+            mClassifyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    isMoved = true;
+                    targetPosition = position;
+                    setChecked(position, true);
+                }
+            });
+            mGoodAdapter = new FoodGoodAdapter(getActivity(), mRightList, event.data.shop_info.shop_id,new RvListener() {
+                @Override
+                public void onItemClick(int id, int position) {
+                    String content = "";
+                    switch (id) {
+                        case R.id.root:
+                            content = "title";
+                            break;
+
+                    }
+                }
+            });
+            mRvGoods.setAdapter(mGoodAdapter);
             List<FoodClassifyInfo> goods = event.data.goods;
             mClassifyAdapter.setNewData(goods);
             for (int i = 0; i < goods.size(); i++) {
@@ -105,6 +127,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                     String name = goodInfos.get(j).title;
                     body.name = goods.get(i).name;
                     body.sell_price = goodInfos.get(j).sell_price;
+                    body.packing_price = goodInfos.get(j).packing_price;
                     body.id = goodInfos.get(j).id;
                     body.cover = goodInfos.get(j).cover;
                     body.discount = goodInfos.get(j).discount;
@@ -174,29 +197,6 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
         super.initData();
         mClassifyAdapter = new FoodClassifyAdapter(mLeftList);
         mRvClassify.setAdapter(mClassifyAdapter);
-        mClassifyAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                isMoved = true;
-                targetPosition = position;
-                setChecked(position, true);
-            }
-        });
-        mGoodAdapter = new FoodGoodAdapter(getActivity(), mRightList, new RvListener() {
-            @Override
-            public void onItemClick(int id, int position) {
-                String content = "";
-                switch (id) {
-                    case R.id.root:
-                        content = "title";
-                        break;
-
-                }
-
-            }
-        });
-        mRvGoods.setAdapter(mGoodAdapter);
-
     }
 
 

@@ -122,7 +122,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/tv_total"
-                android:text="优惠 ¥6"
+                android:text="优惠 ¥0"
                 android:textColor="@color/color_light_font"
                 android:textSize="14sp" />
 

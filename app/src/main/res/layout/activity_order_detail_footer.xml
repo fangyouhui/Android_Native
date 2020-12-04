@@ -230,6 +230,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_address1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="收货地址"
@@ -237,10 +238,13 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:layout_toEndOf="@+id/tv_address1"
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
+                android:gravity="end"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
                 android:layout_centerVertical="true"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
@@ -338,11 +342,11 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_pay_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="16"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
 

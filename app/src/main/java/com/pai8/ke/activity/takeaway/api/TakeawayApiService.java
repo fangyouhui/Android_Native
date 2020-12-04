@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.takeaway.api;
 
+import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
@@ -87,6 +88,9 @@ public interface TakeawayApiService {
     @POST("shop/upAddress")
     Observable<BaseRespose<String>> upAddress(@Body RequestBody body);
 
+    @POST("shop/editAddress")
+    Observable<BaseRespose<String>> editAddress(@Body RequestBody body);
+
 
     @POST("shop/addressDelete")
     Observable<BaseRespose<String>> deleteAddress(@Body RequestBody body);
@@ -98,6 +102,9 @@ public interface TakeawayApiService {
      */
     @POST("shop/shopCollect")
     Observable<BaseRespose<String>> collection(@Body ShopIdReq parm);
+
+    @POST("shop/shopUncollect")
+    Observable<BaseRespose<String>> shopUncollect(@Body ShopIdReq parm);
 
 
     @POST("shop/shopUncollect")
@@ -159,9 +166,28 @@ public interface TakeawayApiService {
     @POST("Order/addCart")
     Observable<BaseRespose<String>> addCart(@Body RequestBody body);
 
+    @POST("Order/updateCartNum")
+    Observable<BaseRespose<String>> updateCartNum(@Body RequestBody body);
+
     @POST("Order/getCart")
     Observable<BaseRespose<ShopFoodGoodInfo>> getCart(@Body RequestBody body);
 
+    @POST("Order/applyRefund")
+    Observable<BaseRespose<String>> applyRefund(@Body RequestBody body);
+
+    @POST("Order/shopDealOrder")
+    Observable<BaseRespose<String>> shopDealOrder(@Body RequestBody body);
+
+    @POST("shop/floorSendCost")
+    Observable<BaseRespose<String>> floorSendCost(@Body RequestBody body);
+
+
+    @POST("shop/foodSearch")
+    Observable<BaseRespose<List<FoodGoodInfo>>> foodSearch(@Body RequestBody body);
+
+
+    @POST("Order/reAddCart")
+    Observable<BaseRespose<List<FoodGoodInfo>>> reAddCart(@Body RequestBody body);
 
 
 }

@@ -1,23 +1,28 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
+import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.ViewPagerAdapter;
-import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.StoreContract;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
+import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
@@ -74,10 +79,15 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private TextView mTvStoreDis;
     private TextView mTvTime;
     private TextView mTvlogisticsDiscounts;
+    private ImageView ivStore;
 
     private int mStart = 0;
     private List<FoodGoodInfo> mGoodInfoList;  //购物车
     private ShopIdReq mShopIdReq;
+
+
+    private String orderNo;
+
 
     public static void launch(Context context, String shopId) {
         if (StringUtils.isEmpty(shopId)) return;
@@ -95,7 +105,11 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     @Override
     public void initView() {
-        setImmersionBar(R.id.iv_store);
+        ivStore = findViewById(R.id.iv_store);
+        ImmersionBar.with(this)
+                .transparentStatusBar()
+                .statusBarDarkFont(true)
+                .init();
         mIvBack = findViewById(R.id.back_all);
         mIvBack.setOnClickListener(this);
         toolbar = findViewById(R.id.toolbar);
@@ -155,8 +169,6 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                 mIvCollection.setColorFilter(backgroundBlack);
                 mIvShare.setColorFilter(backgroundBlack);
                 toolbar.setBackgroundColor(backgroundColor);
-
-
             }
         });
 
@@ -237,17 +249,22 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         double originalTotlMoney = 0;
         for (FoodGoodInfo pro : mShopCarGoods) {
             if (!TextUtils.isEmpty(pro.sell_price)) {
-                toMoney += (Double.parseDouble(pro.sell_price) * pro.num);
+                toMoney += (Double.parseDouble(pro.sell_price) * pro.goods_num);
             }
-            shopNum = shopNum + pro.num;
+            shopNum = shopNum + pro.goods_num;
         }
         mTvPrice.setText("￥" + toMoney);
         mTvShopNum.setText("" + shopNum);
 
         if (shopNum <= 0) {
+            mIvShopCar.setBackground(getResources().getDrawable(R.mipmap.ic_shop_car_gray));
+            mTvShopNum.setVisibility(View.INVISIBLE);
             mTvOrder.setEnabled(false);
             mTvOrder.setBackgroundResource(R.drawable.shape_orgin_gradient_gray);
         } else {
+            mIvShopCar.setBackground(getResources().getDrawable(R.mipmap.ic_shop_car));
+            mTvShopNum.setText(shopNum + "");
+            mTvShopNum.setVisibility(View.VISIBLE);
             mTvOrder.setBackgroundResource(R.drawable.shape_orgin_gradient);
             mTvOrder.setEnabled(true);
 
@@ -262,7 +279,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         super.initData();
 
         EventBus.getDefault().register(this);
-
+        orderNo  = getIntent().getStringExtra("orderNo");
         mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
         setData(mStoreInfo);
         mShopIdReq = new ShopIdReq();
@@ -270,20 +287,54 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mPresenter.shopContent(mShopIdReq);
         mPresenter.getCart(mStoreInfo.id + "");
 
+        ShopIdReq shopIdReq = new ShopIdReq();
+        shopIdReq.shop_id = mStoreInfo.id + "";
+        mPresenter.shopContent(shopIdReq);
+        mPresenter.getCart( mStoreInfo.id + "");
+        //再来一旦
+        if(!TextUtils.isEmpty(orderNo)){
+            mPresenter.reAddCart(orderNo);
+        }
 
     }
 
-
+    public void fullScreen(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = activity.getWindow();
+                View decorView = window.getDecorView();
+                //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+                int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+                decorView.setSystemUiVisibility(option);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                //设置状态栏为透明，否则在部分手机上会呈现系统默认的浅灰色
+                window.setStatusBarColor(Color.TRANSPARENT);
+                //导航栏颜色也可以考虑设置为透明色
+                //window.setNavigationBarColor(Color.TRANSPARENT);
+            } else {
+                Window window = activity.getWindow();
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+                int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+                attributes.flags |= flagTranslucentStatus;
+//                attributes.flags |= flagTranslucentNavigation;
+                window.setAttributes(attributes);
+            }
+        }
+    }
     private void setData(StoreInfo mStoreInfo) {
         if (!TextUtils.isEmpty(mStoreInfo.shop_name)) {
             ImageLoadUtils.setCircularImage(this, mStoreInfo.shop_img, mIvStorePic, R.mipmap.ic_launcher);
             mTvStoreName.setText(mStoreInfo.shop_name);
             mTvScore.setText(mStoreInfo.score + "");
-            mTvMonthSale.setText("月售 " + mStoreInfo.monthly_sale);
+            mTvMonthSale.setText("月售 " + mStoreInfo.month_sale_count);
             mTvDesc.setText(mStoreInfo.shop_desc);
             mTvTime.setText(mStoreInfo.delivery_time);
             mTvlogisticsDiscounts.setText("另需配送费￥" + mStoreInfo.send_cost);
             mTvStoreDis.setText(mStoreInfo.distance);
+            ImageLoadUtils.setRectImage(this, mStoreInfo.shop_img, ivStore);
+
         }
 
     }
@@ -293,6 +344,10 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     public void onClick(View v) {
         if (v.getId() == R.id.back_all) {
             finish();
+        } else if(v.getId() == R.id.iv_store_search){
+            startActivity(new Intent(this,ShopGoodSearchActivity.class)
+            .putExtra("shopId",mStoreInfo.id));
+        }else if (v.getId() == R.id.iv_shop_car) {
         } else if (v.getId() == R.id.iv_store_search) {
             startActivity(new Intent(this, ShopGoodSearchActivity.class));
         } else if (v.getId() == R.id.iv_shop_car) {
@@ -300,6 +355,15 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                 return;
             }
             ShopCarPop pop = new ShopCarPop(this, mTvShopNum.getText().toString(), mGoodInfoList);
+            pop.setOnSelectListener(new ShopCarPop.OnSelectListener() {
+                @Override
+                public void onSelect() {
+                    Intent intent = new Intent(StoreActivity.this, ConfirmOrderActivity.class);
+                    intent.putExtra("shopCar", (Serializable) mGoodInfoList);
+                    intent.putExtra("storeInfo", mStoreInfo);
+                    startActivity(intent);
+                }
+            });
             pop.showPopupWindow();
         } else if (v.getId() == R.id.tv_order) {
             Intent intent = new Intent(this, ConfirmOrderActivity.class);
@@ -309,23 +373,11 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         } else if (v.getId() == R.id.iv_store_collection) {
             ShopIdReq addFoodReq = new ShopIdReq();
             addFoodReq.shop_id = AccountManager.getInstance().getShopId();
-            TakeawayApi.getInstance().collection(addFoodReq)
-                    .doOnSubscribe(disposable -> {
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<String>() {
-                        @Override
-                        protected void onSuccess(String shopList) {
-
-
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            super.onError(msg, errorCode);
-                        }
-                    });
-
+            if(mStoreInfo.is_collect == 1){
+               mPresenter.unCollection(addFoodReq);
+            }else{
+                mPresenter.collection(addFoodReq);
+            }
 
         }
     }
@@ -345,13 +397,32 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     @Override
     public void getShopContentSuccess(ShopContent data) {
         setData(data.shop_info);
-        if (data.shop_info.is_collect == 1) {
+        if (data.shop_info.is_collect == 0) {
             mIvCollection.setImageResource(R.mipmap.icon_rating_bar_normal);
         } else {
             mIvCollection.setImageResource(R.mipmap.icon_rating_bar_select);
 
         }
 
+    }
+
+    @Override
+    public void collectionSuccess(String data) {
+        mStoreInfo.is_collect = 1;
+        mIvCollection.setImageResource(R.mipmap.icon_rating_bar_select);
+
+    }
+
+    @Override
+    public void unCollectionSuccess(String data) {
+        mStoreInfo.is_collect = 0;
+        mIvCollection.setImageResource(R.mipmap.icon_rating_bar_normal);
+    }
+
+    @Override
+    public void getCarSuccess(ShopFoodGoodInfo data) {
+        mGoodInfoList = data.goods_info;
+        setPrice(mGoodInfoList);
     }
 
     @OnClick(R.id.tv_coupon)

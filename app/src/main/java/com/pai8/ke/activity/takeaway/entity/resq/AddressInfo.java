@@ -7,6 +7,11 @@ public class AddressInfo {
     public String address;
     public String linkman;
     public String phone;
+    public String longitude;
+    public String latitude;
+    public String house_number;
+
+
 
 
 }

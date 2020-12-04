@@ -37,6 +37,22 @@
             android:textColor="@color/text_black"
             android:textSize="18sp" />
 
+
+        <TextView
+            android:id="@+id/iv_price_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
+            android:textSize="16sp"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/black_normal"
+            android:text="起送价"
+       />
+
     </RelativeLayout>
 
 

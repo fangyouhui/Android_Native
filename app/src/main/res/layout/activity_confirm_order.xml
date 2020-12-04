@@ -165,6 +165,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:visibility="gone"
             android:paddingStart="16dp">
 
             <TextView
@@ -205,6 +206,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="16dp"
+            android:visibility="gone"
             android:background="@color/color_divider" />
 
 

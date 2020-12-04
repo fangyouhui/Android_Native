@@ -65,9 +65,9 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
         double originalTotlMoney = 0;
         for (FoodGoodInfo pro : mShopCarGoods) {
             if(!TextUtils.isEmpty(pro.sell_price)){
-                toMoney += (Double.parseDouble(pro.sell_price)*pro.num) ;
+                toMoney += (Double.parseDouble(pro.sell_price)*pro.goods_num) ;
             }
-            shopNum = shopNum + pro.num;
+            shopNum = shopNum + pro.goods_num;
         }
         mTvPrice.setText("￥" + toMoney);
         if(shopNum<=0){
@@ -99,12 +99,17 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
         int id = view.getId();
         if (id == R.id.iv_close) {
             dismiss();
+        }else if(id == R.id.tv_order){
+
+            if(onSelectListener!=null)
+                onSelectListener.onSelect();
+
         }
     }
 
 
     public interface OnSelectListener {
-        void onSelect(String content);
+        void onSelect();
     }
 
     private OnSelectListener onSelectListener;

@@ -91,7 +91,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/iv_shop_car"
-                android:text="另需配送费￥1.5"
+                android:text="另需配送费￥0"
                 android:textColor="@color/color_light_font"
                 android:textSize="12sp" />
 

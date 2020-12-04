@@ -61,7 +61,7 @@ public class EvaluateFragment extends BaseMvpFragment<EvaluatePresenter> impleme
         if (event.type == Constants.EVENT_TYPE_SHOP_CONTENT) {
             mPresenter.shopComments(event.data.shop_info.id+"",page);
             mTvScore.setText(event.data.shop_info.score+"");
-            mRatingBar.setNumStars((int) event.data.shop_info.score);
+            mRatingBar.setRating((float) event.data.shop_info.score);
         }
 
     }

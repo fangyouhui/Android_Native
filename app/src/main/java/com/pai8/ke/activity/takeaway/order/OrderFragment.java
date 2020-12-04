@@ -9,8 +9,12 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderAdapter;
 import com.pai8.ke.activity.takeaway.contract.OrderContract;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.presenter.OrderPresenter;
+import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.base.BaseMvpFragment;
+import com.pai8.ke.fragment.pay.PayDialogFragment;
+import com.pai8.ke.utils.AppUtils;
 
 import java.util.List;
 
@@ -47,17 +51,43 @@ public class OrderFragment extends BaseMvpFragment<OrderPresenter> implements Or
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (mAdapter.getData().get(position).order_status == 2 || mAdapter.getData().get(position).order_status == 3
+                        || mAdapter.getData().get(position).order_status == 7) {
+                    startActivity(new Intent(getActivity(), OrderSendActivity.class)
+                            .putExtra("order",mAdapter.getData().get(position)));
+                }else{
+                    startActivity(new Intent(getActivity(), OrderDetailActivity.class)
+                            .putExtra("order",mAdapter.getData().get(position)));
+                }
 
-                startActivity(new Intent(getActivity(), OrderDetailActivity.class)
-                .putExtra("order",mAdapter.getData().get(position)));
+
             }
         });
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                OrderInfo orderInfo = mAdapter.getData().get(position);
                 if(view.getId() == R.id.tv_cancel){
-                    mPresenter.cancelOrder(mAdapter.getData().get(position).order_no);
+
+                    if(orderInfo.order_status == 0 || orderInfo.order_status == 1){  //取消订单
+                        mPresenter.cancelOrder(mAdapter.getData().get(position).order_no);
+                    }
+
+                }else if(view.getId() == R.id.tv_food_status){
+                    if(orderInfo.order_status == 0 ){
+                        PayDialogFragment payDialogFragment = PayDialogFragment.newInstance(orderInfo.order_price, orderInfo.order_no);
+                        payDialogFragment.show(getChildFragmentManager(), "pay");
+                    }else if(orderInfo.order_status == 1){  //联系商家
+                        AppUtils.intentCallPhone(getActivity(), orderInfo.shop_info.mobile);
+                    }else if(orderInfo.order_status == 9){  //重新下单
+                        StoreInfo storeInfo = new StoreInfo();
+                        storeInfo.id = orderInfo.shop_id;
+                        Intent intent = new Intent(getActivity(), StoreActivity.class);
+                        intent.putExtra("storeInfo",storeInfo);
+                        intent.putExtra("orderNo",orderInfo.order_no);
+                        startActivity(intent);
+                    }
 
                 }
 

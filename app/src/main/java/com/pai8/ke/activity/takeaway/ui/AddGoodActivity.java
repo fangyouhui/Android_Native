@@ -23,7 +23,6 @@ import com.pai8.ke.activity.takeaway.presenter.AddGoodPresenter;
 import com.pai8.ke.activity.takeaway.utils.SoftHideKeyBoardUtil;
 import com.pai8.ke.activity.takeaway.widget.ChooseDiscountPricePop;
 import com.pai8.ke.activity.takeaway.widget.ChooseShopCoverPop;
-import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
@@ -146,7 +145,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
             pop.showPopupWindow();
         } else if (v.getId() == R.id.tv_discount_price) {
             ChooseDiscountPricePop pricePop = new ChooseDiscountPricePop(this);
-            pricePop.setOnSelectListener(new ShopCarPop.OnSelectListener() {
+            pricePop.setOnSelectListener(new ChooseDiscountPricePop.OnSelectListener() {
                 @Override
                 public void onSelect(String content) {
                     mTvDiscountPrice.setText(content);
@@ -158,6 +157,20 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
         } else if (v.getId() == R.id.tv_publish) {  //发布
             if (TextUtils.isEmpty(mFoodPath) && mType == 0) {
                 ToastUtils.showShort("图片不能为空");
+                return;
+            }
+            String shopName = mEtName.getText().toString();
+            if (TextUtils.isEmpty(shopName) ) {
+                ToastUtils.showShort("商品名称不能为空");
+                return;
+            }
+            String sellerPrice = mEtPrice.getText().toString();
+            if (TextUtils.isEmpty(sellerPrice) ) {
+                ToastUtils.showShort("商品价格不能为空");
+                return;
+            }
+            if (TextUtils.isEmpty(cateId) ) {
+                ToastUtils.showShort("商品分类不能为空");
                 return;
             }
             showLoadingDialog("");
@@ -176,8 +189,8 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                     addFoodReq.goods_id = mFood.id;
                     addFoodReq.cover = mFood.cover;
                     addFoodReq.shop_id = AccountManager.getInstance().getShopId();
-                    addFoodReq.title = mEtName.getText().toString();  //名称
-                    addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
+                    addFoodReq.title = shopName;  //名称
+                    addFoodReq.sell_price = sellerPrice;  //售卖价格
                     addFoodReq.discount = mTvDiscountPrice.getText().toString();
                     addFoodReq.origin_price = String.valueOf(origin);  //原价
                     addFoodReq.desc = mEtDesc.getText().toString();

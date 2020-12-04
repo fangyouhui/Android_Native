@@ -19,6 +19,7 @@ import com.pai8.ke.entity.event.PayResultEvent;
 import com.pai8.ke.entity.resp.WxOrderPrepayResp;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.SpanUtils;
@@ -145,6 +146,7 @@ public class PayDialogFragment extends BaseDialogFragment {
             req.packageValue = wx.getPackageX();//"Sign=WXPay"
             LogUtils.i("pay", "wx pay" + req.toString());
             mApi.sendReq(req);
+            dismiss();
         }).start();
     }
 
@@ -187,7 +189,7 @@ public class PayDialogFragment extends BaseDialogFragment {
             toast("订单号为空");
             return;
         }
-        Api.getInstance().orderPrepay(mOrderNo)
+        Api.getInstance().orderPrepay(mOrderNo, AccountManager.getInstance().getUid(),mPayType)
                 .doOnSubscribe(disposable -> {
 
                 })
