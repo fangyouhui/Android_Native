@@ -14,8 +14,6 @@ public interface VideoContract {
 
         void refreshComplete();
 
-        void contentList(List<VideoResp> data, int tag);
-
         void getComments(List<CommentResp> data);
 
         void follow(int followStatus);
@@ -27,8 +25,6 @@ public interface VideoContract {
     }
 
     interface Presenter extends BasePresenter {
-
-        void contentList(String video_id, int pageNo, int tag);
 
         void getComments(String video_id);
 

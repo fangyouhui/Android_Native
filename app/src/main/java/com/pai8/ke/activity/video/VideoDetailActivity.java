@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.ImageHeaderParser;
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -35,10 +36,14 @@ import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.interfaces.OnViewPagerListener;
+import com.pai8.ke.interfaces.contract.VideoDetailContract;
+import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.manager.ViewPagerLayoutManager;
+import com.pai8.ke.presenter.VideoDetailPresenter;
+import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
@@ -68,13 +73,15 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
 import static com.pai8.ke.global.EventCode.EVENT_REPORT;
+import static com.pai8.ke.global.GlobalConstants.LOADMORE;
+import static com.pai8.ke.global.GlobalConstants.REFRESH;
 import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
 /**
  * 视频详情
  * Created by gh on 2020/11/3.
  */
-public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter> implements VideoContract.View, SwipeRefreshLayout.OnRefreshListener, ReportContract.View {
+public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter> implements VideoContract.View, SwipeRefreshLayout.OnRefreshListener, ReportContract.View, VideoDetailContract.View {
 
     @BindView(R.id.rv)
     RecyclerView mLuRv;
@@ -90,7 +97,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
     private int mCurPlayPos = -1;
     private int mPageNo = 1;
-    private String video_id = "";
+    private String mVideoId = "";
     private String mShareImgUrl = "";
 
     private BottomDialog mShareBottomDialog;
@@ -105,6 +112,10 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     private CommentAdapter mCommentAdapter;
 
     private ReportPresenter mReportPresenter;
+    private VideoDetailPresenter mVideoDetailPresenter;
+    private int mPosition;
+    private int mType;
+    private String mKeyWords = "";
 
     @Override
     protected boolean isRegisterEventBus() {
@@ -150,10 +161,15 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         }
     }
 
-    public static void launch(Context context, String video_id) {
+    public static void launch(Context context, String video_id, String keywords, int pageNo, int position,
+                              int type) {
         Intent intent = new Intent(context, VideoDetailActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("video_id", video_id);
+        intent.putExtra("pageNo", pageNo);
+        intent.putExtra("position", position);
+        intent.putExtra("type", type);
+        intent.putExtra("keywords", keywords);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
@@ -184,8 +200,13 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
     @Override
     public void initData() {
+        mVideoDetailPresenter = new VideoDetailPresenter(this);
         Bundle extras = getIntent().getExtras();
-        video_id = extras.getString("video_id");
+        mVideoId = extras.getString("video_id");
+        mKeyWords = extras.getString("keywords");
+        mPageNo = extras.getInt("pageNo", 0);
+        mPosition = extras.getInt("position");
+        mType = extras.getInt("type");
         mReportPresenter = new ReportPresenter(this);
         onRefresh();
     }
@@ -247,7 +268,24 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
                 playVideo(position);
                 if (isBottom) {//加载更多
                     mPageNo++;
-                    mPresenter.contentList(video_id, mPageNo, GlobalConstants.LOADMORE);
+                    switch (mType) {
+                        case 0:
+                            mVideoDetailPresenter.nearbyVideoList(mVideoId, mKeyWords, mPosition, mPageNo,
+                                    LOADMORE);
+                            break;
+                        case 1:
+                            mVideoDetailPresenter.videoList(mVideoId, mKeyWords, mPosition, mPageNo,
+                                    LOADMORE);
+                            break;
+                        case 2:
+                            mVideoDetailPresenter.followVideoList(mVideoId, mPosition, mPageNo, LOADMORE);
+                            break;
+                        case 3:
+                            mVideoDetailPresenter.myVideoList(mVideoId, mPosition, mPageNo, LOADMORE);
+                            break;
+                        case 4:
+                            mVideoDetailPresenter.myLikeVideoList(mVideoId, mPosition, mPageNo, LOADMORE);
+                    }
                 }
             }
         });
@@ -646,10 +684,25 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
     @Override
     public void onRefresh() {
-        mPageNo = 1;
         mCurPlayPos = -1;
         MyApp.getMyAppHandler().postDelayed(() -> {
-            mPresenter.contentList(video_id, mPageNo, GlobalConstants.REFRESH);
+            switch (mType) {
+                case 0:
+                    mVideoDetailPresenter.nearbyVideoList(mVideoId, mKeyWords, mPosition, mPageNo, REFRESH);
+                    break;
+                case 1:
+                    mVideoDetailPresenter.videoList(mVideoId, mKeyWords, mPosition, mPageNo, REFRESH);
+                    break;
+                case 2:
+                    mVideoDetailPresenter.followVideoList(mVideoId, mPosition, mPageNo, REFRESH);
+                    break;
+                case 3:
+                    mVideoDetailPresenter.myVideoList(mVideoId, mPosition, mPageNo, REFRESH);
+                    break;
+                case 4:
+                    mVideoDetailPresenter.myLikeVideoList(mVideoId, mPosition, mPageNo, REFRESH);
+                    break;
+            }
         }, 200);
     }
 
@@ -661,7 +714,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     }
 
     @Override
-    public void contentList(List<VideoResp> data, int tag) {
+    public void videoList(List<VideoResp> data, int tag) {
         if (tag == GlobalConstants.REFRESH) {
             mVideoAdapter.setDataList(data);
         } else if (tag == GlobalConstants.LOADMORE) {

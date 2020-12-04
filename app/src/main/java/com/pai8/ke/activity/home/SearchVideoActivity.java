@@ -113,7 +113,8 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
         lrv.setOnLoadMoreListener(this);
         mLRvAdapter.setOnItemClickListener((view, position) -> {
             VideoResp videoResp = mAdapter.getDataList().get(position);
-            VideoDetailActivity.launch(this, videoResp.getId());
+            VideoDetailActivity.launch(this, videoResp.getId(), StringUtils.getEditText(etSearch),
+                    videoResp.getPageNo(), videoResp.getPosition(), 1);
         });
 
         etSearch.addTextChangedListener(new TextWatcher() {

@@ -33,6 +33,25 @@ public class VideoResp implements Serializable {
 
     private String proxyUrl;
 
+    private int pageNo;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public int getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
+    }
+
     public String getId() {
         return id;
     }

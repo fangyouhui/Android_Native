@@ -7,6 +7,7 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.interfaces.contract.VideoDetailContract;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.utils.CollectionUtils;
 
@@ -14,17 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View> implements VideoHomeContract.Presenter {
+public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.View> implements VideoDetailContract.Presenter {
 
-    public VideoHomePresenter(VideoHomeContract.View view) {
+    public VideoDetailPresenter(VideoDetailContract.View view) {
         super(view);
     }
 
     @Override
-    public void videoList(String keywords, int page, int tag) {
+    public void videoList(String video_id, String keywords, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
+        fields.put("video_id", video_id);
         fields.put("keywords", keywords);
         fields.put("page", page);
+        fields.put("position", pos);
         Api.getInstance().videoList(fields)
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -34,7 +37,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(List<VideoResp> videos) {
                         view.refreshComplete();
-                        setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
                                 view.toast("数据为空");
@@ -56,10 +58,12 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     }
 
     @Override
-    public void nearbyVideoList(String keywords, int page, int tag) {
+    public void nearbyVideoList(String video_id, String keywords, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
+        fields.put("video_id", video_id);
         fields.put("keywords", keywords);
         fields.put("page", page);
+        fields.put("position", pos);
         Api.getInstance().nearbyVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })
@@ -69,7 +73,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     protected void onSuccess(VideoNearResp data) {
                         view.refreshComplete();
                         List<VideoResp> videos = data.getVidoe_list();
-                        setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
                                 view.toast("数据为空");
@@ -91,9 +94,11 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     }
 
     @Override
-    public void followVideoList(int page, int tag) {
+    public void followVideoList(String video_id, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
+        fields.put("video_id", video_id);
         fields.put("page", page);
+        fields.put("position", pos);
         Api.getInstance().followVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })
@@ -102,7 +107,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(List<VideoResp> list) {
                         view.refreshComplete();
-                        setPageNo(list, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
                                 view.toast("数据为空");
@@ -124,9 +128,11 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     }
 
     @Override
-    public void myVideoList(int page, int tag) {
+    public void myVideoList(String video_id, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
+        fields.put("video_id", video_id);
         fields.put("page", page);
+        fields.put("position", pos);
         Api.getInstance().myVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })
@@ -135,7 +141,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(List<VideoResp> list) {
                         view.refreshComplete();
-                        setPageNo(list, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
                                 view.toast("数据为空");
@@ -157,9 +162,11 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     }
 
     @Override
-    public void myLikeVideoList(int page, int tag) {
+    public void myLikeVideoList(String video_id, int pos, int page, int tag) {
         Map<String, Object> fields = new HashMap<>();
+        fields.put("video_id", video_id);
         fields.put("page", page);
+        fields.put("position", pos);
         Api.getInstance().myLikeVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })
@@ -168,7 +175,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(List<VideoResp> list) {
                         view.refreshComplete();
-                        setPageNo(list, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
                                 return;
@@ -188,13 +194,4 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                 });
     }
 
-    private void setPageNo(List<VideoResp> list, int page) {
-        if (CollectionUtils.isNotEmpty(list)) {
-            for (int i = 0; i < list.size(); i++) {
-                VideoResp videoResp = list.get(i);
-                videoResp.setPageNo(page);
-                videoResp.setPosition(i);
-            }
-        }
-    }
 }
