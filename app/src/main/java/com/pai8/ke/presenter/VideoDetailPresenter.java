@@ -8,10 +8,8 @@ import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoDetailContract;
-import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.utils.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +20,7 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void videoList(String video_id, String keywords, int pos, int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("video_id", video_id);
-        fields.put("keywords", keywords);
-        fields.put("page", page);
-        fields.put("position", pos);
+    public void videoList(Map<String, Object> fields, int tag) {
         Api.getInstance().videoList(fields)
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -39,7 +32,6 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                         view.refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(videos, tag);
@@ -58,12 +50,7 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void nearbyVideoList(String video_id, String keywords, int pos, int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("video_id", video_id);
-        fields.put("keywords", keywords);
-        fields.put("page", page);
-        fields.put("position", pos);
+    public void nearbyVideoList(Map<String, Object> fields, int tag) {
         Api.getInstance().nearbyVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })
@@ -75,7 +62,6 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                         List<VideoResp> videos = data.getVidoe_list();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(videos, tag);
@@ -94,11 +80,7 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void followVideoList(String video_id, int pos, int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("video_id", video_id);
-        fields.put("page", page);
-        fields.put("position", pos);
+    public void followVideoList(Map<String, Object> fields, int tag) {
         Api.getInstance().followVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })
@@ -109,7 +91,6 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                         view.refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(list, tag);
@@ -128,11 +109,7 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void myVideoList(String video_id, int pos, int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("video_id", video_id);
-        fields.put("page", page);
-        fields.put("position", pos);
+    public void myVideoList(Map<String, Object> fields, int tag) {
         Api.getInstance().myVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })
@@ -143,7 +120,6 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                         view.refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(list, tag);
@@ -162,11 +138,7 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
     }
 
     @Override
-    public void myLikeVideoList(String video_id, int pos, int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("video_id", video_id);
-        fields.put("page", page);
-        fields.put("position", pos);
+    public void myLikeVideoList(Map<String, Object> fields, int tag) {
         Api.getInstance().myLikeVideoList(fields)
                 .doOnSubscribe(disposable -> {
                 })

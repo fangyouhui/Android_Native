@@ -14,11 +14,15 @@ import com.pai8.ke.activity.home.ClassifyActivity;
 import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
 import com.pai8.ke.activity.video.VideoDetailActivity;
 import com.pai8.ke.adapter.HomeAdapter;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.presenter.VideoHomePresenter;
+import com.pai8.ke.utils.AMapLocationUtils;
+import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.PreferencesUtils;
 
 import java.util.List;
 
@@ -126,7 +130,17 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
 
     @Override
     protected void initData() {
-        onRefresh();
+        if (CollectionUtils.isNotEmpty(MyApp.getLngLat())) {
+            onRefresh();
+        } else {
+            AMapLocationUtils.getLocation(location -> {
+                PreferencesUtils.put(getActivity(), "latitude", location.getLatitude() + "");
+                PreferencesUtils.put(getActivity(), "longitude", location.getLongitude() + "");
+                PreferencesUtils.put(getActivity(), "address", location.getAddress());
+                PreferencesUtils.put(getActivity(), "city", location.getCity());
+                onRefresh();
+            }, true);
+        }
     }
 
     @Override

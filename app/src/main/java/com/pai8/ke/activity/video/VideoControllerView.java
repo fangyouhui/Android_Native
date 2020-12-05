@@ -86,7 +86,12 @@ public class VideoControllerView extends RelativeLayout {
         tvName.setText(videoData.getUser_nickname());
         tvSign.setText(videoData.getVideo_desc());
         tvCoverName.setText(videoData.getShop_name());
-        tvLoc.setText(videoData.getDistance() + " | " + videoData.getBusiness_district());
+        if (StringUtils.isEmpty(videoData.getBusiness_district())) {
+            tvLoc.setText(videoData.getDistance());
+        } else {
+            tvLoc.setText(videoData.getDistance() + " | " + videoData.getBusiness_district());
+        }
+
         //点赞状态
         if (videoData.getLike_status() == 1) {
             Drawable drawable = ResUtils.getDrawable(R.mipmap.ic_video_like_s);

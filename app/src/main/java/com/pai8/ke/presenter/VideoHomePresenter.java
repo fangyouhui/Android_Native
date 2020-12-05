@@ -37,7 +37,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(videos, tag);
@@ -72,7 +71,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(videos, tag);
@@ -105,7 +103,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                         setPageNo(list, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(list, tag);
@@ -138,7 +135,6 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                         setPageNo(list, page);
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
-                                view.toast("数据为空");
                                 return;
                             }
                             view.videoList(list, tag);

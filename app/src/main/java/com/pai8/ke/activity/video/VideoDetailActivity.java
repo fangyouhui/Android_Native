@@ -1,7 +1,6 @@
 package com.pai8.ke.activity.video;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -12,13 +11,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.ImageHeaderParser;
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.account.LoginActivity;
-import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.activity.video.adapter.CommentAdapter;
 import com.pai8.ke.activity.video.adapter.VideoDetailAdapter;
@@ -37,19 +33,14 @@ import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.interfaces.OnViewPagerListener;
 import com.pai8.ke.interfaces.contract.VideoDetailContract;
-import com.pai8.ke.interfaces.contract.VideoHomeContract;
-import com.pai8.ke.manager.AccountManager;
-import com.pai8.ke.manager.ActivityManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.manager.ViewPagerLayoutManager;
 import com.pai8.ke.presenter.VideoDetailPresenter;
-import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
-import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
@@ -60,6 +51,7 @@ import com.pai8.ke.widget.LikeView;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -268,23 +260,34 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
                 playVideo(position);
                 if (isBottom) {//加载更多
                     mPageNo++;
+                    Map<String, Object> fields = new HashMap<>();
                     switch (mType) {
                         case 0:
-                            mVideoDetailPresenter.nearbyVideoList(mVideoId, mKeyWords, mPosition, mPageNo,
-                                    LOADMORE);
+                            fields.put("keywords", mKeyWords);
+                            fields.put("page", mPageNo);
+                            fields.put("position", mPosition);
+                            mVideoDetailPresenter.nearbyVideoList(fields, LOADMORE);
                             break;
                         case 1:
-                            mVideoDetailPresenter.videoList(mVideoId, mKeyWords, mPosition, mPageNo,
-                                    LOADMORE);
+                            fields.put("keywords", mKeyWords);
+                            fields.put("page", mPageNo);
+                            fields.put("position", mPosition);
+                            mVideoDetailPresenter.videoList(fields, LOADMORE);
                             break;
                         case 2:
-                            mVideoDetailPresenter.followVideoList(mVideoId, mPosition, mPageNo, LOADMORE);
+                            fields.put("page", mPageNo);
+                            fields.put("position", mPosition);
+                            mVideoDetailPresenter.followVideoList(fields, LOADMORE);
                             break;
                         case 3:
-                            mVideoDetailPresenter.myVideoList(mVideoId, mPosition, mPageNo, LOADMORE);
+                            fields.put("page", mPageNo);
+                            fields.put("position", mPosition);
+                            mVideoDetailPresenter.myVideoList(fields, LOADMORE);
                             break;
                         case 4:
-                            mVideoDetailPresenter.myLikeVideoList(mVideoId, mPosition, mPageNo, LOADMORE);
+                            fields.put("page", mPageNo);
+                            fields.put("position", mPosition);
+                            mVideoDetailPresenter.myLikeVideoList(fields, LOADMORE);
                     }
                 }
             }
@@ -686,22 +689,39 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     public void onRefresh() {
         mCurPlayPos = -1;
         MyApp.getMyAppHandler().postDelayed(() -> {
+            Map<String, Object> fields = new HashMap<>();
             switch (mType) {
                 case 0:
-                    mVideoDetailPresenter.nearbyVideoList(mVideoId, mKeyWords, mPosition, mPageNo, REFRESH);
+                    fields.put("video_id", mVideoId);
+                    fields.put("keywords", mKeyWords);
+                    fields.put("page", mPageNo);
+                    fields.put("position", mPosition);
+                    mVideoDetailPresenter.nearbyVideoList(fields, REFRESH);
                     break;
                 case 1:
-                    mVideoDetailPresenter.videoList(mVideoId, mKeyWords, mPosition, mPageNo, REFRESH);
+                    fields.put("video_id", mVideoId);
+                    fields.put("keywords", mKeyWords);
+                    fields.put("page", mPageNo);
+                    fields.put("position", mPosition);
+                    mVideoDetailPresenter.videoList(fields, REFRESH);
                     break;
                 case 2:
-                    mVideoDetailPresenter.followVideoList(mVideoId, mPosition, mPageNo, REFRESH);
+                    fields.put("video_id", mVideoId);
+                    fields.put("page", mPageNo);
+                    fields.put("position", mPosition);
+                    mVideoDetailPresenter.followVideoList(fields, REFRESH);
                     break;
                 case 3:
-                    mVideoDetailPresenter.myVideoList(mVideoId, mPosition, mPageNo, REFRESH);
+                    fields.put("video_id", mVideoId);
+                    fields.put("page", mPageNo);
+                    fields.put("position", mPosition);
+                    mVideoDetailPresenter.myVideoList(fields, REFRESH);
                     break;
                 case 4:
-                    mVideoDetailPresenter.myLikeVideoList(mVideoId, mPosition, mPageNo, REFRESH);
-                    break;
+                    fields.put("video_id", mVideoId);
+                    fields.put("page", mPageNo);
+                    fields.put("position", mPosition);
+                    mVideoDetailPresenter.myLikeVideoList(fields, REFRESH);
             }
         }, 200);
     }
