@@ -6,6 +6,7 @@ import com.pai8.ke.base.BaseView;
 import com.pai8.ke.entity.resp.VideoResp;
 
 import java.util.List;
+import java.util.Map;
 
 public interface VideoDetailContract {
 
@@ -20,15 +21,15 @@ public interface VideoDetailContract {
 
     interface Presenter extends BasePresenter {
 
-        void videoList(String videoId, String keywords, int pos, int pageNo, int tag);
+        void videoList(Map<String, Object> fields, int tag);
 
-        void nearbyVideoList(String videoId, String keywords, int pos, int pageNo, int tag);
+        void nearbyVideoList(Map<String, Object> fields, int tag);
 
-        void followVideoList(String videoId, int pos, int pageNo, int tag);
+        void followVideoList(Map<String, Object> fields, int tag);
 
-        void myVideoList(String videoId, int pos, int pageNo, int tag);
+        void myVideoList(Map<String, Object> fields, int tag);
 
-        void myLikeVideoList(String videoId, int pos, int pageNo, int tag);
+        void myLikeVideoList(Map<String, Object> fields, int tag);
 
     }
 }

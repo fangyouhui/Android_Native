@@ -146,7 +146,7 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         }
 
         if (likeStatus == 0) { //喜欢
-            Api.getInstance().unlike(video_id)
+            Api.getInstance().like(video_id)
                     .doOnSubscribe(disposable -> {
                         addDisposable(disposable);
                     })

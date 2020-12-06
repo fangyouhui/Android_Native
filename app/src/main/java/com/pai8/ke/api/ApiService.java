@@ -4,9 +4,9 @@ import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
-import com.pai8.ke.entity.resp.CouponGetListResp;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.CommentResp;
+import com.pai8.ke.entity.resp.CouponGetListResp;
 import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.Province;
@@ -182,61 +182,6 @@ public interface ApiService {
     @POST("index/shareUrl")
     Observable<BaseRespose<ShareResp>> shareUrl(@Field("video_id") String video_id);
 
-//    /**
-//     * 推荐的视频列表
-//     *
-//     * @param keywords
-//     * @param page
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("index/videoList")
-//    Observable<BaseRespose<List<VideoResp>>> videoList(@Field("video_id") String video_id,
-//                                                       @Field("keywords") String keywords,
-//                                                       @Field("page") int page);
-//
-//    /**
-//     * 附近的视频列表
-//     *
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("index/nearbyVideoList")
-//    Observable<BaseRespose<VideoNearResp>> nearbyVideoList(@Field("video_id") String video_id,
-//                                                           @Field("keywords") String keywords,
-//                                                           @Field("page") int page);
-//
-//    /**
-//     * 关注的视频列表
-//     *
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("index/followVideoList")
-//    Observable<BaseRespose<List<VideoResp>>> followVideoList(@Field("video_id") String video_id,
-//                                                             @Field("page") int page);
-//
-//    /**
-//     * 我的视频列表（个人中心）
-//     *
-//     * @param page
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("user/myVideoList")
-//    Observable<BaseRespose<List<VideoResp>>> myVideoList(@Field("video_id") String video_id,
-//                                                         @Field("page") int page);
-//
-//    /**
-//     * 我喜欢的列表
-//     *
-//     * @param page
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("user/mylikeVideoList")
-//    Observable<BaseRespose<List<VideoResp>>> myLikeVideoList(@Field("video_id") String video_id,
-//                                                             @Field("page") int page);
 
     /**
      * 推荐视频列表
@@ -284,7 +229,6 @@ public interface ApiService {
     @POST("Jpush/pushsingle")
     Observable<BaseRespose> notifyPush(@Field("id") String id, @Field("m_type") String m_type, @Field(
             "content") String content);
-
 
     /**
      * 获取七牛音视频token值
