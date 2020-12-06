@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.dueeeke.videoplayer.ijk.IjkPlayerFactory;
+import com.dueeeke.videoplayer.player.VideoViewConfig;
+import com.dueeeke.videoplayer.player.VideoViewManager;
 import com.gh.qiniushortvideo.QNShortVideo;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
@@ -36,7 +39,6 @@ public class MyApp extends Application {
     private static MyApp mContext;
     private static Handler mHandler;
     private UploadManager mUpLoadManager;
-    private HttpProxyCacheServer proxy;
     public static AMapLocation mAMapLocation;
 
     public static MyApp getMyApp() {
@@ -126,17 +128,12 @@ public class MyApp extends Application {
         //JPush
         JPushInterface.setDebugMode(getBuildType() != BuildType.RELEASE);
         JPushInterface.init(this);
-    }
-
-    public static HttpProxyCacheServer getProxy() {
-        MyApp app = (MyApp) mContext.getApplicationContext();
-        return app.proxy == null ? (app.proxy = app.newProxy()) : app.proxy;
-    }
-
-    private HttpProxyCacheServer newProxy() {
-        return new HttpProxyCacheServer.Builder(this)
-                .maxCacheFilesCount(100)
-                .build();
+        //DKPlayer
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder()
+                .setLogEnabled(getBuildType() != BuildType.RELEASE)
+                //使用IjkPlayer解码
+                .setPlayerFactory(IjkPlayerFactory.create())
+                .build());
     }
 
     public static void setJPushAlias() {

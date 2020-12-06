@@ -140,16 +140,17 @@ dependencies {
     //jPush
     implementation 'cn.jiguang.sdk:jpush:3.8.6'
     implementation 'cn.jiguang.sdk:jcore:2.5.5'
-    implementation 'com.danikula:videocache:2.7.1'
     implementation 'com.github.razerdp:BasePopup_Candy:2.2.3.20200304'
     //高德地图
     implementation 'com.amap.api:3dmap:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
     implementation 'com.amap.api:search:latest.integration'
-
     implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
     implementation 'com.gavin.com.library:stickyDecoration:1.5.2'
-
+    //DKPlayer
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
+    implementation 'com.github.dueeeke.dkplayer:player-ijk:3.2.6'
+    implementation 'com.github.dueeeke.dkplayer:videocache:3.2.6'
     implementation project(':lib_shortvideo')
 
 }

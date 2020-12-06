@@ -34,14 +34,6 @@ public class VideoDetailAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         ViewHolder viewHolder = (ViewHolder) holder;
         VideoResp videoEntity = mDataList.get(position);
 
-        HttpProxyCacheServer proxy = MyApp.getProxy();
-        videoEntity.setProxyUrl(proxy.getProxyUrl(videoEntity.getVideo_path()));
-
-        if (position + 1 < mDataList.size()) {
-            VideoResp videoEntityNext = mDataList.get(position + 1);
-            videoEntityNext.setProxyUrl(proxy.getProxyUrl(videoEntityNext.getVideo_path()));
-        }
-
         viewHolder.videoControllerView.setVideoData(videoEntity);
 
         ImageLoadUtils.loadPicsFitWidth(mContext, videoEntity.getCover_path(), viewHolder.ivCover);
