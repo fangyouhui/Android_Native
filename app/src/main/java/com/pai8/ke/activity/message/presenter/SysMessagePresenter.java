@@ -1,14 +1,12 @@
 package com.pai8.ke.activity.message.presenter;
 
 import com.pai8.ke.activity.message.api.MessageApi;
-import com.pai8.ke.activity.message.contract.ChatRecordContract;
+import com.pai8.ke.activity.message.contract.SysMessageContract;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
-import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.manager.AccountManager;
-import com.pai8.ke.utils.PreferencesUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,16 +16,16 @@ import java.util.List;
  * @time 2020/12/6 18:28
  * Description：
  */
-public class ChatRecordPresenter extends BasePresenterImpl<ChatRecordContract.View> {
+public class SysMessagePresenter extends BasePresenterImpl<SysMessageContract.View> {
 
-    public ChatRecordPresenter(ChatRecordContract.View view) {
+    public SysMessagePresenter(SysMessageContract.View view) {
         super(view);
     }
 
     public void reqMessageList(int page){
         HashMap<String,Object> map = new HashMap<>(3);
         map.put("user_id", AccountManager.getInstance().getUid());
-        map.put("type",7);
+        map.put("type",1);
         map.put("page",page);
         MessageApi.getInstance().getMsgList(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
@@ -42,7 +40,7 @@ public class ChatRecordPresenter extends BasePresenterImpl<ChatRecordContract.Vi
                         }else {
                             view.completeLoadMore();
                         }
-                        view.getChatRecordSuccess(data);
+                        view.getSysMessageSuccess(data);
                     }
 
                     @Override
