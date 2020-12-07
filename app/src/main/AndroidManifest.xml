@@ -162,6 +162,7 @@
         <activity android:name=".activity.takeaway.ui.ShopGoodSearchActivity" />
         <activity android:name=".activity.takeaway.order.OrderSendActivity" />
         <activity android:name=".activity.takeaway.order.ShopOrderDetailActivity" />
+
         <!-- 活动消息 -->
         <activity android:name=".activity.message.ui.ActiveMessageActivity"
                   android:screenOrientation="portrait" />
@@ -176,6 +177,12 @@
                   android:screenOrientation="portrait"/>
         <!-- 订单消息 -->
         <activity android:name=".activity.message.ui.OrderMessageActivity"
+                  android:screenOrientation="portrait"/>
+        <!--系统消息-->
+        <activity android:name=".activity.message.ui.SysMessageActivity"
+                  android:screenOrientation="portrait"/>
+        <!--关注消息-->
+        <activity android:name=".activity.message.ui.AttentionActivity"
                   android:screenOrientation="portrait"/>
 
         <!-- **************************************高德定位**********************************************-->
