@@ -113,8 +113,8 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
         lrv.setOnLoadMoreListener(this);
         mLRvAdapter.setOnItemClickListener((view, position) -> {
             VideoResp videoResp = mAdapter.getDataList().get(position);
-            VideoDetailActivity.launch(this, videoResp.getId(), StringUtils.getEditText(etSearch),
-                    videoResp.getPageNo(), videoResp.getPosition(), 1);
+            VideoDetailActivity.launchSearch(this, mAdapter.getDataList(),
+                    StringUtils.getEditText(etSearch), videoResp.getPage(), position);
         });
 
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -145,7 +145,7 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
         srLayout.setRefreshing(true);
         lrv.setRefreshing(true);
         getMyAppHandler().postDelayed(() -> {
-            mPresenter.videoList(keywords, mPageNo, REFRESH);
+            mPresenter.search(keywords, mPageNo, REFRESH);
         }, 100);
     }
 
@@ -153,12 +153,18 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
     public void onLoadMore() {
         mPageNo++;
         getMyAppHandler().postDelayed(() -> {
-            mPresenter.videoList(keywords, mPageNo, LOADMORE);
+            mPresenter.search(keywords, mPageNo, LOADMORE);
         }, 100);
     }
 
+    @Override
     public void refreshComplete() {
         srLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void setNoMore() {
+        lrv.setNoMore(true);
     }
 
     @Override
@@ -171,16 +177,12 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
         }
         lrv.refreshComplete(data.size());
         mLRvAdapter.notifyDataSetChanged();
-        if (data.size() == 0) {
-            lrv.setNoMore(true);
-        }
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in_search, R.anim.no_anim);
-
     }
 
     @Override

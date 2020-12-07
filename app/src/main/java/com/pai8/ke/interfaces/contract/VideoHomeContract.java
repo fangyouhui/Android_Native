@@ -5,6 +5,7 @@ import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.base.BaseView;
 import com.pai8.ke.entity.resp.CommentResp;
+import com.pai8.ke.entity.resp.VideoListResp;
 import com.pai8.ke.entity.resp.VideoResp;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public interface VideoHomeContract {
 
         void refreshComplete();
 
+        void setNoMore();
+
         void videoList(List<VideoResp> data, int tag);
 
     }
@@ -27,15 +30,17 @@ public interface VideoHomeContract {
 
     interface Presenter extends BasePresenter {
 
-        void videoList(String keywords, int pageNo, int tag);
+        void nearby(int page, int tag);
 
-        void nearbyVideoList(String keywords, int pageNo, int tag);
+        void flow(int page, int tag);
 
-        void followVideoList(int pageNo, int tag);
+        void follow(int page, int tag);
 
-        void myVideoList(int pageNo, int tag);
+        void myVideo(int page, int tag);
 
-        void myLikeVideoList(int pageNo, int tag);
+        void myLike(int page, int tag);
+
+        void search(String keywords, int page, int tag);
 
     }
 }

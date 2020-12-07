@@ -1,7 +1,5 @@
 package com.pai8.ke.global;
 
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-
 public class GlobalConstants {
 
     //---------------------HTTP环境配置-----------------------
@@ -37,6 +35,7 @@ public class GlobalConstants {
     public static int LOADMORE = 0x02;
     //一页显示的数据
     public static final int SIZE = 8;
+    public static final int PAGE_SIZE = 10;
 
     public static final String APP_ID = "wx00290ee6e44c1cfd"; //appid
     public static final String APP_SECRET = "3db5d02b7d93bcffbb15f3f0fb1ead4f";
