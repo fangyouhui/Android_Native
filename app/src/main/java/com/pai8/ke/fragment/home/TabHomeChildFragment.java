@@ -47,7 +47,6 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
     private HomeAdapter mAdapter;
     private int mPosition;
     private int mPageNo = 1;
-    private String keywords = "";
 
     public static TabHomeChildFragment newInstance(int position) {
         TabHomeChildFragment fragment = new TabHomeChildFragment();
@@ -149,8 +148,8 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         lrv.setOnLoadMoreListener(this);
         mLRvAdapter.setOnItemClickListener((view, position) -> {
             VideoResp videoResp = mAdapter.getDataList().get(position);
-            VideoDetailActivity.launch(getActivity(), videoResp.getId(), "", videoResp.getPageNo(),
-                    videoResp.getPosition(), mPosition);
+            VideoDetailActivity.launch(getActivity(), mAdapter.getDataList(), videoResp.getPage(), position
+                    , mPosition);
         });
 
     }
@@ -163,19 +162,19 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         getMyAppHandler().postDelayed(() -> {
             switch (mPosition) {
                 case 0:
-                    mPresenter.nearbyVideoList(keywords, mPageNo, REFRESH);
+                    mPresenter.nearby(mPageNo, REFRESH);
                     break;
                 case 1:
-                    mPresenter.videoList(keywords, mPageNo, REFRESH);
+                    mPresenter.flow(mPageNo, REFRESH);
                     break;
                 case 2:
-                    mPresenter.followVideoList(mPageNo, REFRESH);
+                    mPresenter.follow(mPageNo, REFRESH);
                     break;
                 case 3:
-                    mPresenter.myVideoList(mPageNo, REFRESH);
+                    mPresenter.myVideo(mPageNo, REFRESH);
                     break;
                 case 4:
-                    mPresenter.myLikeVideoList(mPageNo, REFRESH);
+                    mPresenter.myLike(mPageNo, REFRESH);
                     break;
             }
         }, 100);
@@ -187,19 +186,19 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         getMyAppHandler().postDelayed(() -> {
             switch (mPosition) {
                 case 0:
-                    mPresenter.nearbyVideoList(keywords, mPageNo, LOADMORE);
+                    mPresenter.nearby(mPageNo, LOADMORE);
                     break;
                 case 1:
-                    mPresenter.videoList(keywords, mPageNo, LOADMORE);
+                    mPresenter.flow(mPageNo, LOADMORE);
                     break;
                 case 2:
-                    mPresenter.followVideoList(mPageNo, LOADMORE);
+                    mPresenter.follow(mPageNo, LOADMORE);
                     break;
                 case 3:
-                    mPresenter.myVideoList(mPageNo, LOADMORE);
+                    mPresenter.myVideo(mPageNo, LOADMORE);
                     break;
                 case 4:
-                    mPresenter.myLikeVideoList(mPageNo, LOADMORE);
+                    mPresenter.myLike(mPageNo, LOADMORE);
                     break;
             }
         }, 400);
@@ -216,6 +215,11 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
     }
 
     @Override
+    public void setNoMore() {
+        lrv.setNoMore(true);
+    }
+
+    @Override
     public void videoList(List<VideoResp> data, int tag) {
         if (tag == GlobalConstants.REFRESH) {
             mAdapter.setDataList(data);
@@ -224,9 +228,6 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         }
         lrv.refreshComplete(data.size());
         mLRvAdapter.notifyDataSetChanged();
-        if (data.size() == 0) {
-            lrv.setNoMore(true);
-        }
     }
 
 }

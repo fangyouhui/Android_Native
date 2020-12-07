@@ -4,6 +4,7 @@ import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.resp.VideoListResp;
 import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
@@ -20,29 +21,35 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
         super(view);
     }
 
+    private void setPageNo(List<VideoResp> videos, int page) {
+        if (CollectionUtils.isNotEmpty(videos)) {
+            for (VideoResp video : videos) {
+                video.setPage(page);
+            }
+        }
+    }
+
     @Override
-    public void videoList(String keywords, int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("keywords", keywords);
-        fields.put("page", page);
-        Api.getInstance().videoList(fields)
+    public void nearby(int page, int tag) {
+        Api.getInstance().nearby(page, GlobalConstants.PAGE_SIZE)
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<VideoListResp>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> videos) {
+                    protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
+                        List<VideoResp> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            if (CollectionUtils.isEmpty(videos)) {
-                                return;
-                            }
                             view.videoList(videos, tag);
                         }
                         if (tag == GlobalConstants.LOADMORE) {
                             view.videoList(videos, tag);
+                        }
+                        if (data.getPagination().noMore()) {
+                            view.setNoMore();
                         }
                     }
 
@@ -55,60 +62,26 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     }
 
     @Override
-    public void nearbyVideoList(String keywords, int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("keywords", keywords);
-        fields.put("page", page);
-        Api.getInstance().nearbyVideoList(fields)
+    public void flow(int page, int tag) {
+        Api.getInstance().flow(page, GlobalConstants.PAGE_SIZE)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<VideoNearResp>() {
+                .subscribe(new BaseObserver<VideoListResp>() {
                     @Override
-                    protected void onSuccess(VideoNearResp data) {
+                    protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getVidoe_list();
+                        List<VideoResp> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            if (CollectionUtils.isEmpty(videos)) {
-                                return;
-                            }
                             view.videoList(videos, tag);
                         }
                         if (tag == GlobalConstants.LOADMORE) {
                             view.videoList(videos, tag);
                         }
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        view.refreshComplete();
-                        super.onError(msg, errorCode);
-                    }
-                });
-    }
-
-    @Override
-    public void followVideoList(int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("page", page);
-        Api.getInstance().followVideoList(fields)
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
-                    @Override
-                    protected void onSuccess(List<VideoResp> list) {
-                        view.refreshComplete();
-                        setPageNo(list, page);
-                        if (tag == GlobalConstants.REFRESH) {
-                            if (CollectionUtils.isEmpty(list)) {
-                                return;
-                            }
-                            view.videoList(list, tag);
-                        }
-                        if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(list, tag);
+                        if (data.getPagination().noMore()) {
+                            view.setNoMore();
                         }
                     }
 
@@ -121,26 +94,26 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     }
 
     @Override
-    public void myVideoList(int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("page", page);
-        Api.getInstance().myVideoList(fields)
+    public void follow(int page, int tag) {
+        Api.getInstance().follow(page, GlobalConstants.PAGE_SIZE)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<VideoListResp>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> list) {
+                    protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        setPageNo(list, page);
+                        List<VideoResp> videos = data.getItems();
+                        setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            if (CollectionUtils.isEmpty(list)) {
-                                return;
-                            }
-                            view.videoList(list, tag);
+                            view.videoList(videos, tag);
                         }
                         if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(list, tag);
+                            view.videoList(videos, tag);
+                        }
+                        if (data.getPagination().noMore()) {
+                            view.setNoMore();
                         }
                     }
 
@@ -153,26 +126,26 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
     }
 
     @Override
-    public void myLikeVideoList(int page, int tag) {
-        Map<String, Object> fields = new HashMap<>();
-        fields.put("page", page);
-        Api.getInstance().myLikeVideoList(fields)
+    public void myVideo(int page, int tag) {
+        Api.getInstance().myVideo(page, GlobalConstants.PAGE_SIZE)
                 .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<VideoListResp>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> list) {
+                    protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        setPageNo(list, page);
+                        List<VideoResp> videos = data.getItems();
+                        setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            if (CollectionUtils.isEmpty(list)) {
-                                return;
-                            }
-                            view.videoList(list, tag);
+                            view.videoList(videos, tag);
                         }
                         if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(list, tag);
+                            view.videoList(videos, tag);
+                        }
+                        if (data.getPagination().noMore()) {
+                            view.setNoMore();
                         }
                     }
 
@@ -184,13 +157,67 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                 });
     }
 
-    private void setPageNo(List<VideoResp> list, int page) {
-        if (CollectionUtils.isNotEmpty(list)) {
-            for (int i = 0; i < list.size(); i++) {
-                VideoResp videoResp = list.get(i);
-                videoResp.setPageNo(page);
-                videoResp.setPosition(i);
-            }
-        }
+    @Override
+    public void myLike(int page, int tag) {
+        Api.getInstance().myLike(page, GlobalConstants.PAGE_SIZE)
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<VideoListResp>() {
+                    @Override
+                    protected void onSuccess(VideoListResp data) {
+                        view.refreshComplete();
+                        List<VideoResp> videos = data.getItems();
+                        setPageNo(videos, page);
+                        if (tag == GlobalConstants.REFRESH) {
+                            view.videoList(videos, tag);
+                        }
+                        if (tag == GlobalConstants.LOADMORE) {
+                            view.videoList(videos, tag);
+                        }
+                        if (data.getPagination().noMore()) {
+                            view.setNoMore();
+                        }
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.refreshComplete();
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+    @Override
+    public void search(String keywords, int page, int tag) {
+        Api.getInstance().search(keywords, page, GlobalConstants.PAGE_SIZE)
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<VideoListResp>() {
+                    @Override
+                    protected void onSuccess(VideoListResp data) {
+                        view.refreshComplete();
+                        List<VideoResp> videos = data.getItems();
+                        setPageNo(videos, page);
+                        if (tag == GlobalConstants.REFRESH) {
+                            view.videoList(videos, tag);
+                        }
+                        if (tag == GlobalConstants.LOADMORE) {
+                            view.videoList(videos, tag);
+                        }
+                        if (data.getPagination().noMore()) {
+                            view.setNoMore();
+                        }
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.refreshComplete();
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 }
