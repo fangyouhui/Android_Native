@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
+import com.pai8.ke.activity.message.entity.MsgCountInfo;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -18,7 +19,7 @@ import com.pai8.ke.utils.SpanUtils;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class MsgCenterAdapter extends BaseRecyclerViewAdapter<String> {
+public class MsgCenterAdapter extends BaseRecyclerViewAdapter<MsgCountInfo> {
 
     public MsgCenterAdapter(Context context) {
         mContext = context;
@@ -32,7 +33,13 @@ public class MsgCenterAdapter extends BaseRecyclerViewAdapter<String> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        String str = mDataList.get(position);
+        MsgCountInfo str = mDataList.get(position);
+        if("0".equals(str.getCount())){
+            viewHolder.tvCount.setVisibility(View.GONE);
+        }else {
+            viewHolder.tvCount.setVisibility(View.VISIBLE);
+            viewHolder.tvCount.setText(str.getCount());
+        }
         switch (position) {
             case 0:
                 viewHolder.tvMsgTitle.setText("订单消息");
@@ -68,6 +75,8 @@ public class MsgCenterAdapter extends BaseRecyclerViewAdapter<String> {
         TextView tvMsgContent;
         @BindView(R.id.tv_msg_date)
         TextView tvMsgDate;
+        @BindView(R.id.tv_count)
+        TextView tvCount;
 
         public ViewHolder(View itemView) {
             super(itemView);
