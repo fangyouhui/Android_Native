@@ -7,6 +7,7 @@ import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.PreferencesUtils;
 
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public class CommentPresenter extends BasePresenterImpl<CommentContract.View> {
 
     public void reqMessageList(int page){
         HashMap<String,Object> map = new HashMap<>(3);
-        map.put("user_id", PreferencesUtils.get(MyApp.getMyApp(),"id",""));
+        map.put("user_id", AccountManager.getInstance().getUid());
         map.put("type",5);
         map.put("page",page);
         MessageApi.getInstance().getMsgList(createRequestBody(map))

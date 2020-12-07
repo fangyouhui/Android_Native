@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.message.api;
 
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
+import com.pai8.ke.activity.message.entity.resp.MsgCountResp;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
@@ -37,13 +38,12 @@ public interface MessageApiService {
     @POST("Msg/msgList")
     Observable<BaseRespose<List<MessageResp>>> getMsgList(@Body RequestBody param);
 
-
     /**
-     * 添加分类
+     * 消息数量
      * @return
      */
-    @POST("shop/upCategory")
-    Observable<BaseRespose<ShopInfo>> addUpCategory(@Body RequestBody parm);
+    @POST("Msg/msgIndex")
+    Observable<BaseRespose<MsgCountResp>> getMsgCount(@Body RequestBody parm);
 
 
     @POST("shop/categoryEdit")
