@@ -162,6 +162,21 @@
         <activity android:name=".activity.takeaway.ui.ShopGoodSearchActivity" />
         <activity android:name=".activity.takeaway.order.OrderSendActivity" />
         <activity android:name=".activity.takeaway.order.ShopOrderDetailActivity" />
+        <!-- 活动消息 -->
+        <activity android:name=".activity.message.ui.ActiveMessageActivity"
+                  android:screenOrientation="portrait" />
+        <!-- 一对一聊天消息 -->
+        <activity android:name=".activity.message.ui.OneToOneChatRecordActivity"
+                  android:screenOrientation="portrait"/>
+        <!-- 点赞 -->
+        <activity android:name=".activity.message.ui.LikesActivity"
+                  android:screenOrientation="portrait"/>
+        <!-- 评论 -->
+        <activity android:name=".activity.message.ui.CommentActivity"
+                  android:screenOrientation="portrait"/>
+        <!-- 订单消息 -->
+        <activity android:name=".activity.message.ui.OrderMessageActivity"
+                  android:screenOrientation="portrait"/>
 
         <!-- **************************************高德定位**********************************************-->
         <service android:name="com.amap.api.location.APSService" />
