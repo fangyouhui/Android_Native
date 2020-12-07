@@ -1,5 +1,6 @@
 package com.pai8.ke.fragment.msg;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -7,6 +8,11 @@ import android.widget.TextView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.message.ui.ActiveMessageActivity;
+import com.pai8.ke.activity.message.ui.CommentActivity;
+import com.pai8.ke.activity.message.ui.LikesActivity;
+import com.pai8.ke.activity.message.ui.OneToOneChatRecordActivity;
+import com.pai8.ke.activity.message.ui.OrderMessageActivity;
 import com.pai8.ke.adapter.MsgCenterAdapter;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.interfaces.OnItemClickListener;
@@ -50,20 +56,30 @@ public class TabMsgFragment extends BaseFragment {
             strings.add("");
         }
         mAdapter.setDataList(strings);
-        mAdapter.setOnItemClickListener((view, position, tag) -> toast("此功能暂未开放,敬请期待"));
+        mAdapter.setOnItemClickListener((view, position, tag) -> {
+            if (position == 0) {
+                startActivity(new Intent(mActivity, OrderMessageActivity.class));
+            } else if (position == 1) {
+                startActivity(new Intent(mActivity, ActiveMessageActivity.class));
+            } else if (position == 2) {
+                startActivity(new Intent(mActivity, ActiveMessageActivity.class));
+            } else if (position == 3) {
+                startActivity(new Intent(mActivity, OneToOneChatRecordActivity.class));
+            }
+        });
     }
 
     @OnClick({R.id.tv_msg_type_like, R.id.tv_msg_type_comment, R.id.tv_msg_type_follow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_msg_type_like:
-                toast("此功能暂未开放,敬请期待");
+                startActivity(new Intent(mActivity, LikesActivity.class));
                 break;
             case R.id.tv_msg_type_comment:
-                toast("此功能暂未开放,敬请期待");
+                startActivity(new Intent(mActivity, CommentActivity.class));
                 break;
             case R.id.tv_msg_type_follow:
-                toast("此功能暂未开放,敬请期待");
+                startActivity(new Intent(mActivity, OneToOneChatRecordActivity.class));
                 break;
         }
     }

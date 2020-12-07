@@ -35,6 +35,8 @@ public class GlobalConstants {
     public static int REFRESH = 0x01;
     //上拉加载
     public static int LOADMORE = 0x02;
+    //一页显示的数据
+    public static final int SIZE = 8;
 
     public static final String APP_ID = "wx00290ee6e44c1cfd"; //appid
     public static final String APP_SECRET = "3db5d02b7d93bcffbb15f3f0fb1ead4f";
