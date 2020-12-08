@@ -1,6 +1,5 @@
 package com.pai8.ke.activity.takeaway.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +30,6 @@ import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.utils.CollectionUtils;
-import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.MyAMapUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.MarkerView;
@@ -201,13 +199,29 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
                     toast("请选择地址");
                     return;
                 }
-                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
-
-                Intent intent = new Intent();
-                intent.putExtra("address",select);
-                setResult(RESULT_OK,intent);
-                finish();
+//                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
+//
+//                Intent intent = new Intent();
+//                intent.putExtra("address",select);
+//                setResult(RESULT_OK,intent);
+//                finish();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("ADDRESS", select);
+                launch(ChangeDetailAddressActivity.class, bundle);
                 break;
+        }
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        if (event.getCode() == EVENT_CHOOSE_ADDRESS) {
+            finish();
         }
     }
 
