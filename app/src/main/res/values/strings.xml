@@ -20,5 +20,6 @@
     <string name="str_me_follow_count">%S\n关注</string>
     <string name="str_me_fans_count">%S\n粉丝</string>
     <string name="str_me_history_count">%S\n足迹</string>
+    <string name="remind_change">*请按照\"xxx街道xxx号\"格式进行修改</string>
 
 </resources>

@@ -370,66 +370,105 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:paddingStart="16dp">
-
-                    <TextView
-                        android:id="@+id/tv_bank_no"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="银行卡号"
-                        android:textColor="@color/color_light_font"
-                        android:textSize="15sp" />
-
-                    <EditText
-                        android:id="@+id/et_bank_no"
+                        android:id="@+id/rl_collection_account"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tv_bank_no"
-                        android:background="@color/color_transition"
-                        android:singleLine="true"
-                        android:textColor="@color/text_black"
-                        android:textSize="15sp" />
+                        android:minHeight="50dp"
+                        android:paddingStart="16dp">
+
+                    <TextView
+                            android:id="@+id/tv_collection_account1"
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:text="收款账户"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/color_light_font"
+                            android:textSize="15sp" />
+
+                    <TextView
+                            android:id="@+id/tv_collection_account"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/tv_collection_account1"
+                            android:layout_toStartOf="@+id/arrow_account"
+                            android:background="@color/color_transition"
+                            android:singleLine="false"
+                            android:textColor="@color/text_black"
+                            android:textSize="15sp" />
+
+                    <ImageView
+                            android:id="@+id/arrow_account"
+                            android:src="@mipmap/me_right_arrow"
+                            android:layout_width="@dimen/dp_40"
+                            android:layout_height="50dp"
+                            android:scaleType="center"
+                            android:layout_alignParentEnd="true"
+                            app:tint="#A8A8A8" />
 
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@color/color_divider" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:paddingStart="16dp">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_bank_no"-->
+                        <!--android:layout_width="100dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:text="银行卡号"-->
+                        <!--android:textColor="@color/color_light_font"-->
+                        <!--android:textSize="15sp" />-->
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_bank_no"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_toEndOf="@+id/tv_bank_no"-->
+                        <!--android:background="@color/color_transition"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="15sp" />-->
+
+                <!--</RelativeLayout>-->
+
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="1dp"-->
+                    <!--android:layout_marginStart="16dp"-->
+                    <!--android:background="@color/color_divider" />-->
 
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:paddingStart="16dp">
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:paddingStart="16dp">-->
 
-                    <TextView
-                        android:id="@+id/tv_bank_address"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="开户行地址"
-                        android:textColor="@color/color_light_font"
-                        android:textSize="15sp" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_bank_address"-->
+                        <!--android:layout_width="100dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:text="开户行地址"-->
+                        <!--android:textColor="@color/color_light_font"-->
+                        <!--android:textSize="15sp" />-->
 
-                    <EditText
-                        android:id="@+id/et_bank_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tv_bank_address"
-                        android:background="@color/color_transition"
-                        android:singleLine="true"
-                        android:textColor="@color/text_black"
-                        android:textSize="15sp" />
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_bank_address"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_toEndOf="@+id/tv_bank_address"-->
+                        <!--android:background="@color/color_transition"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textColor="@color/text_black"-->
+                        <!--android:textSize="15sp" />-->
 
-                </RelativeLayout>
+                <!--</RelativeLayout>-->
 
 
             </LinearLayout>
@@ -443,7 +482,7 @@
                  android:textSize="12dp"
                  android:textColor="@color/color_light_font"
                  android:layout_marginBottom="16dp"
-                 android:text="* 请填写银行卡号，用于订单的收入提现。平台将会为您的隐私和资金安全提供全程保障"
+                 android:text="* 请填写收款账户，用于订单的收入提现。平台将会为您的隐私和资金安全提供全程保障"
 
                  />
 
