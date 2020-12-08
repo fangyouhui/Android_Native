@@ -13,6 +13,7 @@ import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.entity.resp.VideoListResp;
 import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.entity.resp.WxOrderPrepayResp;
@@ -182,6 +183,66 @@ public interface ApiService {
     @POST("index/shareUrl")
     Observable<BaseRespose<ShareResp>> shareUrl(@Field("video_id") String video_id);
 
+    /**
+     * 附近的视频列表（新）
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/nearby")
+    Observable<BaseRespose<VideoListResp>> nearby(@Field("page") int page,
+                                                  @Field("size") int size);
+
+    /**
+     * 推荐的视频列表（新）
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/flow")
+    Observable<BaseRespose<VideoListResp>> flow(@Field("page") int page,
+                                                @Field("size") int size);
+
+    /**
+     * 关注的视频列表（新）
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/follow")
+    Observable<BaseRespose<VideoListResp>> follow(@Field("page") int page,
+                                                  @Field("size") int size);
+
+    /**
+     * 搜索的视频列表（新）
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/search")
+    Observable<BaseRespose<VideoListResp>> search(@Field("keywords") String keywords,
+                                                  @Field("page") int page,
+                                                  @Field("size") int size);
+
+    /**
+     * 我发布的视频列表（新）
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/myVideo")
+    Observable<BaseRespose<VideoListResp>> myVideo(@Field("page") int page,
+                                                   @Field("size") int size);
+
+    /**
+     * 我喜欢的视频列表（新）
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/myLike")
+    Observable<BaseRespose<VideoListResp>> myLike(@Field("page") int page,
+                                                  @Field("size") int size);
 
     /**
      * 推荐视频列表
@@ -276,7 +337,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("Order/orderPrepay")
     Observable<BaseRespose<WxOrderPrepayResp>> orderPrepay(@Field("order_no") String order_no
-    ,@Field("buyer_id") String buyer_id,@Field("pay_type") int pay_type);
+            , @Field("buyer_id") String buyer_id, @Field("pay_type") int pay_type);
 
     /**
      * 用户所有优惠券
