@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.me;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.hjq.bar.OnTitleBarListener;
@@ -8,9 +9,9 @@ import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.ActivityManager;
-import com.pai8.ke.utils.ResUtils;
 
 import androidx.appcompat.app.AlertDialog;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -44,7 +45,7 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.tv_btn_logout})
+    @OnClick({R.id.tv_btn_logout, R.id.rl_1, R.id.rl_2, R.id.rl_3, R.id.rl_4, R.id.rl_5})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_btn_logout:
@@ -60,6 +61,18 @@ public class SettingActivity extends BaseActivity {
                         })
                         .show();
                 break;
+            case R.id.rl_1:
+                break;
+            case R.id.rl_2:
+                break;
+            case R.id.rl_3://隐私政策
+                break;
+            case R.id.rl_4://用户协议
+                break;
+            case R.id.rl_5://关于软件
+                launch(AboutActivity.class);
+                break;
         }
     }
+
 }
