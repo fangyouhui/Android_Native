@@ -67,6 +67,21 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EventCode.EVENT_HOME_TAB:
+                navigationBar.selectTab((int) event.getData(), false);
+                break;
+        }
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.activity_main;
     }

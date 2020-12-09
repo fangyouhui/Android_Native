@@ -30,6 +30,7 @@ import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.Comments;
 import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
 import com.pai8.ke.interfaces.OnViewPagerListener;
@@ -42,6 +43,7 @@ import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -374,6 +376,8 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             @Override
             public void onHomeClick() {
+                finish();
+                EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 0));
             }
 
             @Override

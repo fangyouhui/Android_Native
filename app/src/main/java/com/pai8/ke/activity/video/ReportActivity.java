@@ -34,6 +34,8 @@ public class ReportActivity extends BaseMvpActivity<ReportContract.Presenter> im
     public static final int INTENT_TYPE_1 = 1;
     //投诉
     public static final int INTENT_TYPE_2 = 2;
+    //意见反馈
+    public static final int INTENT_TYPE_3 = 3;
 
     private int mIntentType;
     private String mVideoId;
@@ -48,6 +50,14 @@ public class ReportActivity extends BaseMvpActivity<ReportContract.Presenter> im
         Bundle bundle = new Bundle();
         intent.putExtra("video_id", video_id);
         intent.putExtra("intentType", intentType);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+    public static void launchFeedBack(Context context) {
+        Intent intent = new Intent(context, ReportActivity.class);
+        Bundle bundle = new Bundle();
+        intent.putExtra("intentType", INTENT_TYPE_3);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
@@ -84,9 +94,12 @@ public class ReportActivity extends BaseMvpActivity<ReportContract.Presenter> im
         if (mIntentType == INTENT_TYPE_1) {
             mTitleBar.setTitle("举报");
             btnSubmit.setText("提交举报");
-        } else {
+        } else if (mIntentType == INTENT_TYPE_2) {
             mTitleBar.setTitle("投诉");
             btnSubmit.setText("提交投诉");
+        } else if (mIntentType == INTENT_TYPE_3) {
+            mTitleBar.setTitle("意见反馈");
+            btnSubmit.setText("提交");
         }
     }
 
@@ -112,7 +125,12 @@ public class ReportActivity extends BaseMvpActivity<ReportContract.Presenter> im
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
-        mPresenter.report(mVideoId, etContent.getText(), mIntentType);
+        if (mIntentType == INTENT_TYPE_3) {
+            finish();
+            toast("感谢您的反馈！");
+        } else {
+            mPresenter.report(mVideoId, etContent.getText(), mIntentType);
+        }
     }
 
 }
