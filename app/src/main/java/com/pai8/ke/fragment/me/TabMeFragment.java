@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -16,6 +17,10 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.me.SettingActivity;
+import com.pai8.ke.activity.me.ui.AttentionMineActivity;
+import com.pai8.ke.activity.me.ui.FansActivity;
+import com.pai8.ke.activity.me.ui.ReceiveLikesActivity;
+import com.pai8.ke.activity.message.ui.AttentionActivity;
 import com.pai8.ke.activity.takeaway.order.OrderActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.activity.takeaway.ui.ShopRankActivity;
@@ -258,8 +263,6 @@ public class TabMeFragment extends BaseFragment {
      * 1:请求审核 - 正在审核中
      * 2:审核通过 - 店铺管理
      * 3:审核驳回 - 申请商家入驻
-     *
-     * @param status
      */
     private void initVerifyStatus(int status) {
         mStatus = status;
@@ -277,11 +280,13 @@ public class TabMeFragment extends BaseFragment {
                 tvApplyStatus.setEnabled(true);
                 tvApplyStatus.setText("店铺管理");
                 break;
+            default:
+                break;
         }
     }
 
-    @OnClick({R.id.civ_avatar, R.id.tv_nick_name, R.id.iv_btn_edit, R.id.iv_btn_msg, R.id.tv_like_count,
-            R.id.tv_follow_count, R.id.tv_fans_count, R.id.tv_history_count, R.id.tv_apply_status,
+    @OnClick({R.id.civ_avatar, R.id.tv_nick_name, R.id.iv_btn_edit, R.id.iv_btn_msg, R.id.ll_like_count,
+            R.id.ll_follow_count, R.id.ll_fans_count, R.id.ll_history_count, R.id.tv_apply_status,
             R.id.tv_btn_order, R.id.tv_btn_wallet, R.id.tv_btn_address, R.id.tv_btn_coupon,
             R.id.tv_btn_invite, R.id.tv_btn_feedback, R.id.tv_btn_contact_us, R.id.tv_btn_setting})
     public void onViewClicked(View view) {
@@ -297,18 +302,23 @@ public class TabMeFragment extends BaseFragment {
             case R.id.iv_btn_msg:
                 EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
                 break;
-            case R.id.tv_like_count:
+            case R.id.ll_like_count:
+                launch(ReceiveLikesActivity.class);
                 break;
-            case R.id.tv_follow_count:
+            case R.id.ll_follow_count:
+                launch(AttentionMineActivity.class);
                 break;
-            case R.id.tv_fans_count:
+            case R.id.ll_fans_count:
+                launch(FansActivity.class);
                 break;
-            case R.id.tv_history_count:
+            case R.id.ll_history_count:
                 break;
             case R.id.tv_apply_status:
-                if (mStatus == 0 || mStatus == 3) { //申请商家入驻
+                //申请商家入驻
+                if (mStatus == 0 || mStatus == 3) {
                     launchInterceptLogin(MerchantSettledFirstActivity.class);
-                } else if (mStatus == 2) { //店铺管理
+                } else if (mStatus == 2) {
+                    //店铺管理
                     launchInterceptLogin(StoreManagerActivity.class);
                 }
                 break;
@@ -319,7 +329,8 @@ public class TabMeFragment extends BaseFragment {
                 break;
             case R.id.tv_btn_address:
                 break;
-            case R.id.tv_btn_coupon://优惠券
+            case R.id.tv_btn_coupon:
+                //优惠券
                 CouponListActivity.launch(getActivity(), CouponListActivity.INTENT_TYPE_CAN_USE);
                 break;
             case R.id.tv_btn_invite:
@@ -336,6 +347,8 @@ public class TabMeFragment extends BaseFragment {
                 break;
             case R.id.tv_btn_setting:
                 launch(SettingActivity.class);
+                break;
+            default:
                 break;
         }
     }

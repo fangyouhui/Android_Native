@@ -1,4 +1,4 @@
-package com.pai8.ke.activity.message.api;
+package com.pai8.ke.activity.me.api;
 
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp;
@@ -31,38 +31,33 @@ import retrofit2.http.POST;
  * @time  11:06
  * Description：
  */
-public interface MessageApiService {
+public interface MineApiService {
     /**
-     * 消息分类下列表接口
+     * 我的关注列表接口
      */
-    @POST("Msg/msgList")
-    Observable<BaseRespose<List<MessageResp>>> getMsgList(@Body RequestBody param);
+    @POST("user/followOthersList")
+    Observable<BaseRespose<List<MessageResp>>> getAttentionList(@Body RequestBody param);
 
     /**
-     * 消息数量
-     * @param param
+     * 我的粉丝列表
      * @return
      */
-    @POST("Msg/msgIndex")
-    Observable<BaseRespose<MsgCountResp>> getMsgCount(@Body RequestBody param);
+    @POST("user/followMeList")
+    Observable<BaseRespose<List<MessageResp>>> getFansList(@Body RequestBody param);
+
+
+
+    @POST("shop/categoryEdit")
+    Observable<BaseRespose<ShopInfo>> categoryEdit(@Body RequestBody param);
 
 
     /**
-     * 取消关注
-     * @param param
+     * 商家商品类别
+     * @param parm
      * @return
      */
-    @POST("index/unfollow")
-    Observable<BaseRespose> cancelAttention(@Body RequestBody param);
-
-
-    /**
-     * 关注用户
-     * @param param
-     * @return
-     */
-    @POST("index/follow")
-    Observable<BaseRespose> follow(@Body RequestBody param);
+    @POST("shop/categoryList")
+    Observable<BaseRespose<List<ShopInfo>>> getCategoryList(@Body RequestBody param);
 
 
 }
