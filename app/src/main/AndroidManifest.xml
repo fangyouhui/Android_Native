@@ -183,9 +183,7 @@
         <!--关注消息-->
         <activity android:name=".activity.message.ui.AttentionActivity"
                   android:screenOrientation="portrait"/>
-        <!-- 关于软件 -->
-        <activity android:name=".activity.me.AboutActivity"
-            android:screenOrientation="portrait" />
+
         <!-- **************************************高德定位**********************************************-->
         <service android:name="com.amap.api.location.APSService" />
 
