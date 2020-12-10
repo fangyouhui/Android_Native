@@ -55,6 +55,7 @@
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -73,7 +74,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.takeaway.ui.TakeawayActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -127,7 +127,7 @@
         <activity
             android:name=".activity.home.SearchVideoActivity"
             android:screenOrientation="portrait" />
-        <!--微信支付回调-->
+        <!-- 微信支付回调 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="locale|layoutDirection|keyboard"
@@ -153,8 +153,7 @@
             android:name=".activity.takeaway.ui.MapAddressChooseActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.takeaway.order.OrderActivity" />
-
-        <!--  扫描二维码 -->
+        <!-- 扫描二维码 -->
         <activity
             android:name=".activity.common.ScanActivity"
             android:screenOrientation="portrait" />
@@ -164,35 +163,55 @@
         <activity android:name=".activity.takeaway.order.ShopOrderDetailActivity" />
 
         <!-- 活动消息 -->
-        <activity android:name=".activity.message.ui.ActiveMessageActivity"
-                  android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.message.ui.ActiveMessageActivity"
+            android:screenOrientation="portrait" />
         <!-- 一对一聊天消息 -->
-        <activity android:name=".activity.message.ui.OneToOneChatRecordActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.message.ui.OneToOneChatRecordActivity"
+            android:screenOrientation="portrait" />
         <!-- 点赞 -->
-        <activity android:name=".activity.message.ui.LikesActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.message.ui.LikesActivity"
+            android:screenOrientation="portrait" />
         <!-- 评论 -->
-        <activity android:name=".activity.message.ui.CommentActivity"
-                  android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.message.ui.CommentActivity"
+            android:screenOrientation="portrait" />
         <!-- 订单消息 -->
-        <activity android:name=".activity.message.ui.OrderMessageActivity"
-                  android:screenOrientation="portrait"/>
-        <!--系统消息-->
-        <activity android:name=".activity.message.ui.SysMessageActivity"
-                  android:screenOrientation="portrait"/>
-        <!--关注消息-->
-        <activity android:name=".activity.message.ui.AttentionActivity"
-                  android:screenOrientation="portrait"/>
-        <!--关于软件-->
-        <activity android:name=".activity.me.AboutActivity"
-                  android:screenOrientation="portrait"/>
-        <!-- **************************************高德定位**********************************************-->
+        <activity
+            android:name=".activity.message.ui.OrderMessageActivity"
+            android:screenOrientation="portrait" />
+        <!-- 系统消息 -->
+        <activity
+            android:name=".activity.message.ui.SysMessageActivity"
+            android:screenOrientation="portrait" />
+        <!-- 关注消息 -->
+        <activity
+            android:name=".activity.message.ui.AttentionActivity"
+            android:screenOrientation="portrait" />
+        <!-- 商家申请详情修改 -->
+        <activity
+            android:name=".activity.takeaway.ui.ChangeDetailAddressActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的模块关注 -->
+        <activity
+            android:name=".activity.me.ui.AttentionMineActivity"
+            android:screenOrientation="portrait" />
+        <!-- 粉丝 -->
+        <activity
+            android:name=".activity.me.ui.FansActivity"
+            android:screenOrientation="portrait" />
+        <!-- 获赞 -->
+        <activity
+            android:name=".activity.me.ui.ReceiveLikesActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- **************************************高德定位********************************************** -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <!-- **************************************极光推送**********************************************-->
-
-        <!-- Since JCore2.0.0 Required SDK核心功能-->
+        <!-- **************************************极光推送********************************************** -->
+        <!-- Since JCore2.0.0 Required SDK核心功能 -->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->
         <service
@@ -203,9 +222,7 @@
             <intent-filter>
                 <action android:name="cn.jiguang.user.service.action" />
             </intent-filter>
-        </service>
-
-        <!-- Required since 3.0.7 -->
+        </service> <!-- Required since 3.0.7 -->
         <!-- 新的 tag/alias 接口结果返回需要开发者配置一个自定的广播 -->
         <!-- 3.3.0开始所有事件将通过该类回调 -->
         <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
@@ -215,12 +232,10 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-
-        <!-- *************************************/极光推送**********************************************-->
-
     </application>
 
 </manifest>

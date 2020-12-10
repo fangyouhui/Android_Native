@@ -21,6 +21,7 @@
         android:drawablePadding="5dp"
         android:gravity="center_vertical"
         android:hint="请输入你想要搜索的内容..."
+        android:imeOptions="actionSearch"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:singleLine="true"
@@ -62,4 +63,14 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <include
+        android:id="@+id/view_empty"
+        layout="@layout/layout_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_cancel" />
 </androidx.constraintlayout.widget.ConstraintLayout>

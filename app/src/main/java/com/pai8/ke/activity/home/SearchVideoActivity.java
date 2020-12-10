@@ -6,8 +6,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -23,6 +25,7 @@ import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
+import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.StringUtils;
 
 import java.util.List;
@@ -49,6 +52,8 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
     LuRecyclerView lrv;
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout srLayout;
+    @BindView(R.id.view_empty)
+    View viewEmpty;
     private HomeAdapter mAdapter;
     private LuRecyclerViewAdapter mLRvAdapter;
     private int mPageNo = 1;
@@ -137,6 +142,13 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
             }
         });
 
+        etSearch.setOnKeyListener((v, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                mHandler.sendEmptyMessageDelayed(1, 50);
+            }
+            return false;
+        });
+
     }
 
     @Override
@@ -171,12 +183,22 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
     public void videoList(List<VideoResp> data, int tag) {
         AppUtils.hideInput(this);
         if (tag == GlobalConstants.REFRESH) {
+            if (CollectionUtils.isEmpty(data)) {
+                viewEmpty.setVisibility(View.VISIBLE);
+            } else {
+                viewEmpty.setVisibility(View.GONE);
+            }
             mAdapter.setDataList(data);
         } else if (tag == GlobalConstants.LOADMORE) {
             mAdapter.addAll(data);
         }
         lrv.refreshComplete(data.size());
         mLRvAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void deleteVideo(String videoId) {
+
     }
 
     @Override

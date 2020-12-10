@@ -25,6 +25,8 @@ public interface VideoHomeContract {
 
         void videoList(List<VideoResp> data, int tag);
 
+        void deleteVideo(String videoId);
+
     }
 
 
@@ -41,6 +43,8 @@ public interface VideoHomeContract {
         void myLike(int page, int tag);
 
         void search(String keywords, int page, int tag);
+
+        void deleteVideo(String videoId);
 
     }
 }

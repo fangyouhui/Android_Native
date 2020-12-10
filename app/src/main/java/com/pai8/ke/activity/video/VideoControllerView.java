@@ -79,17 +79,23 @@ public class VideoControllerView extends RelativeLayout {
 
     public void setVideoData(VideoResp videoData) {
         mVideoEntity = videoData;
-        ImageLoadUtils.loadImage(mContext, videoData.getAvatar(), civAvatar, R.mipmap.img_head_def);
+        ImageLoadUtils.loadImage(mContext, videoData.getUser().getAvatar(), civAvatar, R.mipmap.img_head_def);
         ImageLoadUtils.loadImage(mContext, videoData.getShop_img(), civCover, R.mipmap.ic_shop_def_circle);
         tvLike.setText(videoData.getLike_counts() + "");
         tvComment.setText(videoData.getComment_counts() + "");
-        tvName.setText(videoData.getUser_nickname());
+        tvName.setText(videoData.getUser().getNickname());
         tvSign.setText(videoData.getVideo_desc());
         tvCoverName.setText(videoData.getShop_name());
         if (StringUtils.isEmpty(videoData.getBusiness_district())) {
             tvLoc.setText(videoData.getDistance());
         } else {
             tvLoc.setText(videoData.getDistance() + " | " + videoData.getBusiness_district());
+        }
+
+        if (videoData.isSelf()) {
+            tvContactUs.setVisibility(INVISIBLE);
+        } else {
+            tvContactUs.setVisibility(VISIBLE);
         }
 
         //点赞状态

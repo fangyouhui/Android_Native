@@ -184,6 +184,16 @@ public interface ApiService {
     Observable<BaseRespose<ShareResp>> shareUrl(@Field("video_id") String video_id);
 
     /**
+     * 删除视频
+     *
+     * @param video_id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/delete")
+    Observable<BaseRespose> deleteVideo(@Field("id") String video_id);
+
+    /**
      * 附近的视频列表（新）
      *
      * @return

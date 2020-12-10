@@ -43,8 +43,9 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         VideoResp video = mDataList.get(position);
         ImageLoadUtils.loadImage(mContext, video.getCover_path(), viewHolder.ivCover, R.color.colorPrimary);
         viewHolder.tvLookCount.setText(video.getLook_counts() + "");
-        viewHolder.tvName.setText(video.getUser_nickname());
-        ImageLoadUtils.loadImage(mContext, video.getAvatar(), viewHolder.civAvatar, R.mipmap.img_head_def);
+        viewHolder.tvName.setText(video.getUser().getNickname());
+        ImageLoadUtils.loadImage(mContext, video.getUser().getAvatar(), viewHolder.civAvatar,
+                R.mipmap.img_head_def);
         viewHolder.tvTitle.setText(video.getVideo_desc());
         if (StringUtils.isNotEmpty(video.getDistance())) {
             viewHolder.tvTagDistance.setVisibility(View.VISIBLE);
