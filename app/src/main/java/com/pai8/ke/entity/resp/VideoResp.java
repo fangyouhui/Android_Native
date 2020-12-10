@@ -1,5 +1,9 @@
 package com.pai8.ke.entity.resp;
 
+import com.pai8.ke.entity.User;
+import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.utils.StringUtils;
+
 import java.io.Serializable;
 
 /**
@@ -17,9 +21,6 @@ public class VideoResp implements Serializable {
     private int comment_counts;
     private int look_counts;
     private String create_time;
-    private String user_id;
-    private String user_nickname;
-    private String avatar;
     private int like_status;
     private int follow_status;
     private int onsale;
@@ -28,10 +29,26 @@ public class VideoResp implements Serializable {
     private String shop_img;
     private String distance;
     private String business_district;
-    private String mobile;
-    private String wechat;
+    private User user;
+    private String share_url;
 
     private int page;
+
+    public String getShare_url() {
+        return share_url;
+    }
+
+    public void setShare_url(String share_url) {
+        this.share_url = share_url;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getPage() {
         return page;
@@ -131,30 +148,6 @@ public class VideoResp implements Serializable {
         this.create_time = create_time;
     }
 
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getUser_nickname() {
-        return user_nickname;
-    }
-
-    public void setUser_nickname(String user_nickname) {
-        this.user_nickname = user_nickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public int getLike_status() {
         return like_status;
     }
@@ -195,14 +188,6 @@ public class VideoResp implements Serializable {
         this.business_district = business_district;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     public String getProxyUrl() {
         return proxyUrl;
     }
@@ -219,19 +204,15 @@ public class VideoResp implements Serializable {
         this.shop_img = shop_img;
     }
 
-    public String getWechat() {
-        return wechat;
-    }
-
-    public void setWechat(String wechat) {
-        this.wechat = wechat;
-    }
-
     public int getOnsale() {
         return onsale;
     }
 
     public void setOnsale(int onsale) {
         this.onsale = onsale;
+    }
+
+    public boolean isSelf() {
+        return StringUtils.equals(AccountManager.getInstance().getUid(), user.getId());
     }
 }
