@@ -18,15 +18,13 @@ import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.me.SettingActivity;
 import com.pai8.ke.activity.me.ui.AttentionMineActivity;
+import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
 import com.pai8.ke.activity.me.ui.FansActivity;
 import com.pai8.ke.activity.me.ui.ReceiveLikesActivity;
-import com.pai8.ke.activity.message.ui.AttentionActivity;
 import com.pai8.ke.activity.takeaway.order.OrderActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
-import com.pai8.ke.activity.takeaway.ui.ShopRankActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
 import com.pai8.ke.activity.video.ReportActivity;
-import com.pai8.ke.activity.video.VideoDetailActivity;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseEvent;
@@ -35,10 +33,8 @@ import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.UserInfo;
-import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
@@ -312,6 +308,7 @@ public class TabMeFragment extends BaseFragment {
                 launch(FansActivity.class);
                 break;
             case R.id.ll_history_count:
+                launch(HistoryWatchActivity.class);
                 break;
             case R.id.tv_apply_status:
                 //申请商家入驻

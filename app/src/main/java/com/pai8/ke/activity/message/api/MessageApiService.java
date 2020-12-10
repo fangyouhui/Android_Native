@@ -62,7 +62,7 @@ public interface MessageApiService {
      * @return
      */
     @POST("index/follow")
-    Observable<BaseRespose> follow(@Body RequestBody param);
+    Observable<BaseRespose> getAttention(@Body RequestBody param);
 
 
 }
