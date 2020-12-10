@@ -20,8 +20,6 @@ public interface VideoContract {
 
         void like(int likeStatus);
 
-        void shareUrl(String url);
-
     }
 
     interface Presenter extends BasePresenter {
@@ -31,8 +29,6 @@ public interface VideoContract {
         void follow(String to_user_id, int followStatus);
 
         void like(String video_id, int likeStatus);
-
-        void share(String video_id);
 
         void comment(String video_id, String content, String to_user_id);
 

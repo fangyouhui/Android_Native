@@ -19,37 +19,6 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
         super(view);
     }
 
-//    @Override
-//    public void contentList(String video_id, int pageNo, int tag) {
-//        Api.getInstance().contentList(video_id, pageNo)
-//                .doOnSubscribe(disposable -> {
-//                    addDisposable(disposable);
-//                })
-//                .compose(RxSchedulers.io_main())
-//                .subscribe(new BaseObserver<List<VideoResp>>() {
-//                    @Override
-//                    protected void onSuccess(List<VideoResp> list) {
-//                        view.refreshComplete();
-//                        if (tag == GlobalConstants.REFRESH) {
-//                            if (CollectionUtils.isEmpty(list)) {
-//                                view.toast("数据为空");
-//                                return;
-//                            }
-//                            view.contentList(list, tag);
-//                        }
-//                        if (tag == GlobalConstants.LOADMORE) {
-//                            view.contentList(list, tag);
-//                        }
-//                    }
-//
-//                    @Override
-//                    protected void onError(String msg, int errorCode) {
-//                        view.refreshComplete();
-//                        super.onError(msg, errorCode);
-//                    }
-//                });
-//    }
-
     @Override
     public void getComments(String video_id) {
         view.showProgress(null);
@@ -166,29 +135,6 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
                     });
             return;
         }
-    }
-
-    @Override
-    public void share(String video_id) {
-        view.showProgress(null);
-        Api.getInstance().shareUrl(video_id)
-                .doOnSubscribe(disposable -> {
-                    addDisposable(disposable);
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<ShareResp>() {
-                    @Override
-                    protected void onSuccess(ShareResp shareResp) {
-                        view.dismissProgress();
-                        view.shareUrl(shareResp.getUrl());
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        view.dismissProgress();
-                        super.onError(msg, errorCode);
-                    }
-                });
     }
 
     /**

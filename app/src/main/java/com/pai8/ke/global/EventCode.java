@@ -20,4 +20,5 @@ public interface EventCode {
     // 优惠券列表变化
     int EVENT_COUPON = 0xff7;
     int EVENT_HOME_TAB = 0xff8;
+    int EVENT_VIDEO_LIST_REFRESH = 0xff9;
 }

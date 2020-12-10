@@ -28,6 +28,7 @@ import com.pai8.ke.entity.resp.ShopListResp;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.UploadFileManager;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.PickerUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -40,6 +41,8 @@ import java.util.List;
 import androidx.cardview.widget.CardView;
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 
 /**
  * 发布视频
@@ -247,6 +250,7 @@ public class VideoPublishActivity extends BaseActivity {
                             protected void onSuccess(Object o) {
                                 toast("视频发布成功");
                                 finish();
+                                EventBusUtils.sendEvent(new BaseEvent(EVENT_VIDEO_LIST_REFRESH));
                             }
 
                             @Override

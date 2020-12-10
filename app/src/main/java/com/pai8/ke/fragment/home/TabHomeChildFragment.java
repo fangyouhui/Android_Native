@@ -15,6 +15,7 @@ import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
 import com.pai8.ke.activity.video.VideoDetailActivity;
 import com.pai8.ke.adapter.HomeAdapter;
 import com.pai8.ke.app.MyApp;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
@@ -33,6 +34,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 import static com.pai8.ke.app.MyApp.getMyAppHandler;
+import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 import static com.pai8.ke.global.GlobalConstants.LOADMORE;
 import static com.pai8.ke.global.GlobalConstants.REFRESH;
 
@@ -54,6 +56,21 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         bundle.putInt("position", position);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EVENT_VIDEO_LIST_REFRESH:
+                onRefresh();
+                break;
+        }
     }
 
     @Override
@@ -228,6 +245,11 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         }
         lrv.refreshComplete(data.size());
         mLRvAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void deleteVideo(String videoId) {
+
     }
 
 }

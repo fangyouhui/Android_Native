@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,7 +37,6 @@ import com.pai8.ke.interfaces.contract.VideoDetailContract;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.manager.ViewPagerLayoutManager;
-import com.pai8.ke.presenter.VideoDetailPresenter;
 import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
@@ -57,9 +55,9 @@ import com.pai8.ke.widget.LikeView;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -371,7 +369,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             @Override
             public void onFollowClick() {
-                mPresenter.follow(getCurVideo().getUser_id(), getCurVideo().getFollow_status());
+                mPresenter.follow(getCurVideo().getUser().getId(), getCurVideo().getFollow_status());
             }
 
             @Override
@@ -402,7 +400,8 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             @Override
             public void onShareClick() {
-                mPresenter.share(getCurVideo().getId());
+                String share_url = getCurVideo().getShare_url();
+                shareUrl(share_url);
             }
 
             @Override
@@ -454,12 +453,31 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     private void showMoreBottomDialog() {
         View view = View.inflate(this, R.layout.view_dialog_more, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);
+        Group group = view.findViewById(R.id.group);
         TextView tvBtnCancel = view.findViewById(R.id.tv_btn_cancel);
+        TextView tvBtnDel = view.findViewById(R.id.tv_btn_del);
         TextView tvBtnJB = view.findViewById(R.id.tv_btn_jubao);
         TextView tvBtnTS = view.findViewById(R.id.tv_btn_tousu);
         TextView tvBtnLH = view.findViewById(R.id.tv_btn_lahei);
+        if (getCurVideo().isSelf()) {
+            group.setVisibility(View.GONE);
+            tvBtnDel.setVisibility(View.VISIBLE);
+        } else {
+            group.setVisibility(View.VISIBLE);
+            tvBtnDel.setVisibility(View.GONE);
+        }
         itnClose.setOnClickListener(view1 -> {
             mMoreBottomDialog.dismiss();
+        });
+        tvBtnDel.setOnClickListener(view1 -> {//删除
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage("确定删除该视频？")
+                    .setPositiveButton("确定", (dialogInterface, i) -> {
+                        mVideoHomePresenter.deleteVideo(getCurVideo().getId());
+                    }).setNegativeButton("取消", null)
+                    .show();
+
         });
         tvBtnCancel.setOnClickListener(view1 -> {
             mMoreBottomDialog.dismiss();
@@ -505,7 +523,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         });
         tvBtnPhone.setOnClickListener(view1 -> {//电话
             String[] options = {"呼叫", "复制号码", "添加至手机通讯录"};
-            String mobile = getCurVideo().getMobile();
+            String mobile = getCurVideo().getUser().getPhone();
             String shopName = getCurVideo().getShop_name();
             new AlertDialog.Builder(this)
                     .setCancelable(false)
@@ -527,18 +545,26 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
                     }).show();
         });
         tvBtnSms.setOnClickListener(view1 -> {//私信
+            if (getCurVideo().getUser() == null || StringUtils.isEmpty(getCurVideo().getUser().getPhone())) {
+                toast("暂时没有联系方式~");
+                return;
+            }
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("私信")
-                    .setMessage("我的联系方式是：" + getCurVideo().getMobile())
+                    .setMessage("我的联系方式是：" + getCurVideo().getUser().getPhone())
                     .setPositiveButton("确认", null)
                     .show();
         });
         tvBtnWechat.setOnClickListener(view1 -> {//微信
+            if (getCurVideo().getUser() == null || StringUtils.isEmpty(getCurVideo().getUser().getWechat())) {
+                toast("暂时没有联系方式~");
+                return;
+            }
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("微信")
-                    .setMessage("我的微信号是：" + getCurVideo().getWechat())
+                    .setMessage("我的微信号是：" + getCurVideo().getUser().getWechat())
                     .setPositiveButton("确认", null)
                     .show();
         });
@@ -567,12 +593,12 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         tvBtnAudio.setOnClickListener(view1 -> {
             mChatBottomDialog.dismiss();
             ChatActivity.launch(this, ChatActivity.BIZ_TYPE_AUDIO, ChatActivity.INTENT_TYPE_CALL,
-                    getCurVideo().getUser_id());
+                    getCurVideo().getUser().getId());
         });
         tvBtnVideo.setOnClickListener(view1 -> {
             mChatBottomDialog.dismiss();
             ChatActivity.launch(this, ChatActivity.BIZ_TYPE_VIDEO, ChatActivity.INTENT_TYPE_CALL,
-                    getCurVideo().getUser_id());
+                    getCurVideo().getUser().getId());
         });
         if (mChatBottomDialog == null) {
             mChatBottomDialog = new BottomDialog(this, view);
@@ -639,7 +665,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             switch (type) {
                 case 0:
-                    mPresenter.comment(getCurVideo().getId(), txt, getCurVideo().getUser_id());
+                    mPresenter.comment(getCurVideo().getId(), txt, getCurVideo().getUser().getId());
                     break;
                 case 1:
                     mPresenter.comment1(getCurVideo().getId(), comment.getCommentId(), txt,
@@ -744,6 +770,11 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     }
 
     @Override
+    public void deleteVideo(String videoId) {
+        finish();
+    }
+
+    @Override
     public void getComments(List<CommentResp> data) {
         showCommentsDialog(data);
     }
@@ -761,7 +792,6 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         getCurVideo().setLike_counts(like);
     }
 
-    @Override
     public void shareUrl(String url) {
         View view = View.inflate(this, R.layout.view_dialog_share_modify, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);

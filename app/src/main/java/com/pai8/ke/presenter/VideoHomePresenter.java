@@ -1,6 +1,7 @@
 package com.pai8.ke.presenter;
 
 import com.pai8.ke.api.Api;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
@@ -10,10 +11,13 @@ import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.EventBusUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 
 public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View> implements VideoHomeContract.Presenter {
 
@@ -216,6 +220,31 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onError(String msg, int errorCode) {
                         view.refreshComplete();
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+    @Override
+    public void deleteVideo(String videoId) {
+        view.showProgress(null);
+        Api.getInstance().deleteVideo(videoId)
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    protected void onSuccess(Object data) {
+                        view.dismissProgress();
+                        view.deleteVideo(videoId);
+                        view.toast("删除成功");
+                        EventBusUtils.sendEvent(new BaseEvent(EVENT_VIDEO_LIST_REFRESH));
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.dismissProgress();
                         super.onError(msg, errorCode);
                     }
                 });
