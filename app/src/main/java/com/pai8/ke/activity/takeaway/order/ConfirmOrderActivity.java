@@ -157,6 +157,7 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         } else if (v.getId() == R.id.rl_address) {
             Intent intent = new Intent(this, DeliveryAddressActivity.class);
             intent.putExtra("id", mId);
+            intent.putExtra("TYPE", 1);
             startActivityForResult(intent, 100);
         } else if(v.getId() == R.id.tv_send_time){
             time();
