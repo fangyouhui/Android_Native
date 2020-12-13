@@ -62,6 +62,7 @@ public class HistoryWatchActivity extends BaseMvpActivity<HistoryWatchPresenter>
     public void initView() {
         mTitleBar.setTitle("足迹");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new HistoryWatchAdapter(mList);
         rvHistory.setLayoutManager(new LinearLayoutManager(this));
         rvHistory.setHasFixedSize(true);

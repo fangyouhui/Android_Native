@@ -52,6 +52,7 @@ public class CommentActivity extends BaseMvpActivity<CommentPresenter> implement
     public void initView() {
         mTitleBar.setTitle("评论");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new CommentAdapter(mList);
         rvLikes.setLayoutManager(new LinearLayoutManager(this));
         rvLikes.setHasFixedSize(true);

@@ -17,11 +17,14 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.me.SettingActivity;
+import com.pai8.ke.activity.me.contract.EditPersonalInfoContract;
 import com.pai8.ke.activity.me.ui.AttentionMineActivity;
+import com.pai8.ke.activity.me.ui.EditPersonalInfoActivity;
 import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
 import com.pai8.ke.activity.me.ui.FansActivity;
 import com.pai8.ke.activity.me.ui.ReceiveLikesActivity;
 import com.pai8.ke.activity.takeaway.order.OrderActivity;
+import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
 import com.pai8.ke.activity.video.ReportActivity;
@@ -181,11 +184,6 @@ public class TabMeFragment extends BaseFragment {
             setHistoryCount(0);
             return;
         }
-        LogUtils.d("token：" + AccountManager.getInstance().getToken());
-        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
-        tvNickName.setText(StringUtils.isNotEmpty(userInfo.getUser_nickname()) ?
-                userInfo.getUser_nickname() : userInfo.getPhone());
-        ImageLoadUtils.loadImage(getActivity(), userInfo.getAvatar(), civAvatar, R.mipmap.img_head_def);
         Api.getInstance().getMyInfo()
                 .doOnSubscribe(disposable -> {
                 })
@@ -197,7 +195,11 @@ public class TabMeFragment extends BaseFragment {
                         setFansCount(myInfoResp.getMy_fans());
                         setFollowCount(myInfoResp.getMy_fans());
                         setHistoryCount(myInfoResp.getMy_history());
-                        initVerifyStatus(myInfoResp.getVerify_status());
+                        initVerifyStatus(myInfoResp.getVerify_status() == null ? 0 : myInfoResp.getVerify_status());
+                        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
+                        tvNickName.setText(StringUtils.isNotEmpty(myInfoResp.getUser_nickname()) ?
+                                myInfoResp.getUser_nickname() : userInfo.getPhone());
+                        ImageLoadUtils.loadImage(getActivity(), myInfoResp.getAvatar(), civAvatar, R.mipmap.img_head_def);
                     }
 
                     @Override
@@ -288,12 +290,17 @@ public class TabMeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.civ_avatar:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    return;
+                }
+                startActivityForResult(new Intent(mActivity, EditPersonalInfoActivity.class), 100);
             case R.id.tv_nick_name:
                 if (!mActivity.mAccountManager.isLogin()) {
                     launch(LoginActivity.class);
                 }
                 break;
             case R.id.iv_btn_edit:
+                startActivityForResult(new Intent(mActivity, EditPersonalInfoActivity.class), 100);
                 break;
             case R.id.iv_btn_msg:
                 EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
@@ -325,6 +332,7 @@ public class TabMeFragment extends BaseFragment {
             case R.id.tv_btn_wallet:
                 break;
             case R.id.tv_btn_address:
+                launch(DeliveryAddressActivity.class);
                 break;
             case R.id.tv_btn_coupon:
                 //优惠券
@@ -398,11 +406,15 @@ public class TabMeFragment extends BaseFragment {
             mShareBottomDialog.dismiss();
         });
         tvBtnWechatFriend.setOnClickListener(view1 -> {
-            if (!isWeChatClientValid()) return;
+            if (!isWeChatClientValid()) {
+                return;
+            }
             share(Wechat.NAME, url, name);
         });
         tvBtnWechatMoments.setOnClickListener(view1 -> {
-            if (!isWeChatClientValid()) return;
+            if (!isWeChatClientValid()) {
+                return;
+            }
             share(WechatMoments.NAME, url, name);
         });
         if (mShareBottomDialog == null) {
@@ -414,8 +426,6 @@ public class TabMeFragment extends BaseFragment {
 
     /**
      * 第三方分享
-     *
-     * @param platform
      */
     private void share(String platform, String url, String name) {
         Platform.ShareParams sp = new Platform.ShareParams();
@@ -430,7 +440,9 @@ public class TabMeFragment extends BaseFragment {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 getActivity().runOnUiThread(() -> {
-                    if (mShareBottomDialog.isShowing()) mShareBottomDialog.dismiss();
+                    if (mShareBottomDialog.isShowing()) {
+                        mShareBottomDialog.dismiss();
+                    }
                 });
             }
 
@@ -456,7 +468,9 @@ public class TabMeFragment extends BaseFragment {
             switch (requestCode) {
                 case 1:
                     List<LocalMedia> imgs = PictureSelector.obtainMultipleResult(data);
-                    if (CollectionUtils.isEmpty(imgs) || mCivShareCover == null) return;
+                    if (CollectionUtils.isEmpty(imgs) || mCivShareCover == null) {
+                        return;
+                    }
                     String path = imgs.get(0).getPath();
                     ImageLoadUtils.loadImage(getActivity(), path, mCivShareCover,
                             R.mipmap.img_share_cover);
@@ -472,7 +486,11 @@ public class TabMeFragment extends BaseFragment {
                         }
                     });
                     break;
-
+                case 100:
+                    initUserInfo();
+                    break;
+                default:
+                    break;
             }
         }
     }

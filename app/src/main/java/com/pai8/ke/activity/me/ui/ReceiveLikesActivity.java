@@ -46,6 +46,7 @@ public class ReceiveLikesActivity extends BaseMvpActivity<ReceiveLikesPresenter>
     public void initView() {
         mTitleBar.setTitle("获赞");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new ReceiveLikesAdapter(mList);
         rvReceiveLikes.setLayoutManager(new LinearLayoutManager(this));
         rvReceiveLikes.setHasFixedSize(true);

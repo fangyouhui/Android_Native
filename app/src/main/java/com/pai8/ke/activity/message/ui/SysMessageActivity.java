@@ -48,7 +48,8 @@ public class SysMessageActivity extends BaseMvpActivity<SysMessagePresenter> imp
     @Override
     public void initView() {
         mTitleBar.setTitle("系统消息");
-        srLayout.setOnRefreshListener(this); 
+        srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new SysMessageAdapter(mList);
         rvSysMessage.setLayoutManager(new LinearLayoutManager(this));
         rvSysMessage.setHasFixedSize(true);

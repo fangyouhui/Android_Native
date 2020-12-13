@@ -47,6 +47,7 @@ public class AttentionMineActivity extends BaseMvpActivity<AttentionMinePresente
     public void initView() {
         mTitleBar.setTitle("关注");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new AttentionMineAdapter(mList);
         rvAttentionMine.setLayoutManager(new LinearLayoutManager(this));
         rvAttentionMine.setHasFixedSize(true);

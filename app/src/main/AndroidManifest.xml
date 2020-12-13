@@ -166,22 +166,26 @@
                 android:screenOrientation="portrait"/> <!-- 关注消息 -->
         <activity
                 android:name=".activity.message.ui.AttentionActivity"
+                android:screenOrientation="portrait"/> <!-- 商家申请详情修改 -->
+        <activity
+                android:name=".activity.takeaway.ui.ChangeDetailAddressActivity"
+                android:screenOrientation="portrait"/> <!-- 我的模块关注 -->
+        <activity
+                android:name=".activity.me.ui.AttentionMineActivity"
+                android:screenOrientation="portrait"/> <!-- 历史足迹 -->
+        <activity
+                android:name=".activity.me.ui.HistoryWatchActivity"
+                android:screenOrientation="portrait"/> <!-- 粉丝 -->
+        <activity
+                android:name=".activity.me.ui.FansActivity"
+                android:screenOrientation="portrait"/> <!-- 获赞 -->
+        <activity
+                android:name=".activity.me.ui.ReceiveLikesActivity"
                 android:screenOrientation="portrait"/>
-        <!-- 商家申请详情修改 -->
-        <activity android:name=".activity.takeaway.ui.ChangeDetailAddressActivity"
+        <!--个人信息编辑-->
+        <activity android:name=".activity.me.ui.EditPersonalInfoActivity"
                   android:screenOrientation="portrait"/>
-        <!-- 我的模块关注 -->
-        <activity android:name=".activity.me.ui.AttentionMineActivity"
-                  android:screenOrientation="portrait"/>
-        <!-- 历史足迹 -->
-        <activity android:name=".activity.me.ui.HistoryWatchActivity"
-                  android:screenOrientation="portrait"/>
-        <!-- 粉丝 -->
-        <activity android:name=".activity.me.ui.FansActivity"
-                  android:screenOrientation="portrait"/>
-        <!-- 获赞 -->
-        <activity android:name=".activity.me.ui.ReceiveLikesActivity"
-                  android:screenOrientation="portrait"/>
+
         <!-- **************************************高德定位********************************************** -->
         <service
                 android:name="com.amap.api.location.APSService"/> <!-- **************************************极光推送********************************************** -->

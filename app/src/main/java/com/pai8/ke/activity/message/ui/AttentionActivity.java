@@ -55,6 +55,7 @@ public class AttentionActivity extends BaseMvpActivity<AttentionPresenter> imple
     public void initView() {
         mTitleBar.setTitle("关注");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new AttentionAdapter(mList);
         rvAttention.setLayoutManager(new LinearLayoutManager(this));
         rvAttention.setHasFixedSize(true);
