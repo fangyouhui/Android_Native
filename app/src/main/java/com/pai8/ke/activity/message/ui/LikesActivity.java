@@ -50,6 +50,7 @@ public class LikesActivity extends BaseMvpActivity<LikesPresenter> implements Li
     public void initView() {
         mTitleBar.setTitle("点赞");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new LikesAdapter(mList);
         rvLikes.setLayoutManager(new LinearLayoutManager(this));
         rvLikes.setHasFixedSize(true);

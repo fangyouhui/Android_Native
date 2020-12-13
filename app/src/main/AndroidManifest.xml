@@ -196,6 +196,10 @@
         <activity
             android:name=".activity.me.ui.AttentionMineActivity"
             android:screenOrientation="portrait" />
+        <!-- 历史足迹 -->
+        <activity
+            android:name=".activity.me.ui.HistoryWatchActivity"
+            android:screenOrientation="portrait" />
         <!-- 粉丝 -->
         <activity
             android:name=".activity.me.ui.FansActivity"
@@ -203,6 +207,10 @@
         <!-- 获赞 -->
         <activity
             android:name=".activity.me.ui.ReceiveLikesActivity"
+            android:screenOrientation="portrait" />
+        <!--个人信息编辑-->
+        <activity
+            android:name=".activity.me.ui.EditPersonalInfoActivity"
             android:screenOrientation="portrait" />
         <!-- 关于 -->
         <activity

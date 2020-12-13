@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.me.contract;
 
+import com.pai8.ke.activity.me.entity.resp.UserInfoResp;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.base.BaseView;
 
@@ -10,22 +11,13 @@ import java.util.List;
  * @time 2020/12/6 18:24
  * Description：
  */
-public interface AttentionMineContract {
+public interface EditPersonalInfoContract {
 
     interface View extends BaseView {
 
-        void getAttentionMineSuccess(List<MessageResp> data);
+        void  getUserInfo(UserInfoResp resp);
 
-        void cancelAttentionSuccess();
-
-        void attentionSuccess();
-
-        void isRefresh();
-
-        void completeRefresh();
-
-        void completeLoadMore();
-
+        void saveSuccess();
     }
 
 }

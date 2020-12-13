@@ -7,6 +7,7 @@ import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BasePresenterImpl;
+import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.manager.AccountManager;
@@ -59,4 +60,46 @@ public class AttentionPresenter extends BasePresenterImpl<AttentionContract.View
                 });
     }
 
+    public void cancelAttention(String id) {
+        HashMap<String,Object> map = new HashMap<>(1);
+        map.put("to_user_id", id );
+        MessageApi.getInstance().cancelAttention(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<BaseRespose>() {
+                    @Override
+                    protected void onSuccess(BaseRespose data){
+                        view.cancelAttentionSuccess();
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+    public void getAttention(String id) {
+        HashMap<String,Object> map = new HashMap<>(1);
+        map.put("to_user_id", id );
+        MessageApi.getInstance().getAttention(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver() {
+
+                    @Override
+                    protected void onSuccess(Object o) {
+                        view.attentionSuccess();
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
 }
