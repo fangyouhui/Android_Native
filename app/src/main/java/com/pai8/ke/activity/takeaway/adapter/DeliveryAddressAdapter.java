@@ -14,11 +14,11 @@ import androidx.annotation.Nullable;
 
 public class DeliveryAddressAdapter extends BaseQuickAdapter<AddressInfo, BaseViewHolder> {
 
-    private int mId ;
+    private int mType ;
 
-    public DeliveryAddressAdapter(@Nullable List<AddressInfo> data, int id) {
+    public DeliveryAddressAdapter(@Nullable List<AddressInfo> data, int type) {
         super(R.layout.item_delivery_address, data);
-        this.mId = id;
+        this.mType = type;
     }
 
 
@@ -38,7 +38,7 @@ public class DeliveryAddressAdapter extends BaseQuickAdapter<AddressInfo, BaseVi
         helper.setText(R.id.tv_address,item.address);
         helper.addOnClickListener(R.id.tv_status);
 
-        if (mId == 0) {
+        if (mType == 0) {
             helper.setGone(R.id.iv_choose,false);
         }else {
             helper.setGone(R.id.iv_choose,true);
@@ -48,7 +48,6 @@ public class DeliveryAddressAdapter extends BaseQuickAdapter<AddressInfo, BaseVi
             }else{
                 ivChoose.setBackgroundResource(R.mipmap.ic_radio_normal);
             }
-
         }
 
     }
