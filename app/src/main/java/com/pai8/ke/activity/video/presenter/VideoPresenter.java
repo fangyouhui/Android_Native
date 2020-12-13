@@ -5,11 +5,10 @@ import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.resp.AttentionResp;
 import com.pai8.ke.entity.resp.CommentResp;
-import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.VideoResp;
-import com.pai8.ke.global.GlobalConstants;
-import com.pai8.ke.utils.CollectionUtils;
 
 import java.util.List;
 
@@ -20,9 +19,10 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
     }
 
     @Override
-    public void getComments(String video_id) {
+    public void getComments(Video video) {
+        if (video == null) return;
         view.showProgress(null);
-        Api.getInstance().comments(video_id)
+        Api.getInstance().comments(video.getId())
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
                 })
@@ -43,123 +43,20 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
     }
 
     @Override
-    public void follow(String to_user_id, int followStatus) {
+    public void follow(Video video) {
+        if (video == null) return;
         view.showProgress(null);
-        if (followStatus == 1) { //取消关注
-            Api.getInstance().unfollow(to_user_id)
-                    .doOnSubscribe(disposable -> {
-                        addDisposable(disposable);
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<Object>() {
-                        @Override
-                        protected void onSuccess(Object o) {
-                            view.dismissProgress();
-                            view.follow(0);
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            view.dismissProgress();
-                            super.onError(msg, errorCode);
-                        }
-                    });
-            return;
-        }
-        if (followStatus == 0) { //关注
-            Api.getInstance().follow(to_user_id)
-                    .doOnSubscribe(disposable -> {
-                        addDisposable(disposable);
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<Object>() {
-                        @Override
-                        protected void onSuccess(Object o) {
-                            view.dismissProgress();
-                            view.follow(1);
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            view.dismissProgress();
-                            super.onError(msg, errorCode);
-                        }
-                    });
-            return;
-        }
-    }
-
-    @Override
-    public void like(String video_id, int likeStatus) {
-        view.showProgress(null);
-        if (likeStatus == 1) { //取消喜欢
-            Api.getInstance().unlike(video_id)
-                    .doOnSubscribe(disposable -> {
-                        addDisposable(disposable);
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<Object>() {
-                        @Override
-                        protected void onSuccess(Object o) {
-                            view.dismissProgress();
-                            view.like(0);
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            view.dismissProgress();
-                            super.onError(msg, errorCode);
-                        }
-                    });
-            return;
-        }
-
-        if (likeStatus == 0) { //喜欢
-            Api.getInstance().like(video_id)
-                    .doOnSubscribe(disposable -> {
-                        addDisposable(disposable);
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<Object>() {
-                        @Override
-                        protected void onSuccess(Object o) {
-                            view.dismissProgress();
-                            view.like(1);
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            view.dismissProgress();
-                            super.onError(msg, errorCode);
-                        }
-                    });
-            return;
-        }
-    }
-
-    /**
-     * 评论
-     *
-     * @param video_id
-     * @param top_id     评论顶级id，一级评论top_id为0，二级评论top_id就是所属一级评论的id
-     * @param pid        评论的父id，就是你回复那条评论的id。直接评论视频的话，pid为0
-     * @param content    评论内容
-     * @param to_user_id 被评论的用户id，被回复的用户id
-     * @return
-     */
-    private void comment(String video_id, String top_id, String pid, String content, String to_user_id) {
-        view.showProgress(null);
-        Api.getInstance().comment(video_id, top_id, pid, content, to_user_id)
+        Api.getInstance().attention(video.getUser().getId())
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver() {
+                .subscribe(new BaseObserver<AttentionResp>() {
                     @Override
-                    protected void onSuccess(Object o) {
+                    protected void onSuccess(AttentionResp resp) {
                         view.dismissProgress();
-                        view.toast("评论成功");
-                        getComments(video_id);
+                        video.setFollow_status(resp.getStatus());
+                        view.newVideo(video, true);
                     }
 
                     @Override
@@ -171,19 +68,105 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
     }
 
     @Override
-    public void comment(String video_id, String content, String to_user_id) {
-        comment(video_id, "0", "0", content, to_user_id);
+    public void like(Video video) {
+        if (video == null) return;
+        view.showProgress(null);
+        Api.getInstance().like(video.getId())
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<VideoResp>() {
+                    @Override
+                    protected void onSuccess(VideoResp videoResp) {
+                        view.dismissProgress();
+                        Video video = videoResp.getVideo();
+                        if (video != null) view.newVideo(video, true);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.dismissProgress();
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 
     @Override
-    public void comment1(String video_id, String commentId, String content, String to_user_id) {
-        comment(video_id, commentId, commentId, content, to_user_id);
+    public void look(Video video) {
+        if (video == null) return;
+        Api.getInstance().look(video.getId())
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<VideoResp>() {
+                    @Override
+                    protected void onSuccess(VideoResp videoResp) {
+                        Video video = videoResp.getVideo();
+                        if (video != null) view.newVideo(video, false);
+                    }
+                });
     }
 
+    /**
+     * 评论视频
+     */
     @Override
-    public void comment2(String video_id, String commentId, String commentsId, String content,
-                         String to_user_id) {
-        comment(video_id, commentId, commentsId, content, to_user_id);
+    public void commentVideo(Video video, String content) {
+        if (video == null) return;
+        view.showProgress(null);
+        Api.getInstance().comment(video.getId(), "0", content)
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<VideoResp>() {
+                    @Override
+                    protected void onSuccess(VideoResp videoResp) {
+                        view.dismissProgress();
+                        view.toast("评论成功");
+                        getComments(video);
+                        Video video = videoResp.getVideo();
+                        if (video != null) view.newVideo(video, true);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.dismissProgress();
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+    /**
+     * 评论视频
+     */
+    @Override
+    public void comment(Video video, String pid, String content) {
+        if (video == null) return;
+        view.showProgress(null);
+        Api.getInstance().comment(video.getId(), pid, content)
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<VideoResp>() {
+                    @Override
+                    protected void onSuccess(VideoResp videoResp) {
+                        view.dismissProgress();
+                        view.toast("评论成功");
+                        getComments(video);
+                        Video video = videoResp.getVideo();
+                        if (video != null) view.newVideo(video, true);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.dismissProgress();
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 
 }

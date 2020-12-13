@@ -25,6 +25,7 @@ import com.pai8.ke.fragment.shop.TabShopFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -151,6 +152,12 @@ public class MainActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AMapLocationUtils.destroy();
     }
 
 }

@@ -3,7 +3,7 @@ package com.pai8.ke.interfaces.contract;
 
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.base.BaseView;
-import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.entity.Video;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ public interface VideoDetailContract {
 
         void refreshComplete();
 
-        void videoList(List<VideoResp> data, int tag);
+        void videoList(List<Video> data, int tag);
 
     }
 

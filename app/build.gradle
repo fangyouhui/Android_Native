@@ -100,6 +100,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/alipaySdk-15.7.9-20200727142814-noUtdid.aar')
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -140,7 +141,7 @@ dependencies {
     //jPush
     implementation 'cn.jiguang.sdk:jpush:3.8.6'
     implementation 'cn.jiguang.sdk:jcore:2.5.5'
-    implementation 'com.danikula:videocache:2.7.1'
+//    implementation 'com.danikula:videocache:2.7.1'
     implementation 'com.github.razerdp:BasePopup_Candy:2.2.3.20200304'
     //高德地图
     implementation 'com.amap.api:3dmap:latest.integration'
@@ -150,6 +151,12 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
     implementation 'com.gavin.com.library:stickyDecoration:1.5.2'
 
+    // DkPlayer必选，内部默认使用系统mediaplayer进行解码
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
+    // DkPlayer可选，使用ijkplayer进行解码
+    implementation 'com.github.dueeeke.dkplayer:player-ijk:3.2.6'
+    // DkPlayer可选，如需要缓存或者抖音预加载功能请引入此库
+    implementation 'com.github.dueeeke.dkplayer:videocache:3.2.6'
     implementation project(':lib_shortvideo')
 
 }

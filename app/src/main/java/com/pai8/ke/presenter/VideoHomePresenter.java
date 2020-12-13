@@ -6,16 +6,13 @@ import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.VideoListResp;
-import com.pai8.ke.entity.resp.VideoNearResp;
-import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.EventBusUtils;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 
@@ -25,9 +22,9 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
         super(view);
     }
 
-    private void setPageNo(List<VideoResp> videos, int page) {
+    private void setPageNo(List<Video> videos, int page) {
         if (CollectionUtils.isNotEmpty(videos)) {
-            for (VideoResp video : videos) {
+            for (Video video : videos) {
                 video.setPage(page);
             }
         }
@@ -44,7 +41,7 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getItems();
+                        List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             view.videoList(videos, tag);
@@ -76,7 +73,7 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getItems();
+                        List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             view.videoList(videos, tag);
@@ -108,7 +105,7 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getItems();
+                        List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             view.videoList(videos, tag);
@@ -140,7 +137,7 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getItems();
+                        List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             view.videoList(videos, tag);
@@ -172,7 +169,7 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getItems();
+                        List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             view.videoList(videos, tag);
@@ -204,7 +201,10 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getItems();
+                        if (data == null) {
+
+                        }
+                        List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
                             view.videoList(videos, tag);

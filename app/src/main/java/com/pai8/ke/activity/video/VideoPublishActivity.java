@@ -225,8 +225,8 @@ public class VideoPublishActivity extends BaseActivity {
 //                }
                 VideoPublishReq req = new VideoPublishReq();
                 if (mAddress == null) {
-                    req.setLatitude(MyApp.getLngLat().get(0));
-                    req.setLongitude(MyApp.getLngLat().get(1));
+                    req.setLongitude(MyApp.getLngLat().get(0));
+                    req.setLatitude(MyApp.getLngLat().get(1));
                 } else {
                     req.setLatitude(String.valueOf(mAddress.getLat()));
                     req.setLongitude(String.valueOf(mAddress.getLon()));
