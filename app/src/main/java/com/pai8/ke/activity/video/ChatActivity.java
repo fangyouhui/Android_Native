@@ -433,6 +433,7 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
         if (mEngine != null) {
             mEngine.destroy();
         }
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
@@ -553,4 +554,5 @@ public class ChatActivity extends BaseActivity implements OnChatCrlListener {
         paretview.addView(sourcView);
         paretview.addView(detView);
     }
+
 }

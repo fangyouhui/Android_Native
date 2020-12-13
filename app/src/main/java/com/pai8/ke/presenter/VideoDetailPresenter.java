@@ -5,7 +5,7 @@ import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.VideoNearResp;
-import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoDetailContract;
 import com.pai8.ke.utils.CollectionUtils;
@@ -26,9 +26,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<List<Video>>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> videos) {
+                    protected void onSuccess(List<Video> videos) {
                         view.refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
@@ -59,7 +59,7 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                     @Override
                     protected void onSuccess(VideoNearResp data) {
                         view.refreshComplete();
-                        List<VideoResp> videos = data.getVidoe_list();
+                        List<Video> videos = data.getVidoe_list();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(videos)) {
                                 return;
@@ -85,9 +85,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<List<Video>>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> list) {
+                    protected void onSuccess(List<Video> list) {
                         view.refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
@@ -114,9 +114,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<List<Video>>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> list) {
+                    protected void onSuccess(List<Video> list) {
                         view.refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {
@@ -143,9 +143,9 @@ public class VideoDetailPresenter extends BasePresenterImpl<VideoDetailContract.
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<VideoResp>>() {
+                .subscribe(new BaseObserver<List<Video>>() {
                     @Override
-                    protected void onSuccess(List<VideoResp> list) {
+                    protected void onSuccess(List<Video> list) {
                         view.refreshComplete();
                         if (tag == GlobalConstants.REFRESH) {
                             if (CollectionUtils.isEmpty(list)) {

@@ -1,4 +1,4 @@
-package com.pai8.ke.entity.resp;
+package com.pai8.ke.entity;
 
 
 public class UserInfo {

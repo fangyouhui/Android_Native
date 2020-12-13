@@ -9,8 +9,6 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.StringUtils;
 
-import androidx.annotation.IntDef;
-
 import static com.pai8.ke.global.EventCode.EVENT_REPORT;
 
 /*

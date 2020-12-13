@@ -2,18 +2,10 @@ package com.pai8.ke.interfaces.contract;
 
 
 import com.pai8.ke.base.BasePresenter;
-import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.base.BaseView;
-import com.pai8.ke.entity.resp.CommentResp;
-import com.pai8.ke.entity.resp.VideoListResp;
-import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.entity.Video;
 
 import java.util.List;
-
-import io.reactivex.Observable;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
 
 public interface VideoHomeContract {
 
@@ -23,7 +15,7 @@ public interface VideoHomeContract {
 
         void setNoMore();
 
-        void videoList(List<VideoResp> data, int tag);
+        void videoList(List<Video> data, int tag);
 
         void deleteVideo(String videoId);
 

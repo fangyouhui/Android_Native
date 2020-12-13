@@ -1,7 +1,6 @@
 package com.pai8.ke.fragment.chat;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.interfaces.OnChatCrlListener;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TextViewUtils;

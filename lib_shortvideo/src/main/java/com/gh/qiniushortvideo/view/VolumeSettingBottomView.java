@@ -61,7 +61,7 @@ public class VolumeSettingBottomView extends BaseBottomView {
         mSrcVolumeText = view.findViewById(R.id.src_volume_value);
         mSrcVolumeText.setText(String.format(mContext.getResources().getString(R.string.volume_value),
                 mSrcVolume));
-        mSrcVolumeSeekBar.getThumb().setColorFilter(mContext.getResources().getColor(R.color.white),
+        mSrcVolumeSeekBar.getThumb().setColorFilter(mContext.getResources().getColor(R.color.colorWhite),
                 PorterDuff.Mode.SRC_ATOP);
         mSrcVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -84,7 +84,7 @@ public class VolumeSettingBottomView extends BaseBottomView {
         mMusicVolumeText = view.findViewById(R.id.music_volume_value);
         mMusicVolumeText.setText(String.format(mContext.getResources().getString(R.string.volume_value),
                 mMusicVolume));
-        mMusicVolumeSeekBar.getThumb().setColorFilter(mContext.getResources().getColor(R.color.white),
+        mMusicVolumeSeekBar.getThumb().setColorFilter(mContext.getResources().getColor(R.color.colorWhite),
                 PorterDuff.Mode.SRC_ATOP);
         mMusicVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

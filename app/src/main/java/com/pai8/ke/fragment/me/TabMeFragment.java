@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
-
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -17,14 +16,10 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.me.SettingActivity;
-import com.pai8.ke.activity.me.contract.EditPersonalInfoContract;
 import com.pai8.ke.activity.me.ui.AttentionMineActivity;
-import com.pai8.ke.activity.me.ui.EditPersonalInfoActivity;
-import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
 import com.pai8.ke.activity.me.ui.FansActivity;
 import com.pai8.ke.activity.me.ui.ReceiveLikesActivity;
 import com.pai8.ke.activity.takeaway.order.OrderActivity;
-import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
 import com.pai8.ke.activity.video.ReportActivity;
@@ -34,11 +29,12 @@ import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.entity.resp.MyInfoResp;
-import com.pai8.ke.entity.resp.UserInfo;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
+import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
@@ -290,32 +286,27 @@ public class TabMeFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.civ_avatar:
-                if (!mActivity.mAccountManager.isLogin()) {
-                    return;
-                }
-                startActivityForResult(new Intent(mActivity, EditPersonalInfoActivity.class), 100);
             case R.id.tv_nick_name:
                 if (!mActivity.mAccountManager.isLogin()) {
                     launch(LoginActivity.class);
                 }
                 break;
             case R.id.iv_btn_edit:
-                startActivityForResult(new Intent(mActivity, EditPersonalInfoActivity.class), 100);
                 break;
             case R.id.iv_btn_msg:
                 EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
                 break;
             case R.id.ll_like_count:
-                launch(ReceiveLikesActivity.class);
+                launchInterceptLogin(ReceiveLikesActivity.class);
                 break;
             case R.id.ll_follow_count:
-                launch(AttentionMineActivity.class);
+                launchInterceptLogin(AttentionMineActivity.class);
                 break;
             case R.id.ll_fans_count:
-                launch(FansActivity.class);
+                launchInterceptLogin(FansActivity.class);
                 break;
             case R.id.ll_history_count:
-                launch(HistoryWatchActivity.class);
+                launchInterceptLogin(HistoryWatchActivity.class);
                 break;
             case R.id.tv_apply_status:
                 //申请商家入驻
@@ -327,12 +318,12 @@ public class TabMeFragment extends BaseFragment {
                 }
                 break;
             case R.id.tv_btn_order:
-                launch(OrderActivity.class);
+                launchInterceptLogin(OrderActivity.class);
                 break;
             case R.id.tv_btn_wallet:
                 break;
             case R.id.tv_btn_address:
-                launch(DeliveryAddressActivity.class);
+                launchInterceptLogin(DeliveryAddressActivity.class);
                 break;
             case R.id.tv_btn_coupon:
                 //优惠券
@@ -351,7 +342,7 @@ public class TabMeFragment extends BaseFragment {
             case R.id.tv_btn_contact_us:
                 break;
             case R.id.tv_btn_setting:
-                launch(SettingActivity.class);
+                launchInterceptLogin(SettingActivity.class);
                 break;
             default:
                 break;
@@ -406,15 +397,11 @@ public class TabMeFragment extends BaseFragment {
             mShareBottomDialog.dismiss();
         });
         tvBtnWechatFriend.setOnClickListener(view1 -> {
-            if (!isWeChatClientValid()) {
-                return;
-            }
+            if (!isWeChatClientValid()) return;
             share(Wechat.NAME, url, name);
         });
         tvBtnWechatMoments.setOnClickListener(view1 -> {
-            if (!isWeChatClientValid()) {
-                return;
-            }
+            if (!isWeChatClientValid()) return;
             share(WechatMoments.NAME, url, name);
         });
         if (mShareBottomDialog == null) {
@@ -426,6 +413,8 @@ public class TabMeFragment extends BaseFragment {
 
     /**
      * 第三方分享
+     *
+     * @param platform
      */
     private void share(String platform, String url, String name) {
         Platform.ShareParams sp = new Platform.ShareParams();
@@ -440,9 +429,7 @@ public class TabMeFragment extends BaseFragment {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 getActivity().runOnUiThread(() -> {
-                    if (mShareBottomDialog.isShowing()) {
-                        mShareBottomDialog.dismiss();
-                    }
+                    if (mShareBottomDialog.isShowing()) mShareBottomDialog.dismiss();
                 });
             }
 
@@ -468,9 +455,7 @@ public class TabMeFragment extends BaseFragment {
             switch (requestCode) {
                 case 1:
                     List<LocalMedia> imgs = PictureSelector.obtainMultipleResult(data);
-                    if (CollectionUtils.isEmpty(imgs) || mCivShareCover == null) {
-                        return;
-                    }
+                    if (CollectionUtils.isEmpty(imgs) || mCivShareCover == null) return;
                     String path = imgs.get(0).getPath();
                     ImageLoadUtils.loadImage(getActivity(), path, mCivShareCover,
                             R.mipmap.img_share_cover);

@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.dueeeke.videoplayer.ijk.IjkPlayerFactory;
+import com.dueeeke.videoplayer.player.VideoViewConfig;
+import com.dueeeke.videoplayer.player.VideoViewManager;
 import com.gh.qiniushortvideo.QNShortVideo;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
@@ -126,6 +129,12 @@ public class MyApp extends Application {
         //JPush
         JPushInterface.setDebugMode(getBuildType() != BuildType.RELEASE);
         JPushInterface.init(this);
+        //DkPlayer
+        VideoViewManager.setConfig(VideoViewConfig.newBuilder()
+                //使用使用IjkPlayer解码
+                .setPlayerFactory(IjkPlayerFactory.create())
+                .setLogEnabled(true)
+                .build());
     }
 
     public static HttpProxyCacheServer getProxy() {
