@@ -29,15 +29,12 @@ import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.activity.me.contract.EditPersonalInfoContract;
-import com.pai8.ke.activity.me.ui.EditPersonalInfoActivity;
 import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
-import com.pai8.ke.entity.resp.UserInfo;
-import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
@@ -195,7 +192,7 @@ public class TabMeFragment extends BaseFragment {
                         setFollowCount(myInfoResp.getMy_fans());
                         setHistoryCount(myInfoResp.getMy_history());
                         initVerifyStatus(myInfoResp.getVerify_status() == null ? 0 : myInfoResp.getVerify_status());
-                        User userInfo = mActivity.mAccountManager.getUserInfo();
+                        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
                         tvNickName.setText(StringUtils.isNotEmpty(myInfoResp.getUser_nickname()) ?
                                 myInfoResp.getUser_nickname() : userInfo.getPhone());
                         ImageLoadUtils.loadImage(getActivity(), myInfoResp.getAvatar(), civAvatar, R.mipmap.img_head_def);
@@ -300,16 +297,16 @@ public class TabMeFragment extends BaseFragment {
                 EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
                 break;
             case R.id.ll_like_count:
-                launch(ReceiveLikesActivity.class);
+                launchInterceptLogin(ReceiveLikesActivity.class);
                 break;
             case R.id.ll_follow_count:
-                launch(AttentionMineActivity.class);
+                launchInterceptLogin(AttentionMineActivity.class);
                 break;
             case R.id.ll_fans_count:
-                launch(FansActivity.class);
+                launchInterceptLogin(FansActivity.class);
                 break;
             case R.id.ll_history_count:
-                launch(HistoryWatchActivity.class);
+                launchInterceptLogin(HistoryWatchActivity.class);
                 break;
             case R.id.tv_apply_status:
                 //申请商家入驻
@@ -321,12 +318,12 @@ public class TabMeFragment extends BaseFragment {
                 }
                 break;
             case R.id.tv_btn_order:
-                launch(OrderActivity.class);
+                launchInterceptLogin(OrderActivity.class);
                 break;
             case R.id.tv_btn_wallet:
                 break;
             case R.id.tv_btn_address:
-                launch(DeliveryAddressActivity.class);
+                launchInterceptLogin(DeliveryAddressActivity.class);
                 break;
             case R.id.tv_btn_coupon:
                 //优惠券
@@ -345,7 +342,7 @@ public class TabMeFragment extends BaseFragment {
             case R.id.tv_btn_contact_us:
                 break;
             case R.id.tv_btn_setting:
-                launch(SettingActivity.class);
+                launchInterceptLogin(SettingActivity.class);
                 break;
             default:
                 break;
