@@ -8,6 +8,8 @@ public class CouponListResp {
     private String id;
     private String user_id;
     private String shop_id;
+    // 0优惠券  1 商品优惠券  2 运费优惠券
+    private int type ;
     private String coupon_id;
     private int status;
     private CouponInfoEntity coupon_info;
@@ -54,6 +56,14 @@ public class CouponListResp {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public CouponInfoEntity getCoupon_info() {

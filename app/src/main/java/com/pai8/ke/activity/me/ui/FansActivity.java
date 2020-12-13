@@ -45,6 +45,7 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
     public void initView() {
         mTitleBar.setTitle("粉丝");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new FansAdapter(mList);
         rvFans.setLayoutManager(new LinearLayoutManager(this));
         rvFans.setHasFixedSize(true);

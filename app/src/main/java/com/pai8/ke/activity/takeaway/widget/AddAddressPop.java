@@ -127,7 +127,7 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
 
         }else if(id == R.id.et_address){
             mContext.startActivity(new Intent(mContext
-                    , MapAddressChooseActivity.class));
+                    , MapAddressChooseActivity.class).putExtra("TYPE",1));
         }
     }
 

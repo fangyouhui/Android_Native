@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.me.ui.EditPersonalInfoActivity">
+
+    <include layout="@layout/view_comm_titlebar"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_margin="15dp"
+                  android:gravity="center_horizontal"
+                  android:background="@drawable/shap_me_layout_radius8">
+
+        <com.pai8.ke.widget.CircleImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                app:es_shape_type="round"
+                android:id="@+id/ric_head"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_light_font"
+                android:textSize="@dimen/sp_12"
+                android:text="点击更换头像"
+                android:layout_marginTop="15dp"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_marginTop="25dp"
+              android:background="@color/divider_line_color"
+              android:layout_marginStart="10dp"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="60dp"
+                      android:layout_marginStart="15dp"
+                      android:orientation="horizontal">
+
+            <TextView android:layout_width="@dimen/dp_60"
+                      android:layout_height="match_parent"
+                      android:text="昵称"
+                      android:gravity="center_vertical"
+                      android:textColor="@color/color_mid_font"
+                      android:textSize="@dimen/sp_16"
+            />
+
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:background="@null"
+                      android:hint="请输入昵称"
+                      android:layout_marginStart="20dp"
+                      android:gravity="center_vertical"
+                      android:textColor="@color/text_black"
+                      android:id="@+id/et_nickname"
+                      android:textSize="@dimen/sp_16"/>
+
+        </LinearLayout>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/divider_line_color"
+              android:layout_marginStart="10dp"/>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="60dp"
+                      android:layout_marginStart="15dp"
+                      android:orientation="horizontal">
+
+            <TextView android:layout_width="@dimen/dp_60"
+                      android:layout_height="match_parent"
+                      android:text="微信号"
+                      android:gravity="center_vertical"
+                      android:textColor="@color/color_mid_font"
+                      android:textSize="@dimen/sp_16"
+            />
+
+            <EditText android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:background="@null"
+                      android:hint="请输入微信号"
+                      android:layout_marginStart="20dp"
+                      android:gravity="center_vertical"
+                      android:textColor="@color/text_black"
+                      android:id="@+id/et_wechat"
+                      android:textSize="@dimen/sp_16"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/tv_remind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            android:textColor="@color/color_mid_font"
+            android:text="* 手机号和微信号仅用于与您取得及时联系，我们会全程保障您的隐私安全"/>
+
+    <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/btn_selector_linear_radius"
+            android:gravity="center"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+</LinearLayout>

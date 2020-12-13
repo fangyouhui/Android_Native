@@ -1,5 +1,7 @@
 package com.pai8.ke.activity.message.ui;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.hjq.bar.OnTitleBarListener;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -33,7 +36,7 @@ import static com.pai8.ke.global.EventCode.EVENT_COUPON;
  * @time 19:50
  * Description：关注
  */
-public class AttentionActivity extends BaseMvpActivity<AttentionPresenter> implements AttentionContract.View,SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class AttentionActivity extends BaseMvpActivity<AttentionPresenter> implements AttentionContract.View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.rv_attention)
     RecyclerView rvAttention;
@@ -52,6 +55,7 @@ public class AttentionActivity extends BaseMvpActivity<AttentionPresenter> imple
     public void initView() {
         mTitleBar.setTitle("关注");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new AttentionAdapter(mList);
         rvAttention.setLayoutManager(new LinearLayoutManager(this));
         rvAttention.setHasFixedSize(true);
@@ -79,6 +83,29 @@ public class AttentionActivity extends BaseMvpActivity<AttentionPresenter> imple
 
             }
         });
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (mList.get(position).is_focus == 1) {
+                showOperateDialog(true, mList.get(position).builder_id + "");
+            } else {
+                showOperateDialog(false, mList.get(position).builder_id + "");
+            }
+        });
+    }
+
+    private void showOperateDialog(boolean cancel, String id) {
+        new MaterialDialog.Builder(this)
+                .title("温馨提示")
+                .content(cancel ? "确定取消关注对方？" : "确定关注对方？")
+                .positiveText(R.string.cancel)
+                .negativeText(R.string.confirm)
+                .onPositive((dialog, which) -> {
+                    if (cancel) {
+                        mPresenter.cancelAttention(id);
+                    } else {
+                        mPresenter.getAttention(id);
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -98,6 +125,18 @@ public class AttentionActivity extends BaseMvpActivity<AttentionPresenter> imple
                 mAdapter.addData(data);
             }
         }
+    }
+
+    @Override
+    public void cancelAttentionSuccess() {
+        page = 1;
+        mPresenter.reqMessageList(page);
+    }
+
+    @Override
+    public void attentionSuccess() {
+        page = 1;
+        mPresenter.reqMessageList(page);
     }
 
     @Override

@@ -47,7 +47,8 @@ public class ActiveMessageActivity extends BaseMvpActivity<ActiveMessagePresente
     @Override
     public void initView() {
         mTitleBar.setTitle("活动消息");
-        srLayout.setOnRefreshListener(this); 
+        srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new ActiveMessageAdapter(mList);
         rvActiveMessage.setLayoutManager(new LinearLayoutManager(this));
         rvActiveMessage.setHasFixedSize(true);
