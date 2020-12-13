@@ -9,10 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
-import com.pai8.ke.activity.video.VideoControllerView;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
-import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.CircleImageView;
@@ -20,7 +19,7 @@ import com.pai8.ke.widget.CircleImageView;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
+public class HomeAdapter extends BaseRecyclerViewAdapter<Video> {
 
     private boolean isNearby;
 
@@ -40,7 +39,7 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        VideoResp video = mDataList.get(position);
+        Video video = mDataList.get(position);
         ImageLoadUtils.loadImage(mContext, video.getCover_path(), viewHolder.ivCover, R.color.colorPrimary);
         viewHolder.tvLookCount.setText(video.getLook_counts() + "");
         viewHolder.tvName.setText(video.getUser().getNickname());
@@ -53,10 +52,10 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<VideoResp> {
         } else {
             viewHolder.tvTagDistance.setVisibility(View.GONE);
         }
-        if (video.getOnsale() == 1) {
-            viewHolder.tvTagOnsale.setVisibility(View.VISIBLE);
-        } else {
+        if (video.getShop() == null) {
             viewHolder.tvTagOnsale.setVisibility(View.GONE);
+        } else {
+            viewHolder.tvTagOnsale.setVisibility(View.VISIBLE);
         }
     }
 

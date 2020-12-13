@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.me.api;
 
+import com.pai8.ke.activity.me.entity.resp.UserInfoResp;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
@@ -46,18 +47,22 @@ public interface MineApiService {
     Observable<BaseRespose<List<MessageResp>>> getFansList(@Body RequestBody param);
 
 
-
-    @POST("shop/categoryEdit")
-    Observable<BaseRespose<ShopInfo>> categoryEdit(@Body RequestBody param);
+    /**
+     * 修改用户信息
+     * @param param
+     * @return
+     */
+    @POST("user/setInfo")
+    Observable<BaseRespose> setInfo(@Body RequestBody param);
 
 
     /**
-     * 商家商品类别
-     * @param parm
+     * 根据uid获取用户信息
+     * @param param
      * @return
      */
-    @POST("shop/categoryList")
-    Observable<BaseRespose<List<ShopInfo>>> getCategoryList(@Body RequestBody param);
+    @POST("user/getInfoByUid")
+    Observable<BaseRespose<UserInfoResp>> getInfoByUid(@Body RequestBody param);
 
 
 }

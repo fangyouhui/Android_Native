@@ -3,8 +3,8 @@ package com.pai8.ke.activity.video.contract;
 
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.base.BaseView;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.resp.CommentResp;
-import com.pai8.ke.entity.resp.VideoResp;
 
 import java.util.List;
 
@@ -12,29 +12,25 @@ public interface VideoContract {
 
     interface View extends BaseView {
 
-        void refreshComplete();
-
         void getComments(List<CommentResp> data);
 
-        void follow(int followStatus);
-
-        void like(int likeStatus);
+        void newVideo(Video video, boolean refreshPage);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void getComments(String video_id);
+        void getComments(Video video);
 
-        void follow(String to_user_id, int followStatus);
+        void follow(Video video);
 
-        void like(String video_id, int likeStatus);
+        void like(Video video);
 
-        void comment(String video_id, String content, String to_user_id);
+        void look(Video video);
 
-        void comment1(String video_id, String commentId, String content, String to_user_id);
+        void commentVideo(Video video, String content);
 
-        void comment2(String video_id, String commentId, String commentsId, String content,
-                      String to_user_id);
+        void comment(Video video, String pId, String content);
+
     }
 }

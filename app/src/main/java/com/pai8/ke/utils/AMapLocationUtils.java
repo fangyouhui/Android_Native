@@ -34,7 +34,7 @@ public class AMapLocationUtils {
      * @param listener
      */
     public static void getLocation(MyLocationListener listener, boolean isOnceLocation) {
-        if (sLocation == null) {
+        if (sLocation == null || sLocation.getErrorCode() != 0 || !isValid(sLocation)) {
             getCurrentLocation(listener, isOnceLocation);
             return;
         }
@@ -52,7 +52,7 @@ public class AMapLocationUtils {
         }
         mlocationClient.startLocation();
         mlocationClient.setLocationListener(location -> {
-            if (location == null) {
+            if (location == null || location.getErrorCode() != 0 || !isValid(location)) {
                 return;
             }
             sLocation = location;
@@ -77,6 +77,10 @@ public class AMapLocationUtils {
 
     public interface MyLocationListener {
         void result(AMapLocation location);
+    }
+
+    private static boolean isValid(AMapLocation location) {
+        return location.getLatitude() != 0.0 || location.getLongitude() != 0.0;
     }
 
 }

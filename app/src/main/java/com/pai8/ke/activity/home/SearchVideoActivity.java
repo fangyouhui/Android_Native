@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -17,15 +16,18 @@ import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.video.VideoDetailActivity;
+import com.pai8.ke.activity.video.tiktok.TikTokActivity;
 import com.pai8.ke.adapter.HomeAdapter;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.event.VideoItemRefreshEvent;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.StringUtils;
 
 import java.util.List;
@@ -39,6 +41,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.pai8.ke.app.MyApp.getMyAppHandler;
+import static com.pai8.ke.global.EventCode.EVENT_VIDEO_ITEM;
+import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 import static com.pai8.ke.global.GlobalConstants.LOADMORE;
 import static com.pai8.ke.global.GlobalConstants.REFRESH;
 
@@ -64,10 +68,39 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 keywords = StringUtils.getEditText(etSearch);
+                if (StringUtils.isEmpty(keywords)) {
+                    mAdapter.clear();
+                    viewEmpty.setVisibility(View.VISIBLE);
+                    return;
+                }
                 onRefresh();
             }
         }
     };
+    private VideoItemRefreshEvent mRefreshEvent;
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EVENT_VIDEO_LIST_REFRESH:
+                onRefresh();
+                break;
+            case EVENT_VIDEO_ITEM:
+                try {
+                    mRefreshEvent = (VideoItemRefreshEvent) event.getData();
+                    mAdapter.getDataList().set(mRefreshEvent.getPosition(), mRefreshEvent.getVideo());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
 
     @Override
     public VideoHomeContract.Presenter initPresenter() {
@@ -117,8 +150,8 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
         srLayout.setOnRefreshListener(this);
         lrv.setOnLoadMoreListener(this);
         mLRvAdapter.setOnItemClickListener((view, position) -> {
-            VideoResp videoResp = mAdapter.getDataList().get(position);
-            VideoDetailActivity.launchSearch(this, mAdapter.getDataList(),
+            Video videoResp = mAdapter.getDataList().get(position);
+            TikTokActivity.launchSearch(this, mAdapter.getDataList(),
                     StringUtils.getEditText(etSearch), videoResp.getPage(), position);
         });
 
@@ -180,7 +213,7 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
     }
 
     @Override
-    public void videoList(List<VideoResp> data, int tag) {
+    public void videoList(List<Video> data, int tag) {
         AppUtils.hideInput(this);
         if (tag == GlobalConstants.REFRESH) {
             if (CollectionUtils.isEmpty(data)) {
@@ -205,6 +238,21 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in_search, R.anim.no_anim);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (mRefreshEvent != null) {
+            LogUtils.d("视频列表刷新");
+            mLRvAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mRefreshEvent = null;
     }
 
     @Override

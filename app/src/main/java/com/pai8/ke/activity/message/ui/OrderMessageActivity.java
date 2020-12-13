@@ -51,6 +51,7 @@ public class OrderMessageActivity extends BaseMvpActivity<OrderMessagePresenter>
     public void initView() {
         mTitleBar.setTitle("订单消息");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new OrderMessageAdapter(mList);
         rvOrderMessage.setLayoutManager(new LinearLayoutManager(this));
         rvOrderMessage.setHasFixedSize(true);

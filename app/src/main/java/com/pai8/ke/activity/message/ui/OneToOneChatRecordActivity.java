@@ -50,6 +50,7 @@ public class OneToOneChatRecordActivity extends BaseMvpActivity<ChatRecordPresen
     public void initView() {
         mTitleBar.setTitle("一对一聊天记录");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new ChatRecordAdapter(mList);
         rvChatRecord.setLayoutManager(new LinearLayoutManager(this));
         rvChatRecord.setHasFixedSize(true);

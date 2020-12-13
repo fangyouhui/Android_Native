@@ -16,6 +16,10 @@ public interface AttentionMineContract {
 
         void getAttentionMineSuccess(List<MessageResp> data);
 
+        void cancelAttentionSuccess();
+
+        void attentionSuccess();
+
         void isRefresh();
 
         void completeRefresh();

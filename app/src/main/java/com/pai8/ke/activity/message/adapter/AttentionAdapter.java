@@ -35,6 +35,7 @@ public class AttentionAdapter extends BaseQuickAdapter<MessageResp, BaseViewHold
             holder.setText(R.id.tv_attention_status,"关注");
             holder.setBackgroundRes(R.id.tv_attention_status,R.drawable.shape_orgin_gradient);
         }
+        holder.addOnClickListener(R.id.tv_attention_status);
     }
 
 

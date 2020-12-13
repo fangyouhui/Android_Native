@@ -4,6 +4,7 @@ import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
+import com.pai8.ke.entity.resp.AttentionResp;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.CouponGetListResp;
@@ -12,9 +13,10 @@ import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.ShopList;
-import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.entity.resp.VideoListResp;
 import com.pai8.ke.entity.resp.VideoNearResp;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.entity.resp.WxOrderPrepayResp;
 
@@ -86,54 +88,6 @@ public interface ApiService {
     //****************************视频模块********************************
 
     /**
-     * 视频列表（仿抖音）
-     */
-    @FormUrlEncoded
-    @POST("index/contentList")
-    Observable<BaseRespose<List<VideoResp>>> contentList(@Field("video_id") String video_id,
-                                                         @Field("page") int page);
-
-    /**
-     * 关注用户
-     *
-     * @param to_user_id
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("index/follow")
-    Observable<BaseRespose> follow(@Field("to_user_id") String to_user_id);
-
-    /**
-     * 取消关注用户
-     *
-     * @param to_user_id
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("index/unfollow")
-    Observable<BaseRespose> unfollow(@Field("to_user_id") String to_user_id);
-
-    /**
-     * 喜欢
-     *
-     * @param video_id 视频id
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("index/like")
-    Observable<BaseRespose> like(@Field("video_id") String video_id);
-
-    /**
-     * 取消喜欢
-     *
-     * @param video_id 视频id
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("index/like")
-    Observable<BaseRespose> unlike(@Field("video_id") String video_id);
-
-    /**
      * 举报
      *
      * @param video_id 视频id
@@ -148,20 +102,13 @@ public interface ApiService {
     /**
      * 评论
      *
-     * @param video_id
-     * @param top_id     评论顶级id，一级评论top_id为0，二级评论top_id就是所属一级评论的id
-     * @param pid        评论的父id，就是你回复那条评论的id。直接评论视频的话，pid为0
-     * @param content    评论内容
-     * @param to_user_id 被评论的用户id，被回复的用户id
      * @return
      */
     @FormUrlEncoded
-    @POST("index/comment")
-    Observable<BaseRespose> comment(@Field("video_id") String video_id,
-                                    @Field("top_id") String top_id,
-                                    @Field("pid") String pid,
-                                    @Field("content") String content,
-                                    @Field("to_user_id") String to_user_id);
+    @POST("video/addReview")
+    Observable<BaseRespose<VideoResp>> comment(@Field("video_id") String video_id,
+                                               @Field("pid") String pid,
+                                               @Field("content") String content);
 
     /**
      * 评论列表
@@ -192,6 +139,27 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("video/delete")
     Observable<BaseRespose> deleteVideo(@Field("id") String video_id);
+
+    /**
+     * 查看视频
+     */
+    @FormUrlEncoded
+    @POST("video/look")
+    Observable<BaseRespose<VideoResp>> look(@Field("id") String video_id);
+
+    /**
+     * 关注/取消关注
+     */
+    @FormUrlEncoded
+    @POST("video/attention")
+    Observable<BaseRespose<AttentionResp>> attention(@Field("uid") String uid);
+
+    /**
+     * 点赞/取消点赞
+     */
+    @FormUrlEncoded
+    @POST("video/like")
+    Observable<BaseRespose<VideoResp>> like(@Field("video_id") String video_id);
 
     /**
      * 附近的视频列表（新）
@@ -259,7 +227,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("index/videoList")
-    Observable<BaseRespose<List<VideoResp>>> videoList(@FieldMap Map<String, Object> fields);
+    Observable<BaseRespose<List<Video>>> videoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 附近的视频列表
@@ -273,21 +241,21 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("index/followVideoList")
-    Observable<BaseRespose<List<VideoResp>>> followVideoList(@FieldMap Map<String, Object> fields);
+    Observable<BaseRespose<List<Video>>> followVideoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 我的视频列表（个人中心）
      */
     @FormUrlEncoded
     @POST("user/myVideoList")
-    Observable<BaseRespose<List<VideoResp>>> myVideoList(@FieldMap Map<String, Object> fields);
+    Observable<BaseRespose<List<Video>>> myVideoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 我喜欢的列表
      */
     @FormUrlEncoded
     @POST("user/mylikeVideoList")
-    Observable<BaseRespose<List<VideoResp>>> myLikeVideoList(@FieldMap Map<String, Object> fields);
+    Observable<BaseRespose<List<Video>>> myLikeVideoList(@FieldMap Map<String, Object> fields);
 
     /**
      * 通知极光推送通话

@@ -11,8 +11,10 @@ import com.pai8.ke.activity.common.ScanActivity;
 import com.pai8.ke.activity.home.SearchVideoActivity;
 import com.pai8.ke.activity.video.fragment.InputCommentDialogFragment;
 import com.pai8.ke.adapter.TabAdapter;
+import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
+import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.TabCreateUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -73,6 +75,9 @@ public class TabHomeFragment extends BaseFragment {
 
     @Override
     protected void onLazyLoad() {
+        super.onLazyLoad();
+        LogUtils.d("位置信息：lng：" + MyApp.getLngLat().get(0) + "-lat：" + MyApp.getLngLat().get(1) + "-address" +
+                "：" + MyApp.getLngLat().get(2) + "-city：" + MyApp.getCity());
     }
 
     @OnClick({R.id.tv_search, R.id.iv_liwu, R.id.iv_scan})

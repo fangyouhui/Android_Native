@@ -83,9 +83,9 @@
         <activity android:name=".activity.takeaway.ui.StoreActivity" />
         <activity android:name=".activity.takeaway.ui.StoreManagerActivity" />
         <activity android:name=".activity.takeaway.ui.OrderProcessingActivity" />
-        <!-- 视频详情 -->
+        <!-- 视频滑动 -->
         <activity
-            android:name=".activity.video.VideoDetailActivity"
+            android:name=".activity.video.tiktok.TikTokActivity"
             android:screenOrientation="portrait" />
         <!-- 举报/投诉 -->
         <activity
@@ -198,6 +198,10 @@
         <activity
             android:name=".activity.me.ui.AttentionMineActivity"
             android:screenOrientation="portrait" />
+        <!-- 历史足迹 -->
+        <activity
+            android:name=".activity.me.ui.HistoryWatchActivity"
+            android:screenOrientation="portrait" />
         <!-- 粉丝 -->
         <activity
             android:name=".activity.me.ui.FansActivity"
@@ -206,7 +210,14 @@
         <activity
             android:name=".activity.me.ui.ReceiveLikesActivity"
             android:screenOrientation="portrait" />
-
+        <!--个人信息编辑-->
+        <activity
+            android:name=".activity.me.ui.EditPersonalInfoActivity"
+            android:screenOrientation="portrait" />
+        <!-- 关于 -->
+        <activity
+            android:name=".activity.me.AboutActivity"
+            android:screenOrientation="portrait" />
         <!-- **************************************高德定位********************************************** -->
         <service android:name="com.amap.api.location.APSService" />
 

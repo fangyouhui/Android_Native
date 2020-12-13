@@ -1,23 +1,23 @@
-package com.pai8.ke.activity.video;
+package com.pai8.ke.activity.video.tiktok;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dueeeke.videoplayer.player.VideoView;
+import com.dueeeke.videoplayer.util.L;
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
+import com.pai8.ke.activity.video.ChatActivity;
+import com.pai8.ke.activity.video.ReportActivity;
 import com.pai8.ke.activity.video.adapter.CommentAdapter;
-import com.pai8.ke.activity.video.adapter.VideoDetailAdapter;
+import com.pai8.ke.activity.video.adapter.TikTokAdapter;
 import com.pai8.ke.activity.video.contract.ReportContract;
 import com.pai8.ke.activity.video.contract.VideoContract;
 import com.pai8.ke.activity.video.fragment.InputCommentDialogFragment;
@@ -26,31 +26,32 @@ import com.pai8.ke.activity.video.presenter.VideoPresenter;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.entity.Shop;
+import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.event.VideoItemRefreshEvent;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.Comments;
-import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
-import com.pai8.ke.interfaces.OnViewPagerListener;
 import com.pai8.ke.interfaces.contract.VideoDetailContract;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.manager.UploadFileManager;
-import com.pai8.ke.manager.ViewPagerLayoutManager;
 import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.DKPlayerUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
+import com.pai8.ke.utils.cache.PreloadManager;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CircleImageView;
-import com.pai8.ke.widget.CustomVideoView;
 import com.pai8.ke.widget.EditTextCountView;
-import com.pai8.ke.widget.LikeView;
+import com.pai8.ke.widget.VerticalViewPager;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -58,9 +59,12 @@ import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.Group;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 import butterknife.BindView;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -77,27 +81,24 @@ import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
  * 视频详情
  * Created by gh on 2020/11/3.
  */
-public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter> implements VideoContract.View, SwipeRefreshLayout.OnRefreshListener, ReportContract.View, VideoDetailContract.View, VideoHomeContract.View {
+public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> implements VideoContract.View,
+        SwipeRefreshLayout.OnRefreshListener, ReportContract.View, VideoDetailContract.View,
+        VideoHomeContract.View {
 
-    @BindView(R.id.rv)
-    RecyclerView mLuRv;
-    @BindView(R.id.sr_layout)
-    SwipeRefreshLayout mRefreshLayout;
-    private CustomVideoView mVideoView;
+    @BindView(R.id.vp2)
+    ViewPager2 mViewPager;
 
-    private ImageView mIvCurCover;
-    private ImageView mIvPlay;
-
-    private VideoDetailAdapter mVideoAdapter;
-    private ViewPagerLayoutManager mViewPagerLayoutManager;
-
-    private int mCurPlayPos = -1;
+    private int mCurPlayPos;
     private int mPageNo = 1;
     private int mPosition;
     private int mType;
     private String mKeyWords = "";
-
     private String mShareImgUrl = "";
+
+    private TikTokAdapter mTikTokAdapter;
+    private PreloadManager mPreloadManager;
+    private TikTokController mController;
+    private RecyclerView mViewPagerImpl;
 
     private BottomDialog mShareBottomDialog;
     private BottomDialog mMoreBottomDialog;
@@ -106,12 +107,13 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     private BottomDialog mChatBottomDialog;
     private BottomDialog mCommentsBottomDialog;
 
-    private VideoControllerView mVideoControllerView;
     private CircleImageView mCivShareCover;
     private CommentAdapter mCommentAdapter;
 
     private ReportPresenter mReportPresenter;
     private VideoHomePresenter mVideoHomePresenter;
+    private TextView mTvCommentsTitle;
+    private VideoView mVideoView;
 
     @Override
     protected boolean isRegisterEventBus() {
@@ -138,7 +140,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
                     List<LocalMedia> imgs = PictureSelector.obtainMultipleResult(data);
                     if (CollectionUtils.isEmpty(imgs) || mCivShareCover == null) return;
                     String path = imgs.get(0).getPath();
-                    ImageLoadUtils.loadImage(VideoDetailActivity.this, path, mCivShareCover,
+                    ImageLoadUtils.loadImage(TikTokActivity.this, path, mCivShareCover,
                             R.mipmap.img_share_cover);
                     UploadFileManager.getInstance().upload(path, new UploadFileManager.Callback() {
                         @Override
@@ -157,9 +159,9 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         }
     }
 
-    public static void launch(Context context, List<VideoResp> videos, int pageNo, int position,
+    public static void launch(Context context, List<Video> videos, int pageNo, int position,
                               int type) {
-        Intent intent = new Intent(context, VideoDetailActivity.class);
+        Intent intent = new Intent(context, TikTokActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("videos", (Serializable) videos);
         intent.putExtra("pageNo", pageNo);
@@ -169,9 +171,9 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         context.startActivity(intent);
     }
 
-    public static void launchSearch(Context context, List<VideoResp> videos, String keywords, int pageNo,
+    public static void launchSearch(Context context, List<Video> videos, String keywords, int pageNo,
                                     int position) {
-        Intent intent = new Intent(context, VideoDetailActivity.class);
+        Intent intent = new Intent(context, TikTokActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("videos", (Serializable) videos);
         intent.putExtra("pageNo", pageNo);
@@ -194,89 +196,37 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
                 .transparentStatusBar()
                 .statusBarDarkFont(false)
                 .init();
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        View view = LayoutInflater.from(this).inflate(R.layout.view_video, findViewById(android.R.id.content),
-                false);
-        mVideoView = view.findViewById(R.id.video_view);
-        mVideoView.setGravityType(CustomVideoView.CENTER);
+        //init VideoView
+        mVideoView = new VideoView(this);
+        mVideoView.setLooping(true);
 
-        mVideoAdapter = new VideoDetailAdapter(this);
-        mLuRv.setAdapter(mVideoAdapter);
     }
 
-    @Override
-    public void initData() {
-        mVideoHomePresenter = new VideoHomePresenter(this);
-        Bundle extras = getIntent().getExtras();
-        List<VideoResp> videos = (List<VideoResp>) extras.getSerializable("videos");
-        mKeyWords = extras.getString("keywords");
-        mPageNo = extras.getInt("pageNo", 0);
-        mPosition = extras.getInt("position");
-        mType = extras.getInt("type");
-        mReportPresenter = new ReportPresenter(this);
-        if (CollectionUtils.isNotEmpty(videos)) {
-            mVideoAdapter.setDataList(videos);
-        }
-        setViewPagerLayoutManager();
-    }
+    private void initViewPager() {
+        mViewPager = findViewById(R.id.vp2);
+        mViewPager.setOffscreenPageLimit(4);
+        mTikTokAdapter = new TikTokAdapter(this);
+        mViewPager.setAdapter(mTikTokAdapter);
+        mViewPager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            private int mCurItem;
+            private boolean mIsReverseScroll;//VerticalViewPager是否反向滑动
 
-    @Override
-    public void initListener() {
-        mRefreshLayout.setOnRefreshListener(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mIvPlay != null) {
-            mIvPlay.setVisibility(View.GONE);
-        }
-        if (mVideoView != null) {
-            mVideoView.start();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mVideoView.pause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mVideoView.stopPlayback();
-    }
-
-    private void setViewPagerLayoutManager() {
-        mViewPagerLayoutManager = new ViewPagerLayoutManager(this);
-        mLuRv.setLayoutManager(mViewPagerLayoutManager);
-        mViewPagerLayoutManager.scrollToPosition(mPosition);
-        mViewPagerLayoutManager.setOnViewPagerListener(new OnViewPagerListener() {
             @Override
-            public void onInitComplete() {
-                playVideo(mPosition);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (position == mCurItem) {
+                    return;
+                }
+                mIsReverseScroll = position < mCurItem;
             }
 
             @Override
-            public void onPageRelease(boolean isNext, int position) {
-                LogUtils.d("onPageRelease:" + isNext + "-position:" + position);
-                if (mIvCurCover != null) {
-                    mIvCurCover.setVisibility(View.VISIBLE);
-                }
-                if (mIvPlay != null) {
-                    mIvPlay.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onPageSelected(int position, boolean isBottom) {
-                if (mIvCurCover != null && mVideoView.isPlaying()) {
-                    mIvCurCover.setVisibility(View.GONE);
-                }
-                playVideo(position);
-                if (isBottom) {//加载更多
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (position == mCurPlayPos) return;
+                if (position == mTikTokAdapter.getDataList().size() - 1) {
                     mPageNo++;
                     switch (mType) {
                         case 0:
@@ -297,79 +247,71 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
                             mVideoHomePresenter.search(mKeyWords, mPageNo, LOADMORE);
                     }
                 }
+                mViewPager.post(() -> startPlay(position));
             }
-        });
-    }
 
-    private void playVideo(int position) {
-        if (position == mCurPlayPos) return;
-
-        View itemView = mViewPagerLayoutManager.findViewByPosition(position);
-
-        if (itemView == null) return;
-
-        ViewGroup rootView = itemView.findViewById(R.id.rl_container);
-        mVideoControllerView = rootView.findViewById(R.id.video_controller_view);
-        LikeView likeView = rootView.findViewById(R.id.like_view);
-        mIvPlay = rootView.findViewById(R.id.iv_play);
-        ImageView ivCover = rootView.findViewById(R.id.iv_cover);
-        mIvPlay.setAlpha(0.4f);
-
-        onVideoControllerClick(mVideoControllerView);
-
-        likeView.setOnPlayPauseListener(() -> {
-            if (mVideoView.isPlaying()) {
-                mVideoView.pause();
-                mIvPlay.setVisibility(View.VISIBLE);
-            } else {
-                mVideoView.start();
-                mIvPlay.setVisibility(View.GONE);
-            }
-        });
-
-        mCurPlayPos = position;
-
-        // 添加VideoView到当前需要播放的item中，添加进item之前，保证VideoView没有父view。
-        ViewGroup parent = (ViewGroup) mVideoView.getParent();
-        if (parent != null) {
-            parent.removeView(mVideoView);
-        }
-        rootView.addView(mVideoView, 0);
-
-        VideoResp videoEntity = mVideoAdapter.getDataList().get(position);
-        // VideoView设置并播放
-        mVideoView.setVideoPath(videoEntity.getProxyUrl());
-        mVideoView.start();
-        mVideoView.setOnPreparedListener(mp -> {
-            mp.setLooping(true);
-            mp.setOnInfoListener((mp1, what, extra) -> {
-                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                    // 延迟取消封面，避免加载视频黑屏
-                    MyApp.getMyAppHandler().postDelayed(() -> {
-                        ivCover.setVisibility(View.INVISIBLE);
-                        mIvCurCover = ivCover;
-                    }, 150);
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+                if (state == VerticalViewPager.SCROLL_STATE_DRAGGING) {
+                    mCurItem = mViewPager.getCurrentItem();
                 }
-                return true;
-            });
+                if (state == ViewPager2.SCROLL_STATE_IDLE) {
+                    mPreloadManager.resumePreload(mCurPlayPos, mIsReverseScroll);
+                } else {
+                    mPreloadManager.pausePreload(mCurPlayPos, mIsReverseScroll);
+                }
+            }
         });
+
+        //ViewPage2内部是通过RecyclerView去实现的，它位于ViewPager2的第0个位置
+        mViewPagerImpl = (RecyclerView) mViewPager.getChildAt(0);
     }
 
-    /**
-     * 视频外部控制器点击事件
-     *
-     * @param videoControllerView
-     */
-    private void onVideoControllerClick(VideoControllerView videoControllerView) {
-        videoControllerView.setVideoControllerListener(new OnVideoControllerListener() {
+    @Override
+    public void initData() {
+        mVideoHomePresenter = new VideoHomePresenter(this);
+        mReportPresenter = new ReportPresenter(this);
+
+        Bundle extras = getIntent().getExtras();
+        List<Video> videos = (List<Video>) extras.getSerializable("videos");
+        mKeyWords = extras.getString("keywords");
+        mPageNo = extras.getInt("pageNo", 0);
+        mPosition = extras.getInt("position");
+        mType = extras.getInt("type");
+
+        initViewPager();
+
+        mVideoView.setScreenScaleType(VideoView.SCREEN_SCALE_DEFAULT);
+        mController = new TikTokController(this);
+        mVideoView.setVideoController(mController);
+
+        mPreloadManager = PreloadManager.getInstance(this);
+
+        if (CollectionUtils.isNotEmpty(videos)) {
+            mTikTokAdapter.setDataList(videos);
+        }
+
+        mViewPager.postDelayed(() -> {
+            if (mPosition == 0) {
+                startPlay(0);
+            } else {
+                mViewPager.setCurrentItem(mPosition, false);
+            }
+        }, 50);
+
+    }
+
+    @Override
+    public void initListener() {
+        mTikTokAdapter.setVideoControllerListener(new OnVideoControllerListener() {
             @Override
             public void onAvatarClick() {
-                toast(mCurPlayPos + "");
             }
 
             @Override
             public void onFollowClick() {
-                mPresenter.follow(getCurVideo().getUser().getId(), getCurVideo().getFollow_status());
+                mPresenter.follow(getCurVideo());
             }
 
             @Override
@@ -390,12 +332,12 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             @Override
             public void onLikeClick() {
-                mPresenter.like(getCurVideo().getId(), getCurVideo().getLike_status());
+                mPresenter.like(getCurVideo());
             }
 
             @Override
             public void onCommentClick() {
-                mPresenter.getComments(getCurVideo().getId());
+                mPresenter.getComments(getCurVideo());
             }
 
             @Override
@@ -411,10 +353,34 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             @Override
             public void onGoSee() {
-                String shop_id = getCurVideo().getShop_id();
-                StoreActivity.launch(VideoDetailActivity.this, shop_id);
+                Shop shop = getCurVideo().getShop();
+                if (shop == null) return;
+                StoreActivity.launch(TikTokActivity.this, shop.getId());
             }
         });
+    }
+
+    private void startPlay(int position) {
+        int count = mViewPagerImpl.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View itemView = mViewPagerImpl.getChildAt(i);
+            TikTokAdapter.ViewHolder viewHolder = (TikTokAdapter.ViewHolder) itemView.getTag();
+            L.i("startPlay: " + "viewHolder.mPosition: " + viewHolder.mPosition + "  position: " + position);
+            if (viewHolder.mPosition == position) {
+                mVideoView.release();
+                DKPlayerUtils.removeViewFormParent(mVideoView);
+                Video video = mTikTokAdapter.getDataList().get(position);
+                String playUrl = mPreloadManager.getPlayUrl(video.getVideo_path());
+                L.i("startPlay: " + "position: " + position + "  url: " + playUrl);
+                mVideoView.setUrl(playUrl);
+                mController.addControlComponent(viewHolder.mTikTokView, true);
+                viewHolder.mPlayerContainer.addView(mVideoView, 0);
+                mVideoView.start();
+                mCurPlayPos = position;
+                mPresenter.look(getCurVideo());
+                break;
+            }
+        }
     }
 
     /**
@@ -524,22 +490,26 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         tvBtnPhone.setOnClickListener(view1 -> {//电话
             String[] options = {"呼叫", "复制号码", "添加至手机通讯录"};
             String mobile = getCurVideo().getUser().getPhone();
-            String shopName = getCurVideo().getShop_name();
             new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("这是电话号码，你可以")
                     .setItems(options, (dialogInterface, which) -> {
                         switch (which) {
                             case 0:
-                                AppUtils.intentCallPhone(VideoDetailActivity.this, mobile);
+                                AppUtils.intentCallPhone(TikTokActivity.this, mobile);
                                 break;
                             case 1:
                                 AppUtils.copyText(mobile);
                                 toast("复制成功");
                                 break;
                             case 2:
-                                AppUtils.intentContactAdd(VideoDetailActivity.this, shopName, shopName,
-                                        mobile);
+                                Shop shop = getCurVideo().getShop();
+                                if (shop != null) {
+                                    AppUtils.intentContactAdd(TikTokActivity.this, shop.getName(),
+                                            shop.getName(), mobile);
+                                } else {
+                                    AppUtils.intentContactAdd(TikTokActivity.this, "", "", mobile);
+                                }
                                 break;
                         }
                     }).show();
@@ -614,10 +584,10 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         }
         View view = View.inflate(this, R.layout.view_dialog_comments, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);
-        TextView tvTitle = view.findViewById(R.id.tv_comment_title);
+        mTvCommentsTitle = view.findViewById(R.id.tv_comment_title);
         TextView tvBtnComment = view.findViewById(R.id.tv_btn_comment);
         RecyclerView rvComment = view.findViewById(R.id.rv_comments);
-        tvTitle.setText("评论(" + data.size() + ")");
+        mTvCommentsTitle.setText("评论(" + getCurVideo().getComment_counts() + ")");
         if (mCommentAdapter == null) {
             mCommentAdapter = new CommentAdapter(this);
             mCommentAdapter.setClick(new CommentAdapter.Click() {
@@ -665,15 +635,13 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
             switch (type) {
                 case 0:
-                    mPresenter.comment(getCurVideo().getId(), txt, getCurVideo().getUser().getId());
+                    mPresenter.commentVideo(getCurVideo(), txt);
                     break;
                 case 1:
-                    mPresenter.comment1(getCurVideo().getId(), comment.getCommentId(), txt,
-                            comment.getFrom_user_id());
+                    mPresenter.comment(getCurVideo(), comment.getCommentId(), txt);
                     break;
                 case 2:
-                    mPresenter.comment2(getCurVideo().getId(), comment.getCommentId(),
-                            comments.getCommentId(), txt, comments.getFrom_user_id());
+                    mPresenter.comment(getCurVideo(), comments.getCommentId(), txt);
                     break;
             }
 
@@ -750,9 +718,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
 
     @Override
     public void refreshComplete() {
-        if (mRefreshLayout != null) {
-            mRefreshLayout.setRefreshing(false);
-        }
+
     }
 
     @Override
@@ -761,11 +727,11 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     }
 
     @Override
-    public void videoList(List<VideoResp> data, int tag) {
+    public void videoList(List<Video> data, int tag) {
         if (tag == GlobalConstants.REFRESH) {
-            mVideoAdapter.setDataList(data);
+            mTikTokAdapter.setDataList(data);
         } else if (tag == GlobalConstants.LOADMORE) {
-            mVideoAdapter.addAll(data);
+            mTikTokAdapter.addAll(data);
         }
     }
 
@@ -780,16 +746,15 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
     }
 
     @Override
-    public void follow(int followStatus) {
-        getCurVideo().setFollow_status(followStatus);
-        mVideoControllerView.follow(followStatus);
-    }
-
-    @Override
-    public void like(int likeStatus) {
-        int like = mVideoControllerView.like(likeStatus);
-        getCurVideo().setLike_status(likeStatus);
-        getCurVideo().setLike_counts(like);
+    public void newVideo(Video video, boolean refreshPage) {
+        LogUtils.d("video:" + video.toString());
+        if (refreshPage) {
+            mTikTokAdapter.notifyItemChanged(mCurPlayPos, video);
+            if (mTvCommentsTitle != null) mTvCommentsTitle.setText("评论(" + video.getComment_counts() + ")");
+        }
+        //通知首页视频列表局部刷新
+        EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_VIDEO_ITEM,
+                new VideoItemRefreshEvent(mCurPlayPos, video)));
     }
 
     public void shareUrl(String url) {
@@ -803,7 +768,7 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         ImageLoadUtils.loadImage(this, mShareImgUrl = getCurVideo().getCover_path(), mCivShareCover,
                 R.mipmap.img_share_cover);
         mCivShareCover.setOnClickListener(view1 -> {
-            ChoosePicUtils.picSingle(VideoDetailActivity.this, 1);
+            ChoosePicUtils.picSingle(TikTokActivity.this, 1);
         });
         itnClose.setOnClickListener(view1 -> {
             mShareModifyBottomDialog.dismiss();
@@ -828,8 +793,40 @@ public class VideoDetailActivity extends BaseMvpActivity<VideoContract.Presenter
         mShareModifyBottomDialog.show();
     }
 
-    private VideoResp getCurVideo() {
-        return mVideoAdapter.getDataList().get(mCurPlayPos);
+    private Video getCurVideo() {
+        return mTikTokAdapter.getDataList().get(mCurPlayPos);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mVideoView != null) {
+            mVideoView.resume();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mVideoView != null) {
+            mVideoView.pause();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mVideoView != null) {
+            mVideoView.release();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mVideoView == null || !mVideoView.onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 
 }

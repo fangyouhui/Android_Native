@@ -3,12 +3,9 @@ package com.pai8.ke.manager;
 
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.entity.resp.MyInfoResp;
-import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
-
-import cn.jpush.android.api.JPushInterface;
-import retrofit2.http.PUT;
 
 /**
  * 账户统一管理

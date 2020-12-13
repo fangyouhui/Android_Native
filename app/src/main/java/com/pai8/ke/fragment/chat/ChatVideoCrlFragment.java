@@ -13,12 +13,11 @@ import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.UserInfo;
+import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.interfaces.OnChatCrlListener;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TextViewUtils;
 import com.pai8.ke.widget.CircleImageView;
-import com.qiniu.droid.rtc.QNSurfaceView;
 
 import butterknife.BindView;
 import butterknife.OnClick;

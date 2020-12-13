@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,6 +31,7 @@ import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.MyAMapUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.MarkerView;
@@ -85,11 +87,18 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
             }
         }
     };
+    private int mIntentType = 0;
 
 
     @Override
     public int getLayoutId() {
         return R.layout.activity_map_address_choose;
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        mIntentType = getIntent().getIntExtra("TYPE", 0);
     }
 
     @Override
@@ -199,15 +208,19 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
                     toast("请选择地址");
                     return;
                 }
-//                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
-//
-//                Intent intent = new Intent();
-//                intent.putExtra("address",select);
-//                setResult(RESULT_OK,intent);
-//                finish();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("ADDRESS", select);
-                launch(ChangeDetailAddressActivity.class, bundle);
+                if (mIntentType == 0) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("ADDRESS", select);
+                    launch(ChangeDetailAddressActivity.class, bundle);
+                }else {
+                    EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
+//                    Intent intent = new Intent();
+//                    intent.putExtra("address",select);
+//                    setResult(RESULT_OK,intent);
+                    finish();
+                }
+                break;
+            default:
                 break;
         }
     }
@@ -233,9 +246,6 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
 
     /**
      * 把地图画面移动到定位地点
-     *
-     * @param latitude
-     * @param longitude
      */
     private void moveMapCamera(double latitude, double longitude) {
         mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14));
@@ -243,8 +253,6 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
 
     /**
      * 执行POI检索
-     *
-     * @param city
      */
     protected void doSearchQuery(LatLonPoint lp, String city) {
 //        showLoadingDialog(null);

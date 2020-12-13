@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.me.ui;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
@@ -46,6 +47,7 @@ public class AttentionMineActivity extends BaseMvpActivity<AttentionMinePresente
     public void initView() {
         mTitleBar.setTitle("关注");
         srLayout.setOnRefreshListener(this);
+        srLayout.setColorSchemeResources(R.color.colorPrimary);
         mAdapter = new AttentionMineAdapter(mList);
         rvAttentionMine.setLayoutManager(new LinearLayoutManager(this));
         rvAttentionMine.setHasFixedSize(true);
@@ -73,10 +75,45 @@ public class AttentionMineActivity extends BaseMvpActivity<AttentionMinePresente
 
             }
         });
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (mList.get(position).is_focus == 1) {
+                showOperateDialog(true, mList.get(position).builder_id + "");
+            } else {
+                showOperateDialog(false, mList.get(position).builder_id + "");
+            }
+        });
+    }
+
+    private void showOperateDialog(boolean cancel, String id) {
+        new MaterialDialog.Builder(this)
+                .title("温馨提示")
+                .content(cancel ? "确定取消关注对方？" : "确定关注对方？")
+                .positiveText(R.string.cancel)
+                .negativeText(R.string.confirm)
+                .onPositive((dialog, which) -> {
+                    if (cancel) {
+                        mPresenter.cancelAttention(id);
+                    } else {
+                        mPresenter.getAttention(id);
+                    }
+                })
+                .show();
     }
 
     @Override
     public void initData() {
+        mPresenter.reqMessageList(page);
+    }
+
+    @Override
+    public void cancelAttentionSuccess() {
+        page = 1;
+        mPresenter.reqMessageList(page);
+    }
+
+    @Override
+    public void attentionSuccess() {
+        page = 1;
         mPresenter.reqMessageList(page);
     }
 
@@ -91,7 +128,6 @@ public class AttentionMineActivity extends BaseMvpActivity<AttentionMinePresente
         page++;
         mPresenter.reqMessageList(page);
     }
-
 
     @Override
     public void getAttentionMineSuccess(List<MessageResp> data) {
