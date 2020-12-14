@@ -38,6 +38,13 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
     }
 
 
+    public void setGoodInfoList( List<FoodGoodInfo> goodInfoList ){
+        this.goodInfoList = goodInfoList;
+        notifyDataSetChanged();
+    }
+
+
+
     @Override
     protected int getLayoutId(int viewType) {
         return viewType == 0 ? R.layout.item_food_title : R.layout.item_store_goods;
@@ -83,8 +90,6 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         @Override
         public void bindHolder(FoodGoodInfo food, int position) {
             int itemViewType = FoodGoodAdapter.this.getItemViewType(position);
-            List<FoodGoodInfo> currentList = new ArrayList<>();
-
             switch (itemViewType) {
                 case 0:
                     tvTitle.setText(food.name);
@@ -100,9 +105,14 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                                 num += goodInfoList.get(i).goods_num;
                             }
                         }
+                        food.goods_num = num;
                         tvNum.setText(String.valueOf(num));
                         tvNum.setVisibility(View.VISIBLE);
                         tvReduce.setVisibility(View.VISIBLE);
+                        if(num == 0){
+                            tvReduce.setVisibility(View.INVISIBLE);
+                            tvNum.setVisibility(View.INVISIBLE);
+                        }
                     } else {
                         tvNum.setVisibility(View.INVISIBLE);
                         tvReduce.setVisibility(View.INVISIBLE);
@@ -179,10 +189,20 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                                 tvReduce.setVisibility(View.INVISIBLE);
                                 tvNum.setText("");
                                 food.goods_num = 0;
-                                goodInfoList.remove(food);
+                                if (goodInfoList.size() > 0) {
+                                    for (int i = 0; i < goodInfoList.size(); i++) {
+                                        if (goodInfoList.get(i).id == food.id) {
+                                            goodInfoList.remove(i);
+                                        }
+                                    }
+                                }
+//                                goodInfoList.remove(food);
                                 updateCartNum(2 ,food.id+"", food.goods_num);
                                 EventBus.getDefault().post(new AddGoodEvent(
                                         Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));
+
+
+
                             } else {
                                 num -= 1;
                                 food.goods_num = num;
@@ -256,7 +276,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         map.put("goods_id",goods_id);
         map.put("buyer_id", AccountManager.getInstance().getUid());
         map.put("shop_id",shopId+"");
-        map.put("num",num);
+        map.put("num",1);
         TakeawayApi.getInstance().updateCartNum(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })

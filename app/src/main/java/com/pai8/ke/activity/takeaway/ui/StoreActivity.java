@@ -1,16 +1,11 @@
 package com.pai8.ke.activity.takeaway.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +19,7 @@ import com.pai8.ke.activity.takeaway.contract.StoreContract;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
+import com.pai8.ke.activity.takeaway.entity.event.ShopCarEvent;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
@@ -35,8 +31,6 @@ import com.pai8.ke.activity.takeaway.presenter.StorePresenter;
 import com.pai8.ke.activity.takeaway.utils.AddToCartUtil;
 import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.DensityUtils;
@@ -54,7 +48,6 @@ import java.util.List;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class StoreActivity extends BaseMvpActivity<StorePresenter> implements View.OnClickListener,
@@ -285,12 +278,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mShopIdReq = new ShopIdReq();
         mShopIdReq.shop_id = mStoreInfo.id + "";
         mPresenter.shopContent(mShopIdReq);
-        mPresenter.getCart(mStoreInfo.id + "");
 
-        ShopIdReq shopIdReq = new ShopIdReq();
-        shopIdReq.shop_id = mStoreInfo.id + "";
-        mPresenter.shopContent(shopIdReq);
-        mPresenter.getCart( mStoreInfo.id + "");
         //再来一旦
         if(!TextUtils.isEmpty(orderNo)){
             mPresenter.reAddCart(orderNo);
@@ -298,31 +286,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     }
 
-    public void fullScreen(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = activity.getWindow();
-                View decorView = window.getDecorView();
-                //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
-                int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-                decorView.setSystemUiVisibility(option);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                //设置状态栏为透明，否则在部分手机上会呈现系统默认的浅灰色
-                window.setStatusBarColor(Color.TRANSPARENT);
-                //导航栏颜色也可以考虑设置为透明色
-                //window.setNavigationBarColor(Color.TRANSPARENT);
-            } else {
-                Window window = activity.getWindow();
-                WindowManager.LayoutParams attributes = window.getAttributes();
-                int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-                int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-                attributes.flags |= flagTranslucentStatus;
-//                attributes.flags |= flagTranslucentNavigation;
-                window.setAttributes(attributes);
-            }
-        }
-    }
+
     private void setData(StoreInfo mStoreInfo) {
         if (!TextUtils.isEmpty(mStoreInfo.shop_name)) {
             ImageLoadUtils.setCircularImage(this, mStoreInfo.shop_img, mIvStorePic, R.mipmap.ic_launcher);
@@ -348,9 +312,6 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             startActivity(new Intent(this,ShopGoodSearchActivity.class)
             .putExtra("shopId",mStoreInfo.id));
         }else if (v.getId() == R.id.iv_shop_car) {
-        } else if (v.getId() == R.id.iv_store_search) {
-            startActivity(new Intent(this, ShopGoodSearchActivity.class));
-        } else if (v.getId() == R.id.iv_shop_car) {
             if (mGoodInfoList == null || mGoodInfoList.size() <= 0) {
                 return;
             }
@@ -396,6 +357,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     @Override
     public void getShopContentSuccess(ShopContent data) {
+        mPresenter.getCart(mStoreInfo.id + "");
         setData(data.shop_info);
         if (data.shop_info.is_collect == 0) {
             mIvCollection.setImageResource(R.mipmap.icon_rating_bar_normal);
@@ -423,6 +385,9 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     public void getCarSuccess(ShopFoodGoodInfo data) {
         mGoodInfoList = data.goods_info;
         setPrice(mGoodInfoList);
+        EventBus.getDefault().post(new ShopCarEvent(data));
+
+
     }
 
     @OnClick(R.id.tv_coupon)

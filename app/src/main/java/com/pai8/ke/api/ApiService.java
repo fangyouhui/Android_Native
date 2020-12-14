@@ -317,6 +317,11 @@ public interface ApiService {
     Observable<BaseRespose<WxOrderPrepayResp>> orderPrepay(@Field("order_no") String order_no
             , @Field("buyer_id") String buyer_id, @Field("pay_type") int pay_type);
 
+    @FormUrlEncoded
+    @POST("Order/orderPrepay")
+    Observable<BaseRespose<String>> orderPrepayZFB(@Field("order_no") String order_no
+            , @Field("buyer_id") String buyer_id, @Field("pay_type") int pay_type);
+
     /**
      * 用户所有优惠券
      *

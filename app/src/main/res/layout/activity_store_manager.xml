@@ -70,6 +70,7 @@
             android:src="@color/color_default" />
 
         <TextView
+            android:id="@+id/tv_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -139,12 +140,13 @@
                 android:src="@mipmap/ic_store_arrow" />
 
             <TextView
+                android:id="@+id/tv_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_order"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
-                android:text="1231"
+                android:text="0"
                 android:textColor="@color/text_store_manager"
                 android:textSize="28sp" />
 
@@ -177,12 +179,13 @@
                 android:src="@mipmap/ic_store_arrow" />
 
             <TextView
+                android:id="@+id/tv_sale_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_num"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
-                android:text="1231"
+                android:text="0"
                 android:textColor="@color/text_store_manager"
                 android:textSize="28sp" />
 

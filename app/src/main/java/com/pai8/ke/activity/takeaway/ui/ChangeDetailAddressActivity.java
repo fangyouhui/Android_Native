@@ -1,5 +1,9 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
 import com.pai8.ke.base.BaseActivity;
@@ -8,12 +12,7 @@ import com.pai8.ke.entity.Address;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.StringUtils;
 
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
@@ -80,10 +79,10 @@ public class ChangeDetailAddressActivity extends BaseActivity {
             toast("请输入详细街道");
             return;
         }
-        if (!address.contains("街") || !address.contains("号")) {
-            toast("请输入正确格式的详细街道");
-            return;
-        }
+//        if (!address.contains("街") || !address.contains("号")) {
+//            toast("请输入正确格式的详细街道");
+//            return;
+//        }
         mAddress.setAddress(address);
         EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, mAddress));
         finish();

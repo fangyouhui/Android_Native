@@ -117,6 +117,7 @@ public class OrderFragment extends BaseMvpFragment<OrderPresenter> implements Or
     @Override
     public void orderListSuccess(List<OrderInfo> data) {
         mAdapter.setNewData(data);
+
     }
 
     @Override

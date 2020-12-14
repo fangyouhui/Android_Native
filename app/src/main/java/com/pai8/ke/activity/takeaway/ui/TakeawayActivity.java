@@ -31,6 +31,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import razerdp.util.KeyboardUtils;
 
 public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> implements View.OnClickListener , TakeawayContract.View {
@@ -45,6 +46,7 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
     private TextView mTvAddress;
     private int page = 1;
     private String lon,lat;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public int getLayoutId() {
@@ -55,6 +57,7 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
     public void initView() {
         setImmersionBar(R.id.base_tool_bar);
         mRvStore = findViewById(R.id.rv_store);
+        swipeRefreshLayout = findViewById(R.id.refresh);
         mBanner = findViewById(R.id.banner);
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
         mTvAddress = findViewById(R.id.toolbar_iv_menu);
@@ -122,7 +125,14 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
         lat = MyApp.getLngLat().get(1);
         lon =  MyApp.getLngLat().get(0);
         mPresenter.getShopList(key,page,lon,lat);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                mPresenter.getShopList(key,page,lon,lat);
 
+            }
+        });
 
     }
 
@@ -138,6 +148,7 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
 
     @Override
     public void getTakeawaySuccess(TakeawayResq data) {
+        swipeRefreshLayout.setRefreshing(false);
         if (data.banner!=null && data.banner.size()>0) {
             final List<String> images = new ArrayList<>();
             for(int i=0;i<data.banner.size();i++){
@@ -150,11 +161,12 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
         if(page == 1){
             mAdapter.setNewData(data.shop_list);
             if(data.shop_list.size()<10){
-                mAdapter.setEnableLoadMore(false);
+                mAdapter.loadMoreEnd(true);
             }
-
-
         }else{
+            if(data.shop_list.size()<10){
+                mAdapter.loadMoreEnd(true);
+            }
             mAdapter.addData(data.shop_list);
         }
     }

@@ -115,6 +115,7 @@ public class PayDialogFragment extends BaseDialogFragment {
                 if (mPayType == 1) {
                     getWxPayInfo();
                 } else {
+                    getAlipayPayInfo();
 
                 }
                 break;
@@ -206,4 +207,28 @@ public class PayDialogFragment extends BaseDialogFragment {
                     }
                 });
     }
+
+    private void getAlipayPayInfo() {
+        if (StringUtils.isEmpty(mOrderNo)) {
+            toast("订单号为空");
+            return;
+        }
+        Api.getInstance().orderPrepayZFB(mOrderNo, AccountManager.getInstance().getUid(),mPayType)
+                .doOnSubscribe(disposable -> {
+
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<String>() {
+                    @Override
+                    protected void onSuccess(String orderInfo) {
+                        aliPay(orderInfo);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
 }
