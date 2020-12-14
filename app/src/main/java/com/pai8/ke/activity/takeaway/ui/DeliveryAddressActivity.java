@@ -24,6 +24,7 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
     private RecyclerView mRvAddress;
     private DeliveryAddressAdapter mAdapter;
     private int mId;
+    private int mType;
 
 
     @Override
@@ -48,8 +49,8 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
         super.initData();
 
         mId = getIntent().getIntExtra("id", 0);
-
-        mAdapter = new DeliveryAddressAdapter(null,mId);
+        mType = getIntent().getIntExtra("TYPE", 0);
+        mAdapter = new DeliveryAddressAdapter(null,mType);
         mRvAddress.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -77,7 +78,7 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (mId == 0) {
+                if (mType == 0) {
                     return;
                 }
                 Intent intent = new Intent();
