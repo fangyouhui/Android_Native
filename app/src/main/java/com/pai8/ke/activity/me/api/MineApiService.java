@@ -1,22 +1,9 @@
 package com.pai8.ke.activity.me.api;
 
+import com.pai8.ke.activity.me.entity.resp.AttentionMineResp;
+import com.pai8.ke.activity.me.entity.resp.HistoryResp;
 import com.pai8.ke.activity.me.entity.resp.UserInfoResp;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
-import com.pai8.ke.activity.message.entity.resp.MsgCountResp;
-import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
-import com.pai8.ke.activity.takeaway.entity.OrderInfo;
-import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
-import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
-import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
-import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
-import com.pai8.ke.activity.takeaway.entity.req.ShopListReq;
-import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
-import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
-import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
-import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.base.BaseRespose;
 
 import java.util.List;
@@ -46,6 +33,18 @@ public interface MineApiService {
     @POST("user/followMeList")
     Observable<BaseRespose<List<MessageResp>>> getFansList(@Body RequestBody param);
 
+    /**
+     * 我的关注
+     */
+    @POST("my/follow")
+    Observable<BaseRespose<AttentionMineResp>> getAttentionMineList(@Body RequestBody param);
+
+
+    /**
+     * 我的足迹
+     */
+    @POST("my/history")
+    Observable<BaseRespose<HistoryResp>> getHistoryList(@Body RequestBody param);
 
     /**
      * 修改用户信息

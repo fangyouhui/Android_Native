@@ -1,59 +1,63 @@
 package com.pai8.ke.activity.me.ui;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjq.bar.OnTitleBarListener;
+import com.luck.picture.lib.tools.ScreenUtils;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.adapter.AttentionMineAdapter;
-import com.pai8.ke.activity.me.contract.AttentionMineContract;
-import com.pai8.ke.activity.me.presenter.AttentionMinePresenter;
-import com.pai8.ke.activity.message.entity.resp.MessageResp;
-import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.activity.me.adapter.PageAdapter;
+import com.pai8.ke.activity.me.fragment.PKAttentionFragment;
+import com.pai8.ke.activity.me.fragment.ShopAttentionFragment;
+import com.pai8.ke.activity.me.fragment.ShopHistoryFragment;
+import com.pai8.ke.activity.me.fragment.VideoHistoryFragment;
+import com.pai8.ke.base.BaseActivity;
 
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * @author Created by zzf
  * @time 11:21
  * Description： 关注
  */
-public class AttentionMineActivity extends BaseMvpActivity<AttentionMinePresenter> implements AttentionMineContract.View,SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class AttentionMineActivity extends BaseActivity {
 
-
-    @BindView(R.id.rv_attention)
-    RecyclerView rvAttentionMine;
-    @BindView(R.id.sr_layout)
-    SwipeRefreshLayout srLayout;
-    private AttentionMineAdapter mAdapter;
-    private List<MessageResp> mList = new ArrayList<>();
-    private int page = 1;
+    @BindView(R.id.mi_attention)
+    MagicIndicator miAttention;
+    @BindView(R.id.vp_attention)
+    ViewPager mViewPager;
+    private List<String> mTitleDataList = Arrays.asList("店铺", "拍客");
+    private List<Fragment> mFragments;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_attention;
+        return R.layout.activity_attention_mine;
     }
 
     @Override
     public void initView() {
         mTitleBar.setTitle("关注");
-        srLayout.setOnRefreshListener(this);
-        srLayout.setColorSchemeResources(R.color.colorPrimary);
-        mAdapter = new AttentionMineAdapter(mList);
-        rvAttentionMine.setLayoutManager(new LinearLayoutManager(this));
-        rvAttentionMine.setHasFixedSize(true);
-        mAdapter.setEnableLoadMore(true);
-        mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(this));
-        rvAttentionMine.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -75,91 +79,77 @@ public class AttentionMineActivity extends BaseMvpActivity<AttentionMinePresente
 
             }
         });
-        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (mList.get(position).is_focus == 1) {
-                showOperateDialog(true, mList.get(position).builder_id + "");
-            } else {
-                showOperateDialog(false, mList.get(position).builder_id + "");
-            }
-        });
-    }
-
-    private void showOperateDialog(boolean cancel, String id) {
-        new MaterialDialog.Builder(this)
-                .title("温馨提示")
-                .content(cancel ? "确定取消关注对方？" : "确定关注对方？")
-                .positiveText(R.string.cancel)
-                .negativeText(R.string.confirm)
-                .onPositive((dialog, which) -> {
-                    if (cancel) {
-                        mPresenter.cancelAttention(id);
-                    } else {
-                        mPresenter.getAttention(id);
-                    }
-                })
-                .show();
     }
 
     @Override
     public void initData() {
-        mPresenter.reqMessageList(page);
-    }
+        CommonNavigator commonNavigator = new CommonNavigator(this);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
-    @Override
-    public void cancelAttentionSuccess() {
-        page = 1;
-        mPresenter.reqMessageList(page);
-    }
-
-    @Override
-    public void attentionSuccess() {
-        page = 1;
-        mPresenter.reqMessageList(page);
-    }
-
-    @Override
-    public void onRefresh() {
-        page = 1;
-        mPresenter.reqMessageList(page);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        page++;
-        mPresenter.reqMessageList(page);
-    }
-
-    @Override
-    public void getAttentionMineSuccess(List<MessageResp> data) {
-        if (data != null) {
-            if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.loadMoreComplete();
+            @Override
+            public int getCount() {
+                return mTitleDataList == null ? 0 : mTitleDataList.size();
             }
-            if (page == 1) {
-                mAdapter.replaceData(data);
-            } else {
-                mAdapter.addData(data);
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                CommonPagerTitleView commonPagerTitleView = new CommonPagerTitleView(context);
+                View customLayout = LayoutInflater.from(context).inflate(R.layout.layout_tab_head, null);
+                TextView titleText = customLayout.findViewById(R.id.title_text);
+                titleText.setText(mTitleDataList.get(index));
+                commonPagerTitleView.setContentView(customLayout);
+                commonPagerTitleView.setOnPagerTitleChangeListener(new CommonPagerTitleView.OnPagerTitleChangeListener() {
+
+                    @Override
+                    public void onSelected(int index, int totalCount) {
+                        titleText.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    }
+
+                    @Override
+                    public void onDeselected(int index, int totalCount) {
+                        titleText.setTextColor(getResources().getColor(R.color.color_light_font));
+                    }
+
+                    @Override
+                    public void onLeave(int index, int totalCount, float leavePercent, boolean leftToRight) {
+
+                    }
+
+                    @Override
+                    public void onEnter(int index, int totalCount, float enterPercent, boolean leftToRight) {
+
+                    }
+                });
+
+                commonPagerTitleView.setOnClickListener(v -> mViewPager.setCurrentItem(index));
+
+                return commonPagerTitleView;
             }
-        }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setColors(getResources().getColor(R.color.colorPrimary));
+                indicator.setYOffset(10);
+                indicator.setRoundRadius(5);
+                indicator.setLineWidth(ScreenUtils.dip2px(AttentionMineActivity.this,20));
+                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
+                return indicator;
+            }
+        });
+        miAttention.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(miAttention, mViewPager);
+        initFragments();
     }
 
-    @Override
-    public void isRefresh() {
-        srLayout.setRefreshing(true);
+    private void initFragments() {
+        mFragments = new ArrayList<>();
+        mFragments.add(new ShopAttentionFragment());
+        mFragments.add(new PKAttentionFragment());
+        mViewPager.setOffscreenPageLimit(2);
+        PageAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(),
+                mFragments, mTitleDataList);
+        mViewPager.setAdapter(pagerAdapter);
     }
 
-    @Override
-    public void completeRefresh() {
-        srLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void completeLoadMore() {
-        mAdapter.loadMoreComplete();
-    }
-
-    @Override
-    public AttentionMinePresenter initPresenter() {
-        return new AttentionMinePresenter(this);
-    }
 }

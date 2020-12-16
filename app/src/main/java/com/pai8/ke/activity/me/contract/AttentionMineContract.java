@@ -1,7 +1,8 @@
 package com.pai8.ke.activity.me.contract;
 
-import com.pai8.ke.activity.message.entity.resp.MessageResp;
+import com.pai8.ke.activity.me.entity.resp.AttentionMineResp;
 import com.pai8.ke.base.BaseView;
+import com.pai8.ke.entity.User;
 
 import java.util.List;
 
@@ -14,11 +15,7 @@ public interface AttentionMineContract {
 
     interface View extends BaseView {
 
-        void getAttentionMineSuccess(List<MessageResp> data);
-
-        void cancelAttentionSuccess();
-
-        void attentionSuccess();
+        void getAttentionMineSuccess(int total, List<User> data);
 
         void isRefresh();
 
