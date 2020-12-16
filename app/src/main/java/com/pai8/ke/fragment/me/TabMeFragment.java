@@ -194,11 +194,6 @@ public class TabMeFragment extends BaseFragment {
                         setHistoryCount(myInfoResp.getMy_history());
                         initVerifyStatus(myInfoResp.getVerify_status() == null ? 0 :
                                 myInfoResp.getVerify_status());
-                        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
-                        tvNickName.setText(StringUtils.isNotEmpty(myInfoResp.getUser_nickname()) ?
-                                myInfoResp.getUser_nickname() : userInfo.getPhone());
-                        ImageLoadUtils.loadImage(getActivity(), myInfoResp.getAvatar(), civAvatar,
-                                R.mipmap.img_head_def);
                     }
 
                     @Override
@@ -207,6 +202,27 @@ public class TabMeFragment extends BaseFragment {
                         setFansCount(0);
                         setFollowCount(0);
                         setHistoryCount(0);
+                    }
+                });
+        Api.getInstance().getUserInfoById(mActivity.mAccountManager.getUid())
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<UserInfo>() {
+                    @Override
+                    protected void onSuccess(UserInfo user) {
+                        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
+                        userInfo.setAvatar(user.getAvatar());
+                        userInfo.setUser_nickname(user.getUser_nickname());
+                        mActivity.mAccountManager.saveUserInfo(userInfo);
+                        tvNickName.setText(user.getUser_nickname());
+                        ImageLoadUtils.loadImage(getActivity(), user.getAvatar(), civAvatar,
+                                R.mipmap.img_head_def);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+
                     }
                 });
     }
