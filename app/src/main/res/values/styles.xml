@@ -19,6 +19,10 @@
         <item name="android:maxHeight">20dp</item>
     </style>
 
+    <declare-styleable name="MaxHeightRecyclerView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+
     <!-- Base Dialog style. -->
     <style name="style_BaseDialog" parent="Base.AlertDialog.AppCompat.Light">
         <item name="android:windowFrame">@null</item>
