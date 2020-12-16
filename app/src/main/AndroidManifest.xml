@@ -219,6 +219,15 @@
         <activity
             android:name=".activity.me.AboutActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+                android:name=".exception.CustomErrorActivity"
+                android:process=":error_activity">
+            <intent-filter>
+                <action android:name="cat.ereza.customactivityoncrash.ERROR" />
+            </intent-filter>
+        </activity>
+
         <!-- **************************************高德定位********************************************** -->
         <service android:name="com.amap.api.location.APSService" />
 

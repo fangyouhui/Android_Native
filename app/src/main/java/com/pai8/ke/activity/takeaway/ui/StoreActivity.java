@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
+
 import com.google.android.material.appbar.AppBarLayout;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
@@ -19,6 +21,7 @@ import com.pai8.ke.activity.takeaway.contract.StoreContract;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
+import com.pai8.ke.activity.takeaway.entity.event.CartNumEvent;
 import com.pai8.ke.activity.takeaway.entity.event.ShopCarEvent;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
@@ -42,6 +45,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +84,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
 
     private String orderNo;
+    private ShopCarPop mPop;
 
 
     public static void launch(Context context, String shopId) {
@@ -234,6 +239,42 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCartEvent(CartNumEvent event) {
+        if (event.getType() == Constants.EVENT_TYPE_ADD_CAR) {
+            for (FoodGoodInfo pro : mGoodInfoList) {
+                if (pro.id == event.getGoods_id()) {
+                    pro.goods_num = event.getNumber();
+                    break;
+                }
+            }
+            ShopFoodGoodInfo data = new ShopFoodGoodInfo();
+            data.goods_info = mGoodInfoList;
+            getCarSuccess(data);
+            mPop.setPrice(mGoodInfoList);
+        } else if (event.getType() == Constants.EVENT_TYPE_DELETE_CAR) {
+            for (FoodGoodInfo pro : mGoodInfoList) {
+                if (pro.id == event.getGoods_id()) {
+                    if (event.getNumber() == 0) {
+                        mGoodInfoList.remove(pro);
+                    } else {
+                        pro.goods_num = event.getNumber();
+                    }
+                    break;
+                }
+            }
+            if (mGoodInfoList.size() == 0) {
+                if (mPop != null && mPop.isShowing()) {
+                    mPop.dismiss();
+                }
+            }
+            ShopFoodGoodInfo data = new ShopFoodGoodInfo();
+            data.goods_info = mGoodInfoList;
+            getCarSuccess(data);
+            mPop.setPrice(mGoodInfoList);
+            mPop.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+    }
 
     public void setPrice(List<FoodGoodInfo> mShopCarGoods) {
         int shopNum = 0;
@@ -246,7 +287,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             }
             shopNum = shopNum + pro.goods_num;
         }
-        mTvPrice.setText("￥" + toMoney);
+        mTvPrice.setText(String.format("￥%s", new DecimalFormat("##.##").format(toMoney)));
         mTvShopNum.setText("" + shopNum);
 
         if (shopNum <= 0) {
@@ -272,7 +313,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         super.initData();
 
         EventBus.getDefault().register(this);
-        orderNo  = getIntent().getStringExtra("orderNo");
+        orderNo = getIntent().getStringExtra("orderNo");
         mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
         setData(mStoreInfo);
         mShopIdReq = new ShopIdReq();
@@ -280,7 +321,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mPresenter.shopContent(mShopIdReq);
 
         //再来一旦
-        if(!TextUtils.isEmpty(orderNo)){
+        if (!TextUtils.isEmpty(orderNo)) {
             mPresenter.reAddCart(orderNo);
         }
 
@@ -308,15 +349,15 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     public void onClick(View v) {
         if (v.getId() == R.id.back_all) {
             finish();
-        } else if(v.getId() == R.id.iv_store_search){
-            startActivity(new Intent(this,ShopGoodSearchActivity.class)
-            .putExtra("shopId",mStoreInfo.id));
-        }else if (v.getId() == R.id.iv_shop_car) {
+        } else if (v.getId() == R.id.iv_store_search) {
+            startActivity(new Intent(this, ShopGoodSearchActivity.class)
+                    .putExtra("shopId", mStoreInfo.id));
+        } else if (v.getId() == R.id.iv_shop_car) {
             if (mGoodInfoList == null || mGoodInfoList.size() <= 0) {
                 return;
             }
-            ShopCarPop pop = new ShopCarPop(this, mTvShopNum.getText().toString(), mGoodInfoList);
-            pop.setOnSelectListener(new ShopCarPop.OnSelectListener() {
+            mPop = new ShopCarPop(this, mTvShopNum.getText().toString(), mGoodInfoList, mStoreInfo.id);
+            mPop.setOnSelectListener(new ShopCarPop.OnSelectListener() {
                 @Override
                 public void onSelect() {
                     Intent intent = new Intent(StoreActivity.this, ConfirmOrderActivity.class);
@@ -325,7 +366,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                     startActivity(intent);
                 }
             });
-            pop.showPopupWindow();
+            mPop.showPopupWindow();
         } else if (v.getId() == R.id.tv_order) {
             Intent intent = new Intent(this, ConfirmOrderActivity.class);
             intent.putExtra("shopCar", (Serializable) mGoodInfoList);
@@ -334,9 +375,9 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         } else if (v.getId() == R.id.iv_store_collection) {
             ShopIdReq addFoodReq = new ShopIdReq();
             addFoodReq.shop_id = AccountManager.getInstance().getShopId();
-            if(mStoreInfo.is_collect == 1){
-               mPresenter.unCollection(addFoodReq);
-            }else{
+            if (mStoreInfo.is_collect == 1) {
+                mPresenter.unCollection(addFoodReq);
+            } else {
                 mPresenter.collection(addFoodReq);
             }
 
