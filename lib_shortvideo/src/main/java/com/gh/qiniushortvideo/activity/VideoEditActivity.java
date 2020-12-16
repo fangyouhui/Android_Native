@@ -271,32 +271,39 @@ public class VideoEditActivity extends AppCompatActivity implements
                     (AudioFile) data.getSerializableExtra(ChooseMusicActivity.SELECTED_MUSIC_FILE);
             long startTime = data.getLongExtra(ChooseMusicActivity.START_TIME, 0);
             long endTime = data.getLongExtra(ChooseMusicActivity.END_TIME, mVideoDurationMs);
-            if (audioFile != null) {
-                try {
-                    if (!mMainAudioFileAdded) {
-                        mMainMixAudioFile = new PLMixAudioFile(mMp4path);
-                        mShortVideoEditor.addMixAudioFile(mMainMixAudioFile);
-                        mMainAudioFileAdded = true;
-                    }
-
-                    PLMixAudioFile mixAudioFile = new PLMixAudioFile(audioFile.getFilePath());
-                    mixAudioFile.setOffsetInVideo(mMixPosition * 1000);
-                    mixAudioFile.setStartTime(startTime * 1000);
-                    long durationMs = (endTime - startTime) > (mVideoDurationMs - mMixPosition) ?
-                            (mVideoDurationMs - mMixPosition) : (endTime - startTime);
-                    mixAudioFile.setDurationInVideo(durationMs * 1000);
-                    mShortVideoEditor.addMixAudioFile(mixAudioFile);
-                    if (mMixAudioFileMap == null) {
-                        mMixAudioFileMap = new HashMap<>();
-                    }
-                    mMixAudioFileMap.put(audioFile, mixAudioFile);
-                    mMusicSelectBottomView.addAudioFile(audioFile);
-                    mMusicSelectBottomView.addMusicBar(mMixPosition, durationMs);
-                    mShortVideoEditor.seekTo((int) startTime);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+//            if (audioFile != null) {
+//                try {
+//                    if (!mMainAudioFileAdded) {
+//                        mMainMixAudioFile = new PLMixAudioFile(mMp4path);
+//                        mShortVideoEditor.addMixAudioFile(mMainMixAudioFile);
+//                        mMainAudioFileAdded = true;
+//                    }
+//
+//                    PLMixAudioFile mixAudioFile = new PLMixAudioFile(audioFile.getFilePath());
+//                    mixAudioFile.setOffsetInVideo(mMixPosition * 1000);
+//                    mixAudioFile.setStartTime(startTime * 1000);
+//                    long durationMs = (endTime - startTime) > (mVideoDurationMs - mMixPosition) ?
+//                            (mVideoDurationMs - mMixPosition) : (endTime - startTime);
+//                    mixAudioFile.setDurationInVideo(durationMs * 1000);
+//                    mShortVideoEditor.addMixAudioFile(mixAudioFile);
+//                    if (mMixAudioFileMap == null) {
+//                        mMixAudioFileMap = new HashMap<>();
+//                    }
+//                    mMixAudioFileMap.put(audioFile, mixAudioFile);
+//                    mMusicSelectBottomView.addAudioFile(audioFile);
+//                    mMusicSelectBottomView.addMusicBar(mMixPosition, durationMs);
+//                    mShortVideoEditor.seekTo((int) startTime);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+            // 单个混合音频
+            if (audioFile == null) return;
+            // 设置混音的起始和结束位置
+            mShortVideoEditor.setAudioMixFileRange(startTime, endTime);
+            // 设置混音是否循环
+            mShortVideoEditor.setAudioMixLooping(false);
+            mShortVideoEditor.setAudioMixFile(audioFile.getFilePath());
         }
     }
 
@@ -323,20 +330,23 @@ public class VideoEditActivity extends AppCompatActivity implements
             mVolumeSettingBottomView.setOnAudioVolumeChangedListener(new VolumeSettingBottomView.OnAudioVolumeChangedListener() {
                 @Override
                 public void onAudioVolumeChanged(float srcVolume, float musicVolume) {
-                    if (!mMainAudioFileAdded) {
-                        // 未添加多重混音，调节音量
-                        mShortVideoEditor.setAudioMixVolume(srcVolume, 1.0f);
-                    } else {
-                        // 添加多重混音，调节音量
-                        mMainMixAudioFile.setVolume(srcVolume);
-                        if (mMixAudioFileMap != null) {
-                            Iterator<PLMixAudioFile> it = mMixAudioFileMap.values().iterator();
-                            while (it.hasNext()) {
-                                PLMixAudioFile audioFile = it.next();
-                                audioFile.setVolume(musicVolume);
-                            }
-                        }
-                    }
+                    //多个混音
+//                    if (!mMainAudioFileAdded) {
+//                        // 未添加多重混音，调节音量
+//                        mShortVideoEditor.setAudioMixVolume(srcVolume, 1.0f);
+//                    } else {
+//                        // 添加多重混音，调节音量
+//                        mMainMixAudioFile.setVolume(srcVolume);
+//                        if (mMixAudioFileMap != null) {
+//                            Iterator<PLMixAudioFile> it = mMixAudioFileMap.values().iterator();
+//                            while (it.hasNext()) {
+//                                PLMixAudioFile audioFile = it.next();
+//                                audioFile.setVolume(musicVolume);
+//                            }
+//                        }
+//                    }
+                    //单个混音
+                    mShortVideoEditor.setAudioMixVolume(srcVolume, musicVolume);
                 }
             });
         }
