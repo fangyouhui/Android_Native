@@ -245,6 +245,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 toast("请选择收款账户");
                 return;
             }
+            editListener();
             mShareBottomDialog.dismiss();
         });
         holder.llChooseAlipayAccount.setOnClickListener(view1 -> showView(holder, true, false, false, false));
