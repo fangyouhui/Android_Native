@@ -587,7 +587,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         mTvCommentsTitle = view.findViewById(R.id.tv_comment_title);
         TextView tvBtnComment = view.findViewById(R.id.tv_btn_comment);
         RecyclerView rvComment = view.findViewById(R.id.rv_comments);
-//        mTvCommentsTitle.setText("评论(" + getCurVideo().getComment_counts() + ")");
+        mTvCommentsTitle.setText("评论(" + getCurVideo().getComment_counts() + ")");
         if (mCommentAdapter == null) {
             mCommentAdapter = new CommentAdapter(this);
             mCommentAdapter.setClick(new CommentAdapter.Click() {
