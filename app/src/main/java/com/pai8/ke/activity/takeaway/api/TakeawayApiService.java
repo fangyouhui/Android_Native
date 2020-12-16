@@ -7,11 +7,13 @@ import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopListReq;
+import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq;
 import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.base.BaseRespose;
@@ -190,4 +192,17 @@ public interface TakeawayApiService {
     Observable<BaseRespose<List<FoodGoodInfo>>> reAddCart(@Body RequestBody body);
 
 
+    @POST("shop/shopEditInfo")
+    Observable<BaseRespose<StoreInfo>> shopEditInfo(@Body RequestBody body);
+
+
+    @POST("shop/shopIndex")
+    Observable<BaseRespose<StoreInfo>> shopIndex(@Body RequestBody body);
+
+    @POST("shop/shopStatus")
+    Observable<BaseRespose<String>> shopStatus(@Body RequestBody body);
+
+
+    @POST("shop/editShop")
+    Observable<BaseRespose<String>> editShop(@Body StoreInfoReq body);
 }

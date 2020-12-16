@@ -257,10 +257,9 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
 
     @Override
     public void waimaiSuccess(WaimaiResq data) {
-        mTvCoupon.setText(data.coupon);
+        mTvCoupon.setText(data.dis);
         mTvSendPrice.setText(data.amount);
-
-        if(TextUtils.isEmpty(data.amount)){
+        if(!TextUtils.isEmpty(data.amount)){
             sendPrice = Double.parseDouble(data.amount);
         }
         setPrice(mFoodInfoList);

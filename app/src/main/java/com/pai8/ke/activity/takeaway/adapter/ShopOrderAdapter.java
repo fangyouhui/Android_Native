@@ -42,12 +42,11 @@ public class ShopOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder
             mTvCancel.setText("拒绝接单");
             mTvFoodStatus.setText("立即接单");
         }else if(item.order_status == 2){
-            tvStatus.setText("商品准备中");
+            tvStatus.setText("已接单");
             mTvReject.setVisibility(View.GONE);
             mTvCancel.setVisibility(View.GONE);
-            mTvFoodStatus.setVisibility(View.GONE);
+            mTvFoodStatus.setText("商品制作完成");
         }else if(item.order_status == 3){
-
             tvStatus.setText("商品配送中");
             mTvReject.setVisibility(View.GONE);
             mTvCancel.setVisibility(View.GONE);
@@ -58,14 +57,19 @@ public class ShopOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder
             mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == 5){
             tvStatus.setText("退款申请中");
-            mTvCancel.setText("拒绝退款");
-            mTvFoodStatus.setText("同意退款");
+            mTvReject.setVisibility(View.GONE);
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setVisibility(View.GONE);
         }else if(item.order_status == 6){
-
             tvStatus.setText("拒绝退款");
             mTvReject.setVisibility(View.GONE);
             mTvCancel.setVisibility(View.GONE);
             mTvFoodStatus.setVisibility(View.GONE);
+        }else if(item.order_status == 7){
+            tvStatus.setText("待配送");
+            mTvReject.setVisibility(View.GONE);
+            mTvCancel.setVisibility(View.GONE);
+            mTvFoodStatus.setText("送出商品");
         }else if(item.order_status == 8){
 
             tvStatus.setText("订单已退款");

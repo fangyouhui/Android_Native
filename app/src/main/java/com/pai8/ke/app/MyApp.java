@@ -116,16 +116,6 @@ public class MyApp extends Application {
         QNRTCManager.getInstance().init();
         //七牛短视频
         QNShortVideo.init(this);
-        //高德定位sdk
-        AMapLocationUtils.init(this);
-        AMapLocationUtils.getLocation(location -> {
-            LogUtils.d("AMap Location:" + location.getAddress());
-            mAMapLocation = location;
-            PreferencesUtils.put(this, "latitude", location.getLatitude() + "");
-            PreferencesUtils.put(this, "longitude", location.getLongitude() + "");
-            PreferencesUtils.put(this, "address", location.getAddress());
-            PreferencesUtils.put(this, "city", location.getCity());
-        }, false);
         //JPush
         JPushInterface.setDebugMode(getBuildType() != BuildType.RELEASE);
         JPushInterface.init(this);
@@ -135,6 +125,18 @@ public class MyApp extends Application {
                 .setPlayerFactory(IjkPlayerFactory.create())
                 .setLogEnabled(true)
                 .build());
+        AMapLocationUtils.init(this);
+    }
+
+    public static void getLocation() {
+        AMapLocationUtils.getLocation(location -> {
+            LogUtils.d("AMap Location:" + location.getAddress());
+            mAMapLocation = location;
+            PreferencesUtils.put(mContext, "latitude", location.getLatitude() + "");
+            PreferencesUtils.put(mContext, "longitude", location.getLongitude() + "");
+            PreferencesUtils.put(mContext, "address", location.getAddress());
+            PreferencesUtils.put(mContext, "city", location.getCity());
+        }, false);
     }
 
     public static HttpProxyCacheServer getProxy() {

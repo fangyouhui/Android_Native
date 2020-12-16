@@ -144,7 +144,7 @@ public class TikTokAdapter extends BaseRecyclerViewAdapter<Video> {
         }
 
         if (shop == null) {
-            viewHolder.tvContactUs.setVisibility(INVISIBLE);
+            viewHolder.tvContactUs.setVisibility(GONE);
         } else {
             viewHolder.tvContactUs.setVisibility(VISIBLE);
         }

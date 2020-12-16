@@ -2,6 +2,8 @@ package com.pai8.ke.activity.takeaway.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,6 +46,7 @@ public class TakeawayFoodAdapter  extends RvAdapter<AddFoodReq> {
         ImageView ivGoods;
         TextView tvPrice;
         TextView rlItem;
+        TextView tvPriceDiscount;  //折扣价
 
         public ClassifyHolder(View itemView, int type, RvListener listener) {
             super(itemView, type, listener);
@@ -52,13 +55,11 @@ public class TakeawayFoodAdapter  extends RvAdapter<AddFoodReq> {
                     tvTitle = itemView.findViewById(R.id.tv_title);
                     break;
                 case 1:
-
                     rlItem = itemView.findViewById(R.id.tv_edit_goods);
-
-
                     ivGoods = itemView.findViewById(R.id.item_goods_iv_goods);
                     tvTitle = itemView.findViewById(R.id.item_goods_tv_name);
                     tvPrice = itemView.findViewById(R.id.item_tv_price);
+                    tvPriceDiscount = itemView.findViewById(R.id.item_tv_price_discount);
                     break;
             }
 
@@ -86,6 +87,19 @@ public class TakeawayFoodAdapter  extends RvAdapter<AddFoodReq> {
 
                     tvTitle.setText(food.title);
                     tvPrice.setText(food.sell_price);
+
+
+                    if(TextUtils.isEmpty(food.discount)||TextUtils.equals(food.discount,"0")){
+                        tvPriceDiscount.setVisibility(View.GONE);
+                    }else{
+                        tvPriceDiscount.setVisibility(View.VISIBLE);
+                        tvPriceDiscount.setText(food.discount);
+                        tvPriceDiscount.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+                    }
+
+
+
+
                     ImageLoadUtils.setCircularImage(mContext, food.cover, ivGoods, R.mipmap.ic_launcher);
 
 

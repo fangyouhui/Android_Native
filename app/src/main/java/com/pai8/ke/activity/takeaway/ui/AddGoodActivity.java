@@ -339,8 +339,8 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
             mFoodPath = path;
 
         } else if (type == 1) {
-
-
+            ImageLoadUtils.setRectImage(this, path, mIvCover);
+            mFoodPath = path;
         }
 
     }

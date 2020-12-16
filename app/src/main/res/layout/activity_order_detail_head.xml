@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:gravity="center"
             android:layout_gravity="center"
             android:layout_centerVertical="true"
             android:text="请在29:59s内进行付款，否则订单讲自动取消"

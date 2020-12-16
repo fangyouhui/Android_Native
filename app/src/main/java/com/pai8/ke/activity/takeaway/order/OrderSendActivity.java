@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.takeaway.order;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -8,8 +9,10 @@ import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.LatLng;
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderDetailAdapter;
@@ -53,6 +56,7 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     private TextView mTvCall;
     private TextView mTvPayType;
 
+
     ImageView ivMore;
     private OrderInfo mOrderInfo;
     private TextView mTvCoupon;
@@ -62,6 +66,7 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     private TextView mTvOrderNum;
     private TextView mTvPrice;
     private TextView mTvDiscount;
+    private TextView mTvRiderName,mTvRiderTime;
 
     private TextView mTvAdderss;
 
@@ -114,6 +119,8 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
         mTvPrice = mViewFooter.findViewById(R.id.tv_price);
         mTvDiscount = mViewFooter.findViewById(R.id.tv_discount);
         mTvPayType = mViewFooter.findViewById(R.id.tv_pay_type);
+        mTvRiderName = mViewFooter.findViewById(R.id.tv_rider_name);
+        mTvRiderTime = mViewFooter.findViewById(R.id.tv_rider_time);
 
     }
 
@@ -150,11 +157,11 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
         mTvCoupon.setText(orderInfo.order_discount_price);
         mTvSendPrice.setText(orderInfo.express_price);
         mTvOrderNum.setText(orderInfo.order_no);
-        mTvOrderTime.setText(DateUtils.millisToTime(FORMAT_YYYY_MM_DD_HHMM, orderInfo.add_time));
+        mTvOrderTime.setText(DateUtils.millisToTime(FORMAT_YYYY_MM_DD_HHMM, orderInfo.add_time*1000));
         mAdapter.setNewData(orderInfo.goods_info);
         mTvDiscount.setText("优惠 ¥" + orderInfo.order_discount_price);
 
-        mTvPayType.setText(orderInfo.pay_type == 1 ? "微信支付" : "支付宝");
+        mTvPayType.setText(orderInfo.pay_type == 1 ?"微信支付" : "支付宝");
 
         if (orderInfo.address_info != null) {
             mTvAdderss.setText(orderInfo.address_info.address);
@@ -162,6 +169,13 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
         if (orderInfo.shop_info != null) {
             mTvStoreName.setText(orderInfo.shop_info.shop_name);
         }
+
+        if(orderInfo.rider_info!=null){
+            mTvRiderName.setText(orderInfo.rider_info.rider_name);
+            mTvRiderTime.setText("尽快送达");
+        }
+
+
         if (orderInfo.order_status == 0) {
             mTvStatus.setText("待支付");
             mTvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
@@ -204,6 +218,9 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
         }
 
 
+
+
+
     }
 
 
@@ -224,6 +241,10 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     protected void onPause() {
         super.onPause();
         mMapView.onPause();
+    }
+
+    private void moveMapCamera(double latitude, double longitude) {
+        mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 14));
     }
 
     @Override
@@ -258,11 +279,19 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     public void orderDetailSuccess(OrderInfo data) {
         mOrderInfo = data;
         setData(data);
+        if(!TextUtils.isEmpty(mOrderInfo.address_info.latitude)&&!TextUtils.isEmpty(mOrderInfo.address_info.longitude)){
+            moveMapCamera(Double.parseDouble(mOrderInfo.address_info.latitude),Double.parseDouble(mOrderInfo.address_info.longitude));
+        }
     }
 
 
     @Override
     public void orderCancelSuccess(String data) {
+
+    }
+
+    @Override
+    public void getStatusSuccess(String data) {
 
     }
 }
