@@ -22,14 +22,15 @@
 
     <TextView
         android:id="@+id/tv_address"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_status"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:gravity="center_vertical"
-        android:text="这里是用户昵称"
+        android:text="这里是用户昵这里是用户昵称这里是用户昵称这里是用户昵称称"
         android:textColor="@color/color_black"
         android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/iv_choose"
+        app:layout_constraintStart_toEndOf="@+id/iv_choose"
         app:layout_constraintTop_toTopOf="parent" />
 
 

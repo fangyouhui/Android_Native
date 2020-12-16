@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.pai8.ke.activity.takeaway.adapter.ShopOrderAdapter;
 import com.pai8.ke.activity.takeaway.contract.ShopOrderContract;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
+import com.pai8.ke.activity.takeaway.order.ShopOrderDetailActivity;
 import com.pai8.ke.activity.takeaway.presenter.ShopOrderPresenter;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.widget.BottomDialog;
@@ -55,6 +57,14 @@ public class OrderProcessingActivity extends BaseMvpActivity<ShopOrderPresenter>
         super.initData();
         mAdapter = new ShopOrderAdapter(null);
         mRvOrder.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(OrderProcessingActivity.this, ShopOrderDetailActivity.class)
+                        .putExtra("order",mAdapter.getData().get(position)));
+
+            }
+        });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -71,7 +81,10 @@ public class OrderProcessingActivity extends BaseMvpActivity<ShopOrderPresenter>
                         mPresenter.shopDealOrder(orderInfo.order_no,0);
                     }else if(orderInfo.order_status == 5){   //同意退款
                         mPresenter.shopDealOrder(orderInfo.order_no,2);
-
+                    }else if(orderInfo.order_status == 2){  //制作完成
+                        mPresenter.shopDealOrder(orderInfo.order_no,4);
+                    }else if(orderInfo.order_status == 7){  //送出
+                        mPresenter.shopDealOrder(orderInfo.order_no,5);
                     }
                 }
             }

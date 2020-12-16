@@ -185,6 +185,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_rider_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -211,6 +212,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_rider_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

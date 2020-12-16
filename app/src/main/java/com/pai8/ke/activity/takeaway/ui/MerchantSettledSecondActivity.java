@@ -271,7 +271,7 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
         red.latitude = mAddress.getLat() + "";
         red.longitude = mAddress.getLon() + "";
         red.shop_video = storeFrontPath;
-        red.house_number = addressNumber;
+        red.house_number = mAddress.getAddress();
         TakeawayApi.getInstance().merchantSettled(red)
                 .doOnSubscribe(disposable -> {
                 })

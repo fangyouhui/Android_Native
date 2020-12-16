@@ -36,12 +36,19 @@ public class OrderInfo implements Serializable {
     public int count;
     public String remain_pay_time;
 
-//    public RiderInfo rider_info;
+    public RiderInfo rider_info;
     public AddressInfo address_info;
 
 
     public static class RiderInfo{
 
+        public String  logistic;
+        public String  rider_name;
+        public String  rider_phone;
+        public String  map_type;
+        public String  rider_latitude;
+        public String  rider_longitude;
+        public String  status_desc;
     }
 
 }

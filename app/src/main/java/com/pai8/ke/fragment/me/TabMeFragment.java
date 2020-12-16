@@ -17,6 +17,7 @@ import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.me.SettingActivity;
 import com.pai8.ke.activity.me.ui.AttentionMineActivity;
+import com.pai8.ke.activity.me.ui.EditPersonalInfoActivity;
 import com.pai8.ke.activity.me.ui.FansActivity;
 import com.pai8.ke.activity.me.ui.ReceiveLikesActivity;
 import com.pai8.ke.activity.takeaway.order.OrderActivity;
@@ -191,11 +192,8 @@ public class TabMeFragment extends BaseFragment {
                         setFansCount(myInfoResp.getMy_fans());
                         setFollowCount(myInfoResp.getMy_fans());
                         setHistoryCount(myInfoResp.getMy_history());
-                        initVerifyStatus(myInfoResp.getVerify_status() == null ? 0 : myInfoResp.getVerify_status());
-                        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
-                        tvNickName.setText(StringUtils.isNotEmpty(myInfoResp.getUser_nickname()) ?
-                                myInfoResp.getUser_nickname() : userInfo.getPhone());
-                        ImageLoadUtils.loadImage(getActivity(), myInfoResp.getAvatar(), civAvatar, R.mipmap.img_head_def);
+                        initVerifyStatus(myInfoResp.getVerify_status() == null ? 0 :
+                                myInfoResp.getVerify_status());
                     }
 
                     @Override
@@ -204,6 +202,27 @@ public class TabMeFragment extends BaseFragment {
                         setFansCount(0);
                         setFollowCount(0);
                         setHistoryCount(0);
+                    }
+                });
+        Api.getInstance().getUserInfoById(mActivity.mAccountManager.getUid())
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<UserInfo>() {
+                    @Override
+                    protected void onSuccess(UserInfo user) {
+                        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
+                        userInfo.setAvatar(user.getAvatar());
+                        userInfo.setUser_nickname(user.getUser_nickname());
+                        mActivity.mAccountManager.saveUserInfo(userInfo);
+                        tvNickName.setText(user.getUser_nickname());
+                        ImageLoadUtils.loadImage(getActivity(), user.getAvatar(), civAvatar,
+                                R.mipmap.img_head_def);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+
                     }
                 });
     }
@@ -292,6 +311,11 @@ public class TabMeFragment extends BaseFragment {
                 }
                 break;
             case R.id.iv_btn_edit:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    launch(LoginActivity.class);
+                    return;
+                }
+                startActivityForResult(new Intent(mActivity, EditPersonalInfoActivity.class), 100);
                 break;
             case R.id.iv_btn_msg:
                 EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));

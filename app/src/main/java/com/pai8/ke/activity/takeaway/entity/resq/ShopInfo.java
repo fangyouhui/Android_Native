@@ -11,4 +11,9 @@ public class ShopInfo {
     public int id;
     public String cate_id;
     public List<AddFoodReq> goods;
+
+
+
+
+
 }

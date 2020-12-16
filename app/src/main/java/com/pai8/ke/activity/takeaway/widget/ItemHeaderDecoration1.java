@@ -60,7 +60,7 @@ public class ItemHeaderDecoration1 extends RecyclerView.ItemDecoration {
         int pos = ((LinearLayoutManager) (parent.getLayoutManager())).findFirstVisibleItemPosition();
         int spanSize = spanSizeLookup.getSpanSize(pos);
         Log.d("pos--->", String.valueOf(pos));
-        if(mDatas.size()<=0)
+        if(mDatas.size()<=3)
             return;
         String tag = mDatas.get(pos).getTag();
         View child = parent.findViewHolderForLayoutPosition(pos).itemView;

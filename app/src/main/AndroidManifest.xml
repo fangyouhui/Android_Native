@@ -160,6 +160,9 @@
         <activity android:name=".activity.takeaway.ui.ChooseCouponActivity" />
         <activity android:name=".activity.takeaway.ui.ShopGoodSearchActivity" />
         <activity android:name=".activity.takeaway.order.OrderSendActivity" />
+        <activity android:name=".activity.takeaway.order.ShopOrderDetailActivity" />
+
+        <activity android:name=".activity.takeaway.ui.StoreManagerEditActivity" />
         <!-- 活动消息 -->
         <activity
             android:name=".activity.message.ui.ActiveMessageActivity"

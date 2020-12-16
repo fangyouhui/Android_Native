@@ -13,6 +13,7 @@ import com.pai8.ke.activity.takeaway.adapter.RvListener;
 import com.pai8.ke.activity.takeaway.contract.GoodContract;
 import com.pai8.ke.activity.takeaway.entity.FoodClassifyInfo;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
+import com.pai8.ke.activity.takeaway.entity.event.ShopCarEvent;
 import com.pai8.ke.activity.takeaway.entity.event.ShopDataEvent;
 import com.pai8.ke.activity.takeaway.presenter.GoodPresenter;
 import com.pai8.ke.activity.takeaway.widget.CheckListener;
@@ -143,6 +144,16 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
         }
 
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ShopCarEvent event) {
+
+        if(mGoodAdapter!=null){
+            mGoodAdapter.setGoodInfoList(event.data.goods_info);
+
+        }
+    }
+
 
     public void setData(int n) {
         mIndex = n;

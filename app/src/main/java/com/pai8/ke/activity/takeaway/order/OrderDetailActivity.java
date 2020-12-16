@@ -1,6 +1,8 @@
 package com.pai8.ke.activity.takeaway.order;
 
 import android.content.Intent;
+import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,9 +12,11 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderDetailAdapter;
 import com.pai8.ke.activity.takeaway.contract.OrderDetailContract;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.presenter.OrderDetailPresenter;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
+import com.pai8.ke.activity.takeaway.utils.TimeCount;
 import com.pai8.ke.activity.takeaway.widget.CancelOrderPop;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.fragment.pay.PayDialogFragment;
@@ -20,9 +24,17 @@ import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GOOD;
 import static com.pai8.ke.utils.DateUtils.FORMAT_YYYY_MM_DD_HHMM;
 
 public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> implements View.OnClickListener, OrderDetailContract.View {
@@ -52,6 +64,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
     private TextView mTvOrderNum;
     private TextView mTvPrice;
     private TextView mTvDiscount;
+    private TextView mTvRiderName,mTvRiderTime;
 
     private TextView mTvPayWay;
 
@@ -101,6 +114,8 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         mTvPrice = mViewFooter.findViewById(R.id.tv_price);
         mTvDiscount = mViewFooter.findViewById(R.id.tv_discount);
         mTvPayWay = mViewFooter.findViewById(R.id.tv_pay_type);
+        mTvRiderName = mViewFooter.findViewById(R.id.tv_rider_name);
+        mTvRiderTime = mViewFooter.findViewById(R.id.tv_rider_time);
     }
 
 
@@ -111,12 +126,6 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         mAdapter.setNewData(mOrderInfo.goods_info);
         setData(mOrderInfo);
         mPresenter.orderDetail(mOrderInfo.order_no);
-
-        if(mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4){
-            ivMore.setVisibility(View.VISIBLE);
-        }else{
-            ivMore.setVisibility(View.GONE);
-        }
 
     }
 
@@ -138,6 +147,10 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         if(orderInfo.shop_info!=null){
             mTvStoreName.setText(orderInfo.shop_info.shop_name);
         }
+
+        mTvPayWay.setText(orderInfo.pay_type == 1 ?"微信支付" : "支付宝");
+
+
         mTvStatusName.setText("");
         mTvStatusPay.setVisibility(View.GONE);
         if(orderInfo.order_status == 0){
@@ -160,7 +173,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         }else if(orderInfo.order_status == 5){
             mTvStatus.setText("退款申请中");
             mTvStatusName.setText("你发起的退款正在申请审批中，审批成功将为您发起退款");
-            mTvStatusPay.setVisibility(View.INVISIBLE);
+            mTvStatusPay.setVisibility(View.GONE);
         }else if(orderInfo.order_status == 6){
 
             mTvStatus.setText("拒绝退款");
@@ -170,7 +183,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         }else if(orderInfo.order_status == 8){
             mTvStatus.setText("订单已退款");
             mTvStatusName.setText("退款完成，在5~7个工作日内欠款将原路退回到你支付时的账户");
-            mTvStatusPay.setVisibility(View.INVISIBLE);
+            mTvStatusPay.setVisibility(View.GONE);
         }else if(orderInfo.order_status == 9){
             mTvStatus.setText("订单已取消");
             mTvStatusName.setText("您的订单已经取消，可重新选购下单");
@@ -183,7 +196,16 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
             mTvStatus.setText("商家拒绝接单");
         }
 
+        if(orderInfo.order_status == 0 || orderInfo.order_status == 4){
+            ivMore.setVisibility(View.VISIBLE);
+        }else{
+            ivMore.setVisibility(View.GONE);
+        }
 
+        if(orderInfo.rider_info!=null){
+            mTvRiderName.setText(orderInfo.rider_info.rider_name);
+//            mTvRiderTime.setText("尽快送达");
+        }
     }
 
 
@@ -217,7 +239,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
 
             if(mOrderInfo.order_status == 0){
                 mTvStatus.setText("待支付");
-                mTvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
+
                 mTvStatusPay.setText("立即支付");
                 PayDialogFragment payDialogFragment = PayDialogFragment.newInstance(mOrderInfo.order_price, mOrderInfo.order_no);
                 payDialogFragment.show(getSupportFragmentManager(), "pay");
@@ -242,7 +264,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
             }else if(mOrderInfo.order_status == 5){
                 mTvStatus.setText("退款申请中");
                 mTvStatusName.setText("你发起的退款正在申请审批中，审批成功将为您发起退款");
-                mTvStatusPay.setVisibility(View.INVISIBLE);
+                mTvStatusPay.setVisibility(View.GONE);
             }else if(mOrderInfo.order_status == 6){
 
                 mTvStatus.setText("拒绝退款");
@@ -255,7 +277,7 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
             }else if(mOrderInfo.order_status == 8){
                 mTvStatus.setText("订单已退款");
                 mTvStatusName.setText("退款完成，在5~7个工作日内欠款将原路退回到你支付时的账户");
-                mTvStatusPay.setVisibility(View.INVISIBLE);
+                mTvStatusPay.setVisibility(View.GONE);
             }else if(mOrderInfo.order_status == 9){   //订单已取消
                 mTvStatus.setText("订单已取消");
                 mTvStatusName.setText("您的订单已经取消，可重新选购下单");
@@ -276,14 +298,59 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         }
     }
 
+
+    private TimeCount time;
+
+
+    public void start(){
+        if(mOrderInfo.order_status == 0 && !TextUtils.isEmpty(mOrderInfo.remain_pay_time)){
+            long time1 = Long.parseLong(mOrderInfo.remain_pay_time) * 1000;
+            SimpleDateFormat format = new SimpleDateFormat("mm", Locale.US);
+            SimpleDateFormat format1 = new SimpleDateFormat("ss", Locale.US);
+            time = new TimeCount(time1, 1000);
+            time.setListener(new TimeCount.OnListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Date date = new Date(millisUntilFinished);
+                    mTvStatusName.setText("请在"+  format.format(date) + ":" +
+                            format1.format(date)+"内进行付款，否则订单讲自动取消");
+                    EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
+
+
+                }
+
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onFinish() {
+                    mPresenter.orderDetail(mOrderInfo.order_no);
+                }
+            });
+
+            time.start();
+        }
+
+
+    }
+
+
+
+
     @Override
     public void orderDetailSuccess(OrderInfo data) {
         mOrderInfo = data;
         setData(data);
+        start();
     }
 
     @Override
     public void orderCancelSuccess(String data) {
+        EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
         mPresenter.orderDetail(mOrderInfo.order_no);
+    }
+
+    @Override
+    public void getStatusSuccess(String data) {
+
     }
 }
