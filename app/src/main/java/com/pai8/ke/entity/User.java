@@ -17,6 +17,24 @@ public class User implements Serializable {
     private String avatar;
     private String phone;
     private String wechat;
+    private  Shop shop;
+    private int is_focus;
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public int getIs_focus() {
+        return is_focus;
+    }
+
+    public void setIs_focus(int is_focus) {
+        this.is_focus = is_focus;
+    }
 
     public String getId() {
         return id;

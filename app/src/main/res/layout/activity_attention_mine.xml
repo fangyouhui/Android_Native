@@ -9,12 +9,12 @@
     <include layout="@layout/view_comm_titlebar"/>
 
     <net.lucode.hackware.magicindicator.MagicIndicator
-            android:id="@+id/mi_history"
+            android:id="@+id/mi_attention"
             android:layout_width="wrap_content"
             android:layout_height="40dp"/>
 
     <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_history"
+            android:id="@+id/vp_attention"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

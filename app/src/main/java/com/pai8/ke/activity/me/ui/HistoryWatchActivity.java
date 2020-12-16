@@ -1,57 +1,55 @@
 package com.pai8.ke.activity.me.ui;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjq.bar.OnTitleBarListener;
+import com.hjq.bar.TitleBar;
+import com.luck.picture.lib.tools.ScreenUtils;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.adapter.AttentionMineAdapter;
-import com.pai8.ke.activity.me.adapter.HistoryWatchAdapter;
-import com.pai8.ke.activity.me.contract.AttentionMineContract;
-import com.pai8.ke.activity.me.contract.HistoryWatchContract;
-import com.pai8.ke.activity.me.presenter.AttentionMinePresenter;
-import com.pai8.ke.activity.me.presenter.HistoryWatchPresenter;
-import com.pai8.ke.activity.message.entity.resp.MessageResp;
-import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.activity.me.adapter.PageAdapter;
+import com.pai8.ke.activity.me.fragment.ShopHistoryFragment;
+import com.pai8.ke.activity.me.fragment.VideoHistoryFragment;
+import com.pai8.ke.base.BaseActivity;
 
-import android.os.Bundle;
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.CommonPagerTitleView;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Created by zzf
  * @time 11:21
  * Description： 关注
  */
-public class HistoryWatchActivity extends BaseMvpActivity<HistoryWatchPresenter> implements HistoryWatchContract.View, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class HistoryWatchActivity extends BaseActivity {
 
 
-    @BindView(R.id.rb_all)
-    RadioButton rbAll;
-    @BindView(R.id.rb_waimai)
-    RadioButton rbWaimai;
-    @BindView(R.id.rb_tuangou)
-    RadioButton rbTuangou;
-    @BindView(R.id.rg_choose)
-    RadioGroup rgChoose;
-    @BindView(R.id.rv_history)
-    RecyclerView rvHistory;
-    @BindView(R.id.sr_layout)
-    SwipeRefreshLayout srLayout;
-    private HistoryWatchAdapter mAdapter;
-    private List<MessageResp> mList = new ArrayList<>();
-    private int page = 1;
+    @BindView(R.id.title_bar)
+    TitleBar titleBar;
+    @BindView(R.id.mi_history)
+    MagicIndicator miHistory;
+    @BindView(R.id.vp_history)
+    ViewPager mViewPager;
+    private List<String> mTitleDataList = Arrays.asList("店铺", "视频");
+    private List<Fragment> mFragments ;
 
     @Override
     public int getLayoutId() {
@@ -61,14 +59,6 @@ public class HistoryWatchActivity extends BaseMvpActivity<HistoryWatchPresenter>
     @Override
     public void initView() {
         mTitleBar.setTitle("足迹");
-        srLayout.setOnRefreshListener(this);
-        srLayout.setColorSchemeResources(R.color.colorPrimary);
-        mAdapter = new HistoryWatchAdapter(mList);
-        rvHistory.setLayoutManager(new LinearLayoutManager(this));
-        rvHistory.setHasFixedSize(true);
-        mAdapter.setEnableLoadMore(true);
-        mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(this));
-        rvHistory.setAdapter(mAdapter);
     }
 
     @Override
@@ -90,71 +80,78 @@ public class HistoryWatchActivity extends BaseMvpActivity<HistoryWatchPresenter>
 
             }
         });
-        rgChoose.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.rb_all:
-
-                    break;
-                case R.id.rb_waimai:
-                    break;
-                case R.id.rb_tuangou:
-                    break;
-                default:
-                    break;
-            }
-        });
     }
 
     @Override
     public void initData() {
-        mPresenter.reqMessageList(page);
-    }
+        CommonNavigator commonNavigator = new CommonNavigator(this);
+        commonNavigator.setAdapter(new CommonNavigatorAdapter() {
 
-
-    @Override
-    public void onRefresh() {
-        page = 1;
-        mPresenter.reqMessageList(page);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        page++;
-        mPresenter.reqMessageList(page);
-    }
-
-    @Override
-    public void getHistorySuccess(List<MessageResp> data) {
-        if (data != null) {
-            if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.loadMoreComplete();
+            @Override
+            public int getCount() {
+                return mTitleDataList == null ? 0 : mTitleDataList.size();
             }
-            if (page == 1) {
-                mAdapter.replaceData(data);
-            } else {
-                mAdapter.addData(data);
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                CommonPagerTitleView commonPagerTitleView = new CommonPagerTitleView(context);
+                View customLayout = LayoutInflater.from(context).inflate(R.layout.layout_tab_head, null);
+                TextView titleText = customLayout.findViewById(R.id.title_text);
+                titleText.setText(mTitleDataList.get(index));
+                commonPagerTitleView.setContentView(customLayout);
+                commonPagerTitleView.setOnPagerTitleChangeListener(new CommonPagerTitleView.OnPagerTitleChangeListener() {
+
+                    @Override
+                    public void onSelected(int index, int totalCount) {
+                        titleText.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    }
+
+                    @Override
+                    public void onDeselected(int index, int totalCount) {
+                        titleText.setTextColor(getResources().getColor(R.color.color_light_font));
+                    }
+
+                    @Override
+                    public void onLeave(int index, int totalCount, float leavePercent, boolean leftToRight) {
+
+                    }
+
+                    @Override
+                    public void onEnter(int index, int totalCount, float enterPercent, boolean leftToRight) {
+
+                    }
+                });
+
+                commonPagerTitleView.setOnClickListener(v -> mViewPager.setCurrentItem(index));
+
+                return commonPagerTitleView;
             }
-        }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator indicator = new LinePagerIndicator(context);
+                indicator.setColors(getResources().getColor(R.color.colorPrimary));
+                indicator.setYOffset(10);
+                indicator.setRoundRadius(5);
+                indicator.setLineWidth(ScreenUtils.dip2px(HistoryWatchActivity.this,20));
+                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
+                return indicator;
+            }
+        });
+        miHistory.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(miHistory, mViewPager);
+        initFragments();
     }
 
-    @Override
-    public void isRefresh() {
-        srLayout.setRefreshing(true);
+    private void initFragments() {
+        mFragments = new ArrayList<>();
+        mFragments.add(new ShopHistoryFragment());
+        mFragments.add(new VideoHistoryFragment());
+        mViewPager.setOffscreenPageLimit(2);
+        PageAdapter pagerAdapter = new PageAdapter(getSupportFragmentManager(),
+                mFragments, mTitleDataList);
+        mViewPager.setAdapter(pagerAdapter);
     }
 
-    @Override
-    public void completeRefresh() {
-        srLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void completeLoadMore() {
-        mAdapter.loadMoreComplete();
-    }
-
-    @Override
-    public HistoryWatchPresenter initPresenter() {
-        return new HistoryWatchPresenter(this);
-    }
 
 }
