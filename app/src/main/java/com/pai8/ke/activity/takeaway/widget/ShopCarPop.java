@@ -4,13 +4,16 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.luck.picture.lib.tools.ScreenUtils;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.ShopCarAdapter;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import razerdp.basepopup.BasePopupWindow;
 
 public class ShopCarPop extends BasePopupWindow implements View.OnClickListener {
-
 
     private RecyclerView mRvShopCar;
     private ShopCarAdapter mAdapter;
@@ -28,13 +30,15 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
     private TextView mTvOrder;
     private ImageView mIvShopCar;
     private String number;
+    private int shopId;
     Context context;
-    public ShopCarPop(Context context,String number, List<FoodGoodInfo> goodInfoList) {
-        super(context);
+    public ShopCarPop(Context context,String number, List<FoodGoodInfo> goodInfoList,int shopId) {
+        super(context, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         this.context = context;
         setPopupGravity(Gravity.BOTTOM);
         this.mFoodGoodInfo = goodInfoList;
         this.number = number;
+        this.shopId = shopId;
         setOutSideDismiss(true);
         initUI();
     }
@@ -49,12 +53,11 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
         mTvShopNum = findViewById(R.id.tv_shop_num);
         mTvPrice = findViewById(R.id.tv_price);
         mRvShopCar.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new ShopCarAdapter(mFoodGoodInfo);
+        mAdapter = new ShopCarAdapter(mFoodGoodInfo, shopId);
         mRvShopCar.setAdapter(mAdapter);
         mTvShopNum.setText(number);
         mTvShopNum.setVisibility(View.VISIBLE);
         setPrice(mFoodGoodInfo);
-
     }
 
 
@@ -69,7 +72,7 @@ public class ShopCarPop extends BasePopupWindow implements View.OnClickListener 
             }
             shopNum = shopNum + pro.goods_num;
         }
-        mTvPrice.setText("￥" + toMoney);
+        mTvPrice.setText(String.format("￥%s", new DecimalFormat("##.##").format(toMoney)));
         if(shopNum<=0){
             mTvOrder.setEnabled(false);
             mTvOrder.setBackgroundResource(R.drawable.shape_orgin_gradient_gray);

@@ -1,5 +1,6 @@
 package com.pai8.ke.app;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,7 @@ import com.qiniu.android.storage.UploadManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cn.jpush.android.api.JPushInterface;
 
 public class MyApp extends Application {
@@ -96,6 +98,7 @@ public class MyApp extends Application {
         return (String) PreferencesUtils.get(getMyApp(), "city", "苏州市");
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -126,6 +129,7 @@ public class MyApp extends Application {
                 .setLogEnabled(true)
                 .build());
         AMapLocationUtils.init(this);
+        CustomActivityOnCrash.install(this);
     }
 
     public static void getLocation() {

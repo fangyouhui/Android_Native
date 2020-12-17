@@ -158,5 +158,5 @@ dependencies {
     implementation 'com.github.dueeeke.dkplayer:videocache:3.2.6'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation project(':lib_shortvideo')
-
+    implementation 'cat.ereza:customactivityoncrash:2.2.0'
 }
