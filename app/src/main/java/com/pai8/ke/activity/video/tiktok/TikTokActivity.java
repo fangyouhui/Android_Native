@@ -31,12 +31,15 @@ import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.event.VideoItemRefreshEvent;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.Comments;
+import com.pai8.ke.entity.resp.ShareMiniResp;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.OnVideoControllerListener;
+import com.pai8.ke.interfaces.contract.ShareContract;
 import com.pai8.ke.interfaces.contract.VideoDetailContract;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.manager.UploadFileManager;
+import com.pai8.ke.presenter.SharePresenter;
 import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
@@ -47,6 +50,7 @@ import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
+import com.pai8.ke.utils.WxShareUtils;
 import com.pai8.ke.utils.cache.PreloadManager;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CircleImageView;
@@ -83,7 +87,7 @@ import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
  */
 public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> implements VideoContract.View,
         SwipeRefreshLayout.OnRefreshListener, ReportContract.View, VideoDetailContract.View,
-        VideoHomeContract.View {
+        VideoHomeContract.View, ShareContract.View {
 
     @BindView(R.id.vp2)
     ViewPager2 mViewPager;
@@ -112,6 +116,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
 
     private ReportPresenter mReportPresenter;
     private VideoHomePresenter mVideoHomePresenter;
+    private SharePresenter mSharePresenter;
     private TextView mTvCommentsTitle;
     private VideoView mVideoView;
 
@@ -272,6 +277,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
     public void initData() {
         mVideoHomePresenter = new VideoHomePresenter(this);
         mReportPresenter = new ReportPresenter(this);
+        mSharePresenter = new SharePresenter(this);
 
         Bundle extras = getIntent().getExtras();
         List<Video> videos = (List<Video>) extras.getSerializable("videos");
@@ -343,7 +349,9 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
             @Override
             public void onShareClick() {
                 String share_url = getCurVideo().getShare_url();
-                shareUrl(share_url);
+//                shareUrl(share_url);
+                showShareBottomDialog(share_url, getCurVideo().getVideo_desc());
+
             }
 
             @Override
@@ -400,7 +408,8 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         });
         tvBtnWechatFriend.setOnClickListener(view1 -> {
             if (!isWeChatClientValid()) return;
-            share(Wechat.NAME, url, name);
+//            share(Wechat.NAME, url, name);
+            mSharePresenter.shareVideo(getCurVideo().getId());
         });
         tvBtnWechatMoments.setOnClickListener(view1 -> {
             if (!isWeChatClientValid()) return;
@@ -666,7 +675,8 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 runOnUiThread(() -> {
-                    if (mShareBottomDialog.isShowing()) mShareBottomDialog.dismiss();
+                    if (mShareBottomDialog != null && mShareBottomDialog.isShowing())
+                        mShareBottomDialog.dismiss();
                 });
             }
 
@@ -829,4 +839,28 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         }
     }
 
+    @Override
+    public void shareMini(ShareMiniResp resp) {
+        WxShareUtils.shareMini(resp, new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                runOnUiThread(() -> {
+                    if (mShareBottomDialog != null && mShareBottomDialog.isShowing())
+                        mShareBottomDialog.dismiss();
+                });
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                runOnUiThread(() -> {
+                    toast("分享失败:" + throwable.getMessage() + i);
+                });
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+
+            }
+        });
+    }
 }

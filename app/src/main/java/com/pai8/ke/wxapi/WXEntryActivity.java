@@ -31,10 +31,11 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import cn.sharesdk.wechat.utils.WechatHandlerActivity;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
+public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
 
     private static IWXAPI wxApi;

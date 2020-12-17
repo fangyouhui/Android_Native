@@ -84,6 +84,7 @@ MobSDK {
             Wechat {
                 appId "wx00290ee6e44c1cfd"
                 appSecret "3db5d02b7d93bcffbb15f3f0fb1ead4f"
+                bypassApproval false
             }
             // 微信朋友圈
             WechatMoments {
