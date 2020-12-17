@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 public class ConfirmOrderAdapter extends BaseQuickAdapter<FoodGoodInfo, BaseViewHolder> {
     public ConfirmOrderAdapter(@Nullable List<FoodGoodInfo> data) {
-        super(R.layout.item_shop_car, data);
+        super(R.layout.item_confirm_order, data);
     }
 
     @Override
