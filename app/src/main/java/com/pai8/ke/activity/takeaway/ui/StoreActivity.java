@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,11 +32,16 @@ import com.pai8.ke.activity.takeaway.presenter.StorePresenter;
 import com.pai8.ke.activity.takeaway.utils.AddToCartUtil;
 import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.entity.resp.ShareMiniResp;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
+import com.pai8.ke.interfaces.contract.ShareContract;
 import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.presenter.SharePresenter;
 import com.pai8.ke.utils.DensityUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.StringUtils;
+import com.pai8.ke.utils.WxShareUtils;
+import com.pai8.ke.widget.BottomDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,15 +49,21 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.wechat.moments.WechatMoments;
+
+import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
 public class StoreActivity extends BaseMvpActivity<StorePresenter> implements View.OnClickListener,
-        StoreContract.View {
+        StoreContract.View, ShareContract.View {
     private ArrayList<Fragment> fragments;
     private AppBarLayout appbarlayout;
     private Toolbar toolbar;
@@ -78,9 +90,9 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private List<FoodGoodInfo> mGoodInfoList;  //购物车
     private ShopIdReq mShopIdReq;
 
-
     private String orderNo;
-
+    private SharePresenter mSharePresenter;
+    private BottomDialog mShareBottomDialog;
 
     public static void launch(Context context, String shopId) {
         if (StringUtils.isEmpty(shopId)) return;
@@ -270,7 +282,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     @Override
     public void initData() {
         super.initData();
-
+        mSharePresenter = new SharePresenter(this);
         EventBus.getDefault().register(this);
         orderNo  = getIntent().getStringExtra("orderNo");
         mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
@@ -340,6 +352,28 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                 mPresenter.collection(addFoodReq);
             }
 
+        }else if (v.getId()==R.id.iv_store_share){ //分享
+            View view = View.inflate(this, R.layout.view_dialog_share, null);
+            ImageButton itnClose = view.findViewById(R.id.itn_close);
+            TextView tvBtnCancel = view.findViewById(R.id.tv_btn_cancel);
+            TextView tvBtnWechatFriend = view.findViewById(R.id.tv_btn_wechat_friend);
+            TextView tvBtnWechatMoments = view.findViewById(R.id.tv_btn_wechat_moments);
+            tvBtnWechatMoments.setVisibility(View.GONE);
+            itnClose.setOnClickListener(view1 -> {
+                mShareBottomDialog.dismiss();
+            });
+            tvBtnCancel.setOnClickListener(view1 -> {
+                mShareBottomDialog.dismiss();
+            });
+            tvBtnWechatFriend.setOnClickListener(view1 -> {
+                if (!isWeChatClientValid()) return;
+                mSharePresenter.shareShop(mShopIdReq.shop_id);
+            });
+            if (mShareBottomDialog == null) {
+                mShareBottomDialog = new BottomDialog(this, view);
+            }
+            mShareBottomDialog.setIsCanceledOnTouchOutside(true);
+            mShareBottomDialog.show();
         }
     }
 
@@ -398,5 +432,30 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                 newInstance.show(getSupportFragmentManager(), "CouponGetDialog");
                 break;
         }
+    }
+
+    @Override
+    public void shareMini(ShareMiniResp resp) {
+        WxShareUtils.shareMini(resp, new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                runOnUiThread(() -> {
+                    if (mShareBottomDialog != null && mShareBottomDialog.isShowing())
+                        mShareBottomDialog.dismiss();
+                });
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                runOnUiThread(() -> {
+                    toast("分享失败");
+                });
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+
+            }
+        });
     }
 }

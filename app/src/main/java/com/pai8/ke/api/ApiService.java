@@ -11,6 +11,7 @@ import com.pai8.ke.entity.resp.CouponGetListResp;
 import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.Province;
+import com.pai8.ke.entity.resp.ShareMiniResp;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.entity.UserInfo;
@@ -391,4 +392,9 @@ public interface ApiService {
     @POST("Coupon/delCoupon")
     Observable<BaseRespose> delCoupon(@Field("coupon_id") String coupon_id,
                                       @Field("shop_id") String shop_id);
+
+    @FormUrlEncoded
+    @POST("system/share")
+    Observable<BaseRespose<ShareMiniResp>> shareMini(@Field("type") int type,
+                                                     @Field("id") String id);
 }
