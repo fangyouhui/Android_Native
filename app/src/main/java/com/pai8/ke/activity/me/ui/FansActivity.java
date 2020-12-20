@@ -11,6 +11,7 @@ import com.pai8.ke.activity.me.presenter.FansPresenter;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.entity.User;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.global.GlobalConstants;
 
 import android.view.View;
@@ -36,7 +37,7 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout srLayout;
     private FansAdapter mAdapter;
-    private List<User> mList = new ArrayList<>();
+    private List<Video> mList = new ArrayList<>();
     private int page = 1;
 
     @Override
@@ -77,11 +78,11 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
             }
         });
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-//            if (mList.get(position).s == 1) {
-//                showOperateDialog(true, mList.get(position).builder_id + "");
-//            } else {
-//                showOperateDialog(false, mList.get(position).builder_id + "");
-//            }
+            if (mList.get(position).getFollow_status()== 1) {
+                showOperateDialog(true, mList.get(position).getUser_id() + "");
+            } else {
+                showOperateDialog(false, mList.get(position).getUser_id() + "");
+            }
         });
     }
 
@@ -107,7 +108,10 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
     }
 
     @Override
-    public void getFansSuccess(int total,List<User> data) {
+    public void getFansSuccess(int total,List<Video> data) {
+        if(total != 0){
+            mTitleBar.setTitle("粉丝(" + total + ")");
+        }
         if (data != null) {
             if (data.size() < GlobalConstants.SIZE) {
                 mAdapter.loadMoreComplete();

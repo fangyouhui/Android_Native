@@ -47,8 +47,8 @@ public class FansPresenter extends BasePresenterImpl<FansContract.View> {
                         }else {
                             view.completeLoadMore();
                         }
-                        if (data != null && data.getUsers() != null && data.getPagination() != null) {
-                            view.getFansSuccess(data.getPagination().getTotal(), data.getUsers());
+                        if (data != null && data.getItems() != null && data.getPagination() != null) {
+                            view.getFansSuccess(data.getPagination().getTotal(), data.getItems());
                         } else {
                             ToastUtils.showShort("数据异常");
                         }

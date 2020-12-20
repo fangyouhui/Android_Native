@@ -2,6 +2,7 @@ package com.pai8.ke.activity.me.contract;
 
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.base.BaseView;
+import com.pai8.ke.entity.Video;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface ReceiveLikesContract {
 
     interface View extends BaseView {
 
-        void getReceiveLikesSuccess(List<MessageResp> data);
+        void getReceiveLikesSuccess(int total , List<Video> data);
 
         void isRefresh();
 

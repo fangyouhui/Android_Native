@@ -59,6 +59,8 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
 
 
     private TextView mTvNext;
+    private int mPayType;
+    private String mPayAccount;
 
     @Override
     public BasePresenter initPresenter() {
@@ -107,7 +109,8 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
         addressNumber = intent.getStringExtra("addressNumber");
         bankNo = intent.getStringExtra("bankNo");
         mAddress = (Address) intent.getSerializableExtra("address");
-
+        mPayAccount = intent.getStringExtra("payAccount");
+        mPayType = intent.getIntExtra("payType",-1);
     }
 
     @Override
@@ -266,6 +269,8 @@ public class MerchantSettledSecondActivity extends BaseMvpActivity implements Vi
         red.business_license = licensePath;
         red.health_permit = healthLicensePath;
         red.idcard_front = cardFrontPath;
+        red.pay_account = mPayAccount;
+        red.pay_type = mPayType + "";
         red.idcard_back = cardBackPath;
         red.shop_img = storeFrontPath;
         red.latitude = mAddress.getLat() + "";

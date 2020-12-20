@@ -80,6 +80,14 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mType == 0) {
                     return;
+                }else if (mType == 2){
+                    Intent intent = new Intent();
+                    intent.putExtra("lat", mAdapter.getData().get(position).latitude);
+                    intent.putExtra("lng", mAdapter.getData().get(position).longitude);
+                    intent.putExtra("address", mAdapter.getData().get(position).address);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    return;
                 }
                 Intent intent = new Intent();
                 intent.putExtra("name", mAdapter.getData().get(position).linkman);
@@ -88,8 +96,6 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
                 intent.putExtra("id", mAdapter.getData().get(position).id);
                 setResult(RESULT_OK, intent);
                 finish();
-
-
             }
         });
 
