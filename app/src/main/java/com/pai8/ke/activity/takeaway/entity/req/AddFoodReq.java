@@ -20,10 +20,11 @@ public class AddFoodReq implements Serializable {
     public boolean isTitle;
     private String tag;
     public int id;
+    public int type;//type 1-图片 2-视频
+    public String key;//七牛key
 
     public AddFoodReq() {
     }
-
 
     public AddFoodReq(String title) {
         this.title = title;

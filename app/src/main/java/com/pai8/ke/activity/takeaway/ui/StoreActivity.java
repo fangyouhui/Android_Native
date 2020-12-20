@@ -97,6 +97,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private String orderNo;
     private SharePresenter mSharePresenter;
     private BottomDialog mShareBottomDialog;
+    private ShopCarPop mPop;
 
     public static void launch(Context context, String shopId) {
         if (StringUtils.isEmpty(shopId)) return;

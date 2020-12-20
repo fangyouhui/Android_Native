@@ -43,7 +43,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GOOD;
 
-public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implements View.OnClickListener, AddGoodContract.View {
+public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implements View.OnClickListener,
+        AddGoodContract.View {
 
     private final int RESULT_PICTURE = 1000;  //图片
     private final int RESULT_VIDEO = 1001;
@@ -115,7 +116,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
             ImageLoadUtils.setCircularImage(this, mFood.cover, mIvCover, R.mipmap.ic_launcher);
             mTvDiscountPrice.setText(mFood.discount);
             mEtName.setText(mFood.title);
-            cateId = mFood.cate_id+"";
+            cateId = mFood.cate_id + "";
             mEtPrice.setText(mFood.sell_price);
             mEtDesc.setText(mFood.desc);
             mEtPackPrice.setText(mFood.packing_price);
@@ -160,16 +161,16 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                 return;
             }
             String shopName = mEtName.getText().toString();
-            if (TextUtils.isEmpty(shopName) ) {
+            if (TextUtils.isEmpty(shopName)) {
                 ToastUtils.showShort("商品名称不能为空");
                 return;
             }
             String sellerPrice = mEtPrice.getText().toString();
-            if (TextUtils.isEmpty(sellerPrice) ) {
+            if (TextUtils.isEmpty(sellerPrice)) {
                 ToastUtils.showShort("商品价格不能为空");
                 return;
             }
-            if (TextUtils.isEmpty(cateId) ) {
+            if (TextUtils.isEmpty(cateId)) {
                 ToastUtils.showShort("商品分类不能为空");
                 return;
             }
@@ -188,6 +189,8 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                     }
                     addFoodReq.goods_id = mFood.id;
                     addFoodReq.cover = mFood.cover;
+                    addFoodReq.key = mFood.key;
+                    addFoodReq.type = mFood.type;
                     addFoodReq.shop_id = AccountManager.getInstance().getShopId();
                     addFoodReq.title = shopName;  //名称
                     addFoodReq.sell_price = sellerPrice;  //售卖价格
@@ -222,7 +225,9 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                     origin = Double.parseDouble(price) + Double.parseDouble(discount);
                 }
                 addFoodReq.shop_id = AccountManager.getInstance().getShopId();
-                addFoodReq.cover = key;
+//                addFoodReq.cover = key;
+                addFoodReq.type = type == 0 ? 1 : 2;
+                addFoodReq.key = key;
                 addFoodReq.title = mEtName.getText().toString();  //名称
                 addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
                 addFoodReq.discount = mTvDiscountPrice.getText().toString();
@@ -285,7 +290,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
             public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
                 adapter.singleChoose(position);
                 cateName = adapter.getData().get(position).name;
-                cateId = adapter.getData().get(position).id+"";
+                cateId = adapter.getData().get(position).id + "";
             }
         });
 
