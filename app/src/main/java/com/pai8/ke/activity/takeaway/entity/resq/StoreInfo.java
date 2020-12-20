@@ -28,6 +28,7 @@ public class StoreInfo implements Serializable {
     public String floor_send_cost;
     public String packing_price;
     public String house_num;
+    public String send_range;
     public String address;
     public String mobile;
     public String house_number;

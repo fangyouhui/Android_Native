@@ -2,6 +2,7 @@ package com.pai8.ke.activity.me.entity.resp;
 
 import com.pai8.ke.activity.me.entity.PaginationBean;
 import com.pai8.ke.entity.User;
+import com.pai8.ke.entity.Video;
 
 import java.util.List;
 
@@ -17,16 +18,7 @@ public class FansResp {
      * pagination :  {"has_more":0,"total":5}
      */
 
-    private List<User> users;
-
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
+    private List<Video> items;
 
     private PaginationBean pagination;
 
@@ -36,5 +28,13 @@ public class FansResp {
 
     public void setPagination(PaginationBean pagination) {
         this.pagination = pagination;
+    }
+
+    public List<Video> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Video> items) {
+        this.items = items;
     }
 }

@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.me.api;
 
 import com.pai8.ke.activity.me.entity.resp.AttentionMineResp;
+import com.pai8.ke.activity.me.entity.resp.FansResp;
 import com.pai8.ke.activity.me.entity.resp.HistoryResp;
 import com.pai8.ke.activity.me.entity.resp.UserInfoResp;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
@@ -30,14 +31,20 @@ public interface MineApiService {
      * 我的粉丝列表
      * @return
      */
-    @POST("user/followMeList")
-    Observable<BaseRespose<List<MessageResp>>> getFansList(@Body RequestBody param);
+    @POST("my/fans")
+    Observable<BaseRespose<FansResp>> getFansList(@Body RequestBody param);
 
     /**
      * 我的关注
      */
     @POST("my/follow")
     Observable<BaseRespose<AttentionMineResp>> getAttentionMineList(@Body RequestBody param);
+
+    /**
+     * 获赞
+     */
+    @POST("my/zan")
+    Observable<BaseRespose<HistoryResp>> getLikesList(@Body RequestBody param);
 
 
     /**
