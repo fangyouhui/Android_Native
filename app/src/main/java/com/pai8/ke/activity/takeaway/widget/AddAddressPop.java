@@ -151,7 +151,7 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
     public void onEvent(BaseEvent event) {
         if (event.getCode() == EventCode.EVENT_CHOOSE_ADDRESS) {
             mAddress = (Address) event.getData();
-            mEtAddress.setText(mAddress.getAddress());
+            mEtAddress.setText(mAddress.getTitle());
             lat = mAddress.getLat()+"";
             lon = mAddress.getLon()+"";
 
