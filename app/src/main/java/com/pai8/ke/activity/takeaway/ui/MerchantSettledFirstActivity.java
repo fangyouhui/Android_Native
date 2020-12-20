@@ -71,10 +71,10 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     private List<String> mProvinceNameList;
     private List<List<String>> mCityNameList;
     private List<List<List<String>>> mDistrictNameList;
-    private BottomDialog mShareBottomDialog;
+    private BottomDialog mBottomDialog;
     private String mCardAddress;
     private String mCardNo;
-
+    private int mPayType = -1;
 
     @Override
     public BasePresenter initPresenter() {
@@ -191,6 +191,8 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             intent.putExtra("addressDetail", addressDetail);
             intent.putExtra("bankAddress", mCardAddress);
             intent.putExtra("bankNo", mCardNo);
+            intent.putExtra("payType", mPayType);
+            intent.putExtra("payAccount", mCardNo);
             intent.putExtra("address", mAddress);
             intent.putExtra("addressNumber", addressNumber);
             startActivity(intent);
@@ -201,7 +203,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
         View view = View.inflate(this, R.layout.view_dialog_collection_account, null);
         ViewHolder holder = new ViewHolder(view);
         holder.itnClose.setOnClickListener(view1 -> {
-            mShareBottomDialog.dismiss();
+            mBottomDialog.dismiss();
         });
         holder.btnConfirm.setOnClickListener(view1 -> {
             if (holder.cbAlipay.isChecked()) {
@@ -212,6 +214,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 }
                 mCardAddress = "支付宝账户";
                 mCardNo = cardNo;
+                mPayType = 1;
                 mTvCollectionAccount.setText(String.format("%s：%s", mCardAddress, mCardNo));
             } else if (holder.cbWechat.isChecked()) {
                 String cardNo = holder.etWechatAccount.getText().toString().trim();
@@ -221,6 +224,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 }
                 mCardAddress = "微信账户";
                 mCardNo = cardNo;
+                mPayType = 2;
                 mTvCollectionAccount.setText(String.format("%s：%s", mCardAddress, mCardNo));
             } else if (holder.cbBank.isChecked()) {
                 String cardAddress = holder.etBankAddress.getText().toString().trim();
@@ -231,6 +235,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 }
                 mCardAddress = cardAddress;
                 mCardNo = cardNo;
+                mPayType = 3;
                 mTvCollectionAccount.setText(String.format("银行卡号：%s\n开户行地址：%s", mCardNo, mCardAddress));
             } else if (holder.cbOther.isChecked()) {
                 String cardNo = holder.etOtherAccount.getText().toString().trim();
@@ -240,23 +245,24 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 }
                 mCardAddress = "指定账户";
                 mCardNo = cardNo;
+                mPayType = 4;
                 mTvCollectionAccount.setText(String.format("%s：%s", mCardAddress, mCardNo));
             } else {
                 toast("请选择收款账户");
                 return;
             }
             editListener();
-            mShareBottomDialog.dismiss();
+            mBottomDialog.dismiss();
         });
         holder.llChooseAlipayAccount.setOnClickListener(view1 -> showView(holder, true, false, false, false));
         holder.llChooseWechatAccount.setOnClickListener(view1 -> showView(holder, false, true, false, false));
         holder.llChooseBankAccount.setOnClickListener(view1 -> showView(holder, false, false, true, false));
         holder.llChooseOtherAccount.setOnClickListener(view1 -> showView(holder, false, false, false, true));
-        if (mShareBottomDialog == null) {
-            mShareBottomDialog = new BottomDialog(this, view);
+        if (mBottomDialog == null) {
+            mBottomDialog = new BottomDialog(this, view);
         }
-        mShareBottomDialog.setIsCanceledOnTouchOutside(true);
-        mShareBottomDialog.show();
+        mBottomDialog.setIsCanceledOnTouchOutside(true);
+        mBottomDialog.show();
     }
 
     private void showView(ViewHolder holder, boolean ali, boolean wechat, boolean bank, boolean other) {

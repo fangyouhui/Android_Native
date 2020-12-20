@@ -21,4 +21,6 @@ public class MerchantSettledReq {
     public String latitude;
     public String shop_video;
     public String house_number;
+    public String pay_type;
+    public String pay_account;
 }

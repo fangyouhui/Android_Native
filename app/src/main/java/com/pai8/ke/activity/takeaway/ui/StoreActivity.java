@@ -34,14 +34,20 @@ import com.pai8.ke.activity.takeaway.order.ConfirmOrderActivity;
 import com.pai8.ke.activity.takeaway.presenter.StorePresenter;
 import com.pai8.ke.activity.takeaway.utils.AddToCartUtil;
 import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.resp.ShareMiniResp;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.interfaces.contract.ShareContract;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.presenter.SharePresenter;
+import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.DensityUtils;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.WxShareUtils;
 import com.pai8.ke.widget.BottomDialog;
@@ -50,20 +56,34 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
+import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
 import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
 public class StoreActivity extends BaseMvpActivity<StorePresenter> implements View.OnClickListener,
@@ -98,6 +118,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private SharePresenter mSharePresenter;
     private BottomDialog mShareBottomDialog;
     private ShopCarPop mPop;
+    private BottomDialog mBottomDialog;
 
     public static void launch(Context context, String shopId) {
         if (StringUtils.isEmpty(shopId)) return;
@@ -288,6 +309,58 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 100) {
+            if (data != null) {
+                saveCurLocation(data.getStringExtra("lat"), data.getStringExtra("lng"),
+                        data.getStringExtra("address"));
+                mPresenter.shopContent(mShopIdReq);
+            }
+        }
+    }
+
+    void saveCurLocation(String latitude, String longitude, String address) {
+        PreferencesUtils.put(this, "latitude", latitude);
+        PreferencesUtils.put(this, "longitude", longitude);
+        PreferencesUtils.put(this, "address", address);
+    }
+
+    void showOutDistancePop() {
+        View view = View.inflate(this, R.layout.pop_out_distance, null);
+        ViewHolder holder = new ViewHolder(view);
+        holder.ivClose.setOnClickListener(view1 -> {
+            mBottomDialog.dismiss();
+            finish();
+        });
+        holder.tvAddress.setText(PreferencesUtils.getObjectFromString(this, "address"));
+        holder.tvSeeAround.setOnClickListener(view1 -> {
+            AMapLocationUtils.getLocation(location -> {
+                saveCurLocation(location.getLatitude() + "",
+                        location.getLongitude() + "", location.getAddress());
+                Address mAddress = new Address();
+                mAddress.setAddress(location.getAddress());
+                mAddress.setLat(location.getLatitude());
+                mAddress.setLon(location.getLongitude());
+                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, mAddress));
+                finish();
+                mBottomDialog.dismiss();
+            }, true);
+        });
+        holder.tvChangeAddress.setOnClickListener(view1 -> {
+            Intent intent = new Intent(this, DeliveryAddressActivity.class);
+            intent.putExtra("TYPE", 2);
+            startActivityForResult(intent, 100);
+        });
+        if (mBottomDialog == null) {
+            mBottomDialog = new BottomDialog(this, view);
+        }
+        mBottomDialog.setIsCanceledOnTouchOutside(true);
+        mBottomDialog.show();
+    }
+
     public void setPrice(List<FoodGoodInfo> mShopCarGoods) {
         int shopNum = 0;
         double toMoney = 0;
@@ -341,7 +414,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
 
     private void setData(StoreInfo mStoreInfo) {
-        if (!TextUtils.isEmpty(mStoreInfo.shop_name)) {
+        if (mStoreInfo != null && !TextUtils.isEmpty(mStoreInfo.shop_name)) {
             ImageLoadUtils.setCircularImage(this, mStoreInfo.shop_img, mIvStorePic, R.mipmap.ic_launcher);
             mTvStoreName.setText(mStoreInfo.shop_name);
             mTvScore.setText(mStoreInfo.score + "");
@@ -351,7 +424,37 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             mTvlogisticsDiscounts.setText("另需配送费￥" + mStoreInfo.send_cost);
             mTvStoreDis.setText(mStoreInfo.distance);
             ImageLoadUtils.setRectImage(this, mStoreInfo.shop_img, ivStore);
-
+            String range = mStoreInfo.send_range;
+            String distance = mStoreInfo.distance;
+            // 配送范围
+            double r;
+            // 距离
+            double d;
+            if (!StringUtils.isEmpty(distance)) {
+                if (distance.contains("km")) {
+                    String[] str = distance.split("km");
+                    d = Double.valueOf(str[0]) * 1000;
+                } else {
+                    d = Double.valueOf(distance);
+                }
+            } else {
+                d = 0;
+            }
+            if (!StringUtils.isEmpty(range)) {
+                if (range.contains("km")) {
+                    String[] str = range.split("km");
+                    r = Double.valueOf(str[0]) * 1000;
+                } else {
+                    r = Double.valueOf(range);
+                }
+            } else {
+                r = 0;
+            }
+            if (d > r) {
+                showOutDistancePop();
+            }
+        } else {
+            finish();
         }
 
     }
@@ -498,5 +601,21 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
             }
         });
+    }
+
+
+    class ViewHolder {
+        @BindView(R.id.iv_close)
+        ImageButton ivClose;
+        @BindView(R.id.tv_address)
+        TextView tvAddress;
+        @BindView(R.id.tv_see_around)
+        TextView tvSeeAround;
+        @BindView(R.id.tv_change_address)
+        TextView tvChangeAddress;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

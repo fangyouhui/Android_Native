@@ -6,8 +6,10 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.me.entity.resp.FansResp;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.entity.User;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.StringUtils;
 
 import java.util.List;
 
@@ -19,24 +21,33 @@ import androidx.annotation.Nullable;
  * @time 11:21
  * Description： 点赞adapter
  */
-public class FansAdapter extends BaseQuickAdapter<User, BaseViewHolder> {
+public class FansAdapter extends BaseQuickAdapter<Video, BaseViewHolder> {
 
-    public FansAdapter(@Nullable List<User> data) {
+    public FansAdapter(@Nullable List<Video> data) {
         super(R.layout.item_attention,data);
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder holder, User item) {
-//        holder.setText(R.id.tv_time, DateUtils.millisToTime(DateUtils.FORMAT_YYYY_MM_DD_HHMMSS,item.add_time));
-//        holder.setText(R.id.tv_title, item.nickname);
-//        ImageLoadUtils.loadImage(mContext, item.avatar, holder.getView(R.id.civ_head), R.mipmap.img_head_def);
-//        if (item.is_focus == 1) {
-//            holder.setText(R.id.tv_attention_status, "已关注");
-//            holder.setBackgroundRes(R.id.tv_attention_status, R.drawable.shape_orgin_gradient_gray);
-//        } else {
-//            holder.setText(R.id.tv_attention_status,"关注");
-//            holder.setBackgroundRes(R.id.tv_attention_status,R.drawable.shape_orgin_gradient);
-//        }
+    protected void convert(@NonNull BaseViewHolder holder, Video item) {
+        holder.setText(R.id.tv_time,  item.getCreate_time());
+
+        if (item.getUser() != null) {
+            holder.setText(R.id.tv_title, StringUtils.isEmpty(item.getUser().getNickname())
+                    ? item.getUser().getPhone() : item.getUser().getNickname());
+            ImageLoadUtils.loadImage(mContext, item.getUser().getAvatar(),
+                    holder.getView(R.id.civ_head), R.mipmap.img_head_def);
+        } else {
+            holder.setText(R.id.tv_title, "暂无");
+            holder.setImageResource(R.id.civ_head, R.mipmap.img_head_def);
+        }
+
+        if (item.getFollow_status() == 1) {
+            holder.setText(R.id.tv_attention_status, "已关注");
+            holder.setBackgroundRes(R.id.tv_attention_status, R.drawable.shape_orgin_gradient_gray);
+        } else {
+            holder.setText(R.id.tv_attention_status,"关注");
+            holder.setBackgroundRes(R.id.tv_attention_status,R.drawable.shape_orgin_gradient);
+        }
     }
 
 

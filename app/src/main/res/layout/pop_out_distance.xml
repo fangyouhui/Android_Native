@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/shape_dialog_bottom">
+
+    <ImageButton
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:padding="10dp"
+            android:src="@mipmap/ic_close_gray"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="21dp"
+            android:text="超出配送范围"
+            android:textColor="@color/color_dark_font"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+
+    <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:layout_below="@id/iv_close"
+            android:background="@color/color_white"
+            android:orientation="vertical">
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_black"
+                android:textSize="14sp"
+                android:text="无法配送至以下地址"/>
+
+        <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_light_font"
+                android:textSize="14sp"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:drawableLeft="@mipmap/ic_location_gray"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="20dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:textSize="16sp"
+                    android:text="查看附近店铺"
+                    android:background="@drawable/btn_selector_stroke_white"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/tv_see_around"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="30dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:layout_marginStart="20dp"
+                    android:textSize="16sp"
+                    android:text="更换收货地址"
+                    android:background="@drawable/btn_selector_linear_radius"
+                    android:textColor="@color/white"
+                    android:id="@+id/tv_change_address"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+

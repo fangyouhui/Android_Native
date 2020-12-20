@@ -27,9 +27,15 @@ public class ShopHistoryAdapter extends BaseQuickAdapter<Video, BaseViewHolder> 
     protected void convert(@NonNull BaseViewHolder holder, Video item) {
         ImageLoadUtils.loadImage(mContext, item.getCover_path(), holder.getView(R.id.iv_cover), R.color.colorPrimary);
         holder.setText(R.id.tv_look_count,item.getLook_counts() + "");
-        holder.setText(R.id.tv_name,item.getUser().getNickname());
-        ImageLoadUtils.loadImage(mContext, item.getUser().getAvatar(), holder.getView(R.id.civ_avatar),
-                R.mipmap.img_head_def);
+
+        if(item.getUser() != null){
+            holder.setText(R.id.tv_name,item.getUser().getNickname());
+            ImageLoadUtils.loadImage(mContext, item.getUser().getAvatar(), holder.getView(R.id.civ_avatar),
+                    R.mipmap.img_head_def);
+        }else {
+            holder.setText(R.id.tv_name,"暂无");
+            holder.setImageResource(R.id.civ_avatar, R.mipmap.img_head_def);
+        }
         holder.setText(R.id.tv_title,item.getVideo_desc());
         if (StringUtils.isNotEmpty(item.getDistance())) {
             holder.setGone(R.id.tv_tag_dist,true);
