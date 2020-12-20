@@ -9,6 +9,7 @@ import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.resp.AttentionResp;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.VideoResp;
+import com.pai8.ke.manager.AccountManager;
 
 import java.util.List;
 
@@ -44,6 +45,10 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
 
     @Override
     public void follow(Video video) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.login();
+            return;
+        }
         if (video == null) return;
         view.showProgress(null);
         Api.getInstance().attention(video.getUser().getId())
@@ -69,6 +74,10 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
 
     @Override
     public void like(Video video) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.login();
+            return;
+        }
         if (video == null) return;
         view.showProgress(null);
         Api.getInstance().like(video.getId())
@@ -114,6 +123,10 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
      */
     @Override
     public void commentVideo(Video video, String content) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.login();
+            return;
+        }
         if (video == null) return;
         view.showProgress(null);
         Api.getInstance().comment(video.getId(), "0", content)
@@ -144,6 +157,10 @@ public class VideoPresenter extends BasePresenterImpl<VideoContract.View> implem
      */
     @Override
     public void comment(Video video, String pid, String content) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.login();
+            return;
+        }
         if (video == null) return;
         view.showProgress(null);
         Api.getInstance().comment(video.getId(), pid, content)

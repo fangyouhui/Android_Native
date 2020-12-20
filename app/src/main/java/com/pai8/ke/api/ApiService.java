@@ -15,6 +15,7 @@ import com.pai8.ke.entity.resp.ShareMiniResp;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.entity.UserInfo;
+import com.pai8.ke.entity.resp.VersionResp;
 import com.pai8.ke.entity.resp.VideoListResp;
 import com.pai8.ke.entity.resp.VideoNearResp;
 import com.pai8.ke.entity.Video;
@@ -85,6 +86,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("user/getInfoByUid")
     Observable<BaseRespose<UserInfo>> getUserInfoById(@Field("uid") String uid);
+
+    @POST("system/checkUpgrade")
+    Observable<BaseRespose<VersionResp>> checkUpgrade();
 
     //****************************视频模块********************************
 

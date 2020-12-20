@@ -9,6 +9,7 @@ import com.pai8.ke.entity.resp.VideoListResp;
 import com.pai8.ke.entity.Video;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.EventBusUtils;
 
@@ -41,14 +42,13 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
+                        view.showSucessPage();
                         List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            view.videoList(videos, tag);
+                            if (CollectionUtils.isEmpty(videos)) view.showEmptyPage();
                         }
-                        if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(videos, tag);
-                        }
+                        view.videoList(videos, tag);
                         if (data.getPagination().noMore()) {
                             view.setNoMore();
                         }
@@ -73,14 +73,13 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
+                        view.showSucessPage();
                         List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            view.videoList(videos, tag);
+                            if (CollectionUtils.isEmpty(videos)) view.showEmptyPage();
                         }
-                        if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(videos, tag);
-                        }
+                        view.videoList(videos, tag);
                         if (data.getPagination().noMore()) {
                             view.setNoMore();
                         }
@@ -96,6 +95,11 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
 
     @Override
     public void follow(int page, int tag) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.refreshComplete();
+            view.loginView();
+            return;
+        }
         Api.getInstance().follow(page, GlobalConstants.PAGE_SIZE)
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -105,14 +109,13 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
+                        view.showSucessPage();
                         List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            view.videoList(videos, tag);
+                            if (CollectionUtils.isEmpty(videos)) view.showEmptyPage();
                         }
-                        if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(videos, tag);
-                        }
+                        view.videoList(videos, tag);
                         if (data.getPagination().noMore()) {
                             view.setNoMore();
                         }
@@ -128,6 +131,11 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
 
     @Override
     public void myVideo(int page, int tag) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.refreshComplete();
+            view.loginView();
+            return;
+        }
         Api.getInstance().myVideo(page, GlobalConstants.PAGE_SIZE)
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -137,14 +145,13 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
+                        view.showSucessPage();
                         List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            view.videoList(videos, tag);
+                            if (CollectionUtils.isEmpty(videos)) view.showEmptyPage();
                         }
-                        if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(videos, tag);
-                        }
+                        view.videoList(videos, tag);
                         if (data.getPagination().noMore()) {
                             view.setNoMore();
                         }
@@ -160,6 +167,11 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
 
     @Override
     public void myLike(int page, int tag) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.refreshComplete();
+            view.loginView();
+            return;
+        }
         Api.getInstance().myLike(page, GlobalConstants.PAGE_SIZE)
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -169,14 +181,13 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
+                        view.showSucessPage();
                         List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {
-                            view.videoList(videos, tag);
+                            if (CollectionUtils.isEmpty(videos)) view.showEmptyPage();
                         }
-                        if (tag == GlobalConstants.LOADMORE) {
-                            view.videoList(videos, tag);
-                        }
+                        view.videoList(videos, tag);
                         if (data.getPagination().noMore()) {
                             view.setNoMore();
                         }
@@ -201,9 +212,7 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     @Override
                     protected void onSuccess(VideoListResp data) {
                         view.refreshComplete();
-                        if (data == null) {
-
-                        }
+                        view.showSucessPage();
                         List<Video> videos = data.getItems();
                         setPageNo(videos, page);
                         if (tag == GlobalConstants.REFRESH) {

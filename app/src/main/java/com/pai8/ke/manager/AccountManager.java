@@ -2,8 +2,12 @@ package com.pai8.ke.manager;
 
 
 import com.pai8.ke.app.MyApp;
+import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.entity.event.LoginStatusEvent;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.UserInfo;
+import com.pai8.ke.global.EventCode;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
 
@@ -96,6 +100,8 @@ public class AccountManager {
      */
     public void logout() {
         clearUserInfo();
+        EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_LOGIN_STATUS,
+                new LoginStatusEvent(LoginStatusEvent.LOGOUT)));
         ActivityManager.getInstance().finishToHome();
     }
 

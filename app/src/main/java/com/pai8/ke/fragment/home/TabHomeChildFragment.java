@@ -4,12 +4,14 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.home.ClassifyActivity;
 import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
 import com.pai8.ke.activity.video.tiktok.TikTokActivity;
@@ -18,8 +20,8 @@ import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.event.LoginStatusEvent;
 import com.pai8.ke.entity.event.VideoItemRefreshEvent;
-import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.presenter.VideoHomePresenter;
 import com.pai8.ke.utils.AMapLocationUtils;
@@ -36,6 +38,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 import static com.pai8.ke.app.MyApp.getMyAppHandler;
+import static com.pai8.ke.global.EventCode.EVENT_LOGIN_STATUS;
 import static com.pai8.ke.global.EventCode.EVENT_VIDEO_ITEM;
 import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 import static com.pai8.ke.global.GlobalConstants.LOADMORE;
@@ -47,6 +50,12 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
     LuRecyclerView lrv;
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout srLayout;
+    @BindView(R.id.layout_empty_view)
+    View mStateEmpty;
+    @BindView(R.id.layout_login_view)
+    View mStateLogin;
+    @BindView(R.id.btn_login)
+    Button btnLogin;
 
     private LuRecyclerViewAdapter mLRvAdapter;
     private HomeAdapter mAdapter;
@@ -74,11 +83,14 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
             case EVENT_VIDEO_LIST_REFRESH:
                 onRefresh();
                 break;
+            case EVENT_LOGIN_STATUS:
+                onRefresh();
+                break;
             case EVENT_VIDEO_ITEM:
                 try {
                     mRefreshEvent = (VideoItemRefreshEvent) event.getData();
                     mAdapter.getDataList().set(mRefreshEvent.getPosition(), mRefreshEvent.getVideo());
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -201,6 +213,9 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
             TikTokActivity.launch(getActivity(), mAdapter.getDataList(), videoResp.getPage(), position
                     , mPosition);
         });
+        btnLogin.setOnClickListener(view -> {
+            launch(LoginActivity.class);
+        });
 
     }
 
@@ -271,9 +286,9 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
 
     @Override
     public void videoList(List<Video> data, int tag) {
-        if (tag == GlobalConstants.REFRESH) {
+        if (tag == REFRESH) {
             mAdapter.setDataList(data);
-        } else if (tag == GlobalConstants.LOADMORE) {
+        } else if (tag == LOADMORE) {
             mAdapter.addAll(data);
         }
         lrv.refreshComplete(data.size());
@@ -285,4 +300,21 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
 
     }
 
+    @Override
+    public void loginView() {
+        mStateEmpty.setVisibility(View.INVISIBLE);
+        mStateLogin.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showEmptyPage() {
+        mStateEmpty.setVisibility(View.VISIBLE);
+        mStateLogin.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showSucessPage() {
+        mStateEmpty.setVisibility(View.INVISIBLE);
+        mStateLogin.setVisibility(View.INVISIBLE);
+    }
 }

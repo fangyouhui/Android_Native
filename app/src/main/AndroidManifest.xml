@@ -221,12 +221,25 @@
             android:screenOrientation="portrait" />
 
         <activity
-                android:name=".exception.CustomErrorActivity"
-                android:process=":error_activity">
+            android:name=".exception.CustomErrorActivity"
+            android:process=":error_activity">
             <intent-filter>
                 <action android:name="cat.ereza.customactivityoncrash.ERROR" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".utils.MyProvider"
+            android:authorities="${applicationId}.util.MyProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <service android:name=".manager.UpdateAppManager" />
 
         <!-- **************************************高德定位********************************************** -->
         <service android:name="com.amap.api.location.APSService" />

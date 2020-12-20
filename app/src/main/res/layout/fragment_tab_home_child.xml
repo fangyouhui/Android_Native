@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sr_layout"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.jdsjlzx.recyclerview.LuRecyclerView
-        android:id="@+id/l_rv"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sr_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white" />
+        android:layout_height="match_parent">
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <com.github.jdsjlzx.recyclerview.LuRecyclerView
+            android:id="@+id/l_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <include
+        android:id="@+id/layout_empty_view"
+        layout="@layout/layout_empty_view"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/layout_login_view"
+        layout="@layout/layout_login_view"
+        android:visibility="gone" />
+</androidx.constraintlayout.widget.ConstraintLayout>

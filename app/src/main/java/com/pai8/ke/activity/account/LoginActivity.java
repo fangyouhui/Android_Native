@@ -21,12 +21,14 @@ import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.event.LoginStatusEvent;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.AppUtils;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -215,7 +217,8 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             dismissLoadingDialog();
             toast("登录成功");
             mAccountManager.saveUserInfo(userInfo);
-            launch(MainActivity.class);
+            EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_LOGIN_STATUS,
+                    new LoginStatusEvent(LoginStatusEvent.LOGIN)));
             finish();
         }
 

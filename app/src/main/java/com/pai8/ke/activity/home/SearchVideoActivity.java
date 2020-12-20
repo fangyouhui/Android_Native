@@ -235,6 +235,11 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
     }
 
     @Override
+    public void loginView() {
+
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in_search, R.anim.no_anim);

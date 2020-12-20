@@ -37,11 +37,7 @@ public class SplashActivity extends BaseActivity {
 
     private void router() {
         MyApp.getMyAppHandler().postDelayed(() -> {
-            if (mAccountManager.isLogin()) {
-                launch(MainActivity.class);
-            } else {
-                launch(LoginActivity.class);
-            }
+            launch(MainActivity.class);
             finish();
         }, 2000);
     }

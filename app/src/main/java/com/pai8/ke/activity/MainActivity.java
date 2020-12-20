@@ -3,20 +3,24 @@ package com.pai8.ke.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
+import android.view.View;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.next.easynavigation.view.EasyNavigationBar;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.video.ChatActivity;
 import com.pai8.ke.activity.video.VideoPublishActivity;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.MyInfoResp;
+import com.pai8.ke.entity.resp.VersionResp;
 import com.pai8.ke.fragment.home.TabHomeFragment;
 import com.pai8.ke.fragment.me.TabMeFragment;
 import com.pai8.ke.fragment.msg.TabMsgFragment;
@@ -24,7 +28,10 @@ import com.pai8.ke.fragment.pai.TabCameraFragment;
 import com.pai8.ke.fragment.shop.TabShopFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
 import com.pai8.ke.global.EventCode;
+import com.pai8.ke.interfaces.contract.VersionContract;
 import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.manager.UpdateAppManager;
+import com.pai8.ke.presenter.VersionPresenter;
 import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.LogUtils;
@@ -37,7 +44,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseMvpActivity<VersionContract.Presenter> implements VersionContract.View {
 
     //未选中icon
     private int[] normalIcon = {R.mipmap.icon_tabbar_home_normal, R.mipmap.icon_tabbar_shopping_normal,
@@ -108,8 +115,24 @@ public class MainActivity extends BaseActivity {
                 .centerIconSize(60)
                 .navigationHeight(55)
                 .setOnCenterTabClickListener(view -> {
-                    launch(VideoPublishActivity.class);
+                    launchInterceptLogin(VideoPublishActivity.class);
                     return true;
+                })
+                .setOnTabClickListener(new EasyNavigationBar.OnTabClickListener() {
+                    @Override
+                    public boolean onTabSelectEvent(View view, int position) {
+                        if (position == 2 && !mAccountManager.isLogin()) {
+                            launch(LoginActivity.class);
+                            return true;
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onTabReSelectEvent(View view, int position) {
+                        //Tab重复点击事件
+                        return false;
+                    }
                 })
                 .build();
 
@@ -118,7 +141,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initData() {
         getShopInfo();
-        MyApp.getMyAppHandler().postDelayed(() -> MyApp.setJPushAlias(), 1000);
+        MyApp.getMyAppHandler().postDelayed(() -> {
+            MyApp.setJPushAlias();
+            mPresenter.getVersion();
+        }, 1000);
     }
 
     @Override
@@ -160,4 +186,13 @@ public class MainActivity extends BaseActivity {
         AMapLocationUtils.destroy();
     }
 
+    @Override
+    public VersionContract.Presenter initPresenter() {
+        return new VersionPresenter(this);
+    }
+
+    @Override
+    public void showUpdateDialog(VersionResp data) {
+        UpdateAppManager.showUpdateDialog(this, data);
+    }
 }

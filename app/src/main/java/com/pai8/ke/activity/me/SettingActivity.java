@@ -55,8 +55,7 @@ public class SettingActivity extends BaseActivity {
                         .setMessage("确认退出当前登录？")
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确认", (dialog, which) -> {
-                            AccountManager.getInstance().clearUserInfo();
-                            ActivityManager.getInstance().finishAllActivity();
+                            AccountManager.getInstance().logout();
                             launch(LoginActivity.class);
                         })
                         .show();

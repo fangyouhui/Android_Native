@@ -299,6 +299,7 @@ public class VideoEditActivity extends AppCompatActivity implements
 //            }
             // 单个混合音频
             if (audioFile == null) return;
+            mMainAudioFileAdded = true;
             // 设置混音的起始和结束位置
             mShortVideoEditor.setAudioMixFileRange(startTime, endTime);
             // 设置混音是否循环
@@ -350,7 +351,7 @@ public class VideoEditActivity extends AppCompatActivity implements
                 }
             });
         }
-        mVolumeSettingBottomView.setMusicVolumeSettingEnabled(mMixAudioFileMap != null && mMixAudioFileMap.size() > 0);
+        mVolumeSettingBottomView.setMusicVolumeSettingEnabled(mMainAudioFileAdded);
         mViewOperator.showBottomView(mVolumeSettingBottomView);
         mIsVolumeSetting = true;
     }
