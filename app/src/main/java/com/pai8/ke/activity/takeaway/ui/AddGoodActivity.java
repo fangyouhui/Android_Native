@@ -226,7 +226,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                 }
                 addFoodReq.shop_id = AccountManager.getInstance().getShopId();
 //                addFoodReq.cover = key;
-                addFoodReq.type = type == 0 ? 1 : 2;
+                addFoodReq.type = uploadType;
                 addFoodReq.key = key;
                 addFoodReq.title = mEtName.getText().toString();  //名称
                 addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
@@ -328,6 +328,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
 
     }
 
+    public int uploadType;
 
     private void setPic(Intent data, int type) {
         String path = "";
@@ -342,10 +343,12 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
         if (type == 0) {  //图片
             ImageLoadUtils.setRectImage(this, path, mIvCover);
             mFoodPath = path;
+            uploadType = 1;
 
         } else if (type == 1) {
             ImageLoadUtils.setRectImage(this, path, mIvCover);
             mFoodPath = path;
+            uploadType = 2;
         }
 
     }

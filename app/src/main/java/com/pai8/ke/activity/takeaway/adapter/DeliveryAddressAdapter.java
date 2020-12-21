@@ -35,7 +35,7 @@ public class DeliveryAddressAdapter extends BaseQuickAdapter<AddressInfo, BaseVi
     @Override
     protected void convert(@NonNull BaseViewHolder helper, AddressInfo item) {
         helper.setText(R.id.tv_name,item.linkman+"     "+item.phone);
-        helper.setText(R.id.tv_address,item.address);
+        helper.setText(R.id.tv_address,item.address+item.house_number);
         helper.addOnClickListener(R.id.tv_status);
 
         if (mType == 0) {

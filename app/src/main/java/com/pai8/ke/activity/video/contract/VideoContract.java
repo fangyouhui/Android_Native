@@ -12,6 +12,8 @@ public interface VideoContract {
 
     interface View extends BaseView {
 
+        void login();
+        
         void getComments(List<CommentResp> data);
 
         void newVideo(Video video, boolean refreshPage);

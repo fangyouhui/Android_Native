@@ -13,6 +13,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.activity.video.ChatActivity;
 import com.pai8.ke.activity.video.ReportActivity;
@@ -632,6 +633,10 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
      * @param type 0 1 2
      */
     private void showCommentInputDialog(int type, CommentResp comment, Comments comments) {
+        if (!mAccountManager.isLogin()) {
+            launch(LoginActivity.class);
+            return;
+        }
         String hint = "";
         if (type == 1) {
             hint = comment.getUser_nickname();
@@ -748,6 +753,16 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
     @Override
     public void deleteVideo(String videoId) {
         finish();
+    }
+
+    @Override
+    public void loginView() {
+
+    }
+
+    @Override
+    public void login() {
+        launch(LoginActivity.class);
     }
 
     @Override

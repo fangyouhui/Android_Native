@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.common.ScanActivity;
 import com.pai8.ke.activity.home.SearchVideoActivity;
 import com.pai8.ke.activity.video.fragment.InputCommentDialogFragment;
@@ -71,6 +72,23 @@ public class TabHomeFragment extends BaseFragment {
         viewPager.setAdapter(mTabAdapter);
         viewPager.setCurrentItem(1);
         TabCreateUtils.setHomeTab(getActivity(), magicIndicator, viewPager, mTitles);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -87,10 +105,18 @@ public class TabHomeFragment extends BaseFragment {
                 launch(SearchVideoActivity.class);
                 break;
             case R.id.iv_liwu:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    launch(LoginActivity.class);
+                    return;
+                }
                 CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance();
                 newInstance.show(getChildFragmentManager(), "CouponGetDialog");
                 break;
             case R.id.iv_scan:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    launch(LoginActivity.class);
+                    return;
+                }
                 new IntentIntegrator(getActivity())
                         .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
                         .setPrompt("请对准二维码进行扫描")

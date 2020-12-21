@@ -25,6 +25,7 @@ public class TabMsgPresenter extends BasePresenterImpl<TabMsgContract.View> {
     }
 
     public void reqMessageList(){
+        if (!AccountManager.getInstance().isLogin()) return;
         HashMap<String,Object> map = new HashMap<>(1);
         map.put("user_id", AccountManager.getInstance().getUid());
         MessageApi.getInstance().getMsgCount(createRequestBody(map))

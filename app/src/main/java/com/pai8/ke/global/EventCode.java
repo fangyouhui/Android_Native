@@ -22,4 +22,8 @@ public interface EventCode {
     int EVENT_HOME_TAB = 0xff8;
     int EVENT_VIDEO_LIST_REFRESH = 0xff9;
     int EVENT_VIDEO_ITEM = 0xff0A;
+    // 登录状态
+    int EVENT_LOGIN_STATUS = 0xff0b;
+    // 版本更新
+    int EVENT_UPDATE = 0xff0c;
 }

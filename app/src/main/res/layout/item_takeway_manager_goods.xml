@@ -19,10 +19,9 @@
     <LinearLayout
         android:layout_toEndOf="@+id/item_goods_iv_goods"
         android:id="@+id/item_goods_ll"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_marginStart="12dp"
-        android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:orientation="vertical">
 
@@ -49,7 +48,7 @@
                 android:id="@+id/item_tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="88"
+                android:text="888888888"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
@@ -58,8 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="88000"
-                android:textColor="@color/color_mid_font"
-                android:textSize="12sp" />
+                android:textColor="@color/color_light_font"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 

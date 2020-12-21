@@ -37,6 +37,7 @@ import com.pai8.ke.global.EventCode;
 import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
 import com.pai8.ke.manager.UploadFileManager;
+import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.EventBusUtils;
@@ -105,6 +106,21 @@ public class TabMeFragment extends BaseFragment {
     private BottomDialog mShareModifyBottomDialog;
     private BottomDialog mShareBottomDialog;
     private String mShareImgUrl;
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected void receiveEvent(BaseEvent event) {
+        super.receiveEvent(event);
+        switch (event.getCode()) {
+            case EventCode.EVENT_LOGIN_STATUS:
+                initUserInfo();
+                break;
+        }
+    }
 
     @Override
     protected int getLayoutId() {
@@ -308,6 +324,7 @@ public class TabMeFragment extends BaseFragment {
             case R.id.tv_nick_name:
                 if (!mActivity.mAccountManager.isLogin()) {
                     launch(LoginActivity.class);
+                    return;
                 }
                 break;
             case R.id.iv_btn_edit:
@@ -318,6 +335,10 @@ public class TabMeFragment extends BaseFragment {
                 startActivityForResult(new Intent(mActivity, EditPersonalInfoActivity.class), 100);
                 break;
             case R.id.iv_btn_msg:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    launch(LoginActivity.class);
+                    return;
+                }
                 EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
                 break;
             case R.id.ll_like_count:
@@ -350,10 +371,18 @@ public class TabMeFragment extends BaseFragment {
                 launchInterceptLogin(DeliveryAddressActivity.class);
                 break;
             case R.id.tv_btn_coupon:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    launch(LoginActivity.class);
+                    return;
+                }
                 //优惠券
                 CouponListActivity.launch(getActivity(), CouponListActivity.INTENT_TYPE_CAN_USE);
                 break;
             case R.id.tv_btn_invite:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    launch(LoginActivity.class);
+                    return;
+                }
                 share();
                 break;
             case R.id.tv_btn_feedback:
@@ -364,6 +393,11 @@ public class TabMeFragment extends BaseFragment {
                 ReportActivity.launchFeedBack(getActivity());
                 break;
             case R.id.tv_btn_contact_us:
+                if (!mActivity.mAccountManager.isLogin()) {
+                    launch(LoginActivity.class);
+                    return;
+                }
+                AppUtils.intentCallPhone(getActivity(), "18068446996");
                 break;
             case R.id.tv_btn_setting:
                 launchInterceptLogin(SettingActivity.class);

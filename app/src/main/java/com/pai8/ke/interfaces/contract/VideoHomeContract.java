@@ -19,6 +19,8 @@ public interface VideoHomeContract {
 
         void deleteVideo(String videoId);
 
+        void loginView();
+
     }
 
 

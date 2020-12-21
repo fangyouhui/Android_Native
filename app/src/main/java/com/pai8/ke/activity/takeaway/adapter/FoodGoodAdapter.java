@@ -1,6 +1,8 @@
 package com.pai8.ke.activity.takeaway.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -68,6 +70,9 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         TextView tvNum;
         ImageView ivGoods;
         TextView tvPrice;
+        TextView tvSale;
+        TextView tvLike;
+        TextView tvPriceDiscount;  //折扣价
 
         public ClassifyHolder(View itemView, int type, RvListener listener) {
             super(itemView, type, listener);
@@ -82,6 +87,10 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     ivGoods = itemView.findViewById(R.id.item_goods_iv_goods);
                     tvTitle = itemView.findViewById(R.id.item_goods_tv_name);
                     tvPrice = itemView.findViewById(R.id.item_tv_price);
+                    tvSale  = itemView.findViewById(R.id.item_tv_month_seller);
+                    tvLike = itemView.findViewById(R.id.item_tv_fabulous);
+                    tvPriceDiscount = itemView.findViewById(R.id.item_tv_price_discount);
+
                     break;
             }
 
@@ -97,6 +106,16 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                 case 1:
                     tvTitle.setText(food.title);
                     tvPrice.setText(food.sell_price);
+                    tvSale.setText("月售 "+food.month_sale_count);
+                    tvLike.setText("赞 "+food.like_count);
+                    if(TextUtils.isEmpty(food.discount)||TextUtils.equals(food.discount,"0")){
+                        tvPriceDiscount.setVisibility(View.GONE);
+                    }else{
+                        tvPriceDiscount.setVisibility(View.VISIBLE);
+                        tvPriceDiscount.setText(food.discount);
+                        tvPriceDiscount.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+                    }
+
                     ImageLoadUtils.setCircularImage(mContext,food.cover,ivGoods,R.mipmap.ic_launcher);
                     if (goodInfoList != null && goodInfoList.size() > 0) {
                         int num = 0;

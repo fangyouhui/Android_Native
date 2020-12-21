@@ -72,20 +72,31 @@
             <TextView
                 android:id="@+id/item_tv"
                 android:layout_width="wrap_content"
-                android:text="￥"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:text="￥"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/item_tv_price"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/item_tv"
                 android:text="88"
-                android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
 
+            <TextView
+                android:id="@+id/item_tv_price_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_alignBaseline="@+id/item_tv_price"
+                android:layout_toEndOf="@+id/item_tv_price"
+                android:text="0"
+                android:textColor="@color/color_light_font"
+                android:textSize="14sp" />
 
         </RelativeLayout>
     </LinearLayout>
