@@ -18,7 +18,7 @@ public class FansResp {
      * pagination :  {"has_more":0,"total":5}
      */
 
-    private List<Video> items;
+    private List<Video> users;
 
     private PaginationBean pagination;
 
@@ -30,11 +30,11 @@ public class FansResp {
         this.pagination = pagination;
     }
 
-    public List<Video> getItems() {
-        return items;
+    public List<Video> getUsers() {
+        return users;
     }
 
-    public void setItems(List<Video> items) {
-        this.items = items;
+    public void setUsers(List<Video> users) {
+        this.users = users;
     }
 }

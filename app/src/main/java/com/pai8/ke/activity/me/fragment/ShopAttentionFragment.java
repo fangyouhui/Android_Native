@@ -50,6 +50,7 @@ public class ShopAttentionFragment extends BaseMvpFragment<AttentionMinePresente
         mAdapter = new AttentionMineAdapter(mList);
         rvShopAttention.setLayoutManager(new LinearLayoutManager(mActivity));
         rvShopAttention.setHasFixedSize(true);
+        mAdapter.setOnLoadMoreListener(this,rvShopAttention);
         mAdapter.setEnableLoadMore(true);
         mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(mActivity));
         rvShopAttention.setAdapter(mAdapter);
@@ -76,13 +77,15 @@ public class ShopAttentionFragment extends BaseMvpFragment<AttentionMinePresente
     @Override
     public void getAttentionMineSuccess(int total,List<User> data) {
         if (data != null) {
-            if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.loadMoreComplete();
-            }
             if (page == 1) {
                 mAdapter.replaceData(data);
             } else {
                 mAdapter.addData(data);
+            }
+            if (data.size() < GlobalConstants.SIZE) {
+                mAdapter.loadMoreEnd();
+            }else {
+                mAdapter.loadMoreComplete();
             }
         }
     }

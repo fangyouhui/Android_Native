@@ -5,6 +5,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.entity.resp.CouponResp;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
@@ -13,11 +14,13 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.CouponGetListResp;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.AppUtils;
+import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.PickerUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.BottomDialog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,13 +55,13 @@ public class AddCouponActivity extends BaseActivity {
     @BindView(R.id.tv_choose_type)
     TextView tvChooseType;
     private int numType;
-    private String num = "0";
+    private int num = 0;
 
     private BottomDialog mChooseBottomDialog;
 
     public static final int TYPE_ADD = 1;
     public static final int TYPE_EDIT = 2;
-    private CouponGetListResp mCouponGetList;
+    private CouponResp.CouponListBean mCouponGetList;
     private OptionsPickerView mPvType;
     private int mOptions = -1;
 
@@ -77,11 +80,11 @@ public class AddCouponActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    public static void launchEdit(Context context, CouponGetListResp couponGetListResp) {
+    public static void launchEdit(Context context, CouponResp.CouponListBean bean) {
         Intent intent = new Intent(context, AddCouponActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("type", TYPE_EDIT);
-        intent.putExtra("couponGetListResp", couponGetListResp);
+        intent.putExtra("couponGetListResp", bean);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
@@ -91,11 +94,12 @@ public class AddCouponActivity extends BaseActivity {
         return R.layout.activity_add_coupon;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void initView() {
         Bundle extras = getIntent().getExtras();
         mType = extras.getInt("type");
-        mCouponGetList = (CouponGetListResp) extras.getSerializable("couponGetListResp");
+        mCouponGetList = (CouponResp.CouponListBean) extras.getSerializable("couponGetListResp");
 
         if (mType == TYPE_ADD) {
             mTitleBar.setTitle("创建优惠券");
@@ -107,10 +111,10 @@ public class AddCouponActivity extends BaseActivity {
                 tvChooseType.setText("运费抵扣券");
             }
             num = mCouponGetList.getNum();
-            tvChooseTime.setText("");
+            tvChooseTime.setText(String.format("%d天", (mCouponGetList.getEnd_time() - mCouponGetList.getAdd_time()) / (60 * 60 * 24)));
             etPrice.setText(mCouponGetList.getDis_price());
             etFull.setText(mCouponGetList.getTrig_price());
-            tvChooseNum.setText(StringUtils.equals(num, "0") ? "无限制" : num);
+            tvChooseNum.setText(num == 0 ? "无限制" : num + "");
         }
     }
 
@@ -193,7 +197,7 @@ public class AddCouponActivity extends BaseActivity {
                 if (mType == TYPE_ADD) {
                     Api.getInstance().addCoupon(mAccountManager.getShopId(), StringUtils.getEditText(etPrice),
                             StringUtils.getEditText(etFull), StringUtils.getTextView(tvChooseTime).replace(
-                                    "天", ""), String.valueOf(mOptions + 1), num)
+                                    "天", ""), String.valueOf(mOptions + 1), num + "")
                             .doOnSubscribe(disposable -> {
                             })
                             .compose(RxSchedulers.io_main())
@@ -213,10 +217,10 @@ public class AddCouponActivity extends BaseActivity {
                                 }
                             });
                 } else {
-                    Api.getInstance().editCoupon(mCouponGetList.getId(), mAccountManager.getShopId(),
+                    Api.getInstance().editCoupon(mCouponGetList.getId() + "", mAccountManager.getShopId(),
                             StringUtils.getEditText(etPrice),
                             StringUtils.getEditText(etFull), StringUtils.getTextView(tvChooseTime).replace(
-                                    "天", ""), "1", num)
+                                    "天", ""), "1", num + "")
                             .doOnSubscribe(disposable -> {
                             })
                             .compose(RxSchedulers.io_main())
@@ -243,9 +247,10 @@ public class AddCouponActivity extends BaseActivity {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void choose() {
         numType = 1;
-        num = "0";
+        num = 0;
         View view = View.inflate(this, R.layout.view_dialog_publish_coupon_list, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);
         TextView tvBtnSubmit = view.findViewById(R.id.tv_btn_submit);
@@ -271,11 +276,11 @@ public class AddCouponActivity extends BaseActivity {
         });
         tvBtnSubmit.setOnClickListener(view1 -> {
             if (numType == 1) {
-                num = "0";
+                num = 0;
                 tvChooseNum.setText("无限制");
             } else {
-                num = StringUtils.getEditText(et_num);
-                tvChooseNum.setText(num);
+                num = Integer.valueOf(StringUtils.getEditText(et_num));
+                tvChooseNum.setText(String.format("%d", num));
             }
             mChooseBottomDialog.dismiss();
         });

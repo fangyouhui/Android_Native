@@ -53,6 +53,7 @@ public class SysMessageActivity extends BaseMvpActivity<SysMessagePresenter> imp
         mAdapter = new SysMessageAdapter(mList);
         rvSysMessage.setLayoutManager(new LinearLayoutManager(this));
         rvSysMessage.setHasFixedSize(true);
+        mAdapter.setOnLoadMoreListener(this,rvSysMessage);
         mAdapter.setEnableLoadMore(true);
         mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(this));
         rvSysMessage.setAdapter(mAdapter);
@@ -92,8 +93,11 @@ public class SysMessageActivity extends BaseMvpActivity<SysMessagePresenter> imp
             } else {
                 mAdapter.addData(data);
             }
+
             if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.setEnableLoadMore(false);
+                mAdapter.loadMoreEnd();
+            }else {
+                mAdapter.loadMoreComplete();
             }
         }
     }
@@ -116,7 +120,6 @@ public class SysMessageActivity extends BaseMvpActivity<SysMessagePresenter> imp
     @Override
     public void onRefresh() {
         page = 1;
-        mAdapter.setEnableLoadMore(true);
         mPresenter.reqMessageList(page);
     }
 

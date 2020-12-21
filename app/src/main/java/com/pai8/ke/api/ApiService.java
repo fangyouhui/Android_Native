@@ -1,5 +1,6 @@
 package com.pai8.ke.api;
 
+import com.pai8.ke.activity.me.entity.resp.CouponResp;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
@@ -344,8 +345,8 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Coupon/shopCouponList")
-    Observable<BaseRespose<List<CouponGetListResp>>> shopCouponList(@Field("shop_id") String shop_id,
-                                                                    @Field("buyer_id") String buyer_id);
+    Observable<BaseRespose<CouponResp>> shopCouponList(@Field("shop_id") String shop_id,
+                                                       @Field("buyer_id") String buyer_id);
 
     /**
      * 领取

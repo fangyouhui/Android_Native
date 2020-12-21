@@ -54,6 +54,7 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
         rvFans.setLayoutManager(new LinearLayoutManager(this));
         rvFans.setHasFixedSize(true);
         mAdapter.setEnableLoadMore(true);
+        mAdapter.setOnLoadMoreListener(this,rvFans);
         mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(this));
         rvFans.setAdapter(mAdapter);
     }
@@ -113,13 +114,15 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
             mTitleBar.setTitle("粉丝(" + total + ")");
         }
         if (data != null) {
-            if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.loadMoreComplete();
-            }
             if (page == 1) {
                 mAdapter.replaceData(data);
             } else {
                 mAdapter.addData(data);
+            }
+            if (data.size() < GlobalConstants.SIZE) {
+                mAdapter.loadMoreEnd();
+            }else {
+                mAdapter.loadMoreComplete();
             }
         }
     }

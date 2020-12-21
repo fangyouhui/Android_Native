@@ -51,6 +51,7 @@ public class ReceiveLikesActivity extends BaseMvpActivity<ReceiveLikesPresenter>
         mAdapter = new ReceiveLikesAdapter(mList);
         rvReceiveLikes.setLayoutManager(new LinearLayoutManager(this));
         rvReceiveLikes.setHasFixedSize(true);
+        mAdapter.setOnLoadMoreListener(this,rvReceiveLikes);
         mAdapter.setEnableLoadMore(true);
         mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(this));
         rvReceiveLikes.setAdapter(mAdapter);
@@ -101,13 +102,15 @@ public class ReceiveLikesActivity extends BaseMvpActivity<ReceiveLikesPresenter>
             mTitleBar.setTitle("获赞(" + total + ")");
         }
         if (data != null) {
-            if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.loadMoreComplete();
-            }
             if (page == 1) {
                 mAdapter.replaceData(data);
             } else {
                 mAdapter.addData(data);
+            }
+            if (data.size() < GlobalConstants.SIZE) {
+                mAdapter.loadMoreEnd();
+            }else {
+                mAdapter.loadMoreComplete();
             }
         }
     }

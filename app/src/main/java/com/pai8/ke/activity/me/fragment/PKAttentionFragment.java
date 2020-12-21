@@ -49,6 +49,7 @@ public class PKAttentionFragment extends BaseMvpFragment<AttentionMinePresenter>
         mAdapter = new AttentionMineAdapter(mList);
         rvPkAttention.setLayoutManager(new LinearLayoutManager(mActivity));
         rvPkAttention.setHasFixedSize(true);
+        mAdapter.setOnLoadMoreListener(this,rvPkAttention);
         mAdapter.setEnableLoadMore(true);
         mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(mActivity));
         rvPkAttention.setAdapter(mAdapter);
@@ -75,13 +76,15 @@ public class PKAttentionFragment extends BaseMvpFragment<AttentionMinePresenter>
     @Override
     public void getAttentionMineSuccess(int total,List<User> data) {
         if (data != null) {
-            if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.loadMoreComplete();
-            }
             if (page == 1) {
                 mAdapter.replaceData(data);
             } else {
                 mAdapter.addData(data);
+            }
+            if (data.size() < GlobalConstants.SIZE) {
+                mAdapter.loadMoreEnd();
+            }else {
+                mAdapter.loadMoreComplete();
             }
         }
     }
