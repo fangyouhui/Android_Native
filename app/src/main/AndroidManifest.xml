@@ -227,6 +227,9 @@
                 <action android:name="cat.ereza.customactivityoncrash.ERROR" />
             </intent-filter>
         </activity>
+        <!-- 通用webview -->
+        <activity android:name=".activity.common.WebViewActivity"
+            android:screenOrientation="portrait"/>
 
         <provider
             android:name=".utils.MyProvider"

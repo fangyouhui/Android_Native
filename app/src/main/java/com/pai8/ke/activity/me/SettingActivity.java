@@ -6,6 +6,7 @@ import android.view.View;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
+import com.pai8.ke.activity.common.WebViewActivity;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.ActivityManager;
@@ -65,8 +66,12 @@ public class SettingActivity extends BaseActivity {
             case R.id.rl_2:
                 break;
             case R.id.rl_3://隐私政策
+                WebViewActivity.launch(this, "http://test.5pai8.com/agreement/privacyProtocol/index.html",
+                        "隐私政策");
                 break;
             case R.id.rl_4://用户协议
+                WebViewActivity.launch(this, "http://test.5pai8.com/agreement/serverProtocol/index.html",
+                        "用户协议");
                 break;
             case R.id.rl_5://关于软件
                 launch(AboutActivity.class);

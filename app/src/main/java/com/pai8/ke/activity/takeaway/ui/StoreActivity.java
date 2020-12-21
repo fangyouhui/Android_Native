@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
-
 import com.google.android.material.appbar.AppBarLayout;
-
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
@@ -46,7 +44,6 @@ import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.DensityUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
-import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.WxShareUtils;
@@ -55,16 +52,6 @@ import com.pai8.ke.widget.BottomDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -81,7 +68,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.wechat.moments.WechatMoments;
 
 import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
 import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
@@ -496,7 +482,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                 mPresenter.collection(addFoodReq);
             }
 
-        }else if (v.getId()==R.id.iv_store_share){ //分享
+        } else if (v.getId() == R.id.iv_store_share) { //分享
             View view = View.inflate(this, R.layout.view_dialog_share, null);
             ImageButton itnClose = view.findViewById(R.id.itn_close);
             TextView tvBtnCancel = view.findViewById(R.id.tv_btn_cancel);

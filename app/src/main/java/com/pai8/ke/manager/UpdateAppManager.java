@@ -298,20 +298,13 @@ public class UpdateAppManager extends IntentService {
         //0-无更新 1-普通更新 2-强制更新
         View view = View.inflate(context, R.layout.view_dialog_upgrade, null);
         TextView tvTip = view.findViewById(R.id.tv_tip);
+        TextView tvVersion = view.findViewById(R.id.tv_version);
         TextView tvContent = view.findViewById(R.id.tv_content);
         Button btnUpgrade = view.findViewById(R.id.btn_upgrade);
         ImageView ivBtnClose = view.findViewById(R.id.iv_btn_close);
-
+        tvVersion.setText("v" + data.getCurrent_version());
         CommonDialog commonDialog = new CommonDialog(context, view);
-        commonDialog.setIsCanceledOnTouchOutside(true);
 
-        if (data.getUpgrade() == 1) {
-            commonDialog.setCancelable(true);
-            ivBtnClose.setVisibility(View.VISIBLE);
-        } else {
-            commonDialog.setCancelable(false);
-            ivBtnClose.setVisibility(View.INVISIBLE);
-        }
         if (StringUtils.isNotEmpty(data.getContent())) {
             tvContent.setText(data.getContent());
         }
@@ -325,6 +318,14 @@ public class UpdateAppManager extends IntentService {
             }
         });
         commonDialog.show();
+        if (data.getUpgrade() == 1) {
+            commonDialog.setCancelable(true);
+            ivBtnClose.setVisibility(View.VISIBLE);
+        } else {
+            commonDialog.setCancelable(false);
+            ivBtnClose.setVisibility(View.INVISIBLE);
+        }
+        commonDialog.setIsCanceledOnTouchOutside(false);
     }
 
 }
