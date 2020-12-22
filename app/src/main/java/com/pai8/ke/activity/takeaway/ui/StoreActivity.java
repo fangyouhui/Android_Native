@@ -439,9 +439,10 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             if (d > r) {
                 showOutDistancePop();
             }
-        } else {
-            finish();
         }
+//        else {
+//            finish();
+//        }
 
     }
 

@@ -26,6 +26,7 @@ public class MyInfoResp {
     private int my_likes;
     private int my_history;
     private int is_business;
+    private String manage;
 
     public int getUser_id() {
         return user_id;
@@ -105,5 +106,13 @@ public class MyInfoResp {
 
     public void setIs_business(int is_business) {
         this.is_business = is_business;
+    }
+
+    public String getManage() {
+        return manage;
+    }
+
+    public void setManage(String manage) {
+        this.manage = manage;
     }
 }

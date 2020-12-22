@@ -11,6 +11,8 @@ import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
 
+import retrofit2.http.PUT;
+
 /**
  * 账户统一管理
  * Created by gh on 2020/11/2.
@@ -40,7 +42,9 @@ public class AccountManager {
      * 获取用户id
      */
     public String getUid() {
-        return (String) PreferencesUtils.get(MyApp.getMyApp(), "uid", "");
+        String uid = (String) PreferencesUtils.get(MyApp.getMyApp(), "uid", "");
+        if (StringUtils.isNotEmpty(uid)) return uid;
+        return (String) PreferencesUtils.get(MyApp.getMyApp(), "id", "");
     }
 
     /**
@@ -56,7 +60,7 @@ public class AccountManager {
     public void saveUserInfo(UserInfo userInfo) {
         if (userInfo == null) return;
         MyApp myApp = MyApp.getMyApp();
-        PreferencesUtils.put(myApp, "id", StringUtils.strSafe(userInfo.getUid()));
+        PreferencesUtils.put(myApp, "id", StringUtils.strSafe(userInfo.getId()));
         PreferencesUtils.put(myApp, "uid", StringUtils.strSafe(userInfo.getUid()));
         PreferencesUtils.put(myApp, "name", StringUtils.strSafe(userInfo.getName()));
         PreferencesUtils.put(myApp, "user_nickname", StringUtils.strSafe(userInfo.getUser_nickname()));
@@ -72,7 +76,12 @@ public class AccountManager {
     public UserInfo getUserInfo() {
         UserInfo userInfo = new UserInfo();
         userInfo.setId((String) PreferencesUtils.get(MyApp.getMyApp(), "id", ""));
-        userInfo.setUid((String) PreferencesUtils.get(MyApp.getMyApp(), "uid", ""));
+        String uid = (String) PreferencesUtils.get(MyApp.getMyApp(), "uid", "");
+        if (StringUtils.isEmpty(uid)) {
+            userInfo.setUid((String) PreferencesUtils.get(MyApp.getMyApp(), "id", ""));
+        } else {
+            userInfo.setUid(uid);
+        }
         userInfo.setName((String) PreferencesUtils.get(MyApp.getMyApp(), "name", ""));
         userInfo.setUser_nickname((String) PreferencesUtils.get(MyApp.getMyApp(), "user_nickname", ""));
         userInfo.setAvatar((String) PreferencesUtils.get(MyApp.getMyApp(), "avatar", ""));
@@ -109,10 +118,12 @@ public class AccountManager {
         if (infoResp == null) return;
         PreferencesUtils.put(MyApp.getMyApp(), "shop_id", StringUtils.strSafe(infoResp.getShop_id()));
         PreferencesUtils.put(MyApp.getMyApp(), "verify_status", infoResp.getVerify_status());
+        PreferencesUtils.put(MyApp.getMyApp(), "manage", StringUtils.strSafe(infoResp.getManage()));
     }
 
     public MyInfoResp getShopInfo() {
         MyInfoResp myInfoResp = new MyInfoResp();
+        myInfoResp.setManage((String) PreferencesUtils.get(MyApp.getMyApp(), "manage", ""));
         myInfoResp.setShop_id((String) PreferencesUtils.get(MyApp.getMyApp(), "shop_id", ""));
         myInfoResp.setVerify_status((int) PreferencesUtils.get(MyApp.getMyApp(), "verify_status", 0));
         return myInfoResp;
@@ -122,9 +133,16 @@ public class AccountManager {
         return (String) PreferencesUtils.get(MyApp.getMyApp(), "shop_id", "");
     }
 
+    //是否是二级管理
+    public boolean isManage() {
+        String manage = (String) PreferencesUtils.get(MyApp.getMyApp(), "manage", "");
+        return (StringUtils.isNotEmpty(manage) && !StringUtils.equals("0", manage));
+    }
+
     public void clearShopInfo() {
         PreferencesUtils.put(MyApp.getMyApp(), "shop_id", "");
         PreferencesUtils.put(MyApp.getMyApp(), "verify_status", 0);
+        PreferencesUtils.put(MyApp.getMyApp(), "manage", "");
     }
 
 }
