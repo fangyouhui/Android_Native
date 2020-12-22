@@ -55,6 +55,7 @@ public class OneToOneChatRecordActivity extends BaseMvpActivity<ChatRecordPresen
         rvChatRecord.setLayoutManager(new LinearLayoutManager(this));
         rvChatRecord.setHasFixedSize(true);
         mAdapter.setEnableLoadMore(true);
+        mAdapter.setOnLoadMoreListener(this,rvChatRecord);
         mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(this));
         rvChatRecord.setAdapter(mAdapter);
 
@@ -102,13 +103,15 @@ public class OneToOneChatRecordActivity extends BaseMvpActivity<ChatRecordPresen
     @Override
     public void getChatRecordSuccess(List<MessageResp> data) {
         if (data != null) {
-            if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.loadMoreComplete();
-            }
             if (page == 1) {
                 mAdapter.replaceData(data);
             } else {
                 mAdapter.addData(data);
+            }
+            if (data.size() < GlobalConstants.SIZE) {
+                mAdapter.loadMoreEnd();
+            }else {
+                mAdapter.loadMoreComplete();
             }
         }
     }

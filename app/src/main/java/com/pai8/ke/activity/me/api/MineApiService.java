@@ -54,6 +54,13 @@ public interface MineApiService {
     Observable<BaseRespose<HistoryResp>> getHistoryList(@Body RequestBody param);
 
     /**
+     * 我的足迹
+     */
+    @POST("my/video")
+    Observable<BaseRespose<HistoryResp>> getVideoHistoryList(@Body RequestBody param);
+
+
+    /**
      * 修改用户信息
      * @param param
      * @return

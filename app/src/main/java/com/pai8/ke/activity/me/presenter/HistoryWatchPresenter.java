@@ -11,6 +11,7 @@ import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.Video;
+import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -28,8 +29,10 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
     }
 
     public void reqMessageList(int page) {
-        HashMap<String, Object> map = new HashMap<>(1);
+        HashMap<String, Object> map = new HashMap<>(3);
         map.put("page", page);
+        map.put("size", GlobalConstants.PAGE_SIZE);
+        map.put("cate", "store");
         MineApi.getInstance().getHistoryList(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -62,4 +65,39 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
                 });
     }
 
+    public void reqVideoList(int page) {
+        HashMap<String, Object> map = new HashMap<>(2);
+        map.put("page", page);
+        map.put("size", GlobalConstants.PAGE_SIZE);
+        MineApi.getInstance().getVideoHistoryList(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<HistoryResp>() {
+                    @Override
+                    protected void onSuccess(HistoryResp data) {
+                        if (page == 1) {
+                            view.completeRefresh();
+                        } else {
+                            view.completeLoadMore();
+                        }
+                        if (data != null && data.getItems() != null && data.getPagination() != null) {
+                            view.getHistorySuccess(data.getPagination().getTotal(), data.getItems());
+                        } else {
+                            ToastUtils.showShort("数据异常");
+                        }
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                        if (page == 1) {
+                            view.completeRefresh();
+                        } else {
+                            view.completeLoadMore();
+                        }
+                    }
+                });
+    }
 }

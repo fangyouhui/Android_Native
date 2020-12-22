@@ -34,8 +34,10 @@ public class StorePresenter extends BasePresenterImpl<StoreContract.View> {
                 .subscribe(new BaseObserver<ShopContent>() {
                     @Override
                     protected void onSuccess(ShopContent data){
-                        view.getShopContentSuccess(data);
-                        EventBus.getDefault().post(new ShopDataEvent(Constants.EVENT_TYPE_SHOP_CONTENT,data));
+                        if(view!=null){
+                            view.getShopContentSuccess(data);
+                            EventBus.getDefault().post(new ShopDataEvent(Constants.EVENT_TYPE_SHOP_CONTENT,data));
+                        }
                     }
 
                     @Override

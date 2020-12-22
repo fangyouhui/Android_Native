@@ -53,10 +53,12 @@ public class CouponGetListAdapter extends BaseRecyclerViewAdapter<CouponGetListR
 
         switch (type) {
             case 1:
-                viewHolder.tvDiscountPrice.setText("满" + coupons.getTrig_price() + "减" + coupons.getDis_price());
+                viewHolder.tvDiscountPrice.setText(String.format("满%s减%s", coupons.getTrig_price(), coupons.getDis_price()));
                 break;
             case 2:
                 viewHolder.tvDiscountPrice.setText("运费抵扣券");
+                break;
+            default:
                 break;
         }
     }

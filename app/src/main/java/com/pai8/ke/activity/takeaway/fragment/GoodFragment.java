@@ -129,6 +129,8 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                     body.name = goods.get(i).name;
                     body.sell_price = goodInfos.get(j).sell_price;
                     body.packing_price = goodInfos.get(j).packing_price;
+                    body.like_count = goodInfos.get(j).like_count;
+                    body.month_sale_count = goodInfos.get(j).like_count;
                     body.id = goodInfos.get(j).id;
                     body.cover = goodInfos.get(j).cover;
                     body.discount = goodInfos.get(j).discount;

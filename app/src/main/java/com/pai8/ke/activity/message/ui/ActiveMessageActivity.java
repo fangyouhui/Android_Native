@@ -52,6 +52,7 @@ public class ActiveMessageActivity extends BaseMvpActivity<ActiveMessagePresente
         mAdapter = new ActiveMessageAdapter(mList);
         rvActiveMessage.setLayoutManager(new LinearLayoutManager(this));
         rvActiveMessage.setHasFixedSize(true);
+        mAdapter.setOnLoadMoreListener(this,rvActiveMessage);
         mAdapter.setEnableLoadMore(true);
         mAdapter.setEmptyView(R.layout.layout_empty_view, new LinearLayout(this));
         rvActiveMessage.setAdapter(mAdapter);
@@ -91,8 +92,11 @@ public class ActiveMessageActivity extends BaseMvpActivity<ActiveMessagePresente
             } else {
                 mAdapter.addData(data);
             }
+
             if (data.size() < GlobalConstants.SIZE) {
-                mAdapter.setEnableLoadMore(false);
+                mAdapter.loadMoreEnd();
+            }else {
+                mAdapter.loadMoreComplete();
             }
         }
     }
@@ -115,7 +119,6 @@ public class ActiveMessageActivity extends BaseMvpActivity<ActiveMessagePresente
     @Override
     public void onRefresh() {
         page = 1;
-        mAdapter.setEnableLoadMore(true);
         mPresenter.reqMessageList(page);
     }
 

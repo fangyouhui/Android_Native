@@ -13,6 +13,7 @@ import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.ToastUtils;
@@ -34,6 +35,7 @@ public class FansPresenter extends BasePresenterImpl<FansContract.View> {
     public void reqMessageList(int page){
         HashMap<String,Object> map = new HashMap<>(1);
         map.put("page",page);
+        map.put("size", GlobalConstants.PAGE_SIZE);
         MineApi.getInstance().getFansList(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -47,8 +49,8 @@ public class FansPresenter extends BasePresenterImpl<FansContract.View> {
                         }else {
                             view.completeLoadMore();
                         }
-                        if (data != null && data.getItems() != null && data.getPagination() != null) {
-                            view.getFansSuccess(data.getPagination().getTotal(), data.getItems());
+                        if (data != null && data.getUsers() != null && data.getPagination() != null) {
+                            view.getFansSuccess(data.getPagination().getTotal(), data.getUsers());
                         } else {
                             ToastUtils.showShort("数据异常");
                         }
