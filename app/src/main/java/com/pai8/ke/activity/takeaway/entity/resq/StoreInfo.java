@@ -39,4 +39,7 @@ public class StoreInfo implements Serializable {
     public String business_license;
     public String health_permit;
     public String month_sale_price	;  //	月销售额
+
+    public String latitude;
+    public String longitude;
 }

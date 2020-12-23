@@ -224,12 +224,17 @@ public class VideoPublishActivity extends BaseActivity {
 //                    return;
 //                }
                 VideoPublishReq req = new VideoPublishReq();
-                if (mAddress == null) {
+                if (mAddress != null) {
+                    req.setLongitude(String.valueOf(mAddress.getLon()));
+                    req.setLatitude(String.valueOf(mAddress.getLat()));
+                }
+                if (mShopInfo != null) {
+                    req.setLongitude(mShopInfo.getLongitude());
+                    req.setLatitude(mShopInfo.getLatitude());
+                }
+                if (mAddress == null && mShopInfo == null) {
                     req.setLongitude(MyApp.getLngLat().get(0));
                     req.setLatitude(MyApp.getLngLat().get(1));
-                } else {
-                    req.setLatitude(String.valueOf(mAddress.getLat()));
-                    req.setLongitude(String.valueOf(mAddress.getLon()));
                 }
                 req.setType_id(String.valueOf(mBusinessTypeId));
                 req.setVideo_desc(StringUtils.getEditText(etContent));

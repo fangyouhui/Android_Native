@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.common.NaviActivity;
 import com.pai8.ke.activity.video.tiktok.TikTokView;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.entity.Shop;
@@ -155,6 +156,12 @@ public class TikTokAdapter extends BaseRecyclerViewAdapter<Video> {
             viewHolder.tvClassify.setText("去 #" + videoData.getBusiness_district());
             viewHolder.tvClassify.setVisibility(VISIBLE);
         }
+
+        viewHolder.tvLoc.setOnClickListener(view -> {
+            if (shop == null) return;
+            NaviActivity.launch(mContext, videoData.getBusiness_district(), videoData.getDistance(),
+                    videoData.getLongitude(), videoData.getLatitude());
+        });
 
         viewHolder.civAvatar.setOnClickListener(view -> {
             mVideoControllerListener.onAvatarClick();
