@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
 
     <LinearLayout
-        android:layout_above="@id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/ll_content"
         android:orientation="vertical">
 
 
@@ -43,8 +44,8 @@
                             android:id="@+id/iv_store"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:scaleType="centerCrop"
-                            android:background="@color/colorPrimary" />
+                            android:background="@color/colorPrimary"
+                            android:scaleType="centerCrop" />
 
 
                         <RelativeLayout
@@ -52,8 +53,8 @@
                             android:layout_height="110dp"
                             android:layout_marginStart="12dp"
                             android:layout_marginTop="126dp"
-                            android:layout_marginBottom="10dp"
                             android:layout_marginEnd="12dp"
+                            android:layout_marginBottom="10dp"
                             android:background="@drawable/shape_white">
 
                             <TextView
@@ -116,7 +117,6 @@
                                 android:textColor="@color/color_mid_font"
                                 android:textSize="12sp" />
 
-
                             <TextView
                                 android:id="@+id/item_tv_desc"
                                 android:layout_width="wrap_content"
@@ -127,10 +127,24 @@
                                 android:layout_marginStart="16dp"
                                 android:layout_marginTop="6dp"
                                 android:layout_marginBottom="12dp"
-                                android:text="公告：美好的一天，从有家酸菜鱼开始。欢迎品尝。"
                                 android:textColor="@color/color_mid_font"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                tools:text="公告：美好的一天，从有家酸菜鱼开始。欢迎品尝。" />
 
+                            <TextView
+                                android:id="@+id/tv_btn_navi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBaseline="@id/item_tv_desc"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginEnd="13dp"
+                                android:drawableLeft="@mipmap/ic_loc_primary"
+                                android:drawablePadding="2dp"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="导航"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="12sp" />
 
                         </RelativeLayout>
 
@@ -141,8 +155,7 @@
                             android:layout_height="86dp"
                             android:layout_gravity="center"
                             android:layout_marginStart="28dp"
-                            android:layout_marginTop="84dp"
-                             />
+                            android:layout_marginTop="84dp" />
 
 
                     </RelativeLayout>
@@ -158,17 +171,15 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                           >
+                            android:layout_height="48dp">
 
                             <TextView
                                 android:id="@+id/tv_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
-                                android:textSize="18sp"
                                 android:textColor="@color/color_white"
-                                />
+                                android:textSize="18sp" />
 
                             <ImageView
                                 android:id="@+id/back_all"
@@ -320,13 +331,14 @@
                 android:id="@+id/tv_shop_num"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_alignEnd="@+id/iv_shop_car"
                 android:layout_alignTop="@+id/iv_shop_car"
+                android:layout_alignEnd="@+id/iv_shop_car"
                 android:background="@drawable/shape_shopping_cart"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 android:visibility="invisible" />
+
             <TextView
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
@@ -356,12 +368,12 @@
             android:id="@+id/tv_order"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="16dp"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@drawable/shape_orgin_gradient_gray_radius25"
+            android:gravity="center"
             android:text="去结算"
             android:textColor="@color/color_white"
             android:textSize="16sp" />

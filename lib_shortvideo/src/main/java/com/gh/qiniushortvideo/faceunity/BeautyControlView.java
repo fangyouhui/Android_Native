@@ -396,8 +396,8 @@ public class BeautyControlView extends FrameLayout {
         mStickerOptionItems = new ArrayList<>();
         mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.beauty_radio_skin_beauty)));
         mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.beauty_radio_face_shape)));
-        mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.beauty_radio_filter)));
-        mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.beauty_radio_beauty)));
+//        mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.beauty_radio_filter)));
+//        mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.beauty_radio_beauty)));
         mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.home_function_name_normal)));
         mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.home_function_name_ar)));
         mStickerOptionItems.add(new StickerOptionItem(mContext.getResources().getString(R.string.home_function_name_gesture)));

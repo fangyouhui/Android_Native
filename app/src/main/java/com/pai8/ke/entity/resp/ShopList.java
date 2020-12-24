@@ -19,6 +19,8 @@ public class ShopList implements Serializable {
     private String shop_img;
     private int score;
     private String address;
+    private String longitude;
+    private String latitude;
 
     public int getId() {
         return id;
@@ -66,5 +68,21 @@ public class ShopList implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 }

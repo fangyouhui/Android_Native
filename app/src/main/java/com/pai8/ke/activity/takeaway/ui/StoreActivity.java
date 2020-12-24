@@ -11,11 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
-
 import com.google.android.material.appbar.AppBarLayout;
-
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.common.NaviActivity;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.ViewPagerAdapter;
 import com.pai8.ke.activity.takeaway.contract.StoreContract;
@@ -46,7 +45,7 @@ import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.DensityUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
-import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.NavUtils;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.WxShareUtils;
@@ -55,16 +54,6 @@ import com.pai8.ke.widget.BottomDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -81,7 +70,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.wechat.moments.WechatMoments;
 
 import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
 import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
@@ -109,6 +97,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private TextView mTvTime;
     private TextView mTvlogisticsDiscounts;
     private ImageView ivStore;
+    private TextView tv_btn_navi;
 
     private int mStart = 0;
     private List<FoodGoodInfo> mGoodInfoList;  //购物车
@@ -119,6 +108,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private BottomDialog mShareBottomDialog;
     private ShopCarPop mPop;
     private BottomDialog mBottomDialog;
+    private ShopContent mData;
 
     public static void launch(Context context, String shopId) {
         if (StringUtils.isEmpty(shopId)) return;
@@ -163,6 +153,8 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mTvDesc = findViewById(R.id.item_tv_desc);
         mTvStoreDis = findViewById(R.id.tv_store_km);
         mTvTime = findViewById(R.id.item_tv_time);
+        tv_btn_navi = findViewById(R.id.tv_btn_navi);
+        tv_btn_navi.setOnClickListener(this);
         mTvlogisticsDiscounts = findViewById(R.id.seller_goods_tv_logistics_discounts);
 
         mTvScore = findViewById(R.id.tv_store_score);
@@ -419,42 +411,40 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             mTvStoreName.setText(mStoreInfo.shop_name);
             mTvScore.setText(mStoreInfo.score + "");
             mTvMonthSale.setText("月售 " + mStoreInfo.month_sale_count);
-            mTvDesc.setText(mStoreInfo.shop_desc);
+            mTvDesc.setText(StringUtils.strSafe(mStoreInfo.address));
             mTvTime.setText(mStoreInfo.delivery_time);
             mTvlogisticsDiscounts.setText("另需配送费￥" + mStoreInfo.send_cost);
             mTvStoreDis.setText(mStoreInfo.distance);
             ImageLoadUtils.setRectImage(this, mStoreInfo.shop_img, ivStore);
             String range = mStoreInfo.send_range;
             String distance = mStoreInfo.distance;
-            // 配送范围
-            double r;
-            // 距离
-            double d;
-            if (!StringUtils.isEmpty(distance)) {
-                if (distance.contains("km")) {
-                    String[] str = distance.split("km");
-                    d = Double.valueOf(str[0]) * 1000;
-                } else {
-                    d = Double.valueOf(distance);
-                }
-            } else {
-                d = 0;
-            }
-            if (!StringUtils.isEmpty(range)) {
-                if (range.contains("km")) {
-                    String[] str = range.split("km");
-                    r = Double.valueOf(str[0]) * 1000;
-                } else {
-                    r = Double.valueOf(range);
-                }
-            } else {
-                r = 0;
-            }
-            if (d > r) {
-                showOutDistancePop();
-            }
-        } else {
-            finish();
+//            // 配送范围
+//            double r;
+//            // 距离
+//            double d;
+//            if (!StringUtils.isEmpty(distance)) {
+//                if (distance.contains("km")) {
+//                    String[] str = distance.split("km");
+//                    d = Double.valueOf(str[0]) * 1000;
+//                } else {
+//                    d = Double.valueOf(distance);
+//                }
+//            } else {
+//                d = 0;
+//            }
+//            if (!StringUtils.isEmpty(range)) {
+//                if (range.contains("km")) {
+//                    String[] str = range.split("km");
+//                    r = Double.valueOf(str[0]) * 1000;
+//                } else {
+//                    r = Double.valueOf(range);
+//                }
+//            } else {
+//                r = 0;
+//            }
+//            if (d > r) {
+//                showOutDistancePop();
+//            }
         }
 
     }
@@ -496,7 +486,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                 mPresenter.collection(addFoodReq);
             }
 
-        }else if (v.getId()==R.id.iv_store_share){ //分享
+        } else if (v.getId() == R.id.iv_store_share) { //分享
             View view = View.inflate(this, R.layout.view_dialog_share, null);
             ImageButton itnClose = view.findViewById(R.id.itn_close);
             TextView tvBtnCancel = view.findViewById(R.id.tv_btn_cancel);
@@ -518,6 +508,17 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             }
             mShareBottomDialog.setIsCanceledOnTouchOutside(true);
             mShareBottomDialog.show();
+        } else if (v.getId() == R.id.tv_btn_navi) {//导航
+            if (mData == null) return;
+            try {
+                String address = mData.shop_info.address;
+                String distance = mData.shop_info.distance;
+                String latitude = mData.shop_info.latitude;
+                String longitude = mData.shop_info.longitude;
+                NaviActivity.launch(this, address, distance,  longitude,latitude);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -535,6 +536,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     @Override
     public void getShopContentSuccess(ShopContent data) {
+        mData = data;
         mPresenter.getCart(mStoreInfo.id + "");
         setData(data.shop_info);
         if (data.shop_info.is_collect == 0) {

@@ -86,6 +86,11 @@ public class MainActivity extends BaseMvpActivity<VersionContract.Presenter> imp
             case EventCode.EVENT_HOME_TAB:
                 navigationBar.selectTab((int) event.getData(), false);
                 break;
+            case EventCode.EVENT_LOGIN_STATUS:
+                if (mAccountManager.isLogin()) {
+                    getShopInfo();
+                }
+                break;
         }
     }
 

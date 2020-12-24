@@ -111,6 +111,10 @@
         <activity
             android:name=".activity.me.AddressChooseActivity"
             android:screenOrientation="portrait" />
+        <!-- 地图导航 -->
+        <activity
+            android:name=".activity.common.NaviActivity"
+            android:screenOrientation="portrait" />
         <!-- 设置 -->
         <activity
             android:name=".activity.me.SettingActivity"
@@ -227,6 +231,10 @@
                 <action android:name="cat.ereza.customactivityoncrash.ERROR" />
             </intent-filter>
         </activity>
+        <!-- 通用webview -->
+        <activity
+            android:name=".activity.common.WebViewActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name=".utils.MyProvider"
