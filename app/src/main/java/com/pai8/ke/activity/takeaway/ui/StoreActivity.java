@@ -309,7 +309,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             if (data != null) {
                 saveCurLocation(data.getStringExtra("lat"), data.getStringExtra("lng"),
                         data.getStringExtra("address"));
-                mPresenter.shopContent(mShopIdReq);
+                mPresenter.outDistance( mStoreInfo.id + "", data.getStringExtra("id"));
             }
         }
     }
@@ -320,7 +320,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         PreferencesUtils.put(this, "address", address);
     }
 
-    void showOutDistancePop() {
+    void showOutDistancePop(String msg) {
         View view = View.inflate(this, R.layout.pop_out_distance, null);
         ViewHolder holder = new ViewHolder(view);
         holder.ivClose.setOnClickListener(view1 -> {
@@ -402,6 +402,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             mPresenter.reAddCart(orderNo);
         }
 
+        mPresenter.outDistance( mStoreInfo.id + "", "");
     }
 
 
@@ -416,35 +417,6 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             mTvlogisticsDiscounts.setText("另需配送费￥" + mStoreInfo.send_cost);
             mTvStoreDis.setText(mStoreInfo.distance);
             ImageLoadUtils.setRectImage(this, mStoreInfo.shop_img, ivStore);
-            String range = mStoreInfo.send_range;
-            String distance = mStoreInfo.distance;
-//            // 配送范围
-//            double r;
-//            // 距离
-//            double d;
-//            if (!StringUtils.isEmpty(distance)) {
-//                if (distance.contains("km")) {
-//                    String[] str = distance.split("km");
-//                    d = Double.valueOf(str[0]) * 1000;
-//                } else {
-//                    d = Double.valueOf(distance);
-//                }
-//            } else {
-//                d = 0;
-//            }
-//            if (!StringUtils.isEmpty(range)) {
-//                if (range.contains("km")) {
-//                    String[] str = range.split("km");
-//                    r = Double.valueOf(str[0]) * 1000;
-//                } else {
-//                    r = Double.valueOf(range);
-//                }
-//            } else {
-//                r = 0;
-//            }
-//            if (d > r) {
-//                showOutDistancePop();
-//            }
         }
 
     }
@@ -568,6 +540,11 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         EventBus.getDefault().post(new ShopCarEvent(data));
 
 
+    }
+
+    @Override
+    public void onFail(String msg) {
+        showOutDistancePop(msg);
     }
 
     @OnClick(R.id.tv_coupon)

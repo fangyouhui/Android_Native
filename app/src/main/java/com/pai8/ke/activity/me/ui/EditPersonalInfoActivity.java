@@ -58,6 +58,7 @@ public class EditPersonalInfoActivity extends BaseMvpActivity<EditPersonalInfoPr
     private String mNickname = "";
     private String mWechat = "";
     private String mHeadUrl = "";
+
     @Override
     public EditPersonalInfoPresenter initPresenter() {
         return new EditPersonalInfoPresenter(this);
@@ -134,22 +135,29 @@ public class EditPersonalInfoActivity extends BaseMvpActivity<EditPersonalInfoPr
             case R.id.tv_save:
                 String nickname = etNickname.getText().toString().trim();
                 String wechat = etWechat.getText().toString().trim();
+
                 if (StringUtils.isEmpty(nickname)) {
                     toast("请输入昵称");
                     return;
                 }
-                if (StringUtils.isEmpty(wechat)) {
-                    toast("请输入微信号");
-                    return;
+
+                if (StringUtils.isEmpty(mHeadPath) && nickname.equals(mNickname)) {
+                    if (StringUtils.isEmpty(wechat) && StringUtils.isEmpty(mWechat)) {
+                        toast("你好数据未改变");
+                        return;
+                    } else {
+                        if (!StringUtils.isEmpty(wechat) && !StringUtils.isEmpty(mWechat)
+                                && wechat.equals(mWechat)) {
+                            toast("你好数据未改变");
+                            return;
+                        }
+                    }
                 }
-                if (StringUtils.isEmpty(mHeadPath) && nickname.equals(mNickname) && wechat.equals(mWechat)) {
-                    toast("你好数据未改变");
-                    return;
-                }
+
                 if (StringUtils.isEmpty(mHeadPath)) {
                     mPresenter.submitChangeInfo("", mHeadUrl, nickname, wechat);
                 } else {
-                    mPresenter.submitChangeInfo(mHeadPath,"", nickname, wechat);
+                    mPresenter.submitChangeInfo(mHeadPath, "", nickname, wechat);
                 }
                 break;
             default:
@@ -163,7 +171,7 @@ public class EditPersonalInfoActivity extends BaseMvpActivity<EditPersonalInfoPr
             ImageLoadUtils.loadImage(this, resp.getAvatar(), ricHead, R.mipmap.img_head_def);
             mNickname = resp.getUser_nickname();
             mWechat = resp.getWechat();
-            mHeadUrl= resp.getAvatar();
+            mHeadUrl = resp.getAvatar();
             etNickname.setText(mNickname);
             etWechat.setText(mWechat);
         }
