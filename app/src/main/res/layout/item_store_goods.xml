@@ -7,13 +7,27 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
-    <ImageView
-        android:id="@+id/item_goods_iv_goods"
+    <RelativeLayout
+        android:id="@+id/rl_player"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginStart="12dp"
-        android:scaleType="centerCrop"
-        android:src="@color/color_default" />
+        android:layout_marginStart="12dp">
+
+        <ImageView
+            android:id="@+id/item_goods_iv_goods"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@color/color_default" />
+
+        <ImageView
+            android:id="@+id/iv_btn_player"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:src="@mipmap/img_waimai_video_play" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/item_goods_ll"
