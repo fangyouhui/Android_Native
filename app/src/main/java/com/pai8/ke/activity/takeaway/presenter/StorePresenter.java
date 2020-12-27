@@ -89,28 +89,6 @@ public class StorePresenter extends BasePresenterImpl<StoreContract.View> {
                 });
     }
 
-    public void outDistance(String shopId,String addressId){
-        HashMap<String, Object> map = new HashMap<>(2);
-        map.put("shop_id", shopId);
-        map.put("address_id",addressId);
-        TakeawayApi.getInstance().outDistance(createRequestBody(map))
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
-                    @Override
-                    protected void onSuccess(String shopList) {
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        super.onError(msg, errorCode);
-                        if(errorCode == 0){
-                            view.onFail(msg);
-                        }
-                    }
-                });
-    }
 
 
     public void getCart(String shop_id){

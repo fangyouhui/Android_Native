@@ -34,9 +34,9 @@ public class AttentionMinePresenter extends BasePresenterImpl<AttentionMineContr
                 .subscribe(new BaseObserver<AttentionMineResp>() {
                     @Override
                     protected void onSuccess(AttentionMineResp data){
-                        if (page == 1) {
+                        if(page == 1){
                             view.completeRefresh();
-                        } else {
+                        }else {
                             view.completeLoadMore();
                         }
                         if (data != null && data.getUsers() != null && data.getPagination() != null) {

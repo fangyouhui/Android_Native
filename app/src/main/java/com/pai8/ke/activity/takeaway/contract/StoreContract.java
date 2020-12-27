@@ -21,8 +21,6 @@ public interface StoreContract {
 
 
         void getCarSuccess(ShopFoodGoodInfo data);
-
-        void onFail(String msg);
     }
 
 

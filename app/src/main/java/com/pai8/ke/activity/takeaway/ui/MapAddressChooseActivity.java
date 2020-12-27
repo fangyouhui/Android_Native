@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -82,12 +83,11 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
             if (msg.what == RC_SEARCH) {
                 LatLonPoint latLonPoint = new LatLonPoint(mAMapLocation.getLatitude(),
                         mAMapLocation.getLongitude());
-                doSearchQuery(latLonPoint);
+                doSearchQuery(latLonPoint, mAMapLocation.getCity());
             }
         }
     };
     private int mIntentType = 0;
-    private String mCity = "";
 
 
     @Override
@@ -99,9 +99,6 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
     public void initData() {
         super.initData();
         mIntentType = getIntent().getIntExtra("TYPE", 0);
-        if (mIntentType == 0) {
-            mCity = getIntent().getStringExtra("ADDRESS");
-        }
     }
 
     @Override
@@ -215,7 +212,7 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("ADDRESS", select);
                     launch(ChangeDetailAddressActivity.class, bundle);
-                } else {
+                }else {
                     EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
 //                    Intent intent = new Intent();
 //                    intent.putExtra("address",select);
@@ -244,7 +241,7 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
     private void moveToMy() {
         moveMapCamera(mAMapLocation.getLatitude(), mAMapLocation.getLongitude());
         LatLonPoint latLonPoint = new LatLonPoint(mAMapLocation.getLatitude(), mAMapLocation.getLongitude());
-        doSearchQuery(latLonPoint);
+        doSearchQuery(latLonPoint, mAMapLocation.getCity());
     }
 
     /**
@@ -256,30 +253,17 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
 
     /**
      * 执行POI检索
-     * @param latLonPoint
      */
-    protected void doSearchQuery(LatLonPoint latLonPoint) {
-        if(StringUtils.isEmpty(mSearch)){
-            if (StringUtils.isEmpty(mCity)) {
-                mPoiquery = new PoiSearch.Query(mSearch, "",mAMapLocation.getCity());
-            } else {
-                mPoiquery = new PoiSearch.Query(mSearch, "", mCity);
-            }
-        }else{
-            if (StringUtils.isEmpty(mCity)) {
-                mPoiquery = new PoiSearch.Query(mSearch, "");
-            } else {
-                mPoiquery = new PoiSearch.Query(mSearch, "", mCity);
-            }
-        }
+    protected void doSearchQuery(LatLonPoint lp, String city) {
+//        showLoadingDialog(null);
+        mPoiquery = new PoiSearch.Query(mSearch, mType, city);
         mPoiquery.setPageSize(100);
         mPoiquery.setPageNum(1);
         PoiSearch poiSearch = new PoiSearch(this, mPoiquery);
-        if(StringUtils.isEmpty(mSearch) && StringUtils.isEmpty(mCity)){
-            poiSearch.setBound(new PoiSearch.SearchBound(latLonPoint, 100 * 1000 * 1000, true));
-        }
+        poiSearch.setBound(new PoiSearch.SearchBound(lp, 5000, true));
         poiSearch.setOnPoiSearchListener(this);
         poiSearch.searchPOIAsyn();
+
     }
 
     @Override
@@ -328,7 +312,7 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
         if (isCanSearch) {
             LatLonPoint latLonPoint = new LatLonPoint(cameraPosition.target.latitude, cameraPosition.target
                     .longitude);
-            doSearchQuery(latLonPoint);
+            doSearchQuery(latLonPoint, mAMapLocation.getCity());
         }
         isCanSearch = true;
     }

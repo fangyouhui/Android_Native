@@ -85,7 +85,6 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
                     intent.putExtra("lat", mAdapter.getData().get(position).latitude);
                     intent.putExtra("lng", mAdapter.getData().get(position).longitude);
                     intent.putExtra("address", mAdapter.getData().get(position).address);
-                    intent.putExtra("id", mAdapter.getData().get(position).id);
                     setResult(RESULT_OK, intent);
                     finish();
                     return;

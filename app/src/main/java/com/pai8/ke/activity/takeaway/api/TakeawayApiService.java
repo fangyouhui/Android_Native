@@ -11,7 +11,6 @@ import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq;
 import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.SecondAdminManagerResq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
@@ -113,9 +112,6 @@ public interface TakeawayApiService {
     @POST("shop/shopUncollect")
     Observable<BaseRespose<String>> unCollection(@Body ShopIdReq parm);
 
-    @POST("Order/waimaiPrice")
-    Observable<BaseRespose> outDistance(@Body RequestBody parm);
-
 
     @POST("shop/shopContent")
     Observable<BaseRespose<ShopContent>> shopContent(@Body ShopIdReq parm);
@@ -209,36 +205,4 @@ public interface TakeawayApiService {
 
     @POST("shop/editShop")
     Observable<BaseRespose<String>> editShop(@Body StoreInfoReq body);
-
-    /**
-     * 二级管理员列表
-     * @param parm
-     * @return
-     */
-    @POST("shop/GetShopManageList")
-    Observable<BaseRespose<List<SecondAdminManagerResq>>> getSecondAdminList(@Body RequestBody parm);
-
-    /**
-     * 删除二级管理员
-     * @param parm
-     * @return
-     */
-    @POST("shop/DelShopManageInfo")
-    Observable<BaseRespose> deleteSecondAdmin(@Body RequestBody parm);
-
-    /**
-     * 添加二级管理员
-     * @param parm
-     * @return
-     */
-    @POST("shop/AddShopManageInfo")
-    Observable<BaseRespose> addSecondAdmin(@Body RequestBody parm);
-
-    /**
-     * 获取商户当前二级管理员权限
-     * @param parm
-     * @return
-     */
-    @POST("shop/GetShopManagePower")
-    Observable<BaseRespose<SecondAdminManagerResq>> getShopLimits(@Body RequestBody parm);
 }

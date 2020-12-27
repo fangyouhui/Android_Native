@@ -62,7 +62,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
 
     private String mCate;
 
-    private String mProvince, mCity = "", mDistrict;
+    private String mProvince, mCity, mDistrict;
 
     private OptionsPickerView pvOptions, mPvType;
     private List<Province> mProvinceList;
@@ -169,7 +169,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             getProvince();
         } else if (v.getId() == R.id.et_address_detail) {
             startActivityForResult(new Intent(MerchantSettledFirstActivity.this
-                    , MapAddressChooseActivity.class).putExtra("ADDRESS",mCity), 100);
+                    , MapAddressChooseActivity.class), 100);
 
         } else if (v.getId() == R.id.tv_next) {
 
