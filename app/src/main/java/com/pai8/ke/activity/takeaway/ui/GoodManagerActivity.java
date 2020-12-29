@@ -25,6 +25,7 @@ import androidx.viewpager.widget.ViewPager;
 public class GoodManagerActivity extends BaseMvpActivity implements View.OnClickListener {
 
     private ArrayList<Fragment> fragments;
+
     @Override
     public BasePresenter initPresenter() {
         return null;
@@ -44,39 +45,33 @@ public class GoodManagerActivity extends BaseMvpActivity implements View.OnClick
         fragments = new ArrayList<>();
         fragments.add(new TakeawayManagerFragment());
         fragments.add(new GroupBuyManagerFragment());
-        String[] mTitles = new String[]{"外卖","团购"};
+        String[] mTitles = new String[]{"外卖", "团购"};
         mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragments, mTitles));
         mTabLayout.setViewPager(mViewPager);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setCurrentItem(0);
-        findViewById(R.id.iv_price_setting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SendPricePop pricePop = new SendPricePop(GoodManagerActivity.this);
-                pricePop.setOnSelectListener(new SendPricePop.OnSelectListener() {
-                    @Override
-                    public void onSelect(String content) {
-                        shopDealOrder(content);
-                    }
-                });
-                pricePop.showPopupWindow();
-            }
+        findViewById(R.id.iv_price_setting).setOnClickListener(v -> {
+            SendPricePop pricePop = new SendPricePop(GoodManagerActivity.this);
+            pricePop.setOnSelectListener((content, distance) -> {
+                shopDealOrder(content, distance);
+            });
+            pricePop.showPopupWindow();
         });
 
     }
 
-
-    public void shopDealOrder(String floor_send_cost){
+    public void shopDealOrder(String floor_send_cost, String send_range) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("shop_id", AccountManager.getInstance().getShopId());
-        map.put("floor_send_cost",floor_send_cost);
+        map.put("floor_send_cost", floor_send_cost);
+        map.put("send_range", send_range);
         TakeawayApi.getInstance().floorSendCost(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<String>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(String data) {
                         ToastUtils.showShort("配置成功");
                     }
 
@@ -86,7 +81,6 @@ public class GoodManagerActivity extends BaseMvpActivity implements View.OnClick
                     }
                 });
     }
-
 
     @Override
     public void onClick(View v) {

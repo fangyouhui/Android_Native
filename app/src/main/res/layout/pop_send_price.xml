@@ -37,16 +37,12 @@
         android:layout_marginTop="18dp"
         android:src="@drawable/divider" />
 
-
-
     <RelativeLayout
         android:id="@+id/rl_choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view"
-        android:padding="16dp"
-        >
-
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_add_price"
@@ -54,39 +50,34 @@
             android:layout_height="wrap_content"
             android:text="起送价"
             android:textColor="@color/text_black"
-            android:textSize="14sp"
+            android:textSize="14sp" />
 
-            />
         <TextView
             android:id="@+id/tv_ren"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_toEndOf="@+id/tv_add_price"
             android:text="￥"
             android:textColor="@color/colorPrimary"
-            android:textSize="14sp"
-            android:layout_marginStart="20dp"
-
-            />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/et_discount_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/tv_ren"
-            android:singleLine="true"
-            android:layout_toStartOf="@+id/iv_discount"
-            android:inputType="numberDecimal"
-            android:hint="请设置订单满多少可配送"
-            android:background="@color/transparent"
-            android:textColor="@color/text_black"
-            android:textSize="14sp"
             android:layout_marginStart="5dp"
+            android:layout_toStartOf="@+id/iv_discount"
+            android:layout_toEndOf="@+id/tv_ren"
+            android:background="@color/transparent"
+            android:hint="请设置订单满多少可配送"
+            android:inputType="numberDecimal"
             android:maxLength="10"
-            />
+            android:singleLine="true"
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
 
     </RelativeLayout>
-
 
     <View
         android:id="@+id/view3"
@@ -97,14 +88,54 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/divider" />
 
+    <RelativeLayout
+        android:id="@+id/rl_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view3"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="配送范围"
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_toRightOf="@+id/tv_distance"
+            android:background="@color/transparent"
+            android:hint="请输入多少公里内可配送"
+            android:inputType="numberDecimal"
+            android:maxLength="3"
+            android:singleLine="true"
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rl_distance"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/divider" />
+
     <TextView
         android:id="@+id/tv_next"
         android:layout_width="match_parent"
         android:layout_height="44dp"
+        android:layout_below="@+id/view4"
+        android:layout_margin="16dp"
         android:background="@drawable/shape_orgin_gradient"
         android:gravity="center"
-        android:layout_margin="16dp"
-        android:layout_below="@+id/view3"
         android:text="确定"
         android:textColor="@color/white"
         android:textSize="16sp" />

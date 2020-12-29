@@ -50,7 +50,7 @@
             android:textSize="16sp"
             android:layout_alignParentEnd="true"
             android:textColor="@color/black_normal"
-            android:text="起送价"
+            android:text="配送设置"
        />
 
     </RelativeLayout>
