@@ -23,6 +23,8 @@ public interface AddSecondManagerContract {
 
         void addAdminSuccess();
 
+        void updateSuccess();
+
     }
 
 }

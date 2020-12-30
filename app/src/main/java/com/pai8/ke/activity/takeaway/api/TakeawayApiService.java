@@ -227,6 +227,14 @@ public interface TakeawayApiService {
     Observable<BaseRespose> deleteSecondAdmin(@Body RequestBody parm);
 
     /**
+     * 更新二级管理员
+     * @param parm
+     * @return
+     */
+    @POST("shop/UpShopManageInfo")
+    Observable<BaseRespose> updateSecondAdmin(@Body RequestBody parm);
+
+    /**
      * 添加二级管理员
      * @param parm
      * @return
@@ -235,10 +243,10 @@ public interface TakeawayApiService {
     Observable<BaseRespose> addSecondAdmin(@Body RequestBody parm);
 
     /**
-     * 获取商户当前二级管理员权限
+     * 获取商户所有二级管理员权限
      * @param parm
      * @return
      */
-    @POST("shop/GetShopManagePower")
-    Observable<BaseRespose<SecondAdminManagerResq>> getShopLimits(@Body RequestBody parm);
+    @POST("shop/GetShopPowerList")
+    Observable<BaseRespose<List<SecondAdminManagerResq.PowerArrayBean>>> getShopLimits();
 }

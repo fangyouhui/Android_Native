@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,15 +76,24 @@ public class SecondAdminManagerActivity extends BaseMvpActivity<SecondAdminManag
     public void initListener() {
         super.initListener();
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            new MaterialDialog.Builder(this)
-                    .title("温馨提示")
-                    .content("确定删除该管理员吗？")
-                    .positiveText("确认")
-                    .negativeText("取消")
-                    .onPositive((dialog, which) -> {
-                        mPresenter.deleteSecondAdmin(mList.get(position).getId());
-                    })
-                    .show();
+            if(view.getId() == R.id.tv_del) {
+                new MaterialDialog.Builder(this)
+                        .title("温馨提示")
+                        .content("确定删除该管理员吗？")
+                        .positiveText("确认")
+                        .negativeText("取消")
+                        .onPositive((dialog, which) -> {
+                            mPresenter.deleteSecondAdmin(mList.get(position).getId());
+                        })
+                        .show();
+            } else if(view.getId() == R.id.tv_update) {
+                SecondAdminManagerResq bean = mList.get(position);
+                Intent intent = new Intent(this, AddSecondManagerActivity.class);
+                intent.putExtra("managerId", bean.getId());
+                intent.putExtra("phoneNumber", bean.getPhone());
+                intent.putExtra("power", bean.getPower());
+                startActivityForResult(intent, 1000);
+            }
         });
     }
 
