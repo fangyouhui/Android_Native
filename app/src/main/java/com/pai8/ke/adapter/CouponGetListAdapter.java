@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.entity.resp.CouponResp;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
 import com.pai8.ke.entity.CouponInfoEntity;
@@ -25,7 +26,7 @@ import butterknife.BindView;
 /**
  * 优惠券领取Adapter
  */
-public class CouponGetListAdapter extends BaseRecyclerViewAdapter<CouponGetListResp> {
+public class CouponGetListAdapter extends BaseRecyclerViewAdapter<CouponResp.CouponListBean> {
 
     public CouponGetListAdapter(Context context) {
         this.mContext = context;
@@ -41,7 +42,7 @@ public class CouponGetListAdapter extends BaseRecyclerViewAdapter<CouponGetListR
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         ViewHolder viewHolder = (ViewHolder) holder;
-        CouponGetListResp coupons = mDataList.get(position);
+        CouponResp.CouponListBean coupons = mDataList.get(position);
         int type = coupons.getType();
         SpannableStringBuilder span = SpanUtils.getBuilder("")
                 .append(mContext, "￥")

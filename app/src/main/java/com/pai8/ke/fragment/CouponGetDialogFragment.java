@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.entity.resp.CouponResp;
 import com.pai8.ke.adapter.CouponGetListAdapter;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseCommDialogFragment;
@@ -82,9 +83,11 @@ public class CouponGetDialogFragment extends BaseCommDialogFragment {
 
                     })
                     .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<List<CouponGetListResp>>() {
+                    .subscribe(new BaseObserver<CouponResp>() {
                         @Override
-                        protected void onSuccess(List<CouponGetListResp> list) {
+                        protected void onSuccess(CouponResp resp) {
+                            List<CouponResp.CouponListBean> list = resp.getExpress_coupon_list();
+                            list.addAll(resp.getOrder_coupon_list());
                             if (CollectionUtils.isNotEmpty(list)) {
                                 mAdapter.setDataList(list);
                                 rv.setVisibility(VISIBLE);
@@ -111,10 +114,10 @@ public class CouponGetDialogFragment extends BaseCommDialogFragment {
                     dismiss();
                 } else {
                     //领取
-                    List<CouponGetListResp> dataList = mAdapter.getDataList();
+                    List<CouponResp.CouponListBean> dataList = mAdapter.getDataList();
                     List<String> a = new ArrayList<>();
-                    for (CouponGetListResp couponGetListResp : dataList) {
-                        a.add(couponGetListResp.getId());
+                    for (CouponResp.CouponListBean couponGetListResp : dataList) {
+                        a.add(couponGetListResp.getId() + "");
                     }
                     String s = StringUtils.intJoinStr(a, "/");
                     Api.getInstance().getCoupon(AccountManager.getInstance().getUid(), s)
