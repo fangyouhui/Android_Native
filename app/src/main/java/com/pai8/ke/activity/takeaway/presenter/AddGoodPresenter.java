@@ -17,7 +17,7 @@ public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
 
 
     public void addGood(AddFoodReq req){
-
+        req.key = req.cover_qiniu_key;
         TakeawayApi.getInstance().addFood(req)
                 .doOnSubscribe(disposable -> {
                 })
@@ -38,6 +38,7 @@ public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
 
 
     public void editGoods(AddFoodReq req){
+        req.key = req.cover_qiniu_key;
         TakeawayApi.getInstance().editGoods(req)
                 .doOnSubscribe(disposable -> {
                 })

@@ -189,7 +189,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                     }
                     addFoodReq.goods_id = mFood.id;
                     addFoodReq.cover = mFood.cover;
-                    addFoodReq.key = mFood.key;
+                    addFoodReq.cover_qiniu_key = mFood.cover_qiniu_key;
                     addFoodReq.type = mFood.type;
                     addFoodReq.shop_id = AccountManager.getInstance().getShopId();
                     addFoodReq.title = shopName;  //名称
@@ -227,7 +227,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                 addFoodReq.shop_id = AccountManager.getInstance().getShopId();
 //                addFoodReq.cover = key;
                 addFoodReq.type = uploadType;
-                addFoodReq.key = key;
+                addFoodReq.cover_qiniu_key = key;
                 addFoodReq.title = mEtName.getText().toString();  //名称
                 addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
                 addFoodReq.discount = mTvDiscountPrice.getText().toString();

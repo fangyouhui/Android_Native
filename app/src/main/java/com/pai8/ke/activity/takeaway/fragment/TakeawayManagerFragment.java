@@ -275,6 +275,10 @@ public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPres
                     body.cover = goodInfos.get(j).cover;
                     body.cate_name = data.get(i).name;
                     body.discount = goodInfos.get(j).discount;
+                    body.cover_qiniu_key = goodInfos.get(j).cover_qiniu_key;
+                    body.desc = goodInfos.get(j).desc;
+                    body.packing_price = goodInfos.get(j).packing_price;
+                    body.type = goodInfos.get(j).type;
                     body.title = name;
                     mRightList.add(body);
                 }

@@ -21,7 +21,8 @@ public class AddFoodReq implements Serializable {
     private String tag;
     public int id;
     public int type;//type 1-图片 2-视频
-    public String key;//七牛key
+    public String cover_qiniu_key;//七牛key
+    public String key;  // 编辑时上传的七牛key字段名
 
     public AddFoodReq() {
     }
