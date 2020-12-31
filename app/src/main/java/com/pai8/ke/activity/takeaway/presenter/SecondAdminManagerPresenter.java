@@ -30,6 +30,10 @@ public class SecondAdminManagerPresenter extends BasePresenterImpl<SecondAdminMa
                 .subscribe(new BaseObserver<List<SecondAdminManagerResq>>() {
                     @Override
                     protected void onSuccess(List<SecondAdminManagerResq> data){
+                        data.remove(null);
+                        for(SecondAdminManagerResq d : data) {
+                            d.getPower_array().remove(null);
+                        }
                         view.getListSuccess(data);
                     }
 

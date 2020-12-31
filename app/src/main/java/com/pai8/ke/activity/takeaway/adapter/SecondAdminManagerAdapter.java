@@ -38,5 +38,6 @@ public class SecondAdminManagerAdapter extends BaseQuickAdapter<SecondAdminManag
         rvAuthority.setLayoutManager(layoutManager);
         rvAuthority.setAdapter(adapter);
         helper.addOnClickListener(R.id.tv_del);
+        helper.addOnClickListener(R.id.tv_update);
     }
 }

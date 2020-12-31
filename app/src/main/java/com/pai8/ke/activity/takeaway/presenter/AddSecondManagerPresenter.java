@@ -19,19 +19,16 @@ public class AddSecondManagerPresenter extends BasePresenterImpl<AddSecondManage
     }
 
     public void getList(){
-        HashMap<String, Object> map = new HashMap<>(2);
-        map.put("shop_id", AccountManager.getInstance().getShopId());
-        map.put("user_id", AccountManager.getInstance().getUid());
-        TakeawayApi.getInstance().getShopLimits(createRequestBody(map))
+        TakeawayApi.getInstance().getShopLimits()
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<SecondAdminManagerResq>() {
+                .subscribe(new BaseObserver<List<SecondAdminManagerResq.PowerArrayBean>>() {
                     @Override
-                    protected void onSuccess(SecondAdminManagerResq data){
-                        if(data != null && data.getPower_array() != null){
-                            view.getListSuccess(data.getPower_array());
+                    protected void onSuccess(List<SecondAdminManagerResq.PowerArrayBean> data){
+                        if(data != null){
+                            view.getListSuccess(data);
                         }else {
                             onError("数据为空", -1);
                         }
@@ -58,6 +55,29 @@ public class AddSecondManagerPresenter extends BasePresenterImpl<AddSecondManage
                     @Override
                     protected void onSuccess(Object data){
                         view.addAdminSuccess();
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
+
+    public void updateSecondAdmin(int id, int verifyStatus, String power) {
+        HashMap<String, Object> map = new HashMap<>(3);
+        map.put("id", id);
+        map.put("verify_status", verifyStatus);
+        map.put("power", power);
+        TakeawayApi.getInstance().updateSecondAdmin(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver() {
+                    @Override
+                    protected void onSuccess(Object data) {
+                        view.updateSuccess();
                     }
 
                     @Override

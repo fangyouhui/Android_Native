@@ -350,6 +350,9 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             mBottomDialog = new BottomDialog(this, view);
         }
         mBottomDialog.setIsCanceledOnTouchOutside(true);
+        mBottomDialog.setOnCancelListener(dialogInterface -> {
+            finish();
+        });
         mBottomDialog.show();
     }
 
