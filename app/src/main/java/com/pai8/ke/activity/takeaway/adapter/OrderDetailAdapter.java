@@ -24,7 +24,7 @@ public class OrderDetailAdapter extends BaseQuickAdapter<FoodGoodInfo, BaseViewH
         helper.setText(R.id.tv_food_name, item.title);
         helper.setText(R.id.tv_num, "*" + item.goods_num);
         helper.setText(R.id.tv_price, "" + item.goods_price);
-        helper.setText(R.id.tv_discount, "" + item.goods_discount);
+//        helper.setText(R.id.tv_discount, "" + item.goods_discount);
     }
 
 }
