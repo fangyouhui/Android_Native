@@ -123,19 +123,21 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                 mRightList.add(head);
                 List<FoodGoodInfo> goodInfos = goods.get(i).goods;
                 for (int j = 0; j < goodInfos.size(); j++) {
-                    FoodGoodInfo body = new FoodGoodInfo(goodInfos.get(j).name);
-                    body.setTag(String.valueOf(i));
-                    String name = goodInfos.get(j).title;
-                    body.name = goods.get(i).name;
-                    body.sell_price = goodInfos.get(j).sell_price;
-                    body.packing_price = goodInfos.get(j).packing_price;
-                    body.like_count = goodInfos.get(j).like_count;
-                    body.month_sale_count = goodInfos.get(j).like_count;
-                    body.id = goodInfos.get(j).id;
-                    body.cover = goodInfos.get(j).cover;
-                    body.discount = goodInfos.get(j).discount;
-                    body.title = name;
-                    mRightList.add(body);
+                    if(goodInfos.get(j).status == 1) {      // 只显示上架的商品
+                        FoodGoodInfo body = new FoodGoodInfo(goodInfos.get(j).name);
+                        body.setTag(String.valueOf(i));
+                        String name = goodInfos.get(j).title;
+                        body.name = goods.get(i).name;
+                        body.sell_price = goodInfos.get(j).sell_price;
+                        body.packing_price = goodInfos.get(j).packing_price;
+                        body.like_count = goodInfos.get(j).like_count;
+                        body.month_sale_count = goodInfos.get(j).like_count;
+                        body.id = goodInfos.get(j).id;
+                        body.cover = goodInfos.get(j).cover;
+                        body.discount = goodInfos.get(j).discount;
+                        body.title = name;
+                        mRightList.add(body);
+                    }
                 }
 
             }
