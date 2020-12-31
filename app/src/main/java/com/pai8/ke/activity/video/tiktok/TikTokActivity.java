@@ -673,7 +673,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         sp.setTitleUrl(url);
         sp.setText(name);
         sp.setUrl(url);
-        sp.setImageUrl(mShareImgUrl);
+        sp.setImageUrl(url);
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform pform = ShareSDK.getPlatform(platform);
         pform.setPlatformActionListener(new PlatformActionListener() {
