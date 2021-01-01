@@ -24,6 +24,8 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 /*
@@ -113,8 +115,9 @@ public interface TakeawayApiService {
     @POST("shop/shopUncollect")
     Observable<BaseRespose<String>> unCollection(@Body ShopIdReq parm);
 
+    @FormUrlEncoded
     @POST("Order/waimaiPrice")
-    Observable<BaseRespose> outDistance(@Body RequestBody parm);
+    Observable<BaseRespose> outDistance(@Field("shop_id") String shopId, @Field("address_id") String addressId, @Field("box_price") String boxPrice);
 
 
     @POST("shop/shopContent")

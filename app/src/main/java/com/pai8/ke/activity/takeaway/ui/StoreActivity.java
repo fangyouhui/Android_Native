@@ -309,7 +309,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             if (data != null) {
                 saveCurLocation(data.getStringExtra("lat"), data.getStringExtra("lng"),
                         data.getStringExtra("address"));
-                mPresenter.outDistance( mStoreInfo.id + "", data.getStringExtra("id"));
+                mPresenter.outDistance( mStoreInfo.id + "", data.getIntExtra("id", -1) + "");
             }
         }
     }
@@ -321,7 +321,13 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     }
 
     void showOutDistancePop(String msg) {
-        View view = View.inflate(this, R.layout.pop_out_distance, null);
+        View view;
+        if (mBottomDialog == null) {
+            view = View.inflate(this, R.layout.pop_out_distance, null);
+            mBottomDialog = new BottomDialog(this, view);
+        } else {
+            view = mBottomDialog.getView();
+        }
         ViewHolder holder = new ViewHolder(view);
         holder.ivClose.setOnClickListener(view1 -> {
             mBottomDialog.dismiss();
@@ -346,9 +352,6 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             intent.putExtra("TYPE", 2);
             startActivityForResult(intent, 100);
         });
-        if (mBottomDialog == null) {
-            mBottomDialog = new BottomDialog(this, view);
-        }
         mBottomDialog.setIsCanceledOnTouchOutside(true);
         mBottomDialog.setOnCancelListener(dialogInterface -> {
             finish();

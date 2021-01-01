@@ -90,10 +90,7 @@ public class StorePresenter extends BasePresenterImpl<StoreContract.View> {
     }
 
     public void outDistance(String shopId,String addressId){
-        HashMap<String, Object> map = new HashMap<>(2);
-        map.put("shop_id", shopId);
-        map.put("address_id",addressId);
-        TakeawayApi.getInstance().outDistance(createRequestBody(map))
+        TakeawayApi.getInstance().outDistance(shopId, addressId, "")
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
@@ -104,9 +101,13 @@ public class StorePresenter extends BasePresenterImpl<StoreContract.View> {
 
                     @Override
                     protected void onError(String msg, int errorCode) {
-                        super.onError(msg, errorCode);
-                        if(errorCode == 0){
+                        if(errorCode == 2) {
                             view.onFail(msg);
+                        } else {
+                            super.onError(msg, errorCode);
+                            if(errorCode == 0){
+                                view.onFail(msg);
+                            }
                         }
                     }
                 });

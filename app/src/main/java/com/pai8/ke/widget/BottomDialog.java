@@ -36,6 +36,10 @@ public class BottomDialog extends Dialog {
         this.mView = view;
     }
 
+    public View getView() {
+        return mView;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
