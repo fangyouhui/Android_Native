@@ -407,8 +407,6 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         if (!TextUtils.isEmpty(orderNo)) {
             mPresenter.reAddCart(orderNo);
         }
-
-        mPresenter.outDistance( mStoreInfo.id + "", "");
     }
 
 

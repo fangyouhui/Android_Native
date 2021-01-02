@@ -16,6 +16,8 @@ public interface ConfirmContract {
 
         void waimaiSuccess(WaimaiResq data);
 
+        void onFail(String msg);
+
 
     }
 

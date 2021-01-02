@@ -84,6 +84,8 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
                     Intent intent = new Intent();
                     intent.putExtra("lat", mAdapter.getData().get(position).latitude);
                     intent.putExtra("lng", mAdapter.getData().get(position).longitude);
+                    intent.putExtra("name", mAdapter.getData().get(position).linkman);
+                    intent.putExtra("phone", mAdapter.getData().get(position).phone);
                     intent.putExtra("address", mAdapter.getData().get(position).address);
                     intent.putExtra("id", mAdapter.getData().get(position).id);
                     setResult(RESULT_OK, intent);
@@ -91,6 +93,8 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
                     return;
                 }
                 Intent intent = new Intent();
+                intent.putExtra("lat", mAdapter.getData().get(position).latitude);
+                intent.putExtra("lng", mAdapter.getData().get(position).longitude);
                 intent.putExtra("name", mAdapter.getData().get(position).linkman);
                 intent.putExtra("phone", mAdapter.getData().get(position).phone);
                 intent.putExtra("address", mAdapter.getData().get(position).address);

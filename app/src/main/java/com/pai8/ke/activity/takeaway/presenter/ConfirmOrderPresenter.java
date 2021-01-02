@@ -35,7 +35,11 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
 
                     @Override
                     protected void onError(String msg, int errorCode) {
-                        super.onError(msg, errorCode);
+                        if(errorCode == 2) {
+                            view.onFail(msg);
+                        } else {
+                            super.onError(msg, errorCode);
+                        }
                     }
                 });
     }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,18 +22,28 @@ import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.activity.takeaway.presenter.ConfirmOrderPresenter;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
+import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.event.PayResultEvent;
 import com.pai8.ke.fragment.pay.PayDialogFragment;
 import com.pai8.ke.global.EventCode;
+import com.pai8.ke.utils.AMapLocationUtils;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.PreferencesUtils;
+import com.pai8.ke.widget.BottomDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
 
 public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter> implements View.OnClickListener, ConfirmContract.View {
 
@@ -47,6 +58,8 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     private TextView mTvSendPrice;
     private TextView mTvPackPrice;
     private TextView mTvSendTime;
+
+    private BottomDialog mBottomDialog;
 
     private TextView mCoupon;
 
@@ -179,6 +192,11 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         }
     }
 
+    @Override
+    public void onFail(String msg) {
+        showOutDistancePop(msg);
+    }
+
 
     private void time(){
         List<String> list = new ArrayList<>();
@@ -215,11 +233,59 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                     mTvAddress.setText(mAddress);
                     mTvName.setVisibility(View.VISIBLE);
                     mTvName.setText(mName + "     " + mPhone);
+                    saveCurLocation(data.getStringExtra("lat"), data.getStringExtra("lng"),
+                            data.getStringExtra("address"));
                     mPresenter.waimaiPrice(mStoreInfo.id,mId,boxPrice+"");
 
                     break;
             }
         }
+    }
+
+    void saveCurLocation(String latitude, String longitude, String address) {
+        PreferencesUtils.put(this, "latitude", latitude);
+        PreferencesUtils.put(this, "longitude", longitude);
+        PreferencesUtils.put(this, "address", address);
+    }
+
+
+    void showOutDistancePop(String msg) {
+        View view;
+        if (mBottomDialog == null) {
+            view = View.inflate(this, R.layout.pop_out_distance, null);
+            mBottomDialog = new BottomDialog(this, view);
+        } else {
+            view = mBottomDialog.getView();
+        }
+        ConfirmOrderActivity.ViewHolder holder = new ConfirmOrderActivity.ViewHolder(view);
+        holder.ivClose.setOnClickListener(view1 -> {
+            mBottomDialog.dismiss();
+            finish();
+        });
+        holder.tvAddress.setText(PreferencesUtils.getObjectFromString(this, "address"));
+        holder.tvSeeAround.setOnClickListener(view1 -> {
+            AMapLocationUtils.getLocation(location -> {
+                saveCurLocation(location.getLatitude() + "",
+                        location.getLongitude() + "", location.getAddress());
+                Address mAddress = new Address();
+                mAddress.setAddress(location.getAddress());
+                mAddress.setLat(location.getLatitude());
+                mAddress.setLon(location.getLongitude());
+                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, mAddress));
+                finish();
+                mBottomDialog.dismiss();
+            }, true);
+        });
+        holder.tvChangeAddress.setOnClickListener(view1 -> {
+            Intent intent = new Intent(this, DeliveryAddressActivity.class);
+            intent.putExtra("TYPE", 2);
+            startActivityForResult(intent, 100);
+        });
+        mBottomDialog.setIsCanceledOnTouchOutside(true);
+        mBottomDialog.setOnCancelListener(dialogInterface -> {
+            finish();
+        });
+        mBottomDialog.show();
     }
 
 
@@ -263,5 +329,22 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
             sendPrice = Double.parseDouble(data.amount);
         }
         setPrice(mFoodInfoList);
+        if(mBottomDialog != null) mBottomDialog.dismiss();
+    }
+
+
+    class ViewHolder {
+        @BindView(R.id.iv_close)
+        ImageButton ivClose;
+        @BindView(R.id.tv_address)
+        TextView tvAddress;
+        @BindView(R.id.tv_see_around)
+        TextView tvSeeAround;
+        @BindView(R.id.tv_change_address)
+        TextView tvChangeAddress;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
