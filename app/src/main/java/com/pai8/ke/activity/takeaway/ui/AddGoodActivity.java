@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gh.qiniushortvideo.ChooseVideo;
+import com.gh.qiniushortvideo.activity.ConfigActivity;
+import com.gh.qiniushortvideo.activity.MediaSelectActivity;
+import com.gh.qiniushortvideo.activity.VideoRecordActivity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
@@ -23,6 +27,7 @@ import com.pai8.ke.activity.takeaway.presenter.AddGoodPresenter;
 import com.pai8.ke.activity.takeaway.utils.SoftHideKeyBoardUtil;
 import com.pai8.ke.activity.takeaway.widget.ChooseDiscountPricePop;
 import com.pai8.ke.activity.takeaway.widget.ChooseShopCoverPop;
+import com.pai8.ke.activity.video.tiktok.TikTokActivity;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
@@ -30,10 +35,14 @@ import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
+import com.pai8.ke.widget.EditTextCountView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -63,7 +72,39 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
 
     private TextView mTvTile;
     private BottomDialog mGoodCategoryDialog;
+    private BottomDialog mChooseBottomDialog;
 
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    /**
+     * 七牛视频事件
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventChooseVideo(ChooseVideo event) {
+        if (event == null) return;
+        mFoodPath = event.getPath();
+        ImageLoadUtils.loadCover(this, mFoodPath, mIvCover);
+        showLoadingDialog("视频上传...");
+        UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
+            @Override
+            public void onSuccess(String url, String key) {
+                dismissLoadingDialog();
+                toast("视频上传成功");
+                addFoodReq.cover_qiniu_key = key;
+            }
+
+            @Override
+            public void onError(String msg) {
+                dismissLoadingDialog();
+                toast("视频上传失败：" + msg);
+            }
+        });
+    }
 
     @Override
     public AddGoodPresenter initPresenter() {
@@ -136,23 +177,56 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
 
         } else if (v.getId() == R.id.iv_cover) {
             ChooseShopCoverPop pop = new ChooseShopCoverPop(this);
-            pop.setOnSelectListener(new ChooseShopCoverPop.OnSelectListener() {
-                @Override
-                public void onSelect(int type) {
+            pop.setOnSelectListener(type -> {
+                if (type == 0) {
                     ChoosePicUtils.picSingle(AddGoodActivity.this, type, type == 0 ? RESULT_PICTURE :
                             RESULT_VIDEO);
+                } else {
+                    pop.dismiss();
+                    View view = View.inflate(AddGoodActivity.this, R.layout.view_dialog_choose_qnvideo,
+                            null);
+                    TextView tvBtnGalley = view.findViewById(R.id.tv_btn_galley);
+                    TextView tvBtnTakePhoto = view.findViewById(R.id.tv_btn_take_photo);
+                    ImageButton itnClose = view.findViewById(R.id.itn_close);
+                    tvBtnGalley.setOnClickListener(view12 -> {
+                        Intent it = new Intent(AddGoodActivity.this, MediaSelectActivity.class);
+                        it.putExtra(MediaSelectActivity.TYPE, MediaSelectActivity.TYPE_VIDEO_EDIT);
+                        startActivity(it);
+                        mChooseBottomDialog.dismiss();
+                    });
+                    tvBtnTakePhoto.setOnClickListener(view13 -> {
+                        mChooseBottomDialog.dismiss();
+                        Intent intent = new Intent(AddGoodActivity.this, VideoRecordActivity.class);
+                        intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_RATIO,
+                                ConfigActivity.PREVIEW_SIZE_RATIO_POS);
+                        intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_LEVEL,
+                                ConfigActivity.PREVIEW_SIZE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.ENCODING_MODE,
+                                ConfigActivity.ENCODING_MODE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.ENCODING_SIZE_LEVEL,
+                                ConfigActivity.ENCODING_SIZE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.ENCODING_BITRATE_LEVEL,
+                                ConfigActivity.ENCODING_BITRATE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.AUDIO_CHANNEL_NUM,
+                                ConfigActivity.AUDIO_CHANNEL_NUM_POS);
+                        startActivity(intent);
+                    });
+
+                    itnClose.setOnClickListener(view1 -> {
+                        mChooseBottomDialog.dismiss();
+                    });
+                    if (mChooseBottomDialog == null) {
+                        mChooseBottomDialog = new BottomDialog(AddGoodActivity.this, view);
+                    }
+                    mChooseBottomDialog.setIsCanceledOnTouchOutside(true);
+                    mChooseBottomDialog.show();
+
                 }
             });
             pop.showPopupWindow();
         } else if (v.getId() == R.id.tv_discount_price) {
             ChooseDiscountPricePop pricePop = new ChooseDiscountPricePop(this);
-            pricePop.setOnSelectListener(new ChooseDiscountPricePop.OnSelectListener() {
-                @Override
-                public void onSelect(String content) {
-                    mTvDiscountPrice.setText(content);
-                }
-
-            });
+            pricePop.setOnSelectListener(content -> mTvDiscountPrice.setText(content));
             pricePop.showPopupWindow();
 
         } else if (v.getId() == R.id.tv_publish) {  //发布
@@ -203,16 +277,12 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                 }
             }
 
-
         } else if (v.getId() == R.id.tv_del) {
-
 
             mPresenter.foodDelete(mFood.id + "");
 
-
         }
     }
-
 
     private void upload(int type) {
         UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
@@ -236,7 +306,6 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                 addFoodReq.cate_id = cateId + "";
                 addFoodReq.packing_price = mEtPackPrice.getText().toString();
                 if (type == 0) {
-
                     mPresenter.addGood(addFoodReq);
                 } else if (type == 1) {
                     addFoodReq.goods_id = mFood.id;
@@ -352,7 +421,6 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
         }
 
     }
-
 
     private String mFoodPath;
 
