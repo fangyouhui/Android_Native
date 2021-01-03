@@ -95,7 +95,8 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
             public void onSuccess(String url, String key) {
                 dismissLoadingDialog();
                 toast("视频上传成功");
-                addFoodReq.cover_qiniu_key = key;
+                mFood.cover_qiniu_key = key;
+                mFood.cover = key;
             }
 
             @Override
