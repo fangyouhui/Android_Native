@@ -1,11 +1,13 @@
 package com.pai8.ke.activity.takeaway.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.FoodClassifyAdapter;
 import com.pai8.ke.activity.takeaway.adapter.FoodGoodAdapter;
@@ -107,10 +109,22 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                         case R.id.root:
                             content = "title";
                             break;
+                        case R.id.item_goods_iv_goods:
+                            if(mRightList.get(position).type == 2) {
+                                String videoUrl = mRightList.get(position).cover;
+                                if(videoUrl != null && videoUrl.length() > 0) {
+                                    Intent intent = new Intent(getContext(), VideoViewActivity.class);
+                                    intent.putExtra("type", VideoViewActivity.TYPE_REMOTE);
+                                    intent.putExtra("path", videoUrl);
+                                    startActivity(intent);
+                                }
+                            }
+                            break;
 
                     }
                 }
             });
+
             mRvGoods.setAdapter(mGoodAdapter);
             List<FoodClassifyInfo> goods = event.data.goods;
             mClassifyAdapter.setNewData(goods);
@@ -135,6 +149,8 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                         body.id = goodInfos.get(j).id;
                         body.cover = goodInfos.get(j).cover;
                         body.discount = goodInfos.get(j).discount;
+                        body.video = goodInfos.get(j).video;
+                        body.type = goodInfos.get(j).type;
                         body.title = name;
                         mRightList.add(body);
                     }

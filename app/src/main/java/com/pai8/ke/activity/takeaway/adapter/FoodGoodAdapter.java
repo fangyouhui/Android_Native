@@ -69,6 +69,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         TextView tvReduce;
         TextView tvNum;
         ImageView ivGoods;
+        ImageView ivBtnPlayer;
         TextView tvPrice;
         TextView tvSale;
         TextView tvLike;
@@ -85,6 +86,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvReduce = itemView.findViewById(R.id.tv_reduce_goods);
                     tvNum = itemView.findViewById(R.id.tv_num);
                     ivGoods = itemView.findViewById(R.id.item_goods_iv_goods);
+                    ivBtnPlayer = itemView.findViewById(R.id.iv_btn_player);
                     tvTitle = itemView.findViewById(R.id.item_goods_tv_name);
                     tvPrice = itemView.findViewById(R.id.item_tv_price);
                     tvSale  = itemView.findViewById(R.id.item_tv_month_seller);
@@ -104,6 +106,14 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvTitle.setText(food.name);
                     break;
                 case 1:
+                    if(food.type == 2) {
+                        ivBtnPlayer.setVisibility(View.VISIBLE);
+                    } else {
+                        ivBtnPlayer.setVisibility(View.INVISIBLE);
+                    }
+                    ivGoods.setOnClickListener(v -> {
+                        listener.onItemClick(v.getId(), getAdapterPosition());
+                    });
                     tvTitle.setText(food.title);
                     tvPrice.setText(food.sell_price);
                     tvSale.setText("月售 "+food.month_sale_count);

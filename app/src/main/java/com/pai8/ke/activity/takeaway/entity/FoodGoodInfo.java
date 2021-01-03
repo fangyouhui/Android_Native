@@ -22,11 +22,13 @@ public class FoodGoodInfo implements Serializable {
     public String month_sale_count;
     public String like_count;
     public String option;
+    public String video;
     public int status;
     public String packing_price;
     private String tag;
     public int goods_num;
     public int position = -1;
+    public int type = 2;
 
     public boolean isTitle;
 
