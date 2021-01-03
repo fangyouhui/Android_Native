@@ -97,6 +97,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                 toast("视频上传成功");
                 mFood.cover_qiniu_key = key;
                 mFood.cover = key;
+                mFood.type = 2;
             }
 
             @Override
