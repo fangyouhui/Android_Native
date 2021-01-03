@@ -64,7 +64,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             if (msg.what == RC_SEARCH) {
                 LatLonPoint latLonPoint = new LatLonPoint(mAMapLocation.getLatitude(),
                         mAMapLocation.getLongitude());
-                doSearchQuery(latLonPoint, mAMapLocation.getCity());
+                doSearchQuery(latLonPoint, "");
             }
         }
     };
@@ -142,7 +142,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         mPoiquery.setPageSize(100);
         mPoiquery.setPageNum(1);
         PoiSearch poiSearch = new PoiSearch(this, mPoiquery);
-        poiSearch.setBound(new PoiSearch.SearchBound(lp, 5000, true));
+//        poiSearch.setBound(new PoiSearch.SearchBound(lp, 5000, true));
         poiSearch.setOnPoiSearchListener(this);
         poiSearch.searchPOIAsyn();
 
