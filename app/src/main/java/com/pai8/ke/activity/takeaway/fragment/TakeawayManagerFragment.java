@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.RvListener;
 import com.pai8.ke.activity.takeaway.adapter.TakeawayFoodAdapter;
@@ -151,6 +152,18 @@ public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPres
                     case R.id.root:
                         content = "title";
                         break;
+                    case R.id.item_goods_iv_goods:
+                        if(mRightList.get(position).type == 2) {
+                            String videoUrl = mRightList.get(position).cover;
+                            if(videoUrl != null && videoUrl.length() > 0) {
+                                Intent intent = new Intent(getContext(), VideoViewActivity.class);
+                                intent.putExtra("type", VideoViewActivity.TYPE_REMOTE);
+                                intent.putExtra("path", videoUrl);
+                                startActivity(intent);
+                            }
+                        }
+                        break;
+
 
                 }
 

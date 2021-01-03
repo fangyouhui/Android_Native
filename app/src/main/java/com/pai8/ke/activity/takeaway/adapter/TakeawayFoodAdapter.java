@@ -44,6 +44,7 @@ public class TakeawayFoodAdapter  extends RvAdapter<AddFoodReq> {
         TextView tvTitle;
 
         ImageView ivGoods;
+        ImageView ivBtnPlayer;
         TextView tvPrice;
         TextView rlItem;
         TextView tvPriceDiscount;  //折扣价
@@ -57,6 +58,7 @@ public class TakeawayFoodAdapter  extends RvAdapter<AddFoodReq> {
                 case 1:
                     rlItem = itemView.findViewById(R.id.tv_edit_goods);
                     ivGoods = itemView.findViewById(R.id.item_goods_iv_goods);
+                    ivBtnPlayer = itemView.findViewById(R.id.iv_btn_player);
                     tvTitle = itemView.findViewById(R.id.item_goods_tv_name);
                     tvPrice = itemView.findViewById(R.id.item_tv_price);
                     tvPriceDiscount = itemView.findViewById(R.id.item_tv_price_discount);
@@ -75,6 +77,14 @@ public class TakeawayFoodAdapter  extends RvAdapter<AddFoodReq> {
                     break;
                 case 1:
 
+                    if(food.type == 2) {
+                        ivBtnPlayer.setVisibility(View.VISIBLE);
+                    } else {
+                        ivBtnPlayer.setVisibility(View.INVISIBLE);
+                    }
+                    ivGoods.setOnClickListener(v -> {
+                        listener.onItemClick(v.getId(), getAdapterPosition());
+                    });
                     rlItem.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
