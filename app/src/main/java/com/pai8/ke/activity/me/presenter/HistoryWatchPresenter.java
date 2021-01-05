@@ -10,6 +10,7 @@ import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.Shop;
 import com.pai8.ke.entity.Video;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.ToastUtils;
@@ -38,9 +39,9 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<HistoryResp>() {
+                .subscribe(new BaseObserver<HistoryResp<Shop>>() {
                     @Override
-                    protected void onSuccess(HistoryResp data) {
+                    protected void onSuccess(HistoryResp<Shop> data) {
                         if (page == 1) {
                             view.completeRefresh();
                         } else {
@@ -74,9 +75,9 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<HistoryResp>() {
+                .subscribe(new BaseObserver<HistoryResp<Video>>() {
                     @Override
-                    protected void onSuccess(HistoryResp data) {
+                    protected void onSuccess(HistoryResp<Video> data) {
                         if (page == 1) {
                             view.completeRefresh();
                         } else {

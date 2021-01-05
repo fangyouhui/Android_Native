@@ -33,6 +33,7 @@
                     android:background="@null"
                     android:padding="15dp"
                     android:src="@mipmap/ic_home_paly"
+                    android:visibility="gone"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -51,7 +52,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/iv_cover"
-                    tool:text="这家店真的太好吃了"
+                    android:text="这家店真的太好吃了"
                     android:layout_marginBottom="20dp"/>
 
 
@@ -78,7 +79,7 @@
                         android:textColor="@color/color_white"
                         android:textSize="10sp"
                         android:visibility="visible"
-                        tool:text="外卖"/>
+                        android:text="外卖"/>
 
                 <TextView
                         android:id="@+id/tv_tag_tg"
@@ -92,8 +93,8 @@
                         android:paddingBottom="1.5dp"
                         android:textColor="@color/color_white"
                         android:textSize="10sp"
-                        android:visibility="visible"
-                        tool:text="团购"/>
+                        android:visibility="gone"
+                        android:text="团购"/>
 
                 <TextView
                         android:id="@+id/tv_tag_onsale"

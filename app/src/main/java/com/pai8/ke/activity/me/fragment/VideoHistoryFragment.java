@@ -85,7 +85,7 @@ public class VideoHistoryFragment extends BaseMvpFragment<HistoryWatchPresenter>
     }
 
     @Override
-    public void getHistorySuccess(int total, List<Video> data) {
+    public void getHistorySuccess(int total, List data) {
         if (data != null) {
             if (page == 1) {
                 mAdapter.replaceData(data);

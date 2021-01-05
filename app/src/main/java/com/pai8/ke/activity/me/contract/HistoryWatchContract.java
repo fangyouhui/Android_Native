@@ -14,7 +14,7 @@ public interface HistoryWatchContract {
 
     interface View extends BaseView {
 
-        void getHistorySuccess(int total,List<Video> data);
+        void getHistorySuccess(int total,List data);
 
         void isRefresh();
 

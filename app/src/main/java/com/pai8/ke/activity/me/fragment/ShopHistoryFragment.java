@@ -6,8 +6,10 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.me.adapter.ShopHistoryAdapter;
 import com.pai8.ke.activity.me.contract.HistoryWatchContract;
 import com.pai8.ke.activity.me.presenter.HistoryWatchPresenter;
+import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.activity.video.tiktok.TikTokActivity;
 import com.pai8.ke.base.BaseMvpFragment;
+import com.pai8.ke.entity.Shop;
 import com.pai8.ke.entity.Video;
 import com.pai8.ke.global.GlobalConstants;
 
@@ -46,7 +48,7 @@ public class ShopHistoryFragment extends BaseMvpFragment<HistoryWatchPresenter> 
     @BindView(R.id.rg_choose)
     RadioGroup rgChoose;
     private ShopHistoryAdapter mAdapter;
-    private List<Video> mList = new ArrayList<>();
+    private List<Shop> mList = new ArrayList<>();
     private int page = 1;
 
     @Override
@@ -58,9 +60,10 @@ public class ShopHistoryFragment extends BaseMvpFragment<HistoryWatchPresenter> 
     protected void initListener() {
         super.initListener();
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Video videoResp = mList.get(position);
-            TikTokActivity.launch(getActivity(),mList, videoResp.getPage(), position
-                    , position);
+            Shop shop = mList.get(position);
+            StoreActivity.launch(getActivity(), shop.getId());
+//            TikTokActivity.launch(getActivity(),mList, videoResp.getPage(), position
+//                    , position);
         });
         rgChoose.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
@@ -113,7 +116,7 @@ public class ShopHistoryFragment extends BaseMvpFragment<HistoryWatchPresenter> 
     }
 
     @Override
-    public void getHistorySuccess(int total, List<Video> data) {
+    public void getHistorySuccess(int total, List data) {
         if (data != null) {
             if (page == 1) {
                 mAdapter.replaceData(data);

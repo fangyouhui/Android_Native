@@ -6,6 +6,8 @@ import com.pai8.ke.activity.me.entity.resp.HistoryResp;
 import com.pai8.ke.activity.me.entity.resp.UserInfoResp;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.base.BaseRespose;
+import com.pai8.ke.entity.Shop;
+import com.pai8.ke.entity.Video;
 
 import java.util.List;
 
@@ -51,13 +53,13 @@ public interface MineApiService {
      * 我的足迹
      */
     @POST("my/history")
-    Observable<BaseRespose<HistoryResp>> getHistoryList(@Body RequestBody param);
+    Observable<BaseRespose<HistoryResp<Shop>>> getHistoryList(@Body RequestBody param);
 
     /**
      * 我的足迹
      */
     @POST("my/video")
-    Observable<BaseRespose<HistoryResp>> getVideoHistoryList(@Body RequestBody param);
+    Observable<BaseRespose<HistoryResp<Video>>> getVideoHistoryList(@Body RequestBody param);
 
 
     /**
