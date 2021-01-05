@@ -235,16 +235,22 @@ public class ImageLoadUtils {
      */
     public static void loadCover(Context context, String url, ImageView imageView) {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Glide.with(context)
-                .setDefaultRequestOptions(
-                        new RequestOptions()
-                                .frame(4000000)
-                                .centerCrop()
-//                                .error(R.)
-//                                .placeholder(R.mipmap.ppppp)
-                )
-                .load(url)
-                .into(imageView);
+
+        if (context != null) {
+            Glide.with(context)
+                    .load(url).apply(new RequestOptions()
+            ).into(imageView);
+        }
+//        Glide.with(context)
+//                .setDefaultRequestOptions(
+//                        new RequestOptions()
+//                                .frame(4000000)
+//                                .centerCrop()
+////                                .error(R.)
+////                                .placeholder(R.mipmap.ppppp)
+//                )
+//                .load(url)
+//                .into(imageView);
     }
 
     public static void loadVideoCover(Context context, String url, ImageView imageView) {
