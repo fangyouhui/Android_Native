@@ -66,7 +66,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
     private AddFoodReq addFoodReq;
     private int mType;     //3:编辑团购商品
 
-    private AddFoodReq mFood;
+    private AddFoodReq mFood = new AddFoodReq();
 
     private TextView mTvDel;
 
@@ -298,7 +298,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                 }
                 addFoodReq.shop_id = AccountManager.getInstance().getShopId();
 //                addFoodReq.cover = key;
-                addFoodReq.type = uploadType;
+                addFoodReq.type = mFood.type;
                 addFoodReq.cover_qiniu_key = key;
                 addFoodReq.title = mEtName.getText().toString();  //名称
                 addFoodReq.sell_price = mEtPrice.getText().toString();  //售卖价格
