@@ -6,6 +6,7 @@ import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.base.BaseView;
 import com.pai8.ke.entity.User;
 import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.resp.AttentionMine;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface FansContract {
 
     interface View extends BaseView {
 
-        void getFansSuccess(int total,List<Video> data);
+        void getFansSuccess(int total,List<AttentionMine> data);
 
         void cancelAttentionSuccess();
 

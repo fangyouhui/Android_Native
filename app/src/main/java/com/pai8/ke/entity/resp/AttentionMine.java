@@ -7,6 +7,7 @@ public class AttentionMine {
     private int from_user_id;
     private int to_user_id;
     private int create_time;
+    private int is_follow;
     private User user;
 
     public int getId() {
@@ -47,5 +48,13 @@ public class AttentionMine {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getIs_follow() {
+        return is_follow;
+    }
+
+    public void setIs_follow(int is_follow) {
+        this.is_follow = is_follow;
     }
 }

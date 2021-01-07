@@ -12,6 +12,7 @@ import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.entity.User;
 import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.resp.AttentionMine;
 import com.pai8.ke.global.GlobalConstants;
 
 import android.view.View;
@@ -37,7 +38,7 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout srLayout;
     private FansAdapter mAdapter;
-    private List<Video> mList = new ArrayList<>();
+    private List<AttentionMine> mList = new ArrayList<>();
     private int page = 1;
 
     @Override
@@ -79,10 +80,10 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
             }
         });
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            if (mList.get(position).getFollow_status()== 1) {
-                showOperateDialog(true, mList.get(position).getUser_id() + "");
+            if (mList.get(position).getIs_follow()== 1) {
+                showOperateDialog(true, mList.get(position).getUser().getId() + "");
             } else {
-                showOperateDialog(false, mList.get(position).getUser_id() + "");
+                showOperateDialog(false, mList.get(position).getUser().getId() + "");
             }
         });
     }
@@ -91,8 +92,8 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
         new MaterialDialog.Builder(this)
                 .title("温馨提示")
                 .content(cancel ? "确定取消关注对方？" : "确定关注对方？")
-                .positiveText(R.string.cancel)
-                .negativeText(R.string.confirm)
+                .positiveText(R.string.confirm)
+                .negativeText(R.string.cancel)
                 .onPositive((dialog, which) -> {
                     if (cancel) {
                         mPresenter.cancelAttention(id);
@@ -109,7 +110,7 @@ public class FansActivity extends BaseMvpActivity<FansPresenter> implements Fans
     }
 
     @Override
-    public void getFansSuccess(int total,List<Video> data) {
+    public void getFansSuccess(int total,List<AttentionMine> data) {
         if(total != 0){
             mTitleBar.setTitle("粉丝(" + total + ")");
         }
