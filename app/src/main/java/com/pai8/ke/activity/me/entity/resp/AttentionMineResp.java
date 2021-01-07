@@ -2,6 +2,7 @@ package com.pai8.ke.activity.me.entity.resp;
 
 import com.pai8.ke.activity.me.entity.PaginationBean;
 import com.pai8.ke.entity.User;
+import com.pai8.ke.entity.resp.AttentionMine;
 
 import java.util.List;
 
@@ -17,14 +18,14 @@ public class AttentionMineResp {
      * pagination :  {"has_more":0,"total":5}
      */
 
-    private List<User> users;
+    private List<AttentionMine> users;
 
 
-    public List<User> getUsers() {
+    public List<AttentionMine> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<AttentionMine> users) {
         this.users = users;
     }
 
