@@ -16,6 +16,7 @@ import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseFragment;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.TabCreateUtils;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -109,7 +110,8 @@ public class TabHomeFragment extends BaseFragment {
                     launch(LoginActivity.class);
                     return;
                 }
-                CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance();
+                String shopId = (String)PreferencesUtils.get(MyApp.getMyApp(), "shop_id", "");
+                CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance(shopId);
                 newInstance.show(getChildFragmentManager(), "CouponGetDialog");
                 break;
             case R.id.iv_scan:
