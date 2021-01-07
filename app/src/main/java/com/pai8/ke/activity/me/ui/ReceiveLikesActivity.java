@@ -9,6 +9,7 @@ import com.pai8.ke.activity.me.presenter.ReceiveLikesPresenter;
 import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.resp.LikeInfo;
 import com.pai8.ke.global.GlobalConstants;
 
 import android.view.View;
@@ -34,7 +35,7 @@ public class ReceiveLikesActivity extends BaseMvpActivity<ReceiveLikesPresenter>
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout srLayout;
     private ReceiveLikesAdapter mAdapter;
-    private List<Video> mList = new ArrayList<>();
+    private List<LikeInfo> mList = new ArrayList<>();
     private int page = 1;
 
 
@@ -97,7 +98,7 @@ public class ReceiveLikesActivity extends BaseMvpActivity<ReceiveLikesPresenter>
 
 
     @Override
-    public void getReceiveLikesSuccess(int total ,List<Video> data) {
+    public void getReceiveLikesSuccess(int total ,List<LikeInfo> data) {
         if(total != 0){
             mTitleBar.setTitle("获赞(" + total + ")");
         }

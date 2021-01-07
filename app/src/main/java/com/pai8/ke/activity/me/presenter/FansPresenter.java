@@ -76,9 +76,9 @@ public class FansPresenter extends BasePresenterImpl<FansContract.View> {
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<BaseRespose>() {
+                .subscribe(new BaseObserver<String>() {
                     @Override
-                    protected void onSuccess(BaseRespose data){
+                    protected void onSuccess(String data){
                         view.cancelAttentionSuccess();
                     }
 

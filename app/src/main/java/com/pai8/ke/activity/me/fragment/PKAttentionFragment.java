@@ -9,6 +9,7 @@ import com.pai8.ke.activity.me.presenter.AttentionMinePresenter;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.entity.User;
+import com.pai8.ke.entity.resp.AttentionMine;
 import com.pai8.ke.global.GlobalConstants;
 
 import android.os.Bundle;
@@ -34,7 +35,7 @@ public class PKAttentionFragment extends BaseMvpFragment<AttentionMinePresenter>
     @BindView(R.id.rv_pk_attention)
     RecyclerView rvPkAttention;
     private AttentionMineAdapter mAdapter;
-    private List<User> mList = new ArrayList<>();
+    private List<AttentionMine> mList = new ArrayList<>();
     private int page = 1;
 
     @Override
@@ -74,7 +75,7 @@ public class PKAttentionFragment extends BaseMvpFragment<AttentionMinePresenter>
     }
 
     @Override
-    public void getAttentionMineSuccess(int total,List<User> data) {
+    public void getAttentionMineSuccess(int total,List<AttentionMine> data) {
         if (data != null) {
             if (page == 1) {
                 mAdapter.replaceData(data);

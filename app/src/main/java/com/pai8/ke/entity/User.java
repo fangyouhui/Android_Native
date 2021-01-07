@@ -19,6 +19,7 @@ public class User implements Serializable {
     private String wechat;
     private  Shop shop;
     private int is_focus;
+    private String user_nickname;
 
     public Shop getShop() {
         return shop;
@@ -74,5 +75,14 @@ public class User implements Serializable {
 
     public void setWechat(String wechat) {
         this.wechat = wechat;
+    }
+
+    public String getUser_nickname() {
+        return user_nickname;
+    }
+
+    public void setUser_nickname(String user_nickname) {
+        this.user_nickname = user_nickname;
+        this.nickname = user_nickname;
     }
 }

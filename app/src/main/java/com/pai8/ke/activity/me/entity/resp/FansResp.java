@@ -3,6 +3,7 @@ package com.pai8.ke.activity.me.entity.resp;
 import com.pai8.ke.activity.me.entity.PaginationBean;
 import com.pai8.ke.entity.User;
 import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.resp.AttentionMine;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class FansResp {
      * pagination :  {"has_more":0,"total":5}
      */
 
-    private List<Video> users;
+    private List<AttentionMine> users;
 
     private PaginationBean pagination;
 
@@ -30,11 +31,11 @@ public class FansResp {
         this.pagination = pagination;
     }
 
-    public List<Video> getUsers() {
+    public List<AttentionMine> getUsers() {
         return users;
     }
 
-    public void setUsers(List<Video> users) {
+    public void setUsers(List<AttentionMine> users) {
         this.users = users;
     }
 }
