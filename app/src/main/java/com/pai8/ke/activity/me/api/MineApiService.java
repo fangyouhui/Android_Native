@@ -8,6 +8,7 @@ import com.pai8.ke.activity.message.entity.resp.MessageResp;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.Shop;
 import com.pai8.ke.entity.Video;
+import com.pai8.ke.entity.resp.LikeInfo;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public interface MineApiService {
      * 获赞
      */
     @POST("my/zan")
-    Observable<BaseRespose<HistoryResp>> getLikesList(@Body RequestBody param);
+    Observable<BaseRespose<HistoryResp<LikeInfo>>> getLikesList(@Body RequestBody param);
 
 
     /**

@@ -12,6 +12,7 @@ import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.resp.LikeInfo;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.PreferencesUtils;
@@ -40,9 +41,9 @@ public class ReceiveLikesPresenter extends BasePresenterImpl<ReceiveLikesContrac
                     addDisposable(disposable);
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<HistoryResp>() {
+                .subscribe(new BaseObserver<HistoryResp<LikeInfo>>() {
                     @Override
-                    protected void onSuccess(HistoryResp data){
+                    protected void onSuccess(HistoryResp<LikeInfo> data){
                         if(page == 1){
                             view.completeRefresh();
                         }else {
