@@ -1,16 +1,23 @@
 package com.pai8.ke.activity.video.tiktok;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.target.Target;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.L;
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
@@ -47,6 +54,7 @@ import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.DKPlayerUtils;
 import com.pai8.ke.utils.EventBusUtils;
+import com.pai8.ke.utils.GlideEngine;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -57,25 +65,29 @@ import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CircleImageView;
 import com.pai8.ke.widget.EditTextCountView;
 import com.pai8.ke.widget.VerticalViewPager;
-
+import com.theartofdev.edmodo.cropper.CropImage;
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 import butterknife.BindView;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.pai8.ke.global.EventCode.EVENT_REPORT;
 import static com.pai8.ke.global.GlobalConstants.LOADMORE;
@@ -120,6 +132,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
     private SharePresenter mSharePresenter;
     private TextView mTvCommentsTitle;
     private VideoView mVideoView;
+    private BottomDialog mChooseBottomDialog;
 
     @Override
     protected boolean isRegisterEventBus() {
@@ -160,7 +173,12 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                         }
                     });
                     break;
-
+                case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                    //裁剪后跳转分享框
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                    Uri resultUri = result.getUri();
+                    shareUrl(getCurVideo().getShare_url(),resultUri.toString());
+                    break;
             }
         }
     }
@@ -349,10 +367,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
 
             @Override
             public void onShareClick() {
-                String share_url = getCurVideo().getShare_url();
-//                shareUrl(share_url);
-                showShareBottomDialog(share_url, getCurVideo().getVideo_desc());
-
+                cropImage(getCurVideo().getCover_path());
             }
 
             @Override
@@ -782,7 +797,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                 new VideoItemRefreshEvent(mCurPlayPos, video)));
     }
 
-    public void shareUrl(String url) {
+    public void shareUrl(String url,String localUrl) {
         View view = View.inflate(this, R.layout.view_dialog_share_modify, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);
         TextView tvBtnShare = view.findViewById(R.id.tv_btn_share);
@@ -790,10 +805,31 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         EditTextCountView etCv = view.findViewById(R.id.et_cv);
         etCv.setLength(50);
         etCv.setEtText(StringUtils.strSafe(getCurVideo().getVideo_desc()));
-        ImageLoadUtils.loadImage(this, mShareImgUrl = getCurVideo().getCover_path(), mCivShareCover,
+        ImageLoadUtils.loadImage(this, localUrl, mCivShareCover,
                 R.mipmap.img_share_cover);
         mCivShareCover.setOnClickListener(view1 -> {
-            ChoosePicUtils.picSingle(TikTokActivity.this, 1);
+            View popView = View.inflate(TikTokActivity.this, R.layout.view_dialog_choose_qnvideo,
+                    null);
+            TextView tvBtnGalley = popView.findViewById(R.id.tv_btn_galley);
+            TextView tvBtnTakePhoto = popView.findViewById(R.id.tv_btn_take_photo);
+            ImageButton tnClose = popView.findViewById(R.id.itn_close);
+            tvBtnGalley.setOnClickListener(view12 -> {
+                ChoosePicUtils.picSingle(TikTokActivity.this, 1);
+                mChooseBottomDialog.dismiss();
+            });
+            tvBtnTakePhoto.setOnClickListener(view13 -> {
+                PictureSelector.create(this)
+                        .openCamera(PictureMimeType.ofImage())
+                        .loadImageEngine(GlideEngine.createGlideEngine())
+                        .forResult(1);
+                mChooseBottomDialog.dismiss();
+            });
+
+            tnClose.setOnClickListener(v -> mChooseBottomDialog.dismiss());
+
+            mChooseBottomDialog = new BottomDialog(TikTokActivity.this, popView);
+            mChooseBottomDialog.setIsCanceledOnTouchOutside(true);
+            mChooseBottomDialog.show();
         });
         itnClose.setOnClickListener(view1 -> {
             mShareModifyBottomDialog.dismiss();
@@ -878,4 +914,36 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
             }
         });
     }
+
+
+    /**
+     * 裁剪图片
+     */
+    @SuppressLint("CheckResult")
+    private void cropImage(String url){
+        Flowable.create((FlowableOnSubscribe<File>) emitter -> {
+            try {
+                FutureTarget<File> target = Glide.with(TikTokActivity.this)
+                        .downloadOnly()
+                        .load(TextUtils.isEmpty(url)?"":url)
+                        .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+                File imageFile = target.get();
+                emitter.onNext(imageFile);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                emitter.onComplete();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                emitter.onComplete();
+            }
+        }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.newThread())//指定在子线程中执行下载/取缓存图片路径
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(file -> {
+                    Uri localUri = Uri.fromFile(file);
+                    CropImage.activity(localUri)
+                            .start(TikTokActivity.this);
+                });
+    }
+
 }

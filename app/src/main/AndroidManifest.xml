@@ -237,6 +237,9 @@
             android:name=".activity.common.WebViewActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"

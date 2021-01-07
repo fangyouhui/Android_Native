@@ -160,5 +160,7 @@ dependencies {
     implementation project(':lib_shortvideo')
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
     implementation 'com.just.agentweb:agentweb:4.0.2'
+    //裁剪框架
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
 }
