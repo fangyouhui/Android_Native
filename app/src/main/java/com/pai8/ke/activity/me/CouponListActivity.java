@@ -14,6 +14,7 @@ import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.me.adapter.CouponListAdapter;
+import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseActivity;
@@ -154,7 +155,7 @@ public class CouponListActivity extends BaseActivity implements SwipeRefreshLayo
         mAdapter.setClick(new CouponListAdapter.Click() {
             @Override
             public void onUseClick(CouponListResp couponListResp) {
-
+                StoreActivity.launch(CouponListActivity.this,couponListResp.getShop_id());
             }
 
             @Override
