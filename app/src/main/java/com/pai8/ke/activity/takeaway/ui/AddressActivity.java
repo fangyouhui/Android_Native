@@ -25,7 +25,6 @@ import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.Address;
-import com.pai8.ke.interfaces.OnItemClickListener;
 import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.EventBusUtils;
@@ -48,6 +47,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     private TextView mTvLocation;
     private RecyclerView mRvAddress;
     private EditText mEtSearch;
+    private TextView tvAddressTitle;
     private final int RC_SEARCH = 1;
     private final int INTERVAL = 500;
     private static final String mType =
@@ -87,6 +87,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         mTvLocation = findViewById(R.id.tv_location);
         mEtSearch = findViewById(R.id.et_search);
         mRvAddress = findViewById(R.id.rv_address);
+        tvAddressTitle = findViewById(R.id.tv_address_title);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRvAddress.setLayoutManager(layoutManager);
         mAdapter = new AddressChooseAdapter(this);
@@ -100,18 +101,6 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, address));
             finish();
         });
-//        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position, int tag) {
-//                Address select = mAdapter.getSelect();
-//                if (select == null) {
-//                    toast("请选择地址");
-//                    return;
-//                }
-//                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
-//                finish();
-//            }
-//        });
     }
 
 
@@ -141,6 +130,8 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                 mHandler.sendEmptyMessageDelayed(RC_SEARCH, INTERVAL);
             }
         });
+
+        getAddress();
     }
 
 
@@ -169,6 +160,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             if (CollectionUtils.isEmpty(poiItems)) {
                 getAddress();
             } else {
+                tvAddressTitle.setVisibility(View.GONE);
                 final List<Address> lists = new ArrayList<>();
                 for (PoiItem poiItem : poiItems) {
                     LatLonPoint latLonPoint = poiItem.getLatLonPoint();
@@ -207,10 +199,10 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             mAMapLocation = location;
             mTvLocation.setText(mAMapLocation.getAddress());
         }, false);
-
     }
 
     private void getAddress(){
+        tvAddressTitle.setVisibility(View.VISIBLE);
         TakeawayApi.getInstance().addressList()
                 .doOnSubscribe(disposable -> {
                 })
