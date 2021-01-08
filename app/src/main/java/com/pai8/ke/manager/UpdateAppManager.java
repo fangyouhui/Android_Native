@@ -222,8 +222,8 @@ public class UpdateAppManager extends IntentService {
             return;
         }
         if (Build.VERSION.SDK_INT >= 24) { // 适配安卓7.0
-            install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Uri apkFileUri = FileProvider.getUriForFile(mContext, mContext.getPackageName() + ".util" +
                     ".MyProvider", new File(mApkFilePath));
             install.addCategory("android.intent.category.DEFAULT");
@@ -231,7 +231,7 @@ public class UpdateAppManager extends IntentService {
 
             install.setDataAndType(apkFileUri, "application/vnd.android.package-archive");
         } else {
-            install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             install.setAction(Intent.ACTION_VIEW);
             install.setDataAndType(Uri.parse("file://" + mApkFilePath), "application/vnd.android" +
                     ".package-archive"); // File.toString()会返回路径信息
@@ -248,7 +248,7 @@ public class UpdateAppManager extends IntentService {
      * @return
      */
     private boolean writeRespBodyToDisk(ResponseBody body) {
-        File file = FileUtils.createApkFile(mApkUrl.substring(mApkUrl.lastIndexOf("/") + 1));
+        File file = FileUtils.createApkFile(mApkUrl.substring(mApkUrl.lastIndexOf("/") + 1) + ".apk");
         mApkFilePath = file.getAbsolutePath();
         try {
             InputStream inputStream = null;
