@@ -3,6 +3,7 @@ package com.pai8.ke.activity.takeaway.ui;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -17,8 +18,12 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.me.adapter.AddressChooseAdapter;
+import com.pai8.ke.activity.takeaway.api.TakeawayApi;
+import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.interfaces.OnItemClickListener;
 import com.pai8.ke.utils.AMapLocationUtils;
@@ -86,18 +91,27 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         mRvAddress.setLayoutManager(layoutManager);
         mAdapter = new AddressChooseAdapter(this);
         mRvAddress.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position, int tag) {
-                Address select = mAdapter.getSelect();
-                if (select == null) {
-                    toast("请选择地址");
-                    return;
-                }
-                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
-                finish();
+
+        mAdapter.setClick(address -> {
+            if (address == null) {
+                toast("请选择地址");
+                return;
             }
+            EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, address));
+            finish();
         });
+//        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position, int tag) {
+//                Address select = mAdapter.getSelect();
+//                if (select == null) {
+//                    toast("请选择地址");
+//                    return;
+//                }
+//                EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
+//                finish();
+//            }
+//        });
     }
 
 
@@ -152,24 +166,29 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     public void onPoiSearched(PoiResult result, int code) {
         if (code == 1000 && result != null && result.getQuery() != null) {
             List<PoiItem> poiItems = result.getPois();
-            final List<Address> lists = new ArrayList<>();
-            for (PoiItem poiItem : poiItems) {
-                LatLonPoint latLonPoint = poiItem.getLatLonPoint();
-                Address address = new Address();
-                address.setTitle(poiItem.getTitle());
-                address.setAddress(poiItem.getSnippet());
-                address.setLat(latLonPoint.getLatitude());
-                address.setLon(latLonPoint.getLongitude());
-                LatLng startLatLng = new LatLng(mAMapLocation.getLatitude(), mAMapLocation.getLongitude());
-                LatLng endLatLng = new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude());
-                String formatDistance =
-                        MyAMapUtils.getFormatDistance(AMapUtils.calculateLineDistance(startLatLng,
-                                endLatLng));
-                address.setDistance(formatDistance);
-                lists.add(address);
+            if (CollectionUtils.isEmpty(poiItems)) {
+                getAddress();
+            } else {
+                final List<Address> lists = new ArrayList<>();
+                for (PoiItem poiItem : poiItems) {
+                    LatLonPoint latLonPoint = poiItem.getLatLonPoint();
+                    Address address = new Address();
+                    address.setTitle(poiItem.getTitle());
+                    address.setAddress(poiItem.getSnippet());
+                    address.setLat(latLonPoint.getLatitude());
+                    address.setLon(latLonPoint.getLongitude());
+                    LatLng startLatLng = new LatLng(mAMapLocation.getLatitude(), mAMapLocation.getLongitude());
+                    LatLng endLatLng = new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude());
+                    String formatDistance =
+                            MyAMapUtils.getFormatDistance(AMapUtils.calculateLineDistance(startLatLng,
+                                    endLatLng));
+                    address.setDistance(formatDistance);
+                    lists.add(address);
+                }
+                mAdapter.setDataList(lists);
+                mAdapter.setSelectDef();
             }
-            mAdapter.setDataList(lists);
-            mAdapter.setSelectDef();
+
             if (CollectionUtils.isNotEmpty(poiItems)) {
                 LatLonPoint latLonPoint = poiItems.get(0).getLatLonPoint();
             }
@@ -189,6 +208,37 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             mTvLocation.setText(mAMapLocation.getAddress());
         }, false);
 
+    }
+
+    private void getAddress(){
+        TakeawayApi.getInstance().addressList()
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<List<AddressInfo>>() {
+                    @Override
+                    protected void onSuccess(List<AddressInfo> data){
+                        List<Address> list = new ArrayList<>();
+                        for(AddressInfo poiItem : data){
+                            Address address = new Address();
+                            address.setLocalAddress(true);
+                            address.setTitle(TextUtils.isEmpty(poiItem.phone) ? "":poiItem.phone);
+                            address.setAddress(TextUtils.isEmpty(poiItem.address) ? "":poiItem.address);
+                            address.setDistance(TextUtils.isEmpty(poiItem.linkman) ? "":poiItem.linkman);
+                            address.setLat(TextUtils.isEmpty(poiItem.latitude)?0:Double.parseDouble(poiItem.latitude));
+                            address.setLon(TextUtils.isEmpty(poiItem.longitude)?0:Double.parseDouble(poiItem.longitude));
+
+                            list.add(address);
+                        }
+                        mAdapter.setDataList(list);
+                        mAdapter.setSelectDef();
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                    }
+                });
     }
 
 

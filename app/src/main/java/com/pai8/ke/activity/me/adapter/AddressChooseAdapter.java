@@ -59,8 +59,14 @@ public class AddressChooseAdapter extends BaseRecyclerViewAdapter<Address> {
 
         ViewHolder viewHolder = (ViewHolder) holder;
         Address address = mDataList.get(position);
-        viewHolder.tvAdname.setText(address.getTitle());
-        viewHolder.tvAddress.setText(address.getDistance() + " | " + address.getAddress());
+        if (address.isLocalAddress()){
+            viewHolder.tvAdname.setText(address.getAddress());
+            viewHolder.tvAddress.setText(address.getDistance() + "  " + address.getTitle());
+        }else{
+            viewHolder.tvAdname.setText(address.getTitle());
+            viewHolder.tvAddress.setText(address.getDistance() + " | " + address.getAddress());
+        }
+
 
         if (mSelectPosition == position) {
             viewHolder.ivCheck.setVisibility(View.VISIBLE);

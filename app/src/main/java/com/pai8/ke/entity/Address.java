@@ -9,6 +9,9 @@ public class Address implements Serializable {
     private String title;
     private String address;
 
+    /**  本地用的数据 **/
+    private boolean isLocalAddress;//是否是用户的收货地址
+
     public String getDistance() {
         return distance;
     }
@@ -47,5 +50,13 @@ public class Address implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public boolean isLocalAddress() {
+        return isLocalAddress;
+    }
+
+    public void setLocalAddress(boolean localAddress) {
+        isLocalAddress = localAddress;
     }
 }
