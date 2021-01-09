@@ -17,6 +17,9 @@ import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
+import com.pai8.ke.activity.wallet.data.MemberCashRequest;
+import com.pai8.ke.activity.wallet.data.MemberCashResponse;
+import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
 import com.pai8.ke.base.BaseRespose;
 
 import java.util.List;
@@ -88,6 +91,20 @@ public interface TakeawayApiService {
      */
     @POST("shop/addressList")
     Observable<BaseRespose<List<AddressInfo>>> addressList();
+
+    /**
+     * 用户钱包提现
+     * @return
+     */
+    @POST("user/MemberCash")
+    Observable<BaseRespose<MemberCashResponse>> userMemberCash(@Body MemberCashRequest body);
+
+    /**
+     * 钱包页面
+     * @return
+     */
+    @POST("user/MemberWallet")
+    Observable<BaseRespose<MemberWalletResponse>> memberWallet();
 
 
     @POST("shop/upAddress")

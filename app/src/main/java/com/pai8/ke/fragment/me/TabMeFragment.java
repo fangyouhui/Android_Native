@@ -24,6 +24,7 @@ import com.pai8.ke.activity.takeaway.order.OrderActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
 import com.pai8.ke.activity.video.ReportActivity;
+import com.pai8.ke.activity.wallet.WalletActivity;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseEvent;
@@ -366,6 +367,7 @@ public class TabMeFragment extends BaseFragment {
                 launchInterceptLogin(OrderActivity.class);
                 break;
             case R.id.tv_btn_wallet:
+                launch(WalletActivity.class);
                 break;
             case R.id.tv_btn_address:
                 launchInterceptLogin(DeliveryAddressActivity.class);

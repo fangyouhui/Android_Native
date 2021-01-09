@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent">
+
+    <ImageView
+        android:id="@+id/iv_bottom_bg"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@drawable/shape_dialog_bottom"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageButton
+        android:id="@+id/itn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:padding="15dp"
+        android:src="@mipmap/ic_close_gray"
+        app:layout_constraintLeft_toLeftOf="@id/iv_bottom_bg"
+        app:layout_constraintTop_toTopOf="@id/iv_bottom_bg" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="提现到银行卡"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ll_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/itn_close"
+        app:layout_constraintTop_toTopOf="@+id/iv_bottom_bg" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintStart_toStartOf="@+id/itn_close"
+        app:layout_constraintTop_toBottomOf="@+id/itn_close"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="真实姓名"
+            android:textColor="#ff666666"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入账户户主真实姓名"
+            android:layout_marginStart="35dp"
+            android:textSize="15sp"
+            android:textColor="#ffd8d8d8"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintStart_toStartOf="@+id/itn_close"
+        app:layout_constraintTop_toBottomOf="@+id/ll_name"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="银行卡号"
+            android:textColor="#ff666666"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入银行卡号"
+            android:textSize="15sp"
+            android:layout_marginStart="35dp"
+            android:textColor="#ffd8d8d8"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintStart_toStartOf="@+id/itn_close"
+        app:layout_constraintTop_toBottomOf="@+id/ll_card"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开户行地址"
+            android:textColor="#ff666666"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入开户行地址"
+            android:textSize="15sp"
+            android:textColor="#ffd8d8d8"
+            android:layout_marginStart="35dp"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_divider_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/divider"
+        app:layout_constraintTop_toBottomOf="@+id/ll_address" />
+
+    <TextView
+        android:id="@+id/tv_btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_selector_linear_radius"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="20dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
