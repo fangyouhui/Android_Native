@@ -105,7 +105,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_address"
+        android:id="@+id/ll_bank_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,6 +115,37 @@
         android:paddingBottom="15dp"
         app:layout_constraintStart_toStartOf="@+id/itn_close"
         app:layout_constraintTop_toBottomOf="@+id/ll_card"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="银行名称"
+            android:textColor="#ff666666"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_bank_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入银行名称"
+            android:textSize="15sp"
+            android:layout_marginStart="35dp"
+            android:textColor="#ffd8d8d8"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintStart_toStartOf="@+id/itn_close"
+        app:layout_constraintTop_toBottomOf="@+id/ll_bank_name"
         android:orientation="horizontal">
 
         <TextView

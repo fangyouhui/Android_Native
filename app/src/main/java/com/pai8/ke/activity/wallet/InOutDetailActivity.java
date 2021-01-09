@@ -5,11 +5,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
+import com.pai8.ke.activity.wallet.data.InOutDetailBean;
 import com.pai8.ke.activity.wallet.data.MemberCashRequest;
 import com.pai8.ke.activity.wallet.data.MemberCashResponse;
 import com.pai8.ke.base.BaseActivity;
@@ -38,15 +38,21 @@ public class InOutDetailActivity extends BaseActivity {
     Button btConfirm;
     @BindView(R.id.tv_remain)
     TextView tvRemain;
+    @BindView(R.id.tv_choose_account)
+    TextView tvChooseAccount;
+    @BindView(R.id.tv_account)
+    TextView tvAccount;
+    @BindView(R.id.et_money)
+    EditText etMoney;
 
 
-    private BottomDialog mContactBottomDialog;
+
+
+
+    private BottomDialog accountDialog;
+    private BottomDialog bankEditDialog;
     private String balance = "";//当前收益余额
-    private String bankUserName = "";
-    private String bankAddress = "";
-    private String bankCard = "";
-    private String weChatAccount = "";
-    private String zfbAccount = "";
+    private InOutDetailBean bean = new InOutDetailBean();
 
 
     @Override
@@ -66,51 +72,58 @@ public class InOutDetailActivity extends BaseActivity {
     public void initView() {
         setImmersionBar(R.id.base_tool_bar);
         btConfirm.setOnClickListener(v -> {
-            showContactBottomDialog();
+            pay();
         });
+        tvChooseAccount.setOnClickListener(v -> showAccountDialog());
     }
 
     /**
-     * 提现dialog
+     * 账户dialog
      */
-    private void showContactBottomDialog() {
+    private void showAccountDialog() {
         View view = View.inflate(this, R.layout.view_dialog_wallet_pay, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);
         TextView tvBtnPay = view.findViewById(R.id.tv_btn_pay);
-        RelativeLayout zfbPay = view.findViewById(R.id.rl_zfb_pay);
-        RelativeLayout bankPay = view.findViewById(R.id.rl_bank_pay);
-        RelativeLayout wxPay = view.findViewById(R.id.rl_wx_pay);
         ImageView ivCbZfb = view.findViewById(R.id.iv_cb_zfb);
         ImageView ivCbWx = view.findViewById(R.id.iv_cb_wx);
         ImageView ivCbBank = view.findViewById(R.id.iv_cb_bank);
+        TextView tvBank = view.findViewById(R.id.tv_bank);
+        EditText etWx = view.findViewById(R.id.et_wx);
+        EditText etZfb = view.findViewById(R.id.et_zfb);
 
-        itnClose.setOnClickListener(v -> mContactBottomDialog.dismiss());
-        zfbPay.setOnClickListener(v -> {
+        itnClose.setOnClickListener(v -> accountDialog.dismiss());
+        tvBank.setOnClickListener(v -> showBankEditDialog());
+        ivCbZfb.setOnClickListener(v -> {
             mPayType = PAY_TYPE_ZFB;
             ivCbWx.setImageResource(R.mipmap.ic_cb_n);
             ivCbBank.setImageResource(R.mipmap.ic_cb_n);
             ivCbZfb.setImageResource(R.mipmap.ic_cb_s);
         });
-        bankPay.setOnClickListener(v -> {
+        ivCbBank.setOnClickListener(v -> {
             mPayType = PAY_TYPE_BANK;
             ivCbBank.setImageResource(R.mipmap.ic_cb_s);
             ivCbWx.setImageResource(R.mipmap.ic_cb_n);
             ivCbZfb.setImageResource(R.mipmap.ic_cb_n);
         });
-        wxPay.setOnClickListener(v -> {
+        ivCbWx.setOnClickListener(v -> {
             mPayType = PAY_TYPE_WX;
             ivCbWx.setImageResource(R.mipmap.ic_cb_s);
             ivCbBank.setImageResource(R.mipmap.ic_cb_n);
             ivCbZfb.setImageResource(R.mipmap.ic_cb_n);
         });
-        tvBtnPay.setOnClickListener(v -> pay());
+        tvBtnPay.setOnClickListener(v -> {
+            bean.setWeChatAccount(etWx.getText().toString());
+            bean.setZfbAccount(etZfb.getText().toString());
+            refreshAccountView();
+            accountDialog.dismiss();
+        });
 
 
-        if (mContactBottomDialog == null) {
-            mContactBottomDialog = new BottomDialog(this, view);
+        if (accountDialog == null) {
+            accountDialog = new BottomDialog(this, view);
         }
-        mContactBottomDialog.setIsCanceledOnTouchOutside(true);
-        mContactBottomDialog.show();
+        accountDialog.setIsCanceledOnTouchOutside(true);
+        accountDialog.show();
     }
 
     /**
@@ -123,39 +136,40 @@ public class InOutDetailActivity extends BaseActivity {
         EditText etName = view.findViewById(R.id.et_name);
         EditText etCard = view.findViewById(R.id.et_card);
         EditText etAddress = view.findViewById(R.id.et_address);
-        itnClose.setOnClickListener(v -> mContactBottomDialog.dismiss());
+        EditText etBankName = view.findViewById(R.id.et_bank_name);
+
+
+        itnClose.setOnClickListener(v -> bankEditDialog.dismiss());
         btConfirm.setOnClickListener(v -> {
             if (StringUtils.isEmpty(etName.getText().toString())
             || StringUtils.isEmpty(etAddress.getText().toString())
-            ||StringUtils.isEmpty(etCard.getText().toString())){
+            ||StringUtils.isEmpty(etCard.getText().toString())
+            ||StringUtils.isEmpty(etBankName.getText().toString())){
                 ToastUtils.show(InOutDetailActivity.this,"请输入相关信息",0);
                 return;
             }
 
-            bankUserName = etName.getText().toString();
-            bankAddress = etAddress.getText().toString();
-            bankCard = etCard.getText().toString();
-            mContactBottomDialog.dismiss();
+            bean.setBankName(etBankName.getText().toString());
+            bean.setBankUserName(etName.getText().toString());
+            bean.setBankAddress(etAddress.getText().toString());
+            bean.setBankCard(etCard.getText().toString());
+            bankEditDialog.dismiss();
         });
 
-        if (mContactBottomDialog == null) {
-            mContactBottomDialog = new BottomDialog(this, view);
+        if (bankEditDialog == null) {
+            bankEditDialog = new BottomDialog(this, view);
         }
-        mContactBottomDialog.setIsCanceledOnTouchOutside(true);
-        mContactBottomDialog.show();
+        bankEditDialog.setIsCanceledOnTouchOutside(true);
+        bankEditDialog.show();
     }
 
-
-
-
-
     private void pay(){
-        if (StringUtils.isEmpty(tvRemain.getText().toString())){
+        if (StringUtils.isEmpty(etMoney.getText().toString())){
             ToastUtils.show(InOutDetailActivity.this,"请输入金额",0);
             return;
         }
 
-        String balance = tvRemain.getText().toString();
+        String balance = etMoney.getText().toString();
 
         MemberCashRequest request = new MemberCashRequest();
         request.setCash_type(String.valueOf(mPayType));
@@ -163,18 +177,18 @@ public class InOutDetailActivity extends BaseActivity {
 
         switch (mPayType){
             case PAY_TYPE_BANK:
-                request.setCash_nickname(bankUserName);
-                request.setCash_account(bankCard);
-                request.setCash_bankname("中国银行");
-                request.setCash_bankadd(bankAddress);
+                request.setCash_nickname(bean.getBankUserName());
+                request.setCash_account(bean.getBankCard());
+                request.setCash_bankname(bean.getBankName());
+                request.setCash_bankadd(bean.getBankAddress());
                 break;
             case PAY_TYPE_WX:
-                request.setCash_account(weChatAccount);
+                request.setCash_account(bean.getWeChatAccount());
+                break;
             case PAY_TYPE_ZFB:
-                request.setCash_account(zfbAccount);
+                request.setCash_account(bean.getZfbAccount());
                 break;
         }
-
 
         TakeawayApi.getInstance().userMemberCash(request)
                 .doOnSubscribe(disposable -> {
@@ -192,5 +206,26 @@ public class InOutDetailActivity extends BaseActivity {
                         ToastUtils.show(InOutDetailActivity.this,msg,0);
                     }
                 });
+    }
+
+
+    /**
+     * 刷新账户信息
+     */
+    private void refreshAccountView(){
+        String account = "";
+        switch (mPayType){
+            case PAY_TYPE_BANK:
+                account = bean.getBankName() + "(" + bean.getBankCard() + ")";
+                break;
+            case PAY_TYPE_WX:
+                account = "微信" + "(" + bean.getWeChatAccount() + ")";
+                break;
+            case PAY_TYPE_ZFB:
+                account = "支付宝" + "(" + bean.getZfbAccount()+ ")";
+                break;
+        }
+
+        tvAccount.setText(account);
     }
 }

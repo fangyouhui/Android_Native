@@ -78,8 +78,7 @@
             android:layout_toRightOf="@+id/iv_bank_pay"
             android:textColor="@color/color_mid_font"
             android:textSize="12sp"
-            android:visibility="gone"
-            tools:text="中国工商银行(2150)" />
+            android:hint="点击填写银行卡信息" />
 
         <ImageView
             android:id="@+id/iv_cb_bank"
@@ -127,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_wx_pay"
             android:layout_toRightOf="@+id/iv_wx_pay"
-            android:hint="请输入微信账号"
+            android:hint="点击填写微信账号"
             android:background="@null"
             android:textColor="@color/color_mid_font"
             android:textSize="12sp" />
@@ -178,7 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_zfb_pay"
             android:layout_toRightOf="@+id/iv_zfb_pay"
-            android:hint="请输入支付宝账号"
+            android:hint="点击填写支付宝账号"
             android:background="@null"
             android:textColor="@color/color_mid_font"
             android:textSize="12sp" />
