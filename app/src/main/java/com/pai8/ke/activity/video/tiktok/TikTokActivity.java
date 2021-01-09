@@ -111,6 +111,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
     private int mType;
     private String mKeyWords = "";
     private String mShareImgUrl = "";
+    private String mShareDescription = "";
 
     private TikTokAdapter mTikTokAdapter;
     private PreloadManager mPreloadManager;
@@ -158,7 +159,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                 case 1:
                     List<LocalMedia> imgs = PictureSelector.obtainMultipleResult(data);
                     if (CollectionUtils.isEmpty(imgs) || mCivShareCover == null) return;
-                    String path = imgs.get(0).getPath();
+                    String path = imgs.get(0).getRealPath();
                     ImageLoadUtils.loadImage(TikTokActivity.this, path, mCivShareCover,
                             R.mipmap.img_share_cover);
                     UploadFileManager.getInstance().upload(path, new UploadFileManager.Callback() {
@@ -688,7 +689,11 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         sp.setTitleUrl(url);
         sp.setText(name);
         sp.setUrl(url);
-        sp.setImageUrl(url);
+        if(mShareImgUrl != null && mShareImgUrl.length() > 0) {
+            sp.setImageUrl(mShareImgUrl);
+        } else {
+            sp.setImageUrl(url);
+        }
         sp.setShareType(Platform.SHARE_WEBPAGE);
         Platform pform = ShareSDK.getPlatform(platform);
         pform.setPlatformActionListener(new PlatformActionListener() {
@@ -844,6 +849,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                 toast("请输入分享的内容");
                 return;
             }
+            mShareDescription = shareContent;
             mShareModifyBottomDialog.dismiss();
             showShareBottomDialog(url, shareContent);
         });
@@ -892,6 +898,12 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
 
     @Override
     public void shareMini(ShareMiniResp resp) {
+        if(mShareImgUrl != null && mShareImgUrl.length() > 0) {
+            resp.setThumb(mShareImgUrl);
+        }
+        if(mShareDescription != null && mShareDescription.length() > 0) {
+            resp.setDescription(mShareDescription);
+        }
         WxShareUtils.shareMini(resp, new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
