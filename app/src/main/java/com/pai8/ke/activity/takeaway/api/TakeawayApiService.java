@@ -17,6 +17,8 @@ import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
+import com.pai8.ke.activity.wallet.data.InOutRecordRequest;
+import com.pai8.ke.activity.wallet.data.InOutRecordResp;
 import com.pai8.ke.activity.wallet.data.MemberCashRequest;
 import com.pai8.ke.activity.wallet.data.MemberCashResponse;
 import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
@@ -105,6 +107,14 @@ public interface TakeawayApiService {
      */
     @POST("user/MemberWallet")
     Observable<BaseRespose<MemberWalletResponse>> memberWallet();
+
+    /**
+     * 收支记录
+     * @param body
+     * @return
+     */
+    @POST("user/MemberIncomeList")
+    Observable<BaseRespose<InOutRecordResp>> inOutRecord(@Body InOutRecordRequest body);
 
 
     @POST("shop/upAddress")

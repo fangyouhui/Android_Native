@@ -27,24 +27,24 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-            android:name=".app.MyApp"
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:networkSecurityConfig="@xml/network_config"
-            android:requestLegacyExternalStorage="true"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:usesCleartextTraffic="true"
-            tools:replace="android:theme">
+        android:name=".app.MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:theme">
+        <activity android:name=".activity.wallet.InOutRecordActivity"></activity>
 
         <meta-data
             android:name="design_width_in_dp"
             android:value="375" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="734" />
-        <!-- 高德key -->
+            android:value="734" /> <!-- 高德key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="ffce336496fa8d9aeac52afaac7ccefd" />
@@ -83,56 +83,43 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.takeaway.ui.StoreActivity" />
         <activity android:name=".activity.takeaway.ui.StoreManagerActivity" />
-        <activity android:name=".activity.takeaway.ui.OrderProcessingActivity" />
-        <!-- 视频滑动 -->
+        <activity android:name=".activity.takeaway.ui.OrderProcessingActivity" /> <!-- 视频滑动 -->
         <activity
             android:name=".activity.video.tiktok.TikTokActivity"
-            android:screenOrientation="portrait" />
-        <!-- 举报/投诉 -->
+            android:screenOrientation="portrait" /> <!-- 举报/投诉 -->
         <activity
             android:name=".activity.video.ReportActivity"
-            android:screenOrientation="portrait" />
-        <!-- 一对一视频/语音 -->
+            android:screenOrientation="portrait" /> <!-- 一对一视频/语音 -->
         <activity
             android:name=".activity.video.ChatActivity"
-            android:screenOrientation="portrait" />
-        <!-- 发布视频 -->
+            android:screenOrientation="portrait" /> <!-- 发布视频 -->
         <activity
             android:name=".activity.video.VideoPublishActivity"
-            android:screenOrientation="portrait" />
-        <!-- 视频浏览 -->
+            android:screenOrientation="portrait" /> <!-- 视频浏览 -->
         <activity
             android:name=".activity.common.VideoViewActivity"
-            android:screenOrientation="portrait" />
-        <!-- 商家搜索列表 -->
+            android:screenOrientation="portrait" /> <!-- 商家搜索列表 -->
         <activity
             android:name=".activity.video.ShopSearchListActivity"
-            android:screenOrientation="portrait" />
-        <!-- 地址选择 -->
+            android:screenOrientation="portrait" /> <!-- 地址选择 -->
         <activity
             android:name=".activity.me.AddressChooseActivity"
-            android:screenOrientation="portrait" />
-        <!-- 地图导航 -->
+            android:screenOrientation="portrait" /> <!-- 地图导航 -->
         <activity
             android:name=".activity.common.NaviActivity"
-            android:screenOrientation="portrait" />
-        <!-- 设置 -->
+            android:screenOrientation="portrait" /> <!-- 设置 -->
         <activity
             android:name=".activity.me.SettingActivity"
-            android:screenOrientation="portrait" />
-        <!-- 优惠券列表 -->
+            android:screenOrientation="portrait" /> <!-- 优惠券列表 -->
         <activity
             android:name=".activity.me.CouponListActivity"
-            android:screenOrientation="portrait" />
-        <!-- 分类 -->
+            android:screenOrientation="portrait" /> <!-- 分类 -->
         <activity
             android:name=".activity.home.ClassifyActivity"
-            android:screenOrientation="portrait" />
-        <!-- 首页搜索视频 -->
+            android:screenOrientation="portrait" /> <!-- 首页搜索视频 -->
         <activity
             android:name=".activity.home.SearchVideoActivity"
-            android:screenOrientation="portrait" />
-        <!-- 微信支付回调 -->
+            android:screenOrientation="portrait" /> <!-- 微信支付回调 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="locale|layoutDirection|keyboard"
@@ -145,7 +132,7 @@
         <activity android:name=".activity.takeaway.ui.AddGoodActivity" />
         <activity android:name=".activity.takeaway.ui.SecondAdminManagerActivity" />
         <activity android:name=".activity.takeaway.ui.SecondStoreManagerActivity" />
-        <activity android:name=".activity.takeaway.ui.AddSecondManagerActivity"/>
+        <activity android:name=".activity.takeaway.ui.AddSecondManagerActivity" />
         <activity
             android:name=".activity.takeaway.order.ConfirmOrderActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -158,8 +145,7 @@
         <activity
             android:name=".activity.takeaway.ui.MapAddressChooseActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.takeaway.order.OrderActivity" />
-        <!-- 扫描二维码 -->
+        <activity android:name=".activity.takeaway.order.OrderActivity" /> <!-- 扫描二维码 -->
         <activity
             android:name=".activity.common.ScanActivity"
             android:screenOrientation="portrait" />
@@ -167,83 +153,64 @@
         <activity android:name=".activity.takeaway.ui.ShopGoodSearchActivity" />
         <activity android:name=".activity.takeaway.order.OrderSendActivity" />
         <activity android:name=".activity.takeaway.order.ShopOrderDetailActivity" />
-
-        <activity android:name=".activity.takeaway.ui.StoreManagerEditActivity" />
-        <!-- 活动消息 -->
+        <activity android:name=".activity.takeaway.ui.StoreManagerEditActivity" /> <!-- 活动消息 -->
         <activity
             android:name=".activity.message.ui.ActiveMessageActivity"
-            android:screenOrientation="portrait" />
-        <!-- 一对一聊天消息 -->
+            android:screenOrientation="portrait" /> <!-- 一对一聊天消息 -->
         <activity
             android:name=".activity.message.ui.OneToOneChatRecordActivity"
-            android:screenOrientation="portrait" />
-        <!-- 点赞 -->
+            android:screenOrientation="portrait" /> <!-- 点赞 -->
         <activity
             android:name=".activity.message.ui.LikesActivity"
-            android:screenOrientation="portrait" />
-        <!-- 评论 -->
+            android:screenOrientation="portrait" /> <!-- 评论 -->
         <activity
             android:name=".activity.message.ui.CommentActivity"
-            android:screenOrientation="portrait" />
-        <!-- 订单消息 -->
+            android:screenOrientation="portrait" /> <!-- 订单消息 -->
         <activity
             android:name=".activity.message.ui.OrderMessageActivity"
-            android:screenOrientation="portrait" />
-        <!-- 系统消息 -->
+            android:screenOrientation="portrait" /> <!-- 系统消息 -->
         <activity
             android:name=".activity.message.ui.SysMessageActivity"
-            android:screenOrientation="portrait" />
-        <!-- 关注消息 -->
+            android:screenOrientation="portrait" /> <!-- 关注消息 -->
         <activity
             android:name=".activity.message.ui.AttentionActivity"
-            android:screenOrientation="portrait" />
-        <!-- 商家申请详情修改 -->
+            android:screenOrientation="portrait" /> <!-- 商家申请详情修改 -->
         <activity
             android:name=".activity.takeaway.ui.ChangeDetailAddressActivity"
-            android:screenOrientation="portrait" />
-        <!-- 我的模块关注 -->
+            android:screenOrientation="portrait" /> <!-- 我的模块关注 -->
         <activity
             android:name=".activity.me.ui.AttentionMineActivity"
-            android:screenOrientation="portrait" />
-        <!-- 历史足迹 -->
+            android:screenOrientation="portrait" /> <!-- 历史足迹 -->
         <activity
             android:name=".activity.me.ui.HistoryWatchActivity"
-            android:screenOrientation="portrait" />
-        <!-- 粉丝 -->
+            android:screenOrientation="portrait" /> <!-- 粉丝 -->
         <activity
             android:name=".activity.me.ui.FansActivity"
-            android:screenOrientation="portrait" />
-        <!-- 获赞 -->
+            android:screenOrientation="portrait" /> <!-- 获赞 -->
         <activity
             android:name=".activity.me.ui.ReceiveLikesActivity"
-            android:screenOrientation="portrait" />
-        <!--个人信息编辑-->
+            android:screenOrientation="portrait" /> <!-- 个人信息编辑 -->
         <activity
             android:name=".activity.me.ui.EditPersonalInfoActivity"
-            android:screenOrientation="portrait" />
-        <!-- 关于 -->
+            android:screenOrientation="portrait" /> <!-- 关于 -->
         <activity
             android:name=".activity.me.AboutActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".exception.CustomErrorActivity"
             android:process=":error_activity">
             <intent-filter>
                 <action android:name="cat.ereza.customactivityoncrash.ERROR" />
             </intent-filter>
-        </activity>
-        <!-- 通用webview -->
+        </activity> <!-- 通用webview -->
         <activity
             android:name=".activity.common.WebViewActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
-
-        <activity android:name="com.pai8.ke.activity.wallet.InOutDetailActivity" />
-
-        <activity android:name="com.pai8.ke.activity.wallet.WalletActivity" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".activity.wallet.InOutDetailActivity" />
+        <activity android:name=".activity.wallet.WalletActivity" />
 
         <provider
             android:name=".utils.MyProvider"
@@ -256,12 +223,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <service android:name=".manager.UpdateAppManager" />
-
-        <!-- **************************************高德定位********************************************** -->
-        <service android:name="com.amap.api.location.APSService" />
-
-        <!-- **************************************极光推送********************************************** -->
+        <service android:name=".manager.UpdateAppManager" /> <!-- **************************************高德定位********************************************** -->
+        <service android:name="com.amap.api.location.APSService" /> <!-- **************************************极光推送********************************************** -->
         <!-- Since JCore2.0.0 Required SDK核心功能 -->
         <!-- 可配置android:process参数将Service放在其他进程中；android:enabled属性不能是false -->
         <!-- 这个是自定义Service，要继承极光JCommonService，可以在更多手机平台上使得推送通道保持的更稳定 -->

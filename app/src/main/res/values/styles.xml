@@ -67,4 +67,9 @@
     <style name="CustomCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/cb_selector</item>
     </style>
+
+    <style name="common_spinner" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">#111111</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

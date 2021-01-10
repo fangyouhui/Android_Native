@@ -77,6 +77,9 @@ public class WalletActivity extends BaseActivity {
         });
         inOutDetail.setOnClickListener(v -> {
             //TODO 收支明细
+            Intent intent = new Intent(this, InOutRecordActivity.class);
+//            intent.putExtra("balance",remainEarn.getText());
+            startActivity(intent);
         });
     }
 
