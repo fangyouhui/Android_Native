@@ -16,7 +16,7 @@ import com.pai8.ke.R;
  */
 public class BottomDialog extends Dialog {
 
-    private View mView;
+    protected View mView;
     private Context mContext;
 
     private boolean mIsCancelable = true;
@@ -43,7 +43,7 @@ public class BottomDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(mView);
+        setContentView(mView == null ? getView() : mView);
         setCancelable(mIsCancelable);
         setCanceledOnTouchOutside(mIsCanceledOnTouchOutside);
         Window window = this.getWindow();

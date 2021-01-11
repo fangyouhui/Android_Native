@@ -1,12 +1,13 @@
 package com.pai8.ke.activity.wallet;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
@@ -24,10 +25,7 @@ import butterknife.BindView;
  */
 
 
-
 public class WalletActivity extends BaseActivity {
-    @BindView(R.id.toolbar_back_all)
-    ImageView ivBtnBack;
     @BindView(R.id.tip_invite)
     LinearLayout tipInvite;
     @BindView(R.id.tip_video)
@@ -59,12 +57,28 @@ public class WalletActivity extends BaseActivity {
     @Override
     public void initView() {
         setImmersionBar(R.id.base_tool_bar);
-        ivBtnBack.setOnClickListener(v -> finish());
+        mTitleBar.setTitle("钱包")
+                .setOnTitleBarListener(new OnTitleBarListener() {
+                    @Override
+                    public void onLeftClick(View v) {
+                        finish();
+                    }
+
+                    @Override
+                    public void onTitleClick(View v) {
+
+                    }
+
+                    @Override
+                    public void onRightClick(View v) {
+                        launch(OutRecordActivity.class);
+                    }
+                });
         tipInvite.setOnClickListener(v -> {
             //TODO
         });
         tipOrder.setOnClickListener(v -> {
-             //TODO
+            //TODO
         });
         tipVideo.setOnClickListener(v -> {
             //TODO
@@ -72,7 +86,7 @@ public class WalletActivity extends BaseActivity {
 
         cashOut.setOnClickListener(v -> {
             Intent intent = new Intent(this, InOutDetailActivity.class);
-            intent.putExtra("balance",remainEarn.getText());
+            intent.putExtra("balance", remainEarn.getText());
             startActivity(intent);
         });
         inOutDetail.setOnClickListener(v -> {
@@ -83,18 +97,18 @@ public class WalletActivity extends BaseActivity {
         });
     }
 
-    private void walletDetail(){
+    private void walletDetail() {
         TakeawayApi.getInstance().memberWallet()
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<MemberWalletResponse>() {
                     @Override
-                    protected void onSuccess(MemberWalletResponse data){
-                        if (data != null){
-                            totalEarn.setText(StringUtils.isEmptyDefaultValue(data.getMoney_sum(),""));
-                            yesterdayEarn.setText(StringUtils.isEmptyDefaultValue(data.getMoney(),""));
-                            remainEarn.setText(StringUtils.isEmptyDefaultValue(data.getBalance(),""));
+                    protected void onSuccess(MemberWalletResponse data) {
+                        if (data != null) {
+                            totalEarn.setText(StringUtils.isEmptyDefaultValue(data.getMoney_sum(), ""));
+                            yesterdayEarn.setText(StringUtils.isEmptyDefaultValue(data.getMoney(), ""));
+                            remainEarn.setText(StringUtils.isEmptyDefaultValue(data.getBalance(), ""));
                         }
                     }
 

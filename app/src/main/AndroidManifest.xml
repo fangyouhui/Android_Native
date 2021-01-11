@@ -211,6 +211,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".activity.wallet.InOutDetailActivity" />
         <activity android:name=".activity.wallet.WalletActivity" />
+        <activity android:name=".activity.wallet.OutRecordActivity" />
 
         <provider
             android:name=".utils.MyProvider"

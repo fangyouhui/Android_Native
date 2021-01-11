@@ -99,7 +99,7 @@ public interface TakeawayApiService {
      * @return
      */
     @POST("user/MemberCash")
-    Observable<BaseRespose<MemberCashResponse>> userMemberCash(@Body MemberCashRequest body);
+    Observable<BaseRespose<String>> userMemberCash(@Body MemberCashRequest body);
 
     /**
      * 钱包页面
@@ -116,6 +116,13 @@ public interface TakeawayApiService {
     @POST("user/MemberIncomeList")
     Observable<BaseRespose<InOutRecordResp>> inOutRecord(@Body InOutRecordRequest body);
 
+    /**
+     * 提现记录
+     * @param body
+     * @return
+     */
+    @POST("user/MemberCashList")
+    Observable<BaseRespose<InOutRecordResp>> outRecord(@Body InOutRecordRequest body);
 
     @POST("shop/upAddress")
     Observable<BaseRespose<String>> upAddress(@Body RequestBody body);

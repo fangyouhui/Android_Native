@@ -120,8 +120,8 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/et_wx"
+        <TextView
+            android:id="@+id/tv_wx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_wx_pay"
@@ -171,8 +171,8 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/et_zfb"
+        <TextView
+            android:id="@+id/tv_zfb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/iv_zfb_pay"
