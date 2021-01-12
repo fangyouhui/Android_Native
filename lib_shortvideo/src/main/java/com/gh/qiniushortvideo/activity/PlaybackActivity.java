@@ -112,7 +112,7 @@ public class PlaybackActivity extends Activity implements
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                if (mMediaPlayer.isPlaying()) {
+                if (mMediaPlayer != null && mMediaPlayer.isPlaying()){
                     mSeekingPosition = mMediaPlayer.getCurrentPosition();
                     mMediaPlayer.stop();
                 }
@@ -161,41 +161,58 @@ public class PlaybackActivity extends Activity implements
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
         }
+        mMediaPlayer = null;
+        super.onDestroy();
+
     }
 
     @Override
     public void start() {
-        mMediaPlayer.start();
+        if (mMediaPlayer != null){
+            mMediaPlayer.start();
+        }
     }
 
     @Override
     public void pause() {
-        mMediaPlayer.pause();
+        if (mMediaPlayer != null){
+            mMediaPlayer.pause();
+        }
     }
 
     @Override
     public int getDuration() {
-        return mMediaPlayer.getDuration();
+        if (mMediaPlayer != null){
+            return mMediaPlayer.getDuration();
+        }
+        return 0;
     }
 
     @Override
     public int getCurrentPosition() {
-        return mMediaPlayer.getCurrentPosition();
+        if (mMediaPlayer != null){
+            return mMediaPlayer.getCurrentPosition();
+        }
+        return 0;
     }
 
     @Override
     public void seekTo(int pos) {
-        mMediaPlayer.seekTo(pos);
+        if (mMediaPlayer != null){
+            mMediaPlayer.seekTo(pos);
+        }
     }
 
     @Override
     public boolean isPlaying() {
-        return mMediaPlayer.isPlaying();
+        if (mMediaPlayer != null){
+            return mMediaPlayer.isPlaying();
+        }
+        return false;
     }
 
     @Override
