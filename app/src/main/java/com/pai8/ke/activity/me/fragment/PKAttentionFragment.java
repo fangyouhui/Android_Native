@@ -59,19 +59,19 @@ public class PKAttentionFragment extends BaseMvpFragment<AttentionMinePresenter>
 
     @Override
     public void initData() {
-        mPresenter.reqMessageList(page);
+        mPresenter.reqMessageList(page, "paike");
     }
 
     @Override
     public void onRefresh() {
         page = 1;
-        mPresenter.reqMessageList(page);
+        mPresenter.reqMessageList(page, "paike");
     }
 
     @Override
     public void onLoadMoreRequested() {
         page++;
-        mPresenter.reqMessageList(page);
+        mPresenter.reqMessageList(page, "paike");
     }
 
     @Override

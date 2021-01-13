@@ -60,19 +60,19 @@ public class ShopAttentionFragment extends BaseMvpFragment<AttentionMinePresente
 
     @Override
     public void initData() {
-        mPresenter.reqMessageList(page);
+        mPresenter.reqMessageList(page, "shop");
     }
 
     @Override
     public void onRefresh() {
         page = 1;
-        mPresenter.reqMessageList(page);
+        mPresenter.reqMessageList(page, "shop");
     }
 
     @Override
     public void onLoadMoreRequested() {
         page++;
-        mPresenter.reqMessageList(page);
+        mPresenter.reqMessageList(page, "shop");
     }
 
     @Override
