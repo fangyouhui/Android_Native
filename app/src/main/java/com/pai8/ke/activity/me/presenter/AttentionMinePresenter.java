@@ -7,6 +7,7 @@ import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -22,10 +23,12 @@ public class AttentionMinePresenter extends BasePresenterImpl<AttentionMineContr
         super(view);
     }
 
-    public void reqMessageList(int page){
+    public void reqMessageList(int page, String cate){
         HashMap<String,Object> map = new HashMap<>(1);
         map.put("page",page);
         map.put("size", GlobalConstants.PAGE_SIZE);
+        map.put("uid", AccountManager.getInstance().getUid());
+        map.put("cate", cate);
         MineApi.getInstance().getAttentionMineList(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);

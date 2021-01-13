@@ -59,7 +59,7 @@ public class MyApp extends Application {
      * @return
      */
     public static BuildType getBuildType() {
-        return BuildType.TEST;
+        return BuildType.RELEASE;
     }
 
     /**
