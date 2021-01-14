@@ -258,4 +258,40 @@ public class VideoHomePresenter extends BasePresenterImpl<VideoHomeContract.View
                     }
                 });
     }
+
+    @Override
+    public void myLink(int page, int tag) {
+        if (!AccountManager.getInstance().isLogin()) {
+            view.refreshComplete();
+            view.loginView();
+            return;
+        }
+        Api.getInstance().myLink(page, GlobalConstants.PAGE_SIZE)
+                .doOnSubscribe(disposable -> {
+                    addDisposable(disposable);
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<VideoListResp>() {
+                    @Override
+                    protected void onSuccess(VideoListResp data) {
+                        view.refreshComplete();
+                        view.showSucessPage();
+                        List<Video> videos = data.getItems();
+                        setPageNo(videos, page);
+                        if (tag == GlobalConstants.REFRESH) {
+                            if (CollectionUtils.isEmpty(videos)) view.showEmptyPage();
+                        }
+                        view.videoList(videos, tag);
+                        if (data.getPagination().noMore()) {
+                            view.setNoMore();
+                        }
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        view.refreshComplete();
+                        super.onError(msg, errorCode);
+                    }
+                });
+    }
 }

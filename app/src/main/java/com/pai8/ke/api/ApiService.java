@@ -229,6 +229,16 @@ public interface ApiService {
                                                   @Field("size") int size);
 
     /**
+     * 关联我的或我关联的视频列表
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("video/mylink")
+    Observable<BaseRespose<VideoListResp>> myLink(@Field("page") int page,
+                                                  @Field("size") int size);
+
+    /**
      * 推荐视频列表
      */
     @FormUrlEncoded

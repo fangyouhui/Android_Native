@@ -40,5 +40,7 @@ public interface VideoHomeContract {
 
         void deleteVideo(String videoId);
 
+        void myLink(int page, int tag);
+
     }
 }

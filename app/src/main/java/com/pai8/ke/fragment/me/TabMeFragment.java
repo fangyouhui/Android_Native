@@ -142,14 +142,16 @@ public class TabMeFragment extends BaseFragment {
         mTitles.add("作品");
         mTitles.add("收藏");
         mTitles.add("喜欢");
+        mTitles.add("我关联的");
 
         mFragments.add(TabHomeChildFragment.newInstance(3));
         mFragments.add(TabHomeChildFragment.newInstance(2));
         mFragments.add(TabHomeChildFragment.newInstance(4));
+        mFragments.add(TabHomeChildFragment.newInstance(6));
 
         mTabAdapter = new TabAdapter(getChildFragmentManager(), mFragments, mTitles);
 
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(mTabAdapter);
         viewPager.setCurrentItem(0);
         TabCreateUtils.setMeTab(getActivity(), magicIndicator, viewPager, mTitles);
@@ -211,6 +213,7 @@ public class TabMeFragment extends BaseFragment {
                         setHistoryCount(myInfoResp.getMy_history());
                         initVerifyStatus(myInfoResp.getVerify_status() == null ? 0 :
                                 myInfoResp.getVerify_status());
+                        addLinkFragment();
                     }
 
                     @Override
@@ -296,6 +299,7 @@ public class TabMeFragment extends BaseFragment {
      */
     private void initVerifyStatus(int status) {
         mStatus = status;
+        mStatus = 2;
         switch (status) {
             case 0:
             case 3:
@@ -469,6 +473,12 @@ public class TabMeFragment extends BaseFragment {
         }
         mShareBottomDialog.setIsCanceledOnTouchOutside(true);
         mShareBottomDialog.show();
+    }
+
+    //添加关联页
+    private void addLinkFragment(){
+        String title = mStatus == 3 ?"关联我的" : "我关联的";
+
     }
 
     /**

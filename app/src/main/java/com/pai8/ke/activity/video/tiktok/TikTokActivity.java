@@ -270,6 +270,8 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                             mVideoHomePresenter.myLike(mPageNo, LOADMORE);
                         case 5: //搜索
                             mVideoHomePresenter.search(mKeyWords, mPageNo, LOADMORE);
+                        case 6://关联我/我关联
+                            mVideoHomePresenter.myLink(mPageNo, LOADMORE);
                     }
                 }
                 mViewPager.post(() -> startPlay(position));
@@ -747,6 +749,9 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                     mVideoHomePresenter.myLike(mPageNo, REFRESH);
                 case 5: //搜索
                     mVideoHomePresenter.search(mKeyWords, mPageNo, REFRESH);
+                case 6://我关联/关联我
+                    mVideoHomePresenter.myLink(mPageNo, REFRESH);
+
             }
         }, 200);
     }

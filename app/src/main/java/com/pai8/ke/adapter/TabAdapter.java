@@ -36,4 +36,10 @@ public class TabAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mTitles.get(position % mTitles.size());
     }
+
+    public void addPage(Fragment fragment,String title){
+        mFragments.add(fragment);
+        mTitles.add(title);
+        notifyDataSetChanged();
+    }
 }
