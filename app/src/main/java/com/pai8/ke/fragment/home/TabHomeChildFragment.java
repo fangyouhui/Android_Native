@@ -10,6 +10,7 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.pai8.ke.BuildConfig;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.home.ClassifyActivity;
@@ -159,7 +160,9 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
                     getActivity().findViewById(android.R.id.content), false);
             view.findViewById(R.id.iv_1).setOnClickListener(v -> launch(TakeawayActivity.class));
 
-            view.findViewById(R.id.iv_2).setOnClickListener(v -> toast("此功能暂未开放,敬请期待"));
+            if(!"Tencent".equals(BuildConfig.FLAVOR)) {
+                view.findViewById(R.id.iv_2).setOnClickListener(v -> toast("此功能暂未开放,敬请期待"));
+            }
 
             view.findViewById(R.id.iv_3).setOnClickListener(v -> launch(ClassifyActivity.class));
 

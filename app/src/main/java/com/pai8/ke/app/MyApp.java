@@ -16,6 +16,7 @@ import com.dueeeke.videoplayer.player.VideoViewManager;
 import com.gh.qiniushortvideo.QNShortVideo;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
+import com.pai8.ke.BuildConfig;
 import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
@@ -59,7 +60,13 @@ public class MyApp extends Application {
      * @return
      */
     public static BuildType getBuildType() {
-        return BuildType.RELEASE;
+        return (Boolean) PreferencesUtils.get(mContext, "isTest", false) ? BuildType.RELEASE : BuildType.TEST;
+    }
+
+    public static boolean toggleBuildType() {
+        boolean current = (Boolean) PreferencesUtils.get(mContext, "isTest", false);
+        PreferencesUtils.put(mContext, "isTest", !current);
+        return !current;
     }
 
     /**

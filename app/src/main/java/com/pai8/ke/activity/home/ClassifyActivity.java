@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.view.View;
 
 import com.hjq.bar.OnTitleBarListener;
+import com.pai8.ke.BuildConfig;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.home.adapter.ClassifyAdapter;
 import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
@@ -87,7 +88,9 @@ public class ClassifyActivity extends BaseActivity implements SwipeRefreshLayout
                     launch(TakeawayActivity.class);
                     break;
                 case 1:
-                    toast("此功能暂未开放,敬请期待");
+                    if(!"Tencent".equals(BuildConfig.FLAVOR)) {
+                        toast("此功能暂未开放,敬请期待");
+                    }
                     break;
             }
         });

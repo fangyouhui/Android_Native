@@ -8,6 +8,7 @@ import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LuRecyclerView;
 import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.pai8.ke.BuildConfig;
 import com.pai8.ke.R;
 import com.pai8.ke.adapter.ShopAdapter;
 import com.pai8.ke.base.BaseFragment;
@@ -94,9 +95,11 @@ public class TabShopChildFragment extends BaseFragment implements SwipeRefreshLa
     protected void initListener() {
         srLayout.setOnRefreshListener(this);
         lrv.setOnLoadMoreListener(this);
-        mLRvAdapter.setOnItemClickListener((view, position) -> {
-            toast("该功能暂未开放，敬请期待");
-        });
+        if(!"Tencent".equals(BuildConfig.FLAVOR)) {
+            mLRvAdapter.setOnItemClickListener((view, position) -> {
+                toast("该功能暂未开放，敬请期待");
+            });
+        }
 
     }
 

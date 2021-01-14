@@ -104,6 +104,10 @@ android {
             dimension "market"
             manifestPlaceholders = [app_name: "5拍8小视频"]
         }
+        ProVersion {
+            dimension "market"
+            manifestPlaceholders = [app_name: "5拍8小视频"]
+        }
     }
 
 }

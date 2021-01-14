@@ -7,7 +7,9 @@ import android.text.InputType;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,7 +31,9 @@ import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.EventBusUtils;
+import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.StringUtils;
+import com.pai8.ke.widget.BottomDialog;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -177,7 +181,6 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
      * 登录
      */
     private void login() {
-
         String userPhone = StringUtils.getEditText(etUserName);
         String userMessage = StringUtils.getEditText(etMessage);
 
@@ -187,6 +190,43 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         }
         if (!AppUtils.isPhone(userPhone)) {
             toast("请输入正确的手机号");
+            return;
+        }
+
+        if((Boolean) PreferencesUtils.get(this, "policy_check", false) == false) {
+            // 打开用户协议
+            View view = LayoutInflater.from(this).inflate(R.layout.dialog_webview, null);
+            BottomDialog dialog = new BottomDialog(this, view);
+            WebView webView = view.findViewById(R.id.web_view);
+            TextView btnConfirm = view.findViewById(R.id.btn_confirm);
+            TextView tvTitle = view.findViewById(R.id.tv_title);
+            tvTitle.setText("用户协议");
+            webView.loadUrl("http://test.5pai8.com/agreement/serverProtocol/index.html");
+            btnConfirm.setOnClickListener(v -> {
+                PreferencesUtils.put(this, "policy_check", true);
+                dialog.dismiss();
+                login();
+            });
+            dialog.setCancelable(false);
+            dialog.show();
+            return;
+        }
+        if((Boolean) PreferencesUtils.get(this, "privacy_check", false) == false) {
+            // 打开隐私政策
+            View view = LayoutInflater.from(this).inflate(R.layout.dialog_webview, null);
+            BottomDialog dialog = new BottomDialog(this, view);
+            WebView webView = view.findViewById(R.id.web_view);
+            TextView btnConfirm = view.findViewById(R.id.btn_confirm);
+            TextView tvTitle = view.findViewById(R.id.tv_title);
+            tvTitle.setText("隐私政策");
+            webView.loadUrl("http://test.5pai8.com/agreement/privacyProtocol/index.html");
+            btnConfirm.setOnClickListener(v -> {
+                PreferencesUtils.put(this, "privacy_check", true);
+                dialog.dismiss();
+                login();
+            });
+            dialog.setCancelable(false);
+            dialog.show();
             return;
         }
 
