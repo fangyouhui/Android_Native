@@ -138,7 +138,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.takeaway.ui.ShopRankActivity" />
         <activity android:name=".activity.takeaway.ui.AddCouponActivity" />
-        <activity android:name=".activity.takeaway.ui.MarketingManagerActivity" />
+        <activity android:name=".activity.takeaway.ui.CouponActivity" />
         <activity android:name=".activity.takeaway.ui.IncomeDetailActivity" />
         <activity android:name=".activity.takeaway.order.OrderDetailActivity" />
         <activity android:name=".activity.takeaway.ui.DeliveryAddressActivity" />
@@ -212,6 +212,8 @@
         <activity android:name=".activity.wallet.InOutDetailActivity" />
         <activity android:name=".activity.wallet.WalletActivity" />
         <activity android:name=".activity.wallet.OutRecordActivity" />
+        <activity android:name=".activity.takeaway.ui.MarketingManagerActivity" />
+        <activity android:name=".activity.takeaway.ui.MarketingRebateActivity" />
 
         <provider
             android:name=".utils.MyProvider"

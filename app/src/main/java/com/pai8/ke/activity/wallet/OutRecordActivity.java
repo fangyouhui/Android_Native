@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
-import com.pai8.ke.activity.wallet.adapter.InOutRecordAdapter;
+import com.pai8.ke.activity.wallet.adapter.OutRecordAdapter;
 import com.pai8.ke.activity.wallet.data.InOutRecordBean;
 import com.pai8.ke.activity.wallet.data.InOutRecordRequest;
 import com.pai8.ke.activity.wallet.data.InOutRecordResp;
@@ -49,12 +49,13 @@ public class OutRecordActivity extends BaseActivity implements SwipeRefreshLayou
     TextView tvTotalAmount;
     @BindView(R.id.sp_month)
     AppCompatSpinner spMonth;
-    InOutRecordAdapter mAdapter;
+
 
     BottomDialog mDatePickerDialog;
     private List<InOutRecordBean> mList = new ArrayList<>();
     private int page = 1;
     private String month = "";
+    OutRecordAdapter mAdapter;
 
     @Override
     public int getLayoutId() {
@@ -68,7 +69,7 @@ public class OutRecordActivity extends BaseActivity implements SwipeRefreshLayou
         tvTotalAmount.setVisibility(View.GONE);
         srLayout.setOnRefreshListener(this);
         srLayout.setColorSchemeResources(R.color.colorPrimary);
-        mAdapter = new InOutRecordAdapter(mList);
+        mAdapter = new OutRecordAdapter(mList);
         recycler_view.setLayoutManager(new LinearLayoutManager(this));
         recycler_view.setHasFixedSize(true);
         mAdapter.setEnableLoadMore(true);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:background="@drawable/btn_selector_white"
@@ -19,7 +19,7 @@
             android:textColor="#111111"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold"
-            android:text="邀请收益"/>
+            tools:text="邀请收益"/>
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"

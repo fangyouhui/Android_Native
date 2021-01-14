@@ -30,5 +30,7 @@
     <color name="text_black">#2F2F2F</color>
     <color name="text_store_manager">#FFD49F</color>
     <color name="color_default">#C6C6C6</color>
+    <color name="color_FF7F47">#FF7F47</color>
+    <color name="color_2F2F2F">#2F2F2F</color>
 
 </resources>

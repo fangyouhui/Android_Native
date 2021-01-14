@@ -5,6 +5,7 @@ import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
+import com.pai8.ke.activity.takeaway.entity.req.RebateReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopListReq;
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq;
@@ -107,6 +108,14 @@ public interface TakeawayApiService {
      */
     @POST("user/MemberWallet")
     Observable<BaseRespose<MemberWalletResponse>> memberWallet();
+
+
+    /**
+     * 设置商户拍客返点比例
+     * @return
+     */
+    @POST("shop/SetupShopbeatRebate")
+    Observable<BaseRespose<String>> setupRebate(@Body RebateReq body);
 
     /**
      * 收支记录

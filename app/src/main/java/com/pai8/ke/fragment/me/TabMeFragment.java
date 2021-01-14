@@ -299,7 +299,6 @@ public class TabMeFragment extends BaseFragment {
      */
     private void initVerifyStatus(int status) {
         mStatus = status;
-        mStatus = 2;
         switch (status) {
             case 0:
             case 3:
@@ -371,7 +370,7 @@ public class TabMeFragment extends BaseFragment {
                 launchInterceptLogin(OrderActivity.class);
                 break;
             case R.id.tv_btn_wallet:
-                launch(WalletActivity.class);
+                launchInterceptLogin(WalletActivity.class);
                 break;
             case R.id.tv_btn_address:
                 launchInterceptLogin(DeliveryAddressActivity.class);

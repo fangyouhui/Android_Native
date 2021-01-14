@@ -95,7 +95,7 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
                 startActivity(new Intent(this,SecondAdminManagerActivity.class));
                 break;
             case R.id.tv_marketing_manager:
-                startActivity(new Intent(this,MarketingManagerActivity.class));
+                MarketingManagerActivity.launch(this);
                 break;
             case R.id.rl_num_rank:  //月销售数量排行
                 startActivity(new Intent(this,ShopRankActivity.class)

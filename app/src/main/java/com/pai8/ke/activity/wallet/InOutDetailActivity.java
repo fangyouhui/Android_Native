@@ -3,6 +3,7 @@ package com.pai8.ke.activity.wallet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hjq.bar.OnTitleBarListener;
@@ -42,6 +43,14 @@ public class InOutDetailActivity extends BaseActivity {
     TextView tvAccount;
     @BindView(R.id.et_money)
     EditText etMoney;
+    @BindView(R.id.ll_content)
+    LinearLayout llContent;
+    @BindView(R.id.ll_success)
+    LinearLayout llSuccess;
+    @BindView(R.id.bt_success_confirm)
+    Button btSuccessConfirm;
+
+
 
 
     private BankAccountDialog accountDialog;
@@ -88,6 +97,13 @@ public class InOutDetailActivity extends BaseActivity {
             pay();
         });
         tvChooseAccount.setOnClickListener(v -> showAccountDialog());
+
+        btSuccessConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -175,7 +191,9 @@ public class InOutDetailActivity extends BaseActivity {
                 .subscribe(new BaseObserver<String>() {
                     @Override
                     protected void onSuccess(String data){
-                        ToastUtils.show(InOutDetailActivity.this,"用户提现提交完成，等待审核",0);
+                        llContent.setVisibility(View.GONE);
+                        llSuccess.setVisibility(View.VISIBLE);
+                        mTitleBar.setRightTitle("");
                     }
 
                     @Override

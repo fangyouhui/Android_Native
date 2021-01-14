@@ -201,5 +201,8 @@ dependencies {
     implementation 'com.just.agentweb:agentweb:4.0.2'
     //裁剪框架
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    //rxbinding
+    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
 
 }
