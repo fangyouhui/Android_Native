@@ -1,5 +1,7 @@
 package com.pai8.ke.activity.me.presenter;
 
+import android.util.Log;
+
 import com.pai8.ke.activity.me.api.MineApi;
 import com.pai8.ke.activity.me.contract.AttentionMineContract;
 import com.pai8.ke.activity.me.entity.resp.AttentionMineResp;
@@ -45,7 +47,8 @@ public class AttentionMinePresenter extends BasePresenterImpl<AttentionMineContr
                         if (data != null && data.getUsers() != null && data.getPagination() != null) {
                             view.getAttentionMineSuccess(data.getPagination().getTotal(), data.getUsers());
                         } else {
-                            ToastUtils.showShort("数据异常");
+                            Log.d("####","数据异常");
+                            //ToastUtils.showShort("数据异常");
                         }
                     }
 

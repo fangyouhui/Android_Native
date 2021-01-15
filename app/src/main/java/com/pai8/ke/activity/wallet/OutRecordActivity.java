@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.wallet;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -169,7 +170,8 @@ public class OutRecordActivity extends BaseActivity implements SwipeRefreshLayou
                                 }
                             }
                         } else {
-                            ToastUtils.showShort("数据异常");
+                            Log.d("####","数据异常");
+                            //ToastUtils.showShort("数据异常");
                         }
                     }
 

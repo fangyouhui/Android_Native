@@ -1,5 +1,7 @@
 package com.pai8.ke.activity.me.presenter;
 
+import android.util.Log;
+
 import com.pai8.ke.activity.me.api.MineApi;
 import com.pai8.ke.activity.me.contract.FansContract;
 import com.pai8.ke.activity.me.entity.resp.FansResp;
@@ -52,7 +54,8 @@ public class FansPresenter extends BasePresenterImpl<FansContract.View> {
                         if (data != null && data.getUsers() != null && data.getPagination() != null) {
                             view.getFansSuccess(data.getPagination().getTotal(), data.getUsers());
                         } else {
-                            ToastUtils.showShort("数据异常");
+                            Log.d("####","数据异常");
+                            //ToastUtils.showShort("数据异常");
                         }
                     }
 

@@ -1,5 +1,7 @@
 package com.pai8.ke.activity.me.presenter;
 
+import android.util.Log;
+
 import com.pai8.ke.activity.me.api.MineApi;
 import com.pai8.ke.activity.me.contract.AttentionMineContract;
 import com.pai8.ke.activity.me.contract.HistoryWatchContract;
@@ -50,7 +52,7 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
                         if (data != null && data.getItems() != null && data.getPagination() != null) {
                             view.getHistorySuccess(data.getPagination().getTotal(), data.getItems());
                         } else {
-                            ToastUtils.showShort("数据异常");
+                            //ToastUtils.showShort("数据异常");
                         }
                     }
 
@@ -86,7 +88,8 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
                         if (data != null && data.getItems() != null && data.getPagination() != null) {
                             view.getHistorySuccess(data.getPagination().getTotal(), data.getItems());
                         } else {
-                            ToastUtils.showShort("数据异常");
+                            Log.d("####","数据异常");
+                            //ToastUtils.showShort("数据异常");
                         }
                     }
 

@@ -1,5 +1,7 @@
 package com.pai8.ke.activity.me.presenter;
 
+import android.util.Log;
+
 import com.pai8.ke.activity.me.api.MineApi;
 import com.pai8.ke.activity.me.contract.ReceiveLikesContract;
 import com.pai8.ke.activity.me.entity.resp.HistoryResp;
@@ -52,7 +54,8 @@ public class ReceiveLikesPresenter extends BasePresenterImpl<ReceiveLikesContrac
                         if (data != null && data.getItems() != null && data.getPagination() != null) {
                             view.getReceiveLikesSuccess(data.getPagination().getTotal(), data.getItems());
                         } else {
-                            ToastUtils.showShort("数据异常");
+                            Log.d("####","数据异常");
+                            //ToastUtils.showShort("数据异常");
                         }
                     }
 

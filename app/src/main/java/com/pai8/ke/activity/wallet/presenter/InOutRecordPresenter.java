@@ -1,5 +1,7 @@
 package com.pai8.ke.activity.wallet.presenter;
 
+import android.util.Log;
+
 import com.pai8.ke.activity.me.entity.resp.FansResp;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.wallet.contract.InOutRecordContract;
@@ -37,7 +39,8 @@ public class InOutRecordPresenter extends BasePresenterImpl<InOutRecordContract.
                         if (data != null && data.getList() != null) {
                             view.getInOutRecordSuccess(data);
                         } else {
-                            ToastUtils.showShort("数据异常");
+                            Log.d("####","数据异常");
+                            //ToastUtils.showShort("数据异常");
                         }
                     }
 
