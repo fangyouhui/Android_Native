@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
+import com.jakewharton.rxbinding4.widget.RxTextView;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.entity.req.RebateReq;
@@ -19,6 +20,7 @@ import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
 import butterknife.BindView;
+import io.reactivex.rxjava3.functions.Consumer;
 
 /**
  * Created by atian
@@ -42,6 +44,7 @@ public class MarketingRebateActivity extends BaseActivity {
         return R.layout.activity_market_rebate;
     }
 
+    @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public void initView() {
         mTitleBar.setTitle("拍客返点");
@@ -65,38 +68,51 @@ public class MarketingRebateActivity extends BaseActivity {
         btConfirm.setOnClickListener(v -> {
            setUpRate();
         });
-
-        etRebate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void afterTextChanged(Editable s) {
-                String msg = s.toString();
-                if (StringUtils.isEmpty(msg)) return;
-                int value;
-                if (msg.contains("%")){
-                    value = Integer.parseInt(msg.split("%")[0]);
-                }else{
-                    value = Integer.parseInt(msg);
-                }
-
-                if (value > 100 || value < 0){
-                    ToastUtils.show(MarketingRebateActivity.this,"请输入正确比例",0);
-                }
-                rateNum = value;
-                //s.setText(value + "%");
-            }
-        });
+        etRebate.addTextChangedListener(textWatcher);
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (StringUtils.isEmpty(s.toString())){
+                btConfirm.setClickable(false);
+                btConfirm.setTextColor(getResources().getColor(R.color.color_80ffffff));
+                btConfirm.setBackground(getResources().getDrawable(R.drawable.rebate_style));
+            }else{
+                btConfirm.setClickable(true);
+                btConfirm.setTextColor(getResources().getColor(R.color.color_white));
+                btConfirm.setBackground(getResources().getDrawable(R.drawable.rebate_confirm_style));
+            }
+
+            String msg = s.toString();
+            if (StringUtils.isEmpty(msg)) return;
+            int value;
+            if (msg.contains("%")){
+                value = Integer.parseInt(msg.split("%")[0]);
+            }else{
+                value = Integer.parseInt(msg);
+            }
+
+            if (value > 100 || value < 0){
+                ToastUtils.show(MarketingRebateActivity.this,"请输入正确比例",0);
+            }
+            //rateNum = value;
+            //etRebate.removeTextChangedListener(textWatcher);
+            //etRebate.setText(rateNum + "%");
+            //etRebate.setSelection(etRebate.getText().length());
+            //etRebate.removeTextChangedListener(textWatcher);
+        }
+    };
 
 
     //设置返现比例
@@ -115,7 +131,7 @@ public class MarketingRebateActivity extends BaseActivity {
                 .subscribe(new BaseObserver<String>() {
                     @Override
                     protected void onSuccess(String data) {
-                        ToastUtils.showShort(data);
+                        ToastUtils.showShort("设置成功");
                         finish();
                     }
 

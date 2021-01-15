@@ -78,7 +78,7 @@ public class MarketingManagerActivity extends BaseActivity {
         });
         //关注送好礼
         rl4.setOnClickListener(v -> {
-           //TODO
+
         });
     }
 

@@ -299,6 +299,7 @@ public class TabMeFragment extends BaseFragment {
      */
     private void initVerifyStatus(int status) {
         mStatus = status;
+        mStatus = 2;
         switch (status) {
             case 0:
             case 3:

@@ -27,5 +27,6 @@
     <color name="avatar_list_bg">#BF050F14</color>
     <color name="avatar_model_bg">#F9F9FC</color>
     <color name="avatar_model_name_text">#666666</color>
+    <color name="color_80ffffff">#80ffffff</color>
 
 </resources>
