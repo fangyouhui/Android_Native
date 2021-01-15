@@ -118,6 +118,14 @@ public interface TakeawayApiService {
     Observable<BaseRespose<String>> setupRebate(@Body RebateReq body);
 
     /**
+     * 商户关注送礼商品编辑
+     * @return
+     */
+    @POST("shop/SetUpShopGift")
+    Observable<BaseRespose<String>> setupGift(@Body RebateReq body);
+
+
+    /**
      * 收支记录
      * @param body
      * @return
