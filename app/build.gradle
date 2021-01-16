@@ -10,8 +10,8 @@ android {
         applicationId "com.pai8.ke"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.0.100"
+        versionCode 4
+        versionName "1.0.101"
 
         ndk {
             abiFilters "armeabi-v7a", "x86", "armeabi"
