@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F4F7"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:statusBarScrim="#F2F4F7"
+            app:titleEnabled="false">
+
+            <include layout="@layout/view_head_me" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="#F2F4F7">
+
+            <net.lucode.hackware.magicindicator.MagicIndicator
+                android:id="@+id/magic_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:visibility="gone"
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F4F7"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -156,17 +156,17 @@ public class TabHomeChildFragment extends BaseMvpFragment<VideoHomeContract.Pres
         if (mPosition == 0) {
             mAdapter.setNearby(true);
         } else if (mPosition == 1) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_head_nearby,
-                    getActivity().findViewById(android.R.id.content), false);
-            view.findViewById(R.id.iv_1).setOnClickListener(v -> launch(TakeawayActivity.class));
+//            View view = LayoutInflater.from(getActivity()).inflate(R.layout.view_head_nearby,
+//                    getActivity().findViewById(android.R.id.content), false);
+//            view.findViewById(R.id.iv_1).setOnClickListener(v -> launch(TakeawayActivity.class));
 
-            if(!"Tencent".equals(BuildConfig.FLAVOR)) {
-                view.findViewById(R.id.iv_2).setOnClickListener(v -> toast("此功能暂未开放,敬请期待"));
-            }
+//            if(!"Tencent".equals(BuildConfig.FLAVOR)) {
+//                view.findViewById(R.id.iv_2).setOnClickListener(v -> toast("此功能暂未开放,敬请期待"));
+//            }
+//
+//            view.findViewById(R.id.iv_3).setOnClickListener(v -> launch(ClassifyActivity.class));
 
-            view.findViewById(R.id.iv_3).setOnClickListener(v -> launch(ClassifyActivity.class));
-
-            mLRvAdapter.addHeaderView(view);
+//            mLRvAdapter.addHeaderView(view);
         }
 
     }

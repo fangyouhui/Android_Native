@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.MainActivity;
+import com.pai8.ke.activity.common.WebViewActivity;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
@@ -105,7 +106,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
         etMessage.addTextChangedListener(this);
     }
 
-    @OnClick({R.id.bt_get_code, R.id.btn_login, R.id.btn_changLogin, R.id.btn_register, R.id.img_weixin})
+    @OnClick({R.id.bt_get_code, R.id.btn_login, R.id.btn_changLogin, R.id.btn_register, R.id.img_weixin, R.id.tv_showpro, R.id.tv_secrets})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_get_code:
@@ -120,14 +121,14 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                     btnChangLogin.setText("验证码登录");
                     btGetCode.setVisibility(View.GONE);
                     etMessage.setText("");
-                    etMessage.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     etMessage.setHint(new SpannableString("请输入密码"));
+                    etMessage.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 } else {
                     btGetCode.setVisibility(View.VISIBLE);
                     btnChangLogin.setText("密码登录");
                     etMessage.setText("");
-                    etMessage.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     etMessage.setHint(new SpannableString("请输入短信验证码"));
+                    etMessage.setInputType(InputType.TYPE_CLASS_NUMBER);
                 }
                 break;
             case R.id.btn_register:
@@ -138,6 +139,18 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             case R.id.img_weixin:
                 //微信登录
                 wxLogin();
+                break;
+            case R.id.tv_showpro:
+                //用户服务协议
+                WebViewActivity.launch(this, "http://test.5pai8.com/agreement/serverProtocol/index.html",
+                        "用户服务协议");
+                break;
+            case R.id.tv_secrets:
+                //隐私保护指引
+                WebViewActivity.launch(this, "http://test.5pai8.com/agreement/privacyProtocol/index.html",
+                        "隐私保护政策");
+                break;
+            default:
                 break;
         }
     }

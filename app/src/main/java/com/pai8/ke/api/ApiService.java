@@ -71,6 +71,12 @@ public interface ApiService {
     Observable<BaseRespose<UserInfo>> getUid(@Field("code") String code);
 
     /**
+     * 用户注销账号
+     */
+    @POST("public/MemberLogout")
+    Observable<BaseRespose> memberLogout();
+
+    /**
      * 获取个人中心
      *
      * @return

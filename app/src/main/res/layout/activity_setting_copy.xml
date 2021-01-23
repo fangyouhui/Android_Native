@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/view_comm_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="黑名单"
+                android:textColor="@color/color_dark_font"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/divider" />
+
+        <RelativeLayout
+            android:id="@+id/rl_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="隐私政策"
+                android:textColor="@color/color_dark_font"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/divider" />
+
+        <RelativeLayout
+            android:id="@+id/rl_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="用户协议"
+                android:textColor="@color/color_dark_font"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/divider" />
+
+        <RelativeLayout
+            android:id="@+id/rl_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="关于软件"
+                android:textColor="@color/color_dark_font"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/divider" />
+
+        <RelativeLayout
+            android:id="@+id/rl_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector_white"
+            android:clickable="true"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="账号注销"
+                android:textColor="@color/color_dark_font"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv"
+                android:drawableRight="@mipmap/ic_enter_gray"
+                android:drawablePadding="6dp"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_selector_white"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="退出登录"
+        android:textColor="@color/color_dark_font"
+        android:textSize="16sp" />
+
+</LinearLayout>

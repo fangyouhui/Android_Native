@@ -26,6 +26,7 @@ import com.pai8.ke.fragment.me.TabMeFragment;
 import com.pai8.ke.fragment.msg.TabMsgFragment;
 import com.pai8.ke.fragment.pai.TabCameraFragment;
 import com.pai8.ke.fragment.shop.TabShopFragment;
+import com.pai8.ke.fragment.shop.TabTakeawayFragment;
 import com.pai8.ke.fragment.type.TabTypeFragment;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.interfaces.contract.VersionContract;
@@ -47,10 +48,10 @@ import androidx.fragment.app.Fragment;
 public class MainActivity extends BaseMvpActivity<VersionContract.Presenter> implements VersionContract.View {
 
     //未选中icon
-    private int[] normalIcon = {R.mipmap.icon_tabbar_home_normal, R.mipmap.icon_tabbar_shopping_normal,
+    private int[] normalIcon = {R.mipmap.icon_tabbar_home_normal, R.mipmap.icon_tabbar_takeway_normal,
             R.mipmap.icon_tabbar_msg_normal, R.mipmap.icon_tabbar_me_normal};
     //选中时icon
-    private int[] selectIcon = {R.mipmap.icon_tabbar_home_select, R.mipmap.icon_tabbar_shopping_select,
+    private int[] selectIcon = {R.mipmap.icon_tabbar_home_select, R.mipmap.icon_tabbar_takeway_select,
             R.mipmap.icon_tabbar_msg_select, R.mipmap.icon_tabbar_me_select};
     private String[] menuTextItems = {"", "", "", ""};
     private EasyNavigationBar navigationBar;
@@ -103,7 +104,7 @@ public class MainActivity extends BaseMvpActivity<VersionContract.Presenter> imp
     public void initView() {
         navigationBar = findViewById(R.id.navigationBar);
         fragments.add(new TabHomeFragment());
-        fragments.add(new TabShopFragment());
+        fragments.add(new TabTakeawayFragment());
         fragments.add(new TabCameraFragment());
         fragments.add(new TabMsgFragment());
         fragments.add(new TabMeFragment());

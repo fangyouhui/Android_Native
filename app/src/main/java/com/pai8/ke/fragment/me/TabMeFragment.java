@@ -125,7 +125,7 @@ public class TabMeFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_tab_me;
+        return R.layout.fragment_tab_me_copy;
     }
 
     @Override

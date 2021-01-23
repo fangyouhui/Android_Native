@@ -60,7 +60,7 @@ public class MyApp extends Application {
      * @return
      */
     public static BuildType getBuildType() {
-        return (Boolean) PreferencesUtils.get(mContext, "isTest", false) ? BuildType.TEST : BuildType.RELEASE;
+        return (Boolean) PreferencesUtils.get(mContext, "isTest", true) ? BuildType.TEST : BuildType.RELEASE;
     }
 
     public static boolean toggleBuildType() {
