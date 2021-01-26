@@ -70,7 +70,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     protected boolean isRegisterEventBus() {
         return true;
     }
-
+    //test git
     @Override
     protected void receiveEvent(BaseEvent event) {
         super.receiveEvent(event);
