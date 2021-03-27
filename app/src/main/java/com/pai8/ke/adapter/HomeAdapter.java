@@ -38,24 +38,30 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<Video> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ViewHolder viewHolder = (ViewHolder) holder;
-        Video video = mDataList.get(position);
-        ImageLoadUtils.loadImage(mContext, video.getCover_path(), viewHolder.ivCover, R.color.colorPrimary);
-        viewHolder.tvLookCount.setText(video.getLook_counts() + "");
-        viewHolder.tvName.setText(video.getUser().getNickname());
-        ImageLoadUtils.loadImage(mContext, video.getUser().getAvatar(), viewHolder.civAvatar,
-                R.mipmap.img_head_def);
-        viewHolder.tvTitle.setText(video.getVideo_desc());
-        if (StringUtils.isNotEmpty(video.getDistance())) {
-            viewHolder.tvTagDistance.setVisibility(View.VISIBLE);
-            viewHolder.tvTagDistance.setText(video.getDistance());
-        } else {
-            viewHolder.tvTagDistance.setVisibility(View.GONE);
+        try {
+            ViewHolder viewHolder = (ViewHolder) holder;
+            Video video = mDataList.get(position);
+            ImageLoadUtils.loadImage(mContext, video.getCover_path(), viewHolder.ivCover, R.color.colorPrimary);
+            viewHolder.tvLookCount.setText(video.getLook_counts() + "");
+            viewHolder.tvName.setText(video.getUser().getNickname().toString());
+            ImageLoadUtils.loadImage(mContext, video.getCover_path(), viewHolder.civAvatar,
+                    R.mipmap.img_head_def);
+            viewHolder.tvTitle.setText(video.getVideo_desc());
+            if (StringUtils.isNotEmpty(video.getDistance())) {
+                viewHolder.tvTagDistance.setVisibility(View.VISIBLE);
+                viewHolder.tvTagDistance.setText(video.getDistance());
+            } else {
+                viewHolder.tvTagDistance.setVisibility(View.GONE);
+            }
+            if (video.getShop() == null) {
+                viewHolder.tvTagOnsale.setVisibility(View.GONE);
+            } else {
+                viewHolder.tvTagOnsale.setVisibility(View.VISIBLE);
+            }
+
         }
-        if (video.getShop() == null) {
-            viewHolder.tvTagOnsale.setVisibility(View.GONE);
-        } else {
-            viewHolder.tvTagOnsale.setVisibility(View.VISIBLE);
+        catch (Exception ex){
+
         }
     }
 

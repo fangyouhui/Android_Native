@@ -10,7 +10,7 @@
         android:id="@+id/head_Layout"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:background="@drawable/background2"
+        android:background="@drawable/backgroud3"
         android:gravity="center"
         android:orientation="vertical">
 

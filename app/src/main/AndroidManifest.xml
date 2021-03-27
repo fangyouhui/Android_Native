@@ -130,6 +130,7 @@
         <activity android:name=".activity.takeaway.ui.MerchantSettledThreeActivity" />
         <activity android:name=".activity.takeaway.ui.GoodManagerActivity" />
         <activity android:name=".activity.takeaway.ui.AddGoodActivity" />
+        <activity android:name=".activity.takeaway.ui.AddGroupGoodActivity" />
         <activity android:name=".activity.takeaway.ui.SecondAdminManagerActivity" />
         <activity android:name=".activity.takeaway.ui.SecondStoreManagerActivity" />
         <activity android:name=".activity.takeaway.ui.AddSecondManagerActivity" />
