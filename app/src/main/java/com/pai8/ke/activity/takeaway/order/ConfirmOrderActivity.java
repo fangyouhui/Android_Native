@@ -40,6 +40,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -118,7 +119,6 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     }
 
 
-
     @Override
     public void initData() {
         super.initData();
@@ -149,14 +149,14 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
             shopNum = shopNum + pro.goods_num;
         }
         double price1 = 0;
-        for(int i=0;i<mFoodInfoList.size();i++){
-            if(!TextUtils.isEmpty(mFoodInfoList.get(i).packing_price)){
-                price1 += Double.parseDouble(mFoodInfoList.get(i).packing_price.trim())*mFoodInfoList.get(i).goods_num;
+        for (int i = 0; i < mFoodInfoList.size(); i++) {
+            if (!TextUtils.isEmpty(mFoodInfoList.get(i).packing_price)) {
+                price1 += Double.parseDouble(mFoodInfoList.get(i).packing_price.trim()) * mFoodInfoList.get(i).goods_num;
             }
         }
         boxPrice = price1;
         toMoney = sendPrice + toMoney + price1;
-        mTvPackPrice.setText(price1+"");
+        mTvPackPrice.setText(price1 + "");
         price = toMoney;
         mTvPirice.setText("￥" + toMoney);
 
@@ -172,7 +172,7 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
             intent.putExtra("id", mId);
             intent.putExtra("TYPE", 1);
             startActivityForResult(intent, 100);
-        } else if(v.getId() == R.id.tv_send_time){
+        } else if (v.getId() == R.id.tv_send_time) {
             time();
         } else if (v.getId() == R.id.tv_pay) {
             Gson gson = new Gson();
@@ -185,9 +185,9 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                 goodList.add(goodInfo);
             }
             String json = gson.toJson(goodList);
-            mPresenter.addOrder(json, mStoreInfo.id+"", 2, mId, sendPrice+"", "", "",mTvPackPrice.getText().toString());
+            mPresenter.addOrder(json, mStoreInfo.id + "", 2, mId, sendPrice + "", "", "", mTvPackPrice.getText().toString());
 
-        }else if(v.getId() == R.id.tv_coupon){
+        } else if (v.getId() == R.id.tv_coupon) {
             CouponListActivity.launch(this, CouponListActivity.INTENT_TYPE_SELECT);
         }
     }
@@ -198,7 +198,7 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     }
 
 
-    private void time(){
+    private void time() {
         List<String> list = new ArrayList<>();
         list.add("1天");
         list.add("2天");
@@ -235,7 +235,7 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
                     mTvName.setText(mName + "     " + mPhone);
                     saveCurLocation(data.getStringExtra("lat"), data.getStringExtra("lng"),
                             data.getStringExtra("address"));
-                    mPresenter.waimaiPrice(mStoreInfo.id,mId,boxPrice+"");
+                    mPresenter.waimaiPrice(mStoreInfo.id, mId, boxPrice + "");
 
                     break;
             }
@@ -312,11 +312,10 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
 
     @Override
     public void orderSuccess(String data) {
-        PayDialogFragment payDialogFragment = PayDialogFragment.newInstance(price+"", data);
+        PayDialogFragment payDialogFragment = PayDialogFragment.newInstance(price + "", data);
         payDialogFragment.show(getSupportFragmentManager(), "pay");
 
     }
-
 
 
     private double sendPrice;
@@ -325,11 +324,11 @@ public class ConfirmOrderActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     public void waimaiSuccess(WaimaiResq data) {
         mTvCoupon.setText(data.dis);
         mTvSendPrice.setText(data.amount);
-        if(!TextUtils.isEmpty(data.amount)){
+        if (!TextUtils.isEmpty(data.amount)) {
             sendPrice = Double.parseDouble(data.amount);
         }
         setPrice(mFoodInfoList);
-        if(mBottomDialog != null) mBottomDialog.dismiss();
+        if (mBottomDialog != null) mBottomDialog.dismiss();
     }
 
 

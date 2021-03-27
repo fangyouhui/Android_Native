@@ -1,16 +1,21 @@
 package com.pai8.ke.fragment.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.Guideline;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.pai8.ke.groupBuy.ui.GroupBuyMainActivity;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.common.ScanActivity;
 import com.pai8.ke.activity.home.SearchVideoActivity;
-import com.pai8.ke.activity.video.fragment.InputCommentDialogFragment;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseFragment;
@@ -24,9 +29,6 @@ import net.lucode.hackware.magicindicator.MagicIndicator;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.constraintlayout.widget.Guideline;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -99,7 +101,7 @@ public class TabHomeFragment extends BaseFragment {
                 "：" + MyApp.getLngLat().get(2) + "-city：" + MyApp.getCity());
     }
 
-    @OnClick({R.id.tv_search, R.id.iv_liwu, R.id.iv_scan})
+    @OnClick({R.id.tv_search, R.id.iv_liwu, R.id.iv_scan, R.id.bnTuanGou})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_search:
@@ -110,7 +112,7 @@ public class TabHomeFragment extends BaseFragment {
                     launch(LoginActivity.class);
                     return;
                 }
-                String shopId = (String)PreferencesUtils.get(MyApp.getMyApp(), "shop_id", "");
+                String shopId = (String) PreferencesUtils.get(MyApp.getMyApp(), "shop_id", "");
                 CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance(shopId);
                 newInstance.show(getChildFragmentManager(), "CouponGetDialog");
                 break;
@@ -127,6 +129,9 @@ public class TabHomeFragment extends BaseFragment {
                         .setBeepEnabled(true)// 是否开启声音
                         .setCaptureActivity(ScanActivity.class)
                         .initiateScan();
+                break;
+            case R.id.bnTuanGou:
+                startActivity(new Intent(getContext(), GroupBuyMainActivity.class));
                 break;
         }
     }

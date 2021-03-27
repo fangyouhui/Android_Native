@@ -9,8 +9,6 @@ import com.pai8.ke.utils.HttpsUtils;
 import com.pai8.ke.utils.LogUtils;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -85,7 +83,7 @@ public class BaseApiImpl implements BaseApi {
      *
      * @return
      */
-    public OkHttpClient okHttpClient() {
+    public static OkHttpClient okHttpClient() {
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
         return new OkHttpClient.Builder()
                 .addInterceptor(getLoggerInterceptor())
@@ -104,7 +102,7 @@ public class BaseApiImpl implements BaseApi {
      *
      * @return
      */
-    public Interceptor getHeaderInterceptor() {
+    public static Interceptor getHeaderInterceptor() {
 
         return chain -> {
             Request.Builder builder = chain.request().newBuilder();
@@ -140,7 +138,7 @@ public class BaseApiImpl implements BaseApi {
      *
      * @return
      */
-    public HttpLoggingInterceptor getLoggerInterceptor() {
+    public static HttpLoggingInterceptor getLoggerInterceptor() {
 
         return new HttpLoggingInterceptor(message ->
                 LogUtils.e("HTTP", "--->" + message)).setLevel(HttpLoggingInterceptor.Level.BODY);

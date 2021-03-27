@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- 加载进度条对话框样式 -->
+    <style name="CustomProgressDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item><!--表示页面时候变暗，我们设置false，不变暗-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorAccent">#ffE91E63</item> <!--colorAccent 兼容低版本-->
+    </style>
+
+
+</resources>

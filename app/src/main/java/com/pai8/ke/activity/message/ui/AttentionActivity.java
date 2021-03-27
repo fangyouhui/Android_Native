@@ -1,6 +1,5 @@
 package com.pai8.ke.activity.message.ui;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;

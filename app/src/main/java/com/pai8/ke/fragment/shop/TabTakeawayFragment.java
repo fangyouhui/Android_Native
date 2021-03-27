@@ -1,12 +1,10 @@
 package com.pai8.ke.fragment.shop;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.takeaway.adapter.BannerAdapter;
 import com.pai8.ke.activity.takeaway.adapter.TakeawayAdapter;
 import com.pai8.ke.activity.takeaway.contract.TakeawayContract;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
@@ -26,10 +25,8 @@ import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.utils.ImageLoadUtils;
-import com.pai8.ke.utils.LogUtils;
 import com.youth.banner.Banner;
-import com.youth.banner.loader.ImageLoader;
+
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -154,8 +151,9 @@ public class TabTakeawayFragment extends BaseMvpFragment<TakeawayPresenter> impl
             for (int i = 0; i < data.banner.size(); i++) {
                 images.add(data.banner.get(i).imgurl);
             }
-            mBanner.setImageLoader(new GlideImageLoader());
-            mBanner.setImages(images);
+//            mBanner.setImageLoader(new GlideImageLoader());
+//            mBanner.setImages(images);
+            mBanner.setAdapter(new BannerAdapter(images));
             mBanner.start();
         }
         if (page == 1) {
@@ -182,15 +180,15 @@ public class TabTakeawayFragment extends BaseMvpFragment<TakeawayPresenter> impl
         EventBus.getDefault().unregister(this);
     }
 
-    public class GlideImageLoader extends ImageLoader {
-
-        @Override
-        public void displayImage(Context context, Object path, ImageView imageView) {
-            if (context != null) {
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                ImageLoadUtils.setRectImage(context, (String) path, imageView);
-
-            }
-        }
-    }
+//    public class GlideImageLoader extends ImageLoader {
+//
+//        @Override
+//        public void displayImage(Context context, Object path, ImageView imageView) {
+//            if (context != null) {
+//                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//                ImageLoadUtils.setRectImage(context, (String) path, imageView);
+//
+//            }
+//        }
+//    }
 }

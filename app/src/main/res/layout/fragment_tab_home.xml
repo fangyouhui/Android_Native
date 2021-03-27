@@ -61,6 +61,51 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_search" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_search">
+
+        <TextView
+            android:id="@+id/bnWaiMai"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_red_light"
+            android:gravity="center"
+            android:text="外卖"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/bnTuanGou"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/bnTuanGou"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_blue_light"
+            android:gravity="center"
+            android:text="团购"
+            app:layout_constraintLeft_toRightOf="@+id/bnWaiMai"
+            app:layout_constraintRight_toLeftOf="@+id/bnAll"
+            app:layout_constraintTop_toTopOf="@+id/bnWaiMai" />
+
+        <TextView
+            android:id="@+id/bnAll"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_green_light"
+            android:gravity="center"
+            android:text="全部"
+            app:layout_constraintLeft_toRightOf="@+id/bnTuanGou"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bnWaiMai" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -68,6 +113,6 @@
         android:layout_marginTop="8dp"
         android:background="@color/color_bg"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_search" />
+        app:layout_constraintTop_toBottomOf="@+id/tab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

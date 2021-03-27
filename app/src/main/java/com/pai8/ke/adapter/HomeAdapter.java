@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pai8.ke.R;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
@@ -16,7 +18,6 @@ import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.CircleImageView;
 
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class HomeAdapter extends BaseRecyclerViewAdapter<Video> {
@@ -42,9 +43,10 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<Video> {
         Video video = mDataList.get(position);
         ImageLoadUtils.loadImage(mContext, video.getCover_path(), viewHolder.ivCover, R.color.colorPrimary);
         viewHolder.tvLookCount.setText(video.getLook_counts() + "");
-        viewHolder.tvName.setText(video.getUser().getNickname());
-        ImageLoadUtils.loadImage(mContext, video.getUser().getAvatar(), viewHolder.civAvatar,
-                R.mipmap.img_head_def);
+        if (video.getUser() != null) {
+            viewHolder.tvName.setText(video.getUser().getNickname());
+            ImageLoadUtils.loadImage(mContext, video.getUser().getAvatar(), viewHolder.civAvatar, R.mipmap.img_head_def);
+        }
         viewHolder.tvTitle.setText(video.getVideo_desc());
         if (StringUtils.isNotEmpty(video.getDistance())) {
             viewHolder.tvTagDistance.setVisibility(View.VISIBLE);

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffF64974">
+
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar_layout_base_with_white"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvGps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:drawableStart="@mipmap/ic_loc_white"
+        android:drawablePadding="3dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxWidth="120dp"
+        android:maxLines="1"
+        android:text="苏州中心"
+        android:textColor="#ffffffff"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@id/toolBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolBar" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_corner_white_radius_5"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar">
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_input_radius18"
+            android:drawableLeft="@mipmap/ic_home_search"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="搜索更多店铺"
+            android:paddingHorizontal="15dp"
+            android:textColor="@color/color_light_font"
+            android:textSize="13sp" />
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="16dp" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:tabIndicatorColor="#F64974"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabMode="auto"
+                    app:tabRippleColor="@android:color/transparent"
+                    app:tabSelectedTextColor="#2F2F2F"
+                    app:tabTextColor="#666666" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="3dp"
+                    android:background="#EEEEEE" />
+
+                <com.lhs.library.widget.NoScrollViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
