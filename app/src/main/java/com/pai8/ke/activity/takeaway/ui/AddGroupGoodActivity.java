@@ -1,7 +1,10 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -28,8 +31,11 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.GroupBannerAdapter;
+import com.pai8.ke.activity.takeaway.adapter.GroupDetailAdapter;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.AddGroupGoodContract;
+import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
+import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.activity.takeaway.presenter.AddGroupGoodPresenter;
 import com.pai8.ke.activity.takeaway.utils.SoftHideKeyBoardUtil;
@@ -37,9 +43,11 @@ import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -52,6 +60,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -60,10 +69,15 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     @BindView(R.id.rv_group_banner)
     RecyclerView mRvGroupBuy;
 
+    @BindView(R.id.deatil_group_banner)
+    RecyclerView mDetailGroupBuy;
+
+
     private List<String> mList = new ArrayList<String>();
+    private List<String> detailList = new ArrayList<String>();
 
     private GroupBannerAdapter groupBannerAdapter;
-
+    private GroupDetailAdapter groupDetailAdapter;
     private final int RESULT_PICTURE = 1000;  //图片详情
 
     private final int RESULT_VIDEO = 1001;
@@ -81,6 +95,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     private TextView Category;   //分类
     private TextView startTimeBtn;   //开始日期
     private TextView endTimeBtn;   //结束日期
+    private TextView sureBtn;   //结束日期
 
     private String mFoodPath;
     private String videoKey;
@@ -133,6 +148,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 
     @Override
     public void initView() {
+        groupFoodReq = new GroupFoodReq();
 
         mType = getIntent().getIntExtra("type", 0);
         isweekday = false;
@@ -162,6 +178,9 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         startTimeBtn = findViewById(R.id.start_time_text);
         startTimeBtn.setOnClickListener(this);
 
+        sureBtn = findViewById(R.id.tv_publish);
+        sureBtn.setOnClickListener(this);
+
         endTimeBtn = findViewById(R.id.end_time_text);
         endTimeBtn.setOnClickListener(this);
 
@@ -182,8 +201,14 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRvGroupBuy.setLayoutManager(linearLayoutManager);
 
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this.getBaseContext());
+        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        mDetailGroupBuy.setLayoutManager(linearLayoutManager2);
 
         mList.add("1235");
+        detailList.add("1235");
+
         groupBannerAdapter = new GroupBannerAdapter(this.getBaseContext());
         mRvGroupBuy.setAdapter(groupBannerAdapter);
 
@@ -192,9 +217,40 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupBannerAdapter.setOnItemClickListener(new GroupBannerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ChoosePicUtils.picSingle(AddGroupGoodActivity.this, 0, RESULT_PICTURE);
+                uploadType=0;
+                if (position<bannerKey.size()){
+                    bannerKey.remove(position);
+                    mList.remove(position);
+                    groupBannerAdapter.setList(mList);
+                }
+                else{
+                    ChoosePicUtils.picSingle(AddGroupGoodActivity.this, 0, RESULT_PICTURE);
+
+                }
             }
         });
+
+        groupDetailAdapter = new GroupDetailAdapter(this.getBaseContext());
+        mDetailGroupBuy.setAdapter(groupDetailAdapter);
+
+        groupDetailAdapter.setList(detailList);
+
+        groupDetailAdapter.setOnItemClickListener(new GroupDetailAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                uploadType=1;
+                if (position<detailKey.size()){
+                    detailKey.remove(position);
+                    detailList.remove(position);
+                    groupDetailAdapter.setList(detailList);
+                }
+                else{
+                    ChoosePicUtils.picSingle(AddGroupGoodActivity.this, 0, RESULT_PICTURE);
+
+                }
+            }
+        });
+
 //        groupBannerAdapter.setOnClickListener(this);
 
     }
@@ -230,7 +286,191 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 
             chooseImg(1);
         }
+        else if (v.getId() == R.id.tv_publish){
+            uploadGood();
+        }
     }
+
+    private void uploadGood() {
+        if (TextUtils.isEmpty(videoKey) ) {
+            ToastUtils.showShort("封面视频不能为空");
+            return;
+        }
+        String shopName = titleLab.getText().toString();
+        if (TextUtils.isEmpty(shopName)) {
+            ToastUtils.showShort("商品名称不能为空");
+            return;
+        }
+        String originPriceT = originPrice.getText().toString();
+        if (TextUtils.isEmpty(originPriceT)) {
+            ToastUtils.showShort("商品价格不能为空");
+            return;
+        }
+        String sellerPrice = sellPrice.getText().toString();
+        if (TextUtils.isEmpty(sellerPrice)) {
+            ToastUtils.showShort("团购价格不能为空");
+            return;
+        }
+
+        String stockNum = stock.getText().toString();
+
+        if (TextUtils.isEmpty(stockNum)) {
+            ToastUtils.showShort("商品库存不能为空");
+            return;
+        }
+
+
+        if (TextUtils.isEmpty(goodId)) {
+            ToastUtils.showShort("团购分类不能为空");
+            return;
+        }
+
+        if (TextUtils.isEmpty(detailTextView.getText().toString())) {
+            ToastUtils.showShort("团购内容不能为空");
+            return;
+        }
+
+
+        if (TextUtils.isEmpty(startTimeBtn.getText().toString())) {
+            ToastUtils.showShort("有效日期开始时间不能为空");
+            return;
+        }
+
+        if (TextUtils.isEmpty(endTimeBtn.getText().toString())) {
+            ToastUtils.showShort("有效日期结束时间不能为空");
+            return;
+        }
+
+
+        if (TextUtils.isEmpty(zhuyiTextView.getText().toString())) {
+            ToastUtils.showShort("注意事项不能为空");
+            return;
+        }
+
+        if (TextUtils.isEmpty(neirongTextView.getText().toString())) {
+            ToastUtils.showShort("商品详情不能为空");
+            return;
+        }
+        if (detailKey.size()==0){
+            ToastUtils.showShort("详情图片不能为空");
+            return;
+        }
+        if (bannerKey.size()==0){
+            ToastUtils.showShort("轮播图片不能为空");
+            return;
+        }
+        showLoadingDialog("");
+
+        groupFoodReq.shop_id = AccountManager.getInstance().getShopId();
+        if (isweekday){
+            groupFoodReq.is_weekend = "true";
+        }
+        else{
+            groupFoodReq.is_weekend = "false";
+
+        }
+        groupFoodReq.title = shopName;
+        groupFoodReq.video = videoKey;
+        groupFoodReq.desc = neirongTextView.getText().toString();
+        groupFoodReq.food_type = goodId;
+        String detailStr = ListToString(detailKey);
+
+        groupFoodReq.details_img = detailStr.substring(0,detailStr.length()-1);
+        groupFoodReq.origin_price = originPriceT;
+        groupFoodReq.sell_price = sellerPrice;
+        groupFoodReq.origin_price = originPriceT;
+        groupFoodReq.stock = stockNum;
+        groupFoodReq.details = detailTextView.getText().toString();
+        groupFoodReq.matter = zhuyiTextView.getText().toString();
+        String bannerStr = ListToString(bannerKey);
+        groupFoodReq.cover = bannerStr.substring(0,bannerStr.length()-1);
+        groupFoodReq.term = getTime(startTimeBtn.getText().toString())+"-"+getTime(endTimeBtn.getText().toString());
+        groupFoodReq.status = 1;
+        mPresenter.addGood(groupFoodReq);
+        dismissLoadingDialog();
+
+
+    }
+    // 将字符串转为时间戳
+    public static String getTime(String user_time) {
+        String re_time = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date d;
+        try {
+            d = sdf.parse(user_time);
+            long l = d.getTime();
+            String str = String.valueOf(l);
+            re_time = str.substring(0, 10);
+        }catch (ParseException e) {
+            // TODO Auto-generated catch block e.printStackTrace();
+        }
+        return re_time;
+    }
+    // 将时间戳转为字符串
+    public static String getStrTime(String cc_time) {
+        String re_StrTime = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // 例如：
+        long lcc_time = Long.valueOf(cc_time);
+        re_StrTime = sdf.format(new Date(lcc_time * 1000L));
+        return re_StrTime;
+    }
+
+
+
+    private static final String SEP1 = ",";
+    private static final String SEP2 = ",";
+    private static final String SEP3 = ",";
+
+    public static String ListToString(List<?> list) {
+        StringBuffer sb = new StringBuffer();
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i) == null || list.get(i) == "") {
+                    continue;
+                }
+                // 如果值是list类型则调用自己 
+                if (list.get(i) instanceof List) {
+                    sb.append(ListToString((List<?>) list.get(i)));
+                    sb.append(SEP1);
+                } else if (list.get(i) instanceof Map) {
+                    sb.append(MapToString((Map<?, ?>) list.get(i)));
+                    sb.append(SEP1);
+                } else {
+                    sb.append(list.get(i));
+                    sb.append(SEP1);
+                }
+            }
+        }
+        return "L" + sb.toString();
+    }
+
+    public static String MapToString(Map<?, ?> map) {
+        StringBuffer sb = new StringBuffer();
+        // 遍历map
+        for (Object obj : map.keySet()) {
+            if (obj == null) {
+                continue;
+            }
+            Object key = obj;
+            Object value = map.get(key);
+            if (value instanceof List<?>) {
+                sb.append(key.toString() + SEP1 + ListToString((List<?>) value));
+                sb.append(SEP2);
+            } else if (value instanceof Map<?, ?>) {
+                sb.append(key.toString() + SEP1
+                        + MapToString((Map<?, ?>) value));
+                sb.append(SEP2);
+            } else {
+                sb.append(key.toString() + SEP3 + value.toString());
+                sb.append(SEP2);
+            }
+        }
+        return "M" + sb.toString();
+    }
+
+
+    private GroupFoodReq groupFoodReq;
 
     private void chooseImg(int i) {
         View view = View.inflate(AddGroupGoodActivity.this, R.layout.view_dialog_choose_qnvideo,
@@ -439,19 +679,53 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
                 path = selectList.get(0).getPath();
             }
         }
-        if (type == 0) {  //图片
-            ImageLoadUtils.setRectImage(this, path, mIvCover);
-            mFoodPath = path;
-            uploadType = 1;
+        mFoodPath = path;
+        upload(uploadType);
 
-        } else if (type == 1) {
-            ImageLoadUtils.setRectImage(this, path, mIvCover);
-            mFoodPath = path;
-            uploadType = 2;
-        }
+//        if (type == 0) {  //轮播图片
+//            ImageLoadUtils.setRectImage(this, path, mIvCover);
+//            mFoodPath = path;
+//            uploadType = 1;
+//            upload(uploadType);
+//        } else if (type == 1) {
+//           ImageLoadUtils.setRectImage(this, path, mIvCover);
+//            mFoodPath = path;
+//            uploadType = 2;
+//        }
 
     }
 
+    private List<String> bannerKey = new ArrayList<String>();
+    private List<String> detailKey = new ArrayList<String>();
+
+    private void upload(int type) {
+        UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
+            @Override
+            public void onSuccess(String url, String key) {
+                if (uploadType==0){
+                    mList.add(mList.size()-1,url);
+                    if (mList.size()==7){
+                        mList.remove(6);
+                    }
+                    bannerKey.add(key);
+                    groupBannerAdapter.setList(mList);
+                }
+                else{
+                    detailList.add(detailList.size()-1,url);
+                    if (detailList.size()==7){
+                        detailList.remove(6);
+                    }
+                    detailKey.add(key);
+                    groupDetailAdapter.setList(detailList);
+                }
 
 
+            }
+
+            @Override
+            public void onError(String msg) {
+                ToastUtils.showShort(msg);
+            }
+        });
+    }
 }

@@ -6,6 +6,7 @@ import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.AddGroupGoodContract;
 import com.pai8.ke.activity.takeaway.contract.shopGroupManagerContract;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
+import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
@@ -21,9 +22,9 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
         super(view);
     }
 
-    public void addGood(AddFoodReq req){
-        req.key = req.cover_qiniu_key;
-        TakeawayApi.getInstance().addFood(req)
+    public void addGood(GroupFoodReq req){
+
+        TakeawayApi.getInstance().addGroupFood(req)
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())

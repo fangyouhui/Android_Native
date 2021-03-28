@@ -1,26 +1,16 @@
 package com.pai8.ke.activity.takeaway.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
-import com.pai8.ke.activity.takeaway.ui.AddGroupGoodActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import java.util.List;
@@ -30,7 +20,8 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupBannerAdapter extends RecyclerView.Adapter<GroupBannerHolder> {
+public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder>{
+
 
     private List<String> specailList;
 
@@ -42,7 +33,7 @@ public class GroupBannerAdapter extends RecyclerView.Adapter<GroupBannerHolder> 
         notifyDataSetChanged();
     }
 
-    public GroupBannerAdapter(Context context) {
+    public GroupDetailAdapter(Context context) {
         this.mContext=context;
         mInflater = LayoutInflater.from(context);
     }
@@ -55,23 +46,23 @@ public class GroupBannerAdapter extends RecyclerView.Adapter<GroupBannerHolder> 
     private LayoutInflater mInflater;
 
 
-   
+
     @NonNull
     @Override
-    public GroupBannerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_group_img, parent, false);
+    public GroupDetailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_group_detail, parent, false);
 
-        GroupBannerHolder holder = new GroupBannerHolder(view);
+        GroupDetailHolder holder = new GroupDetailHolder(view);
         return holder;
 
     }
-    public OnItemClickListener mOnItemClickListener;
+    public GroupDetailAdapter.OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener mOnItemClickLitener) {
+    public void setOnItemClickListener(GroupDetailAdapter.OnItemClickListener mOnItemClickLitener) {
         this.mOnItemClickListener = mOnItemClickLitener;
     }
 
@@ -91,14 +82,15 @@ public class GroupBannerAdapter extends RecyclerView.Adapter<GroupBannerHolder> 
         return isurl;
     }
 
+
     @Override
-    public void onBindViewHolder(@NonNull GroupBannerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GroupDetailHolder holder, int position) {
         String bean = specailList.get(position);
         if (isHttpUrl(bean)){
-            ImageLoadUtils.setCircularImage(mContext, bean, holder.bannerImage, R.mipmap.img_share_cover);
+            ImageLoadUtils.setCircularImage(mContext, bean, holder.bannerImage, R.mipmap.icon_shop_product_detail_add);
         }
         else{
-            holder.bannerImage.setImageResource(R.mipmap.img_share_cover);
+            holder.bannerImage.setImageResource(R.mipmap.icon_shop_product_detail_add);
         }
 //        holder.bannerImage.setImageResource(R.mipmap.ic_video_follow_s);
         holder.outView.setOnClickListener(new View.OnClickListener() {
@@ -121,12 +113,12 @@ public class GroupBannerAdapter extends RecyclerView.Adapter<GroupBannerHolder> 
         return specailList.size();
     }
 }
-class GroupBannerHolder extends RecyclerView.ViewHolder{
+class GroupDetailHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.OutView)
     LinearLayout outView;
     @BindView(R.id.banner_Imgage)
     ImageView bannerImage;
-    public GroupBannerHolder(@NonNull View itemView) {
+    public GroupDetailHolder(@NonNull View itemView) {
 
         super(itemView);
         ButterKnife.bind(this,itemView);

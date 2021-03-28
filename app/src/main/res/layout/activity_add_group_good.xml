@@ -597,16 +597,28 @@
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@+id/iv_cover"
                     >
-                    <ImageView
-                        android:id="@+id/iv_detail_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="34dp"
-                        android:layout_centerVertical="true"
+                    <LinearLayout
+                        android:id="@+id/detailLine"
 
-                        android:background="@mipmap/icon_shop_product_detail_add"
-                        />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        >
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/deatil_group_banner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+
+
+                            android:scrollbars="none">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                    </LinearLayout>
+
                 </RelativeLayout>
             </LinearLayout>
 

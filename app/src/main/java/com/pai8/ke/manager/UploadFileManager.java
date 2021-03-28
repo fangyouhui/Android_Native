@@ -41,7 +41,7 @@ public class UploadFileManager {
                                         if (info.isOK()) {
                                             String url =
                                                     res.getString("domain") + res.getString("key");
-                                            LogUtils.e("七牛上传成功:URL:" + url + " -key:" + key);
+                                            LogUtils.e("七牛上传成功:URL:" + url + " -key:" + res.getString("key"));
                                             callback.onSuccess(url, res.getString("key"));
                                         }
                                     } catch (Exception e) {

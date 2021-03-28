@@ -4,6 +4,7 @@ import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
+import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
 import com.pai8.ke.activity.takeaway.entity.req.RebateReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
@@ -91,6 +92,31 @@ public interface TakeawayApiService {
      */
     @POST("shop/addFood")
     Observable<BaseRespose<String>> addFood(@Body AddFoodReq parm);
+
+    /**
+     * 添加团购商品
+     * @param parm
+     * @return
+     */
+    @POST("Group/AddGroupGoods")
+    Observable<BaseRespose<String>> addGroupFood(@Body GroupFoodReq parm);
+
+    /**
+     * 修改团购商品
+     * @param parm
+     * @return
+     */
+    @POST("Group/UpGroupGoods")
+    Observable<BaseRespose<String>> editGroupFood(@Body GroupFoodReq parm);
+
+
+    /**
+     * 修改团购商品状态
+     *
+     * @return
+     */
+    @POST("Group/SetGroupGoodsStatus")
+    Observable<BaseRespose<String>> setGroupGoodsStatus(@Field("shop_id") String shopId,@Field("goods_id") String goods_id,@Field("status") String status);
 
 
     @POST("shop/editGoods")
