@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="120dp">
 
-    <ImageView
+    <com.pai8.ke.widget.CircleImageView
         android:id="@+id/imageView"
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_marginStart="16dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/img_mock_cover"
+        app:ease_radius="10dp"
+        app:es_shape_type="rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
