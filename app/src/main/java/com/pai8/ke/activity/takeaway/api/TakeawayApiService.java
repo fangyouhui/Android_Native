@@ -18,12 +18,14 @@ import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
+import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.activity.wallet.data.InOutRecordRequest;
 import com.pai8.ke.activity.wallet.data.InOutRecordResp;
 import com.pai8.ke.activity.wallet.data.MemberCashRequest;
 import com.pai8.ke.activity.wallet.data.MemberCashResponse;
 import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
 import com.pai8.ke.base.BaseRespose;
+import com.pai8.ke.entity.resp.BusinessType;
 
 import java.util.List;
 
@@ -64,6 +66,14 @@ public interface TakeawayApiService {
      */
     @POST("shop/categoryList")
     Observable<BaseRespose<List<ShopInfo>>> getCategoryList(@Body UpCategoryReq parm);
+
+    /**
+     * 团购商品类别
+     * @param parm
+     * @return
+     */
+    @POST("Group/GetFoodSortList")
+    Observable<BaseRespose<List<BusinessType>>> getTuanCategoryList();
 
 
     /**
@@ -217,6 +227,9 @@ public interface TakeawayApiService {
 
     @POST("shop/goodslist")
     Observable<BaseRespose<List<ShopInfo>>> goodslist(@Body RequestBody body);
+
+    @POST("Group/GetShopGroupList")
+    Observable<BaseRespose<List<smallGoodsInfo>>> ShopGroupList(@Body RequestBody body);
 
 
     @POST("Order/waimaiPrice")
