@@ -1,5 +1,6 @@
 package com.pai8.ke.shop.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
@@ -30,7 +31,9 @@ public class ShopProductListFragment extends BaseFragment<ShopMainViewModel, Fra
         bean = (GroupBuyTypeResult) getArguments().getSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
         mBinding.recyclerView.setAdapter(adapter = new ShopProductAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
-            //todo跳转到商城详情
+            Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item);
+            startActivity(intent);
         });
     }
 

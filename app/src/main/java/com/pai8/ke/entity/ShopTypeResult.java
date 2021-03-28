@@ -1,6 +1,8 @@
 package com.pai8.ke.entity;
 
-public class ShopTypeResult {
+import java.io.Serializable;
+
+public class ShopTypeResult implements Serializable {
 
     private int id;
     private int shop_id;

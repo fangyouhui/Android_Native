@@ -17,25 +17,24 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
     }
 
 
-
-    public void waimaiPrice(int shop_id,int address_id,String box_price){
+    public void waimaiPrice(int shop_id, int address_id, String box_price) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("shop_id",shop_id);
-        map.put("address_id",address_id);
-        map.put("box_price",box_price);
+        map.put("shop_id", shop_id);
+        map.put("address_id", address_id);
+        map.put("box_price", box_price);
         TakeawayApi.getInstance().waimaiPrice(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<WaimaiResq>() {
                     @Override
-                    protected void onSuccess(WaimaiResq data){
+                    protected void onSuccess(WaimaiResq data) {
                         view.waimaiSuccess(data);
                     }
 
                     @Override
                     protected void onError(String msg, int errorCode) {
-                        if(errorCode == 2) {
+                        if (errorCode == 2) {
                             view.onFail(msg);
                         } else {
                             super.onError(msg, errorCode);
@@ -45,25 +44,25 @@ public class ConfirmOrderPresenter extends BasePresenterImpl<ConfirmContract.Vie
     }
 
 
-    public void addOrder(String goods_info,String shop_id,int order_type,int address_id,String express_price
-            ,String order_discount_coupon_id,String express_discount_coupon_id,String box_price){
+    public void addOrder(String goods_info, String shop_id, int order_type, int address_id, String express_price
+            , String order_discount_coupon_id, String express_discount_coupon_id, String box_price) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("goods_info",goods_info);
+        map.put("goods_info", goods_info);
         map.put("buyer_id", AccountManager.getInstance().getUid());
-        map.put("shop_id",shop_id);
-        map.put("order_type",order_type);  //1邮寄  2外卖 3核销
-        map.put("address_id",address_id);
-        map.put("express_price",express_price);  //配送费用
-        map.put("order_discount_coupon_id",order_discount_coupon_id);  //满减优惠券ID
-        map.put("express_discount_coupon_id",express_discount_coupon_id);
-        map.put("box_price",box_price);
+        map.put("shop_id", shop_id);
+        map.put("order_type", order_type);  //1邮寄  2外卖 3核销
+        map.put("address_id", address_id);
+        map.put("express_price", express_price);  //配送费用
+        map.put("order_discount_coupon_id", order_discount_coupon_id);  //满减优惠券ID
+        map.put("express_discount_coupon_id", express_discount_coupon_id);
+        map.put("box_price", box_price);
         TakeawayApi.getInstance().addOrder(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<String>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(String data) {
                         view.orderSuccess(data);
                     }
 

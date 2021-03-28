@@ -8,6 +8,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pai8.ke.R;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;

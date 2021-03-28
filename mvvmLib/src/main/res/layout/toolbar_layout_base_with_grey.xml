@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolBar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@android:color/white"
+    android:background="#EDEDED"
     app:navigationIcon="@drawable/nav_back_with_black"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -16,8 +15,8 @@
         android:layout_gravity="center"
         android:maxLines="1"
         android:text="标题"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textColor="#333333"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
 </androidx.appcompat.widget.Toolbar>

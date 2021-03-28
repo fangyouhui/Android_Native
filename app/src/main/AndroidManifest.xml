@@ -135,7 +135,9 @@
         <activity android:name=".activity.takeaway.ui.SecondStoreManagerActivity" />
         <activity android:name=".activity.takeaway.ui.AddSecondManagerActivity" />
         <activity
-            android:name=".activity.takeaway.order.ConfirmOrderActivity"
+            android:name=".shop.ui.ConfirmOrderActivity"
+            android:label="确认订单"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.takeaway.ui.ShopRankActivity" />
         <activity android:name=".activity.takeaway.ui.AddCouponActivity" />
@@ -220,6 +222,9 @@
         <activity
             android:name=".groupBuy.ui.GroupBuyMainActivity"
             android:label="团购"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".shop.ui.ShopDetailActivity"
             android:screenOrientation="portrait" />
 
         <provider
