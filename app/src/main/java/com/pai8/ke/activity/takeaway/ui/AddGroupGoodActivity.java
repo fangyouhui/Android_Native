@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -19,6 +19,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gh.qiniushortvideo.ChooseVideo;
 import com.gh.qiniushortvideo.activity.ConfigActivity;
 import com.gh.qiniushortvideo.activity.MediaSelectActivity;
@@ -26,20 +27,16 @@ import com.gh.qiniushortvideo.activity.VideoRecordActivity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.takeaway.adapter.GroupBannerAdapter;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
-import com.pai8.ke.activity.takeaway.contract.AddGoodContract;
 import com.pai8.ke.activity.takeaway.contract.AddGroupGoodContract;
-import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
-import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
-import com.pai8.ke.activity.takeaway.presenter.AddGoodPresenter;
+import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.activity.takeaway.presenter.AddGroupGoodPresenter;
 import com.pai8.ke.activity.takeaway.utils.SoftHideKeyBoardUtil;
-import com.pai8.ke.activity.takeaway.widget.ChooseShopCoverPop;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.resp.BusinessType;
-import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -62,6 +59,10 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         AddGroupGoodContract.View {
     @BindView(R.id.rv_group_banner)
     RecyclerView mRvGroupBuy;
+
+    private List<String> mList = new ArrayList<String>();
+
+    private GroupBannerAdapter groupBannerAdapter;
 
     private final int RESULT_PICTURE = 1000;  //图片详情
 
@@ -126,8 +127,13 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
             }
         });
     }
+
+
+
+
     @Override
     public void initView() {
+
         mType = getIntent().getIntExtra("type", 0);
         isweekday = false;
         SoftHideKeyBoardUtil.assistActivity(this);
@@ -171,6 +177,26 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 
         isweek = findViewById(R.id.itn_close);
         isweek.setOnClickListener(this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getBaseContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRvGroupBuy.setLayoutManager(linearLayoutManager);
+
+
+        mList.add("1235");
+        groupBannerAdapter = new GroupBannerAdapter(this.getBaseContext());
+        mRvGroupBuy.setAdapter(groupBannerAdapter);
+
+        groupBannerAdapter.setList(mList);
+
+        groupBannerAdapter.setOnItemClickListener(new GroupBannerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                ChoosePicUtils.picSingle(AddGroupGoodActivity.this, 0, RESULT_PICTURE);
+            }
+        });
+//        groupBannerAdapter.setOnClickListener(this);
+
     }
     @Override
     public void onClick(View v) {
