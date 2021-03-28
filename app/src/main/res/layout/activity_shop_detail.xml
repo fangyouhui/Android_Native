@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:id="@+id/btnShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@mipmap/ic_bottom_shop"
@@ -262,6 +263,7 @@
                         android:layout_marginTop="12dp"
                         android:src="@mipmap/ic_launcher"
                         app:ease_radius="8dp"
+                        app:es_shape_type="rectangle"
                         app:layout_constraintStart_toStartOf="@id/tvShop"
                         app:layout_constraintTop_toBottomOf="@id/tvShop" />
 

@@ -20,6 +20,7 @@ public class ShopDetailActivity extends BaseActivity<ShopMainViewModel, Activity
         mBinding.btnBuy.setOnClickListener(v -> {
             startActivity(new Intent(getBaseContext(), ConfirmOrderActivity.class));
         });
+        mBinding.btnShop.setOnClickListener(v -> startActivity(new Intent(this, BusinessHomeActivity.class)));
     }
 
     @Override

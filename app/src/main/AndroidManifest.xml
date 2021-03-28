@@ -226,6 +226,10 @@
         <activity
             android:name=".shop.ui.ShopDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".shop.ui.BusinessHomeActivity"
+            android:label="商家首页"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name=".utils.MyProvider"
