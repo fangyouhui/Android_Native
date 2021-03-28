@@ -65,7 +65,6 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
         mRvGroupBuy.setHasFixedSize(true);
         mAdapter.setOnLoadMoreListener(this,mRvGroupBuy);
         mAdapter.setEnableLoadMore(true);
-        mRvGroupBuy.setAdapter(mAdapter);
 
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

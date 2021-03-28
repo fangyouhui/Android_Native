@@ -73,17 +73,27 @@
                     android:background="@mipmap/icon_upload_store_pic"
                     />
 
+<LinearLayout
+    android:id="@+id/bannerLine"
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_group_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@+id/iv_cover">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_toEndOf="@+id/iv_cover">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_group_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
 
-                </androidx.recyclerview.widget.RecyclerView>
 
+        android:scrollbars="none">
 
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>
 
 
             </RelativeLayout>
