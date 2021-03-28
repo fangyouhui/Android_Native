@@ -1,5 +1,6 @@
 include ':lib_shortvideo'
 include ':TuSDKFilterEngineModule'
 include ':faceunity'
+include ':mvvmLib'
 rootProject.name='PaikeApplication'
 include ':app'

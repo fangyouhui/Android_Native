@@ -147,6 +147,7 @@ public class MyApp extends Application {
             PreferencesUtils.put(mContext, "longitude", location.getLongitude() + "");
             PreferencesUtils.put(mContext, "address", location.getAddress());
             PreferencesUtils.put(mContext, "city", location.getCity());
+            PreferencesUtils.put(mContext, "poiName", location.getPoiName());
         }, false);
     }
 

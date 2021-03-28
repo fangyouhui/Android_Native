@@ -57,8 +57,7 @@ public class ImageLoadUtils {
      * @param imageView
      * @param id
      */
-    public static void loadImage(Context context, final String strUrl, final ImageView imageView,
-                                 @DrawableRes final int id) {
+    public static void loadImage(Context context, final String strUrl, final ImageView imageView, @DrawableRes final int id) {
         Glide.with(context)
                 .load(strUrl)
                 .apply(new RequestOptions()

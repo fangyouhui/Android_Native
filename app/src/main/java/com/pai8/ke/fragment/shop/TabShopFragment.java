@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.pai8.ke.R;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseFragment;
-import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TabCreateUtils;
 

@@ -217,6 +217,11 @@
         <activity android:name=".activity.takeaway.ui.MarketingRebateActivity" />
         <activity android:name=".activity.takeaway.ui.MarketingGiftActivity" />
 
+        <activity
+            android:name=".groupBuy.ui.GroupBuyMainActivity"
+            android:label="团购"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"
