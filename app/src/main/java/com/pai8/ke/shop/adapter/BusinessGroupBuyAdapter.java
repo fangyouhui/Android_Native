@@ -23,7 +23,7 @@ public class BusinessGroupBuyAdapter extends BaseRecyclerViewAdapter<ShopGroupLi
 
     @Override
     protected RecyclerView.ViewHolder onCreateNormalViewHolder(ViewGroup parent, int viewType) {
-        ItemBusinessGroupBuyBinding binding = ItemBusinessGroupBuyBinding.inflate(LayoutInflater.from(parent.getContext()));
+        ItemBusinessGroupBuyBinding binding = ItemBusinessGroupBuyBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new BusinessGroupBuyViewHolder(binding);
     }
 
