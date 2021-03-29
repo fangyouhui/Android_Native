@@ -637,23 +637,10 @@
         android:paddingEnd="8dp"
         android:paddingBottom="16dp"
         >
-        <TextView
-            android:id="@+id/tv_del"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="@drawable/shape_store_business"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="下架商品"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
+
         <TextView
             android:id="@+id/tv_publish"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="44dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -664,5 +651,45 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_bottom_down"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="@color/color_white"
+        android:paddingTop="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="16dp"
+        >
+        <TextView
+            android:id="@+id/tv_del"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:background="@drawable/shape_store_business"
+            android:gravity="center"
+            android:layout_weight="0.5"
 
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="下架商品"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/upload_good"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/shape_orgin_gradient"
+            android:gravity="center"
+            android:text="发布商品"
+            android:textColor="@color/color_white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 </RelativeLayout>

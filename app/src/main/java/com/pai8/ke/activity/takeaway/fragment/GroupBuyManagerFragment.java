@@ -6,8 +6,10 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.GroupBuyManagerAdapter;
 import com.pai8.ke.activity.takeaway.contract.shopGroupManagerContract;
+import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.activity.takeaway.presenter.AddGroupGoodPresenter;
 import com.pai8.ke.activity.takeaway.ui.AddGoodActivity;
@@ -22,6 +24,9 @@ import java.util.List;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -71,8 +76,11 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if(view.getId() == R.id.tv_edit){
-                    Intent intent = new Intent(mActivity,AddGoodActivity.class);
+                    smallGoodsInfo smModel = mList.get(position);
+                    Intent intent = new Intent(mActivity,AddGroupGoodActivity.class);
                     intent.putExtra("type",3);
+                    intent.putExtra("id",smModel.id);
+
                     startActivity(intent);
 
                 }
@@ -158,6 +166,14 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(NotifyEvent event) {
+        if (event.type == Constants.EVENT_TYPE_REFRESH_SHOP_GOOD) {
+            page=1;
+            presenter.ShopGroupList(page);
+        }
+
+    }
     /**
      * Called when a swipe gesture triggers a refresh.
      */

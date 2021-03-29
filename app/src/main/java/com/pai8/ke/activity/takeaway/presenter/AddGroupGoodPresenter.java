@@ -7,6 +7,7 @@ import com.pai8.ke.activity.takeaway.contract.AddGroupGoodContract;
 import com.pai8.ke.activity.takeaway.contract.shopGroupManagerContract;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
+import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
@@ -43,9 +44,8 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
     }
 
 
-    public void editGoods(AddFoodReq req){
-        req.key = req.cover_qiniu_key;
-        TakeawayApi.getInstance().editGoods(req)
+    public void editGoods(GroupFoodReq req){
+        TakeawayApi.getInstance().editGroupFood(req)
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
@@ -63,11 +63,33 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
                 });
     }
 
-
-    public void foodDelete(String food_id){
+    public void getGoods(String food_id){
         HashMap<String,Object> map = new HashMap<>();
-        map.put("food_id",food_id);
-        TakeawayApi.getInstance().foodDelete(createRequestBody(map))
+        map.put("id",food_id);
+        TakeawayApi.getInstance().getGroupFood(createRequestBody(map))
+                .doOnSubscribe(disposable -> {
+                })
+                .compose(RxSchedulers.io_main())
+                .subscribe(new BaseObserver<GoodsInfoModel>() {
+                    @Override
+                    protected void onSuccess(GoodsInfoModel data){
+                        view.getGoodSuccess(data);
+                    }
+
+                    @Override
+                    protected void onError(String msg, int errorCode) {
+                        super.onError(msg, errorCode);
+                        view.fail();
+                    }
+                });
+    }
+
+    public void groupFoodDelete(String food_id){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("goods_id",food_id);
+
+        map.put("status","2");
+        TakeawayApi.getInstance().setGroupGoodsStatus(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
