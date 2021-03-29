@@ -43,7 +43,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewBinding> : Fragment() {
         createViewModel()
         lifecycle.addObserver(mViewModel)
         //注册 UI事件
-        registorDefUIChange()
+        registerDefUIChange()
         addObserve()
         initView(savedInstanceState)
         initData()
@@ -81,7 +81,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewBinding> : Fragment() {
     /**
      * 注册 UI 事件
      */
-    private fun registorDefUIChange() {
+    private fun registerDefUIChange() {
         mViewModel.defUI.showDialog.observe(viewLifecycleOwner, {
             showLoading()
         })

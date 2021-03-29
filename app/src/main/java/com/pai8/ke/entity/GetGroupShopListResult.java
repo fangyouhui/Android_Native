@@ -1,5 +1,6 @@
 package com.pai8.ke.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class GetGroupShopListResult {
@@ -66,7 +67,7 @@ public class GetGroupShopListResult {
     }
 
 
-    public class ShopList {
+    public class ShopList implements Serializable {
 
         private int id;
         private String shop_name;

@@ -43,11 +43,13 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewBinding> : AppCompatAct
         BarUtils.transparentStatusBar(this)
         initToolBar()
         initView(savedInstanceState)
+        addObserve()
         initData()
     }
 
     open fun layoutId(): Int = 0
     open fun initView(savedInstanceState: Bundle?) {}
+    open fun addObserve() {}
     open fun initData() {}
 
     /**

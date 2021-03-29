@@ -1,5 +1,6 @@
 package com.pai8.ke.groupBuy.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
@@ -8,6 +9,7 @@ import com.pai8.ke.databinding.FragmentGroupBuyTypeListBinding;
 import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.groupBuy.adapter.GroupBuyTypeAdapter;
 import com.pai8.ke.groupBuy.viewmodel.GroupBuyMainViewModel;
+import com.pai8.ke.shop.ui.BusinessHomeActivity;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -28,7 +30,9 @@ public class GroupBuyTypeListFragment extends BaseFragment<GroupBuyMainViewModel
         businessTypeResult = (BusinessTypeResult) getArguments().getSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
         mBinding.recyclerView2.setAdapter(adapter = new GroupBuyTypeAdapter(getContext(), null));
         adapter.setListener((item, position) -> {
-            // TODO: 2021/3/27 跳转到店铺详情
+            Intent intent = new Intent(getContext(), BusinessHomeActivity.class);
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item);
+            startActivity(intent);
         });
 
     }

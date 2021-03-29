@@ -50,10 +50,10 @@ class RetrofitClient {
             retrofit.create(service!!) ?: throw RuntimeException("Api service is null!")
 
 
-    fun getMainService(): GroupApiService {
+    fun getMainService(): GroupBuyApiService {
         return mApiService
     }
 
-    private val mApiService by lazy { getInstance().create(GroupApiService::class.java) }
+    private val mApiService by lazy { getInstance().create(GroupBuyApiService::class.java) }
 
 }

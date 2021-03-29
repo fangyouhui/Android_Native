@@ -7,6 +7,9 @@ import android.os.Looper;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -16,14 +19,12 @@ import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.transform.GlideCircleTransform;
 import com.pai8.ke.utils.transform.GlideRadianTransform;
 import com.pai8.ke.utils.transform.GlideRoundTransform;
 import com.pai8.ke.utils.transform.GlideRoundTransform2;
-
-import androidx.annotation.DrawableRes;
-import androidx.annotation.Nullable;
 
 /**
  * 基于Glide图片加载工具类
@@ -57,6 +58,7 @@ public class ImageLoadUtils {
      * @param imageView
      * @param id
      */
+    @Deprecated
     public static void loadImage(Context context, final String strUrl, final ImageView imageView, @DrawableRes final int id) {
         Glide.with(context)
                 .load(strUrl)
@@ -67,6 +69,10 @@ public class ImageLoadUtils {
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
                 .transition(new DrawableTransitionOptions().crossFade(300)) //使用变换效果
                 .into(imageView);
+    }
+
+    public static void loadImage(String strUrl, ImageView imageView) {
+        loadImage(imageView.getContext(), strUrl, imageView, R.color.colorPrimary);
     }
 
     public static void loadImageFitCenter(Context context, final String strUrl, final ImageView imageView,
