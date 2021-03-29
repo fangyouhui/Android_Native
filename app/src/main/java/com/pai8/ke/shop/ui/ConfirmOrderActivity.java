@@ -46,6 +46,19 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
             }).launch(new Intent(this, CouponListActivity.class));
         });
         mBinding.llBottom.setOnClickListener(v -> pay());
+        mBinding.btnReduce.setOnClickListener(v -> {
+            int count = Integer.parseInt(mBinding.tvCount.getText().toString());
+            if (count > 1) {
+                count--;
+            }
+            mBinding.tvCount.setText(String.valueOf(count));
+        });
+
+        mBinding.btnAdd.setOnClickListener(v -> {
+            int count = Integer.parseInt(mBinding.tvCount.getText().toString());
+            count++;
+            mBinding.tvCount.setText(String.valueOf(count));
+        });
     }
 
     private void pay() {
@@ -63,8 +76,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
             ToastUtils.showShort("请检查手机号是否正确");
             return;
         }
-
-
+        
         List<OrderGoodInfo> goodList = new ArrayList<>();
         for (int i = 0; i < mFoodInfoList.size(); i++) {
             OrderGoodInfo goodInfo = new OrderGoodInfo();
