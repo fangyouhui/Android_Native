@@ -8,8 +8,8 @@ public class BaseViewHolder<T extends ViewBinding> extends RecyclerView.ViewHold
 
     public T binding;
 
-    public BaseViewHolder(@NonNull T viewbinding) {
-        super(viewbinding.getRoot());
-        this.binding = viewbinding;
+    public BaseViewHolder(@NonNull T viewBinding) {
+        super(viewBinding.getRoot());
+        this.binding = viewBinding;
     }
 }

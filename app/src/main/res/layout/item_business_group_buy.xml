@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:elevation="3dp"
+    android:foreground="@drawable/btn_selector_ripple"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp">
+
+        <com.pai8.ke.widget.CircleImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img_mock_cover"
+            app:ease_radius="10dp"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivDiscount"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_group_buy_discount"
+            app:layout_constraintStart_toStartOf="@id/imageView"
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="高颜值清酒杯套装"
+            android:textColor="#ff262626"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/ivDiscount"
+            app:layout_constraintStart_toEndOf="@id/ivDiscount"
+            app:layout_constraintTop_toTopOf="@id/ivDiscount" />
+
+        <TextView
+            android:id="@+id/tvTuanGouJia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:paddingTop="2dp"
+            android:text="团购价："
+            android:textColor="#ffff7f47"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/ivDiscount"
+            app:layout_constraintTop_toBottomOf="@id/ivDiscount" />
+
+        <TextView
+            android:id="@+id/tvGroupBuyPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥198"
+            android:textColor="#ffff7f47"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tvTuanGouJia"
+            app:layout_constraintTop_toTopOf="@id/tvTuanGouJia" />
+
+        <TextView
+            android:id="@+id/tvOriginPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingTop="2dp"
+            android:text="¥198"
+            android:textColor="#ff999999"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/tvGroupBuyPrice"
+            app:layout_constraintTop_toTopOf="@id/tvTuanGouJia" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
