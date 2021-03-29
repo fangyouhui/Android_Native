@@ -2,11 +2,13 @@ package com.pai8.ke.shop.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.blankj.utilcode.util.GsonUtils;
-import com.google.gson.Gson;
+import com.blankj.utilcode.util.RegexUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
@@ -20,6 +22,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 确认订单
+ */
 public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, ActivityConfirmOrderBinding> {
     private StoreInfo mStoreInfo;
     private List<FoodGoodInfo> mFoodInfoList;
@@ -44,6 +49,22 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
     }
 
     private void pay() {
+        if (TextUtils.isEmpty(mBinding.etNickname.getText())) {
+            ToastUtils.showShort("请输入联系人称呼");
+            return;
+        }
+
+        if (TextUtils.isEmpty(mBinding.etPhone.getText())) {
+            ToastUtils.showShort("请填写收货人的手机号");
+            return;
+        }
+
+        if (RegexUtils.isMobileSimple(mBinding.etPhone.getText())) {
+            ToastUtils.showShort("请检查手机号是否正确");
+            return;
+        }
+
+
         List<OrderGoodInfo> goodList = new ArrayList<>();
         for (int i = 0; i < mFoodInfoList.size(); i++) {
             OrderGoodInfo goodInfo = new OrderGoodInfo();

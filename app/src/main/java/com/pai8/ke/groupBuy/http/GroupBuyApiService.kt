@@ -39,4 +39,10 @@ interface GroupBuyApiService {
                                  @Query("size") size: String): BaseHttpResult<List<ShopVideoResult>>
 
 
+
+    @POST("Order/addOrder")
+    suspend fun addOrder(@Body param: AddOrderParam): BaseHttpResult<String>
+
+
+
 }

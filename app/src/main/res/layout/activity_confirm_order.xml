@@ -24,7 +24,7 @@
         app:layout_constraintTop_toBottomOf="@+id/space" />
 
     <LinearLayout
-        android:id="@+id/ll_food_info"
+        android:id="@+id/llContactInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/base_tool_bar"
@@ -181,7 +181,7 @@
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_food_info">
+        app:layout_constraintTop_toBottomOf="@id/llContactInfo">
 
         <com.pai8.ke.widget.CircleImageView
             android:id="@+id/ivShopLogo"
