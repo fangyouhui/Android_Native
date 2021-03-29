@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -34,9 +35,12 @@ import com.pai8.ke.activity.takeaway.adapter.GroupBannerAdapter;
 import com.pai8.ke.activity.takeaway.adapter.GroupDetailAdapter;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.AddGroupGoodContract;
+import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
+import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.term;
 import com.pai8.ke.activity.takeaway.presenter.AddGroupGoodPresenter;
 import com.pai8.ke.activity.takeaway.utils.SoftHideKeyBoardUtil;
 import com.pai8.ke.base.BaseMvpActivity;
@@ -50,6 +54,7 @@ import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -57,12 +62,16 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+
+import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GOOD;
+import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GROUP;
 
 public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter> implements View.OnClickListener,
         AddGroupGoodContract.View {
@@ -95,11 +104,20 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     private TextView Category;   //分类
     private TextView startTimeBtn;   //开始日期
     private TextView endTimeBtn;   //结束日期
-    private TextView sureBtn;   //结束日期
+    private TextView sureBtn;
+
+    private TextView down;
+    private TextView editBtn;
+
+
+    private LinearLayout line_edit;
+    private LinearLayout line_upload;
 
     private String mFoodPath;
     private String videoKey;
     private int mType;     //3:编辑团购商品
+    private String groupId;     //3:编辑团购商品
+
     private OptionsPickerView  mPvType;
     private String goodId;
     private boolean isweekday;
@@ -151,6 +169,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupFoodReq = new GroupFoodReq();
 
         mType = getIntent().getIntExtra("type", 0);
+
         isweekday = false;
         SoftHideKeyBoardUtil.assistActivity(this);
         setImmersionBar(R.id.base_tool_bar);
@@ -158,6 +177,19 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 
         mIvCover = findViewById(R.id.iv_cover);
         mIvCover.setOnClickListener(this);
+
+        line_edit = findViewById(R.id.ll_bottom_down);
+
+        line_upload = findViewById(R.id.ll_bottom);
+
+        down = findViewById(R.id.tv_del);
+        down.setOnClickListener(this);
+
+
+        editBtn = findViewById(R.id.upload_good);
+        editBtn.setOnClickListener(this);
+
+        getCategoryList();
 
         titleLab = findViewById(R.id.et_name);
         titleLab.setOnClickListener(this);
@@ -250,7 +282,21 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
                 }
             }
         });
+        if (mType==3){
+            //edit 下架
+            line_edit.setVisibility(View.VISIBLE);
+            line_upload.setVisibility(View.GONE);
+            groupId = getIntent().getStringExtra("id");
+            mPresenter.getGoods(groupId);
 
+
+        }
+        else {
+            //上传新商品
+            line_edit.setVisibility(View.GONE);
+            line_upload.setVisibility(View.VISIBLE);
+
+        }
 //        groupBannerAdapter.setOnClickListener(this);
 
     }
@@ -259,7 +305,28 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         if (v.getId() == R.id.toolbar_back_all) {
             finish();
         } else if (v.getId() == R.id.tv_category) {
-            getCategoryList();
+            //getCategoryList();
+            List<String> options1Items = new ArrayList<>();
+            for (int i = 0; i < cateIem.size(); i++) {
+                options1Items.add(cateIem.get(i).type_name);
+            }
+
+            if (mPvType == null) {
+                mPvType = new OptionsPickerBuilder(AddGroupGoodActivity.this, new OnOptionsSelectListener() {
+                    @Override
+                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                        //返回的分别是三个级别的选中位置
+                        String tx = cateIem.get(options1).type_name;
+                        Category.setText(tx);
+                        goodId = cateIem.get(options1).id + "";
+
+                    }
+                })
+                        .setDecorView(findViewById(R.id.rl_merchant))
+                        .build();
+            }
+            mPvType.setPicker(options1Items);
+            mPvType.show();
 
         }
         else if (v.getId() == R.id.itn_close) {
@@ -289,6 +356,18 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         else if (v.getId() == R.id.tv_publish){
             uploadGood();
         }
+        else if (v.getId() == R.id.tv_del){
+            setDown();
+        }
+        else if (v.getId() == R.id.upload_good){
+            uploadGood();
+        }
+    }
+
+
+
+    private void setDown() {
+        mPresenter.groupFoodDelete(groupId);
     }
 
     private void uploadGood() {
@@ -386,7 +465,16 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupFoodReq.cover = bannerStr.substring(0,bannerStr.length()-1);
         groupFoodReq.term = getTime(startTimeBtn.getText().toString())+"-"+getTime(endTimeBtn.getText().toString());
         groupFoodReq.status = 1;
-        mPresenter.addGood(groupFoodReq);
+        if (mType==3){
+            groupFoodReq.goods_id = groupId;
+
+            mPresenter.editGoods(groupFoodReq);
+
+        }
+        else{
+            mPresenter.addGood(groupFoodReq);
+
+        }
         dismissLoadingDialog();
 
 
@@ -583,10 +671,9 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         startTime.show();
 
     }
+    private List<BusinessType> cateIem = new ArrayList<>();
 
     private void getCategoryList() {
-        List<String> options1Items = new ArrayList<>();
-
         TakeawayApi.getInstance().getTuanCategoryList()
                 .doOnSubscribe(disposable -> {
                 })
@@ -594,27 +681,8 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
                 .subscribe(new BaseObserver<List<BusinessType>>() {
                     @Override
                     protected void onSuccess(List<BusinessType> list) {
+                        cateIem = list;
 
-                        for (int i = 0; i < list.size(); i++) {
-                            options1Items.add(list.get(i).type_name);
-                        }
-
-                        if (mPvType == null) {
-                            mPvType = new OptionsPickerBuilder(AddGroupGoodActivity.this, new OnOptionsSelectListener() {
-                                @Override
-                                public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                                    //返回的分别是三个级别的选中位置
-                                    String tx = list.get(options1).type_name;
-                                    Category.setText(tx);
-                                    goodId = list.get(options1).id + "";
-
-                                }
-                            })
-                                    .setDecorView(findViewById(R.id.rl_merchant))
-                                    .build();
-                        }
-                        mPvType.setPicker(options1Items);
-                        mPvType.show();
                     }
 
                     @Override
@@ -628,22 +696,86 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 
     @Override
     public void addGoodSuccess(String data) {
+        EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GROUP));
+        ToastUtils.showShort("上架成功");
+        dismissLoadingDialog();
+        finish();
 
     }
 
     @Override
     public void editGoodSuccess(String data) {
+        EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GROUP));
+        ToastUtils.showShort("编辑成功");
+        dismissLoadingDialog();
+        finish();
 
     }
 
     @Override
     public void deleteGoodSuccess(String data) {
+        EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GROUP));
+        ToastUtils.showShort("下架成功");
+        dismissLoadingDialog();
+        finish();
+    }
 
+    @Override
+    public void getGoodSuccess(GoodsInfoModel data) {
+        titleLab.setText(data.title);
+        List<String> video_list = new ArrayList<String>(Arrays.asList(data.video.split("/")));
+        videoKey = video_list.get(video_list.size()-1);
+
+        ImageLoadUtils.loadCover(this,"https://jianshen.fyh5p8.com/"+videoKey+"?vframe/jpg/offset/0",mIvCover);
+
+        neirongTextView.setText(data.desc);
+        goodId = data.food_type;
+        detailKey = data.details_key;
+        detailList = data.details_img;
+        if (detailList.size()<6){
+            detailList.add("1234");
+        }
+
+        groupDetailAdapter.setList(detailList);
+        originPrice.setText(data.origin_price);
+        sellPrice.setText(data.sell_price);
+        stock.setText(data.stock);
+        detailTextView.setText(data.details);
+        zhuyiTextView.setText(data.matter);
+        bannerKey = data.cover_key;
+        mList = data.cover;
+        if (mList.size()<6){
+            mList.add("123");
+        }
+
+        groupBannerAdapter.setList(mList);
+        isweekday = true;
+        if (data.is_weekend.equals("false")){
+            isweekday = false;
+
+        }
+        if (isweekday){
+            isweek.setImageResource(R.mipmap.ic_cb_s);
+        }
+        else{
+            //mipmap/ic_cb_n
+            isweek.setImageResource(R.mipmap.ic_cb_n);
+
+        }
+        term te = data.term;
+        startTimeBtn.setText(getStrTime(te.start_time));
+        endTimeBtn.setText(getStrTime(te.end_time));
+
+        for (int i = 0; i < cateIem.size(); i++) {
+            if (cateIem.get(i).id.equals(data.food_type) ){
+                Category.setText(cateIem.get(i).type_name);
+            }
+        }
     }
 
     @Override
     public void fail() {
-
+        dismissLoadingDialog();
     }
 
     @Override

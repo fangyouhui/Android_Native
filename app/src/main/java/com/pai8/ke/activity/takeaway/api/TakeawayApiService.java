@@ -13,6 +13,7 @@ import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq;
 import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel;
 import com.pai8.ke.activity.takeaway.entity.resq.SecondAdminManagerResq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
@@ -109,6 +110,12 @@ public interface TakeawayApiService {
     @POST("Group/UpGroupGoods")
     Observable<BaseRespose<String>> editGroupFood(@Body GroupFoodReq parm);
 
+    /**
+     * 得到团购商品
+     * @return
+     */
+    @POST("Group/GetGroupGoodsInfo")
+    Observable<BaseRespose<GoodsInfoModel>> getGroupFood(@Body RequestBody parm);
 
     /**
      * 修改团购商品状态
@@ -116,7 +123,7 @@ public interface TakeawayApiService {
      * @return
      */
     @POST("Group/SetGroupGoodsStatus")
-    Observable<BaseRespose<String>> setGroupGoodsStatus(@Field("shop_id") String shopId,@Field("goods_id") String goods_id,@Field("status") String status);
+    Observable<BaseRespose<String>> setGroupGoodsStatus(@Body RequestBody parm);
 
 
     @POST("shop/editGoods")

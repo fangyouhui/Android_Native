@@ -34,7 +34,7 @@ public class PickerUtils {
                         }
                         OptionsPickerView pvOptions = new OptionsPickerBuilder(context, (options1, option2,
                                                                                          options3, v) -> {
-                            callback.data(options1, list.get(options1).id, list.get(options1).type_name);
+                            callback.data(options1, Integer.parseInt(list.get(options1).id), list.get(options1).type_name);
                         }).build();
                         pvOptions.setNPicker(options1Items, null, null);
                         pvOptions.setSelectOptions(position);
