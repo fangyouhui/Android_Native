@@ -31,7 +31,7 @@ public class ShopProductListFragment extends BaseFragment<ShopMainViewModel, Fra
         bean = (GroupBuyTypeResult) getArguments().getSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
         mBinding.recyclerView.setAdapter(adapter = new ShopProductAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
-            Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+            Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
             intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item);
             startActivity(intent);
         });
