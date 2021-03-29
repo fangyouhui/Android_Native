@@ -304,7 +304,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="总销量 2.5W件"
+                        android:text="总销量 0"
                         android:textColor="#ff666666"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/ivRating"
@@ -319,6 +319,7 @@
                         app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
                     <TextView
+                        android:id="@+id/tvAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -357,7 +358,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="联系商家"
+                        android:text="联系商家" android:id="@+id/btnCall"
                         android:textColor="#ffff7f47"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@id/tvPhone"

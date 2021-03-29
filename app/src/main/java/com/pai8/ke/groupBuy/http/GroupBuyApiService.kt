@@ -25,7 +25,7 @@ interface GroupBuyApiService {
     suspend fun getGroupShopInfo(@Query("shop_id") shop_id: String): BaseHttpResult<GroupShopInfoResult>
 
     /**
-     * 店铺团欧列表
+     * 店铺团购列表
      */
     @POST("Group/GetShopGroupList")
     suspend fun getShopGroupList(@Query("shop_id") shop_id: String, @Query("page") page: String,

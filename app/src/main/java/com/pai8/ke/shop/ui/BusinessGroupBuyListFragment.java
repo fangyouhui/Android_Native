@@ -37,6 +37,7 @@ public class BusinessGroupBuyListFragment extends BaseFragment<BusinessHomeViewM
         mBinding.recyclerView.setAdapter(adapter = new BusinessGroupBuyAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
             Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item.getShop_id() + "");
             startActivity(intent);
         });
     }

@@ -32,7 +32,7 @@ public class ShopProductListFragment extends BaseFragment<ShopMainViewModel, Fra
         mBinding.recyclerView.setAdapter(adapter = new ShopProductAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
             Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
-            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item);
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item.getShop_id() + "");
             startActivity(intent);
         });
     }

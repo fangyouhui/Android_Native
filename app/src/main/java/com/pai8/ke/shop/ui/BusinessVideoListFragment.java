@@ -34,8 +34,7 @@ public class BusinessVideoListFragment extends BaseFragment<BusinessHomeViewMode
     public void initView(@Nullable Bundle savedInstanceState) {
         mBinding.recyclerView.setAdapter(adapter = new BusinessVideoAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
-            Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
-            startActivity(intent);
+            // TODO: 2021/3/29 跳转到视频播放
         });
     }
 

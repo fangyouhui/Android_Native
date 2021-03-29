@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
-import com.pai8.ke.databinding.FragmentGroupBuyTypeListBinding;
+import com.pai8.ke.databinding.FragmentGroupBuyBusinessListBinding;
 import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.groupBuy.adapter.GroupBuyTypeAdapter;
 import com.pai8.ke.groupBuy.viewmodel.GroupBuyMainViewModel;
@@ -13,12 +13,12 @@ import com.pai8.ke.shop.ui.BusinessHomeActivity;
 
 import org.jetbrains.annotations.Nullable;
 
-public class GroupBuyTypeListFragment extends BaseFragment<GroupBuyMainViewModel, FragmentGroupBuyTypeListBinding> {
+public class GroupBuyBusinessListFragment extends BaseFragment<GroupBuyMainViewModel, FragmentGroupBuyBusinessListBinding> {
     private BusinessTypeResult businessTypeResult;
     private GroupBuyTypeAdapter adapter;
 
-    public static GroupBuyTypeListFragment newInstance(BusinessTypeResult status) {
-        GroupBuyTypeListFragment fragment = new GroupBuyTypeListFragment();
+    public static GroupBuyBusinessListFragment newInstance(BusinessTypeResult status) {
+        GroupBuyBusinessListFragment fragment = new GroupBuyBusinessListFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0, status);
         fragment.setArguments(bundle);
@@ -31,7 +31,7 @@ public class GroupBuyTypeListFragment extends BaseFragment<GroupBuyMainViewModel
         mBinding.recyclerView2.setAdapter(adapter = new GroupBuyTypeAdapter(getContext(), null));
         adapter.setListener((item, position) -> {
             Intent intent = new Intent(getContext(), BusinessHomeActivity.class);
-            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item);
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item.getId() + "");
             startActivity(intent);
         });
 
