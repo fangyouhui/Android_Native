@@ -28,13 +28,15 @@ interface GroupBuyApiService {
      * 店铺团欧列表
      */
     @POST("Group/GetShopGroupList")
-    suspend fun getShopGroupList(@Query("shop_id") shop_id: String, @Query("page") page: String, @Query("size") size: String): BaseHttpResult<List<ShopGroupListResult>>
+    suspend fun getShopGroupList(@Query("shop_id") shop_id: String, @Query("page") page: String,
+                                 @Query("size") size: String): BaseHttpResult<List<ShopGroupListResult>>
 
     /**
      * 店铺视频列表
      */
     @POST("Group/GetShopVideoList")
-    suspend fun getShopVideoList(@Query("shop_id") shop_id: String, @Query("page") page: String, @Query("size") size: String): BaseHttpResult<List<ShopGroupListResult>>
+    suspend fun getShopVideoList(@Query("shop_id") shop_id: String, @Query("page") page: String,
+                                 @Query("size") size: String): BaseHttpResult<List<ShopVideoResult>>
 
 
 }

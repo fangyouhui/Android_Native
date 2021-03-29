@@ -5,21 +5,19 @@ import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
-import com.lhs.library.base.BaseRecyclerViewAdapter;
-import com.pai8.ke.databinding.FragmentBusinessGroupBuyListBinding;
-import com.pai8.ke.entity.ShopGroupListResult;
-import com.pai8.ke.shop.adapter.BusinessGroupBuyAdapter;
+import com.pai8.ke.databinding.FragmentBusinessVideoListBinding;
+import com.pai8.ke.shop.adapter.BusinessVideoAdapter;
 import com.pai8.ke.shop.viewmodel.BusinessHomeViewModel;
 
 import org.jetbrains.annotations.Nullable;
 
-public class BusinessGroupBuyListFragment extends BaseFragment<BusinessHomeViewModel, FragmentBusinessGroupBuyListBinding> {
+public class BusinessVideoListFragment extends BaseFragment<BusinessHomeViewModel, FragmentBusinessVideoListBinding> {
     private String shopId;
     private int page = 1;
-    private BusinessGroupBuyAdapter adapter;
+    private BusinessVideoAdapter adapter;
 
-    public static BusinessGroupBuyListFragment newInstance(String shopId) {
-        BusinessGroupBuyListFragment fragment = new BusinessGroupBuyListFragment();
+    public static BusinessVideoListFragment newInstance(String shopId) {
+        BusinessVideoListFragment fragment = new BusinessVideoListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(BaseAppConstants.BundleConstant.ARG_PARAMS_0, shopId);
         fragment.setArguments(bundle);
@@ -34,7 +32,7 @@ public class BusinessGroupBuyListFragment extends BaseFragment<BusinessHomeViewM
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        mBinding.recyclerView.setAdapter(adapter = new BusinessGroupBuyAdapter(getContext(), null, false));
+        mBinding.recyclerView.setAdapter(adapter = new BusinessVideoAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
             Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
             startActivity(intent);
@@ -43,7 +41,7 @@ public class BusinessGroupBuyListFragment extends BaseFragment<BusinessHomeViewM
 
     @Override
     public void addObserve() {
-        mViewModel.getShopGroupListData().observe(getViewLifecycleOwner(), data -> {
+        mViewModel.getShopVideoListData().observe(getViewLifecycleOwner(), data -> {
             BusinessHomeActivity businessHomeActivity = (BusinessHomeActivity) getActivity();
             if (page == 1) {
                 adapter.setData(data);
@@ -62,7 +60,7 @@ public class BusinessGroupBuyListFragment extends BaseFragment<BusinessHomeViewM
 
     @Override
     public void initData() {
-        mViewModel.getShopGroupList(shopId, page + "");
+        mViewModel.getShopVideoList(shopId, page + "");
     }
 
     public void onRefresh() {

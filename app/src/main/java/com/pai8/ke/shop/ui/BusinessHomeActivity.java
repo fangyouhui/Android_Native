@@ -19,18 +19,17 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import org.jetbrains.annotations.Nullable;
 
 public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, ActivityBusinessHomeBinding> {
-    private String[] titles = new String[]{"团购", "商家视频", "外卖"};
     private ViewPagerAdapter tabFragmentAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     private GetGroupShopListResult.ShopList bean;
-
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
         bean = (GetGroupShopListResult.ShopList) getIntent().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
         mBinding.btnBack.setOnClickListener(v -> finish());
-        for (String title : titles) {
-            tabFragmentAdapter.addFragment(BusinessGroupBuyListFragment.newInstance(bean.getId() + ""), title);
-        }
+
+        tabFragmentAdapter.addFragment(BusinessGroupBuyListFragment.newInstance(bean.getId() + ""), "团购");
+        tabFragmentAdapter.addFragment(BusinessVideoListFragment.newInstance(bean.getId() + ""), "商家视频");
+        tabFragmentAdapter.addFragment(BusinessVideoListFragment.newInstance(bean.getId() + ""), "外卖");
         mBinding.viewPager.setNoScroll(true);
         mBinding.viewPager.setOffscreenPageLimit(2);
         mBinding.viewPager.setAdapter(tabFragmentAdapter);

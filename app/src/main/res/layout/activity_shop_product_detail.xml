@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF2F4F7"
-    tools:context=".shop.ui.ShopDetailActivity">
+    tools:context=".shop.ui.ShopProductDetailActivity">
 
     <LinearLayout
         android:id="@+id/fl_four"

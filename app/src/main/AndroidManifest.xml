@@ -223,7 +223,7 @@
             android:label="团购"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".shop.ui.ShopDetailActivity"
+            android:name=".shop.ui.ShopProductDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".shop.ui.BusinessHomeActivity"

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class ShopGroupListResult implements Serializable {
 
-
     private int id;
     private int shop_id;
     private String title;
