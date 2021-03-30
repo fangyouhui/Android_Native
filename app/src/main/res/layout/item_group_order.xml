@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@mipmap/bg_store_month_num"
-            app:ease_radius="15dp"
+            app:ease_radius="13dp"
             app:es_shape_type="rectangle"
             app:layout_constraintStart_toStartOf="@id/divide_line"
             app:layout_constraintTop_toBottomOf="@id/divide_line" />
@@ -270,7 +270,8 @@
             android:paddingHorizontal="15dp"
             android:text="重新下单"
             android:textColor="#ffffffff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
