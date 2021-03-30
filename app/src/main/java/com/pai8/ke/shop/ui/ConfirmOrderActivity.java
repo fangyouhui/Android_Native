@@ -1,6 +1,7 @@
 package com.pai8.ke.shop.ui;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -14,6 +15,7 @@ import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.databinding.ActivityConfirmOrderBinding;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
 import com.pai8.ke.shop.viewmodel.ConfirmOrderViewModel;
+import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -46,17 +48,37 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
                 count--;
             }
             mBinding.tvCount.setText(String.valueOf(count));
+            bindPrice();
         });
 
         mBinding.btnAdd.setOnClickListener(v -> {
             int count = Integer.parseInt(mBinding.tvCount.getText().toString());
             count++;
             mBinding.tvCount.setText(String.valueOf(count));
+            bindPrice();
         });
     }
 
     private void bindView() {
+        ImageLoadUtils.loadImage(bean.getShop().getShop_img(), mBinding.ivShopLogo);
+        mBinding.tvShopName.setText(bean.getShop().getShop_name());
+        ImageLoadUtils.loadImage(bean.getCover().get(0), mBinding.ivProductImg);
+        mBinding.tvProductName.setText(bean.getTitle());
+        mBinding.tvDesc.setText(bean.getDesc());
+        mBinding.tvGroupBuyPrice.setText("¥" + bean.getSell_price());
+        mBinding.tvOriginPrice.setText("¥" + bean.getOrigin_price());
+        mBinding.tvOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
+        bindPrice();
+    }
+
+    private void bindPrice() {
+        int count = Integer.parseInt(mBinding.tvCount.getText().toString());
+        int productPrice = count * Integer.parseInt(bean.getOrigin_price());
+        mBinding.tvProductPrice.setText("¥" + productPrice);
+        Double fullDiscountPrice = Double.valueOf(mBinding.tvFullDiscountPrice.getTag().toString());
+        double fillPrice = productPrice - fullDiscountPrice;
+        mBinding.tvTotalPrice.setText("¥" + fillPrice);
     }
 
     private void pay() {
