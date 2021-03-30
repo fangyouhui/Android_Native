@@ -285,18 +285,13 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         if (mType==3){
             //edit 下架
             line_edit.setVisibility(View.VISIBLE);
-            line_upload.setVisibility(View.GONE);
+
             groupId = getIntent().getStringExtra("id");
             mPresenter.getGoods(groupId);
 
 
         }
-        else {
-            //上传新商品
-            line_edit.setVisibility(View.GONE);
-            line_upload.setVisibility(View.VISIBLE);
 
-        }
 //        groupBannerAdapter.setOnClickListener(this);
 
     }
@@ -452,17 +447,25 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupFoodReq.video = videoKey;
         groupFoodReq.desc = neirongTextView.getText().toString();
         groupFoodReq.food_type = goodId;
-        String detailStr = ListToString(detailKey);
+        String detailStr = "";
+        for (int i=0;i<detailKey.size();i++){
+            detailStr = detailStr + detailKey.get(i)+",";
+        }
+        detailStr = detailStr.substring(0,detailStr.length()-1);
 
-        groupFoodReq.details_img = detailStr.substring(0,detailStr.length()-1);
+        groupFoodReq.details_img = detailStr;
         groupFoodReq.origin_price = originPriceT;
         groupFoodReq.sell_price = sellerPrice;
         groupFoodReq.origin_price = originPriceT;
         groupFoodReq.stock = stockNum;
         groupFoodReq.details = detailTextView.getText().toString();
         groupFoodReq.matter = zhuyiTextView.getText().toString();
-        String bannerStr = ListToString(bannerKey);
-        groupFoodReq.cover = bannerStr.substring(0,bannerStr.length()-1);
+        String bannerStr = "";
+        for (int i=0;i<bannerKey.size();i++){
+            bannerStr = bannerStr + bannerKey.get(i)+",";
+        }
+        bannerStr = bannerStr.substring(0,bannerStr.length()-1);
+        groupFoodReq.cover = bannerStr;
         groupFoodReq.term = getTime(startTimeBtn.getText().toString())+"-"+getTime(endTimeBtn.getText().toString());
         groupFoodReq.status = 1;
         if (mType==3){
@@ -695,7 +698,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 
 
     @Override
-    public void addGoodSuccess(String data) {
+    public void addGoodSuccess(smallGoodsInfo data) {
         EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GROUP));
         ToastUtils.showShort("上架成功");
         dismissLoadingDialog();
@@ -704,7 +707,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     }
 
     @Override
-    public void editGoodSuccess(String data) {
+    public void editGoodSuccess(smallGoodsInfo data) {
         EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GROUP));
         ToastUtils.showShort("编辑成功");
         dismissLoadingDialog();
@@ -713,7 +716,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     }
 
     @Override
-    public void deleteGoodSuccess(String data) {
+    public void deleteGoodSuccess(smallGoodsInfo data) {
         EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GROUP));
         ToastUtils.showShort("下架成功");
         dismissLoadingDialog();
@@ -840,6 +843,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
                         mList.remove(6);
                     }
                     bannerKey.add(key);
+
                     groupBannerAdapter.setList(mList);
                 }
                 else{

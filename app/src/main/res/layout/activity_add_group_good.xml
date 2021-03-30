@@ -43,10 +43,14 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/flow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"
+
         android:layout_below="@+id/base_tool_bar"
+
+
         >
 
         <LinearLayout
@@ -653,6 +657,8 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_bottom_down"
+        android:layout_below="@+id/flow"
+
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

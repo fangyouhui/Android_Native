@@ -17,7 +17,7 @@ public class Constants {
 
     public static int EVENT_TYPE_CANCEL_ORDER = 1005; //取消订单 刷新订单
 
-    public static int EVENT_TYPE_REFRESH_SHOP_GROUP = 1004; //刷新商家团购商品
+    public static int EVENT_TYPE_REFRESH_SHOP_GROUP = 1006; //刷新商家团购商品
 
     public static String WX_APP_ID = "wx00290ee6e44c1cfd";
 

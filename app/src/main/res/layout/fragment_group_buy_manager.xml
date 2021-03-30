@@ -4,20 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/color_bg">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/sr_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_group_buy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 
@@ -40,5 +26,23 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sr_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bottom"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="0dp">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_group_buy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
