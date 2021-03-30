@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseActivity;
@@ -68,8 +69,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
     @Override
     public void addObserve() {
         mViewModel.getAddOrderData().observe(this, data -> {
-            if (!TextUtils.isEmpty(data)) { //支付成功
-
+            if (!TextUtils.isEmpty(data)) { //下单成功 HX126741617094442
+                // TODO: 3/30/21 调支付
             }
         });
     }
@@ -132,7 +133,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
         goods_info.add(goodsInfo);
 
         AddOrderParam addOrderParam = new AddOrderParam();
-        addOrderParam.setGoods_info(goods_info);
+        addOrderParam.setGoods_info(GsonUtils.toJson(goods_info));
         addOrderParam.setShop_id(bean.getShop_id());
         addOrderParam.setBuyer_id(Integer.parseInt(uid));
         addOrderParam.setOrder_type(3);

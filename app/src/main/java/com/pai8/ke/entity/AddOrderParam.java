@@ -4,7 +4,7 @@ import java.util.List;
 
 public class AddOrderParam {
 
-    private List<GoodsInfo> goods_info;//商品信息json字符串
+    private String goods_info;//商品信息json字符串
     private int buyer_id;//买家id值
     private int shop_id;//店铺id值
     private int order_type;//订单类型 1为邮寄订单 2为外卖订单 3为核销订单
@@ -17,11 +17,11 @@ public class AddOrderParam {
     private String buyer_name;//仅在团购订单需填写 用户名称
     private String buyer_phone;//仅在团购订单需填写 用户联系方式
 
-    public List<GoodsInfo> getGoods_info() {
+    public String getGoods_info() {
         return goods_info;
     }
 
-    public void setGoods_info(List<GoodsInfo> goods_info) {
+    public void setGoods_info(String goods_info) {
         this.goods_info = goods_info;
     }
 
