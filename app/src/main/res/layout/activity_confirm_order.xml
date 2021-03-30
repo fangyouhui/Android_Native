@@ -188,6 +188,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@mipmap/ic_launcher"
+            app:ease_radius="4dp"
+            app:es_shape_type="rectangle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

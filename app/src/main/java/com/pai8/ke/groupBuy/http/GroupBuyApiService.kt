@@ -1,5 +1,6 @@
 package com.pai8.ke.groupBuy.http
 
+import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.entity.*
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -52,6 +53,10 @@ interface GroupBuyApiService {
     @POST("Order/orderPrepay")
     suspend fun orderPrepayWithAli(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: Int,
                                    @Query("pay_type") pay_type: Int): BaseHttpResult<String>
+
+
+    @POST("Order/orderList")
+    suspend fun orderList(@Query("buyer_id") buyer_id: Int, @Query("order_type") order_type: Int): BaseHttpResult<List<OrderListResult>>
 
 
 }

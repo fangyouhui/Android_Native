@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/bg_corner_white_radius_10"
+    android:paddingStart="15dp">
+
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/ivShopLogo"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="15dp"
+        android:src="@mipmap/ic_launcher"
+        app:ease_radius="4dp"
+        app:es_shape_type="rectangle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvShopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:drawableEnd="@mipmap/me_right_arrow"
+        android:drawablePadding="5dp"
+        android:text="必胜客美食优享"
+        android:textColor="#ff2f2f2f"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/ivShopLogo"
+        app:layout_constraintStart_toEndOf="@id/ivShopLogo"
+        app:layout_constraintTop_toTopOf="@id/ivShopLogo" />
+
+    <TextView
+        android:id="@+id/tvOrderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="退款成功"
+        android:textColor="#ffff7f47"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvShopName" />
+
+    <View
+        android:id="@+id/divide_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/color_divider"
+        app:layout_constraintStart_toStartOf="@id/ivShopLogo"
+        app:layout_constraintTop_toBottomOf="@id/ivShopLogo" />
+
+    <FrameLayout
+        android:id="@+id/flPlay"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@id/divide_line"
+        app:layout_constraintTop_toBottomOf="@id/divide_line">
+
+        <com.pai8.ke.widget.CircleImageView
+            android:id="@+id/ivProductImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/bg_store_month_num"
+            app:ease_radius="15dp"
+            app:es_shape_type="rectangle"
+            app:layout_constraintStart_toStartOf="@id/divide_line"
+            app:layout_constraintTop_toBottomOf="@id/divide_line" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/img_waimai_video_play"
+            android:visibility="invisible" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="2人份下午茶套餐"
+        android:textColor="#ff262626"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/flPlay"
+        app:layout_constraintTop_toTopOf="@id/flPlay" />
+
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingEnd="15dp"
+        android:text="清蒸白鱼1份，招牌梅干菜扣肉1份，豆腐汤1份，米饭3份还有更多现实不下…"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvProductName"
+        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+
+    <TextView
+        android:id="@+id/tvCount2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X1"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/flPlay"
+        app:layout_constraintStart_toStartOf="@id/tvProductName" />
+
+    <TextView
+        android:id="@+id/tvSellPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="¥2088"
+        android:textColor="#ff2f2f2f"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/flPlay"
+        app:layout_constraintStart_toEndOf="@id/tvCount2" />
+
+    <TextView
+        android:id="@+id/tvOriginPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="¥3200"
+        android:textColor="#ff999999"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/flPlay"
+        app:layout_constraintStart_toEndOf="@id/tvSellPrice" />
+
+    <TextView
+        android:id="@+id/tvShiFuPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="实付：¥2068"
+        android:textColor="#ff2f2f2f"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/flPlay"
+        app:layout_constraintTop_toBottomOf="@id/flPlay" />
+
+    <TextView
+        android:id="@+id/tvTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="总价：¥3200"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvShiFuPrice"
+        app:layout_constraintStart_toEndOf="@id/tvShiFuPrice"
+        app:layout_constraintTop_toTopOf="@id/tvShiFuPrice" />
+
+    <TextView
+        android:id="@+id/tvDiscountPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="优惠：¥1123"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvShiFuPrice"
+        app:layout_constraintStart_toEndOf="@id/tvTotalPrice"
+        app:layout_constraintTop_toTopOf="@id/tvShiFuPrice" />
+
+    <View
+        android:id="@+id/divide_line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/color_divider"
+        app:layout_constraintStart_toStartOf="@id/ivShopLogo"
+        app:layout_constraintTop_toBottomOf="@id/tvShiFuPrice" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal"
+        android:paddingEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divide_line2">
+
+        <Button
+            android:id="@+id/btnQuXiaoDingDan"
+            android:layout_width="88dp"
+            android:layout_height="32dp"
+            android:background="@drawable/btn_selector_stroke_white"
+            android:text="取消订单"
+            android:textColor="#ffff7f47"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnChaKan"
+            android:layout_width="88dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/btn_selector_stroke_white"
+            android:text="查看详情"
+            android:textColor="#ffff7f47"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnZaiCiGouMai"
+            android:layout_width="88dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/btn_selector_stroke_white"
+            android:text="再次购买"
+            android:textColor="#ffff7f47"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnLiJiFuKuan"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/btn_selector_linear_radius"
+            android:paddingHorizontal="15dp"
+            android:text="29:59 立即付款"
+            android:textColor="#ffffffff"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnScan"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/btn_selector_linear_radius"
+            android:paddingHorizontal="15dp"
+            android:text="出示二维码"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnEvaluation"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/btn_selector_linear_radius"
+            android:paddingHorizontal="15dp"
+            android:text="立即评价"
+            android:textColor="#ffffffff"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btnChongXinXiaDan"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/btn_selector_linear_radius"
+            android:paddingHorizontal="15dp"
+            android:text="重新下单"
+            android:textColor="#ffffffff"
+            android:textSize="14sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
