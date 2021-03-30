@@ -13,7 +13,6 @@ interface GroupBuyApiService {
     @POST("Group/GetGroupShopList")
     suspend fun getGroupShopList(@Body param: GetGroupShopListParam): BaseHttpResult<GetGroupShopListResult>
 
-
     @POST("Group/GetFoodSortList")
     suspend fun getFoodSortList(): BaseHttpResult<List<GroupBuyTypeResult>>
 
@@ -25,7 +24,7 @@ interface GroupBuyApiService {
     suspend fun getGroupShopInfo(@Query("shop_id") shop_id: String): BaseHttpResult<GroupShopInfoResult>
 
     /**
-     * 店铺团欧列表
+     * 店铺团购列表
      */
     @POST("Group/GetShopGroupList")
     suspend fun getShopGroupList(@Query("shop_id") shop_id: String, @Query("page") page: String,
@@ -37,6 +36,22 @@ interface GroupBuyApiService {
     @POST("Group/GetShopVideoList")
     suspend fun getShopVideoList(@Query("shop_id") shop_id: String, @Query("page") page: String,
                                  @Query("size") size: String): BaseHttpResult<List<ShopVideoResult>>
+
+    @POST("Order/addOrder")
+    suspend fun addOrder(@Body param: AddOrderParam): BaseHttpResult<String>
+
+
+    @POST("Group/GetGroupGoodsInfo")
+    suspend fun getGroupGoodsInfo(@Query("id") productId: String): BaseHttpResult<GroupGoodsInfoResult>
+
+
+    @POST("Order/orderPrepay")
+    suspend fun orderPrepayWithWx(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: Int,
+                                  @Query("pay_type") pay_type: Int): BaseHttpResult<OrderPrepayResult>
+
+    @POST("Order/orderPrepay")
+    suspend fun orderPrepayWithAli(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: Int,
+                                   @Query("pay_type") pay_type: Int): BaseHttpResult<String>
 
 
 }

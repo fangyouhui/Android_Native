@@ -5,10 +5,12 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
+import com.blankj.utilcode.util.ToastUtils;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.dueeeke.videoplayer.ijk.IjkPlayerFactory;
 import com.dueeeke.videoplayer.player.VideoViewConfig;
@@ -16,7 +18,6 @@ import com.dueeeke.videoplayer.player.VideoViewManager;
 import com.gh.qiniushortvideo.QNShortVideo;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
-import com.pai8.ke.BuildConfig;
 import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
@@ -137,6 +138,7 @@ public class MyApp extends Application {
                 .build());
         AMapLocationUtils.init(this);
         CustomActivityOnCrash.install(this);
+        ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0, 0);
     }
 
     public static void getLocation() {

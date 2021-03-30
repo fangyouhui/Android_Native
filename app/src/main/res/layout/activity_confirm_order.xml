@@ -24,7 +24,7 @@
         app:layout_constraintTop_toBottomOf="@+id/space" />
 
     <LinearLayout
-        android:id="@+id/ll_food_info"
+        android:id="@+id/llContactInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/base_tool_bar"
@@ -55,7 +55,7 @@
                 android:background="@color/color_transition"
                 android:hint="请输入联系人称呼"
                 android:singleLine="true"
-                android:textColor="#ffd8d8d8"
+                android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -181,7 +181,7 @@
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_food_info">
+        app:layout_constraintTop_toBottomOf="@id/llContactInfo">
 
         <com.pai8.ke.widget.CircleImageView
             android:id="@+id/ivShopLogo"
@@ -224,6 +224,7 @@
             app:layout_constraintTop_toBottomOf="@id/divide_line">
 
             <com.pai8.ke.widget.CircleImageView
+                android:id="@+id/ivProductImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -237,12 +238,13 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/img_waimai_video_play" />
+                android:src="@mipmap/img_waimai_video_play"
+                android:visibility="invisible" />
 
         </FrameLayout>
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -254,7 +256,7 @@
             app:layout_constraintTop_toTopOf="@id/flPlay" />
 
         <TextView
-            android:id="@+id/tvRemark"
+            android:id="@+id/tvDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -265,8 +267,8 @@
             android:textColor="#ff999999"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tvName"
-            app:layout_constraintTop_toBottomOf="@id/tvName" />
+            app:layout_constraintStart_toStartOf="@id/tvProductName"
+            app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
         <TextView
             android:id="@+id/tvCount2"
@@ -276,7 +278,7 @@
             android:textColor="#ff999999"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/flPlay"
-            app:layout_constraintStart_toStartOf="@id/tvName" />
+            app:layout_constraintStart_toStartOf="@id/tvProductName" />
 
         <TextView
             android:id="@+id/tvGroupBuyPrice"
@@ -321,6 +323,7 @@
             app:layout_constraintTop_toBottomOf="@id/divide_line2" />
 
         <TextView
+            android:id="@+id/tvProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -347,12 +350,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
-            android:text="-¥6"
+            android:tag="0"
+            android:text="- ¥ 0"
             android:textColor="#ff2f2f2f"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/tvManJianQuan"
             app:layout_constraintEnd_toEndOf="parent" />
-
 
         <View
             android:id="@+id/divide_line3"
@@ -391,7 +394,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="优惠 ¥1118"
+            android:text="优惠 ¥0.00"
             android:textColor="#ff999999"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/tvTotalPrice"

@@ -148,8 +148,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewBinding> : Fragment() {
         if (type is ParameterizedType) {
             val tp = type.actualTypeArguments[0]
             val tClass = tp as? Class<VM> ?: BaseViewModel::class.java
-            mViewModel = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory)
-                    .get(tClass) as VM
+            mViewModel = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(tClass) as VM
         }
     }
 

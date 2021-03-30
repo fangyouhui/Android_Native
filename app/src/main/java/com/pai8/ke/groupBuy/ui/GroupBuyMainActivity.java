@@ -21,6 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * 团购店铺首页
+ */
 public class GroupBuyMainActivity extends BaseActivity<GroupBuyMainViewModel, ActivityGroupBuyMainBinding> {
 
     @Override
@@ -35,15 +38,15 @@ public class GroupBuyMainActivity extends BaseActivity<GroupBuyMainViewModel, Ac
         mBinding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                GroupBuyTypeListFragment groupBuyTypeListFragment =
-                        (GroupBuyTypeListFragment) tabFragmentAdapter.getFragment(mBinding.viewPager.getCurrentItem());
+                GroupBuyBusinessListFragment groupBuyTypeListFragment =
+                        (GroupBuyBusinessListFragment) tabFragmentAdapter.getFragment(mBinding.viewPager.getCurrentItem());
                 groupBuyTypeListFragment.onLoadMore();
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                GroupBuyTypeListFragment groupBuyTypeListFragment =
-                        (GroupBuyTypeListFragment) tabFragmentAdapter.getFragment(mBinding.viewPager.getCurrentItem());
+                GroupBuyBusinessListFragment groupBuyTypeListFragment =
+                        (GroupBuyBusinessListFragment) tabFragmentAdapter.getFragment(mBinding.viewPager.getCurrentItem());
                 groupBuyTypeListFragment.onRefresh();
             }
         });
@@ -82,7 +85,7 @@ public class GroupBuyMainActivity extends BaseActivity<GroupBuyMainViewModel, Ac
     public void addObserve() {
         mViewModel.getBusinessTypeData().observe(this, data -> {
             for (BusinessTypeResult datum : data) {
-                tabFragmentAdapter.addFragment(GroupBuyTypeListFragment.newInstance(datum), datum.getType_name());
+                tabFragmentAdapter.addFragment(GroupBuyBusinessListFragment.newInstance(datum), datum.getType_name());
             }
             mBinding.viewPager.setNoScroll(true);
             mBinding.viewPager.setOffscreenPageLimit(2);
