@@ -1,6 +1,8 @@
 package com.pai8.ke.entity;
 
-
+/**
+ * {"code":1,"msg":"请求成功!","result":{"uid":197,"openid":"","phone":"15058266943","user_nickname":"15058266943","avatar":"","token":"150fdee23eff844ff5ee293aa1be4c78","user_status":1}}
+ */
 public class UserInfo {
     private String id;
     private String name;

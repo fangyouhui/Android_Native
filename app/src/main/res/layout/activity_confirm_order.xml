@@ -394,7 +394,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="优惠 ¥1118"
+            android:text="优惠 ¥0.00"
             android:textColor="#ff999999"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/tvTotalPrice"

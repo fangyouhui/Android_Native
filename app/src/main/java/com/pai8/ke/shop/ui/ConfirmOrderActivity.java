@@ -11,13 +11,19 @@ import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.databinding.ActivityConfirmOrderBinding;
+import com.pai8.ke.entity.AddOrderParam;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.shop.viewmodel.ConfirmOrderViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 确认订单
@@ -59,6 +65,15 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
         });
     }
 
+    @Override
+    public void addObserve() {
+        mViewModel.getAddOrderData().observe(this, data -> {
+            if (!TextUtils.isEmpty(data)) { //支付成功
+
+            }
+        });
+    }
+
     private void bindView() {
         ImageLoadUtils.loadImage(bean.getShop().getShop_img(), mBinding.ivShopLogo);
         mBinding.tvShopName.setText(bean.getShop().getShop_name());
@@ -74,11 +89,14 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
 
     private void bindPrice() {
         int count = Integer.parseInt(mBinding.tvCount.getText().toString());
-        int productPrice = count * Integer.parseInt(bean.getOrigin_price());
+        double productPrice = count * Double.parseDouble(bean.getSell_price());
         mBinding.tvProductPrice.setText("¥" + productPrice);
-        Double fullDiscountPrice = Double.valueOf(mBinding.tvFullDiscountPrice.getTag().toString());
-        double fillPrice = productPrice - fullDiscountPrice;
-        mBinding.tvTotalPrice.setText("¥" + fillPrice);
+
+        double fullDiscountPrice = Double.valueOf(mBinding.tvFullDiscountPrice.getTag().toString());
+
+        double finalPrice = productPrice - fullDiscountPrice;
+        mBinding.tvTotalPrice.setText("¥" + finalPrice);
+        mBinding.tvTotalPrice.setTag(finalPrice);
     }
 
     private void pay() {
@@ -97,6 +115,31 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
             return;
         }
 
+        String uid = AccountManager.getInstance().getUid();
+        if (TextUtils.isEmpty(uid)) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return;
+        }
+
+        int count = Integer.parseInt(mBinding.tvCount.getText().toString());
+
+        AddOrderParam.GoodsInfo goodsInfo = new AddOrderParam.GoodsInfo();
+        goodsInfo.setGoods_id(bean.getId());
+        goodsInfo.setGoods_num(count);
+        goodsInfo.setGoods_price(Double.valueOf(mBinding.tvTotalPrice.getTag().toString()));
+
+        List<AddOrderParam.GoodsInfo> goods_info = new ArrayList<>();
+        goods_info.add(goodsInfo);
+
+        AddOrderParam addOrderParam = new AddOrderParam();
+        addOrderParam.setGoods_info(goods_info);
+        addOrderParam.setShop_id(bean.getShop_id());
+        addOrderParam.setBuyer_id(Integer.parseInt(uid));
+        addOrderParam.setOrder_type(3);
+        addOrderParam.setBuyer_name(mBinding.etNickname.getText().toString());
+        addOrderParam.setBuyer_phone(mBinding.etPhone.getText().toString());
+
+        mViewModel.addOrder(addOrderParam);
 
     }
 
