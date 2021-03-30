@@ -84,6 +84,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:banner_auto_loop="false"
+                    app:banner_indicator_normal_color="@android:color/white"
+                    app:banner_indicator_selected_color="@color/colorPrimary"
                     app:layout_collapseMode="parallax" />
 
                 <androidx.appcompat.widget.Toolbar
@@ -112,9 +114,7 @@
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-
         </com.google.android.material.appbar.AppBarLayout>
-
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -150,6 +150,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tvProductTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -355,10 +356,11 @@
                         app:layout_constraintTop_toTopOf="@id/ivPhone" />
 
                     <TextView
+                        android:id="@+id/btnCall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="联系商家" android:id="@+id/btnCall"
+                        android:text="联系商家"
                         android:textColor="#ffff7f47"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@id/tvPhone"
@@ -385,6 +387,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvProductDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
@@ -421,6 +424,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvTermTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -440,13 +444,13 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tvMatter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="商家备注的使用注意事项"
                         android:textColor="#ff262626"
                         android:textSize="14sp" />
-
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -456,13 +460,13 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:paddingHorizontal="16dp"
                     android:paddingBottom="15dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
+                        android:paddingHorizontal="16dp"
                         android:text="商品详情"
                         android:textColor="#ff262626"
                         android:textSize="16sp"
@@ -472,7 +476,10 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_product_detail_img" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

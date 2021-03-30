@@ -72,11 +72,11 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
             return;
         }
 
-        if (RegexUtils.isMobileSimple(mBinding.etPhone.getText())) {
+        if (!RegexUtils.isMobileSimple(mBinding.etPhone.getText())) {
             ToastUtils.showShort("请检查手机号是否正确");
             return;
         }
-        
+
         List<OrderGoodInfo> goodList = new ArrayList<>();
         for (int i = 0; i < mFoodInfoList.size(); i++) {
             OrderGoodInfo goodInfo = new OrderGoodInfo();

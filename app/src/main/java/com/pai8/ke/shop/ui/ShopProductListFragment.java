@@ -33,6 +33,7 @@ public class ShopProductListFragment extends BaseFragment<ShopMainViewModel, Fra
         adapter.setListener((item, position) -> {
             Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
             intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item.getShop_id() + "");
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, item.getId() + "");
             startActivity(intent);
         });
     }

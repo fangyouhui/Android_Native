@@ -13,7 +13,6 @@ interface GroupBuyApiService {
     @POST("Group/GetGroupShopList")
     suspend fun getGroupShopList(@Body param: GetGroupShopListParam): BaseHttpResult<GetGroupShopListResult>
 
-
     @POST("Group/GetFoodSortList")
     suspend fun getFoodSortList(): BaseHttpResult<List<GroupBuyTypeResult>>
 
@@ -38,11 +37,12 @@ interface GroupBuyApiService {
     suspend fun getShopVideoList(@Query("shop_id") shop_id: String, @Query("page") page: String,
                                  @Query("size") size: String): BaseHttpResult<List<ShopVideoResult>>
 
-
-
     @POST("Order/addOrder")
     suspend fun addOrder(@Body param: AddOrderParam): BaseHttpResult<String>
 
+
+    @POST("Group/GetGroupGoodsInfo")
+    suspend fun getGroupGoodsInfo(@Query("id") productId: String): BaseHttpResult<GroupGoodsInfoResult>
 
 
 }

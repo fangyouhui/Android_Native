@@ -5,9 +5,7 @@ import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
-import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.databinding.FragmentBusinessGroupBuyListBinding;
-import com.pai8.ke.entity.ShopGroupListResult;
 import com.pai8.ke.shop.adapter.BusinessGroupBuyAdapter;
 import com.pai8.ke.shop.viewmodel.BusinessHomeViewModel;
 
@@ -38,6 +36,7 @@ public class BusinessGroupBuyListFragment extends BaseFragment<BusinessHomeViewM
         adapter.setListener((item, position) -> {
             Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
             intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item.getShop_id() + "");
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, item.getId() + "");
             startActivity(intent);
         });
     }
