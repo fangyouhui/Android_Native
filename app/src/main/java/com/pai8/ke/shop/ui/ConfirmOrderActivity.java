@@ -12,8 +12,10 @@ import com.blankj.utilcode.util.RegexUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
+import com.lhs.library.base.BaseBottomDialogFragment.OnDialogListener;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
+import com.pai8.ke.activity.takeaway.order.OrderDetailActivity;
 import com.pai8.ke.databinding.ActivityConfirmOrderBinding;
 import com.pai8.ke.entity.AddOrderParam;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
@@ -21,6 +23,7 @@ import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.shop.viewmodel.ConfirmOrderViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -70,9 +73,47 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
     public void addObserve() {
         mViewModel.getAddOrderData().observe(this, data -> {
             if (!TextUtils.isEmpty(data)) { //下单成功 HX126741617094442
-                // TODO: 3/30/21 调支付
+                int uid = Integer.parseInt(AccountManager.getInstance().getUid());
+                PaySelectBottomDialog paySelectBottomDialog = new PaySelectBottomDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString(BaseAppConstants.BundleConstant.ARG_PARAMS_0, mBinding.tvTotalPrice.getTag().toString());
+                paySelectBottomDialog.setArguments(bundle);
+                paySelectBottomDialog.setListener(new OnDialogListener() {
+
+                    @Override
+                    public void onConfirmClickListener(@NotNull Object data2) {
+                        int way = (int) data2;
+                        if (way == 0) { //微信支付
+                            mViewModel.orderPrepayWithWx(data, uid);
+                        } else { //调支付宝支付
+                            mViewModel.orderPrepayWithAli(data, uid);
+                        }
+                    }
+
+                    @Override
+                    public void onCloseClickListener() {
+                        toOrderDetailActivity(data);
+                    }
+                });
+
+                paySelectBottomDialog.showNow(getSupportFragmentManager(), "payWay");
             }
         });
+
+        mViewModel.getOrderPrepayData().observe(this, data -> { //微信支付信息
+            // TODO: 2021/3/30  调微信支付
+        });
+
+        mViewModel.getOrderPrepayData2().observe(this, data -> { //支付宝支付信息
+            // TODO: 2021/3/30 调支付宝支付
+        });
+    }
+
+    private void toOrderDetailActivity(String orderNo) {
+        Intent intent = new Intent(getBaseContext(), OrderDetailActivity.class);
+        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, orderNo);
+        startActivity(intent);
+        finish();
     }
 
     private void bindView() {

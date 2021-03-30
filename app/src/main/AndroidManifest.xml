@@ -142,16 +142,21 @@
         <activity android:name=".activity.takeaway.ui.AddCouponActivity" />
         <activity android:name=".activity.takeaway.ui.CouponActivity" />
         <activity android:name=".activity.takeaway.ui.IncomeDetailActivity" />
-        <activity android:name=".activity.takeaway.order.OrderDetailActivity" />
         <activity android:name=".activity.takeaway.ui.DeliveryAddressActivity" />
         <activity
             android:name=".activity.takeaway.ui.MapAddressChooseActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.takeaway.order.OrderActivity" /> <!-- 扫描二维码 -->
+        <activity
+            android:name=".activity.takeaway.order.OrderActivity"
+            android:label="订单列表"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.common.ScanActivity"
+            android:label="扫一扫"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.takeaway.ui.ChooseCouponActivity" />
+        <activity
+            android:name=".activity.takeaway.ui.ChooseCouponActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.takeaway.ui.ShopGoodSearchActivity" />
         <activity android:name=".activity.takeaway.order.OrderSendActivity" />
         <activity android:name=".activity.takeaway.order.ShopOrderDetailActivity" />

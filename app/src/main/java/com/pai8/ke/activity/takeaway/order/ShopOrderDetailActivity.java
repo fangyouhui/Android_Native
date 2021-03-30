@@ -76,7 +76,7 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
     public void initView() {
         setImmersionBar(R.id.base_tool_bar);
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
-        ivMore = findViewById(R.id.toolbar_more);
+     //   ivMore = findViewById(R.id.toolbar_more);
         ivMore.setOnClickListener(this);
         mRvOrderDetail = findViewById(R.id.rv_order_detail);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -219,24 +219,27 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
             if (mOrderInfo.shop_info != null) {
                 AppUtils.intentCallPhone(this, mOrderInfo.shop_info.mobile);
             }
-        } else if (v.getId() == R.id.toolbar_more) {
-            if (mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4) {
-                CancelOrderPop pop = new CancelOrderPop(this, mOrderInfo.order_status);
-                pop.setOnSelectListener(new CancelOrderPop.OnSelectListener() {
-                    @Override
-                    public void onSelect(int status) {
-                        if (status == 0) {
-                            mPresenter.cancelOrder(mOrderInfo.order_no);
-                        } else {
-                            mPresenter.applyRefund(mOrderInfo.order_no);
-                        }
+        }
+//        else if (v.getId() == R.id.toolbar_more) {
+//            if (mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4) {
+//                CancelOrderPop pop = new CancelOrderPop(this, mOrderInfo.order_status);
+//                pop.setOnSelectListener(new CancelOrderPop.OnSelectListener() {
+//                    @Override
+//                    public void onSelect(int status) {
+//                        if (status == 0) {
+//                            mPresenter.cancelOrder(mOrderInfo.order_no);
+//                        } else {
+//                            mPresenter.applyRefund(mOrderInfo.order_no);
+//                        }
+//
+//                    }
+//                });
+//                pop.showPopupWindow();
+//            }
+//
+//        }
 
-                    }
-                });
-                pop.showPopupWindow();
-            }
-
-        } else if (v.getId() == R.id.tv_status_pay) {
+        else if (v.getId() == R.id.tv_status_pay) {
 
             if (mOrderInfo.order_status == 0) {
                 mTvStatus.setText("待支付");

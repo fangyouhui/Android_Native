@@ -1,5 +1,7 @@
 package com.lhs.library.base
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -30,6 +32,9 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
         LogUtils.eTag(TAG, "销毁fragment页面：" + javaClass.simpleName)
     }
 
+    open fun initView() {}
+    open fun initData() {}
+
     override fun onStart() {
         super.onStart()
 //        val window: Window = dialog?.window!!
@@ -46,9 +51,9 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
         val window = dialog!!.window
         val params = window!!.attributes
         params.width = WindowManager.LayoutParams.MATCH_PARENT
-        params.height = getDialogHeight()
         params.gravity = Gravity.BOTTOM
         window.attributes = params
+        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
     /**
@@ -71,6 +76,8 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
         super.onViewCreated(view, savedInstanceState)
         createViewModel()
         lifecycle.addObserver(mViewModel)
+        initView()
+        initData()
     }
 
     /**
@@ -135,4 +142,20 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
     override fun getDefaultViewModelProviderFactory(): ViewModelProvider.Factory {
         return MVVMLin.getConfig().viewModelFactory() ?: super.getDefaultViewModelProviderFactory()
     }
+
+
+    protected lateinit var mDialogListener: OnDialogListener
+
+    open fun setListener(dialogListener: OnDialogListener) {
+        this.mDialogListener = dialogListener;
+    }
+
+    abstract class OnDialogListener {
+        open fun onRightClickListener() {}
+        open fun onLeftClickListener() {}
+        open fun onCloseClickListener() {}
+        open fun onConfirmClickListener(data: Any) {}
+    }
+
+
 }

@@ -2,15 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_corner_white_radius_10">
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_corner_white_radius_20"
+    android:paddingBottom="15dp">
 
     <ImageView
         android:id="@+id/ivClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="13dp"
+        android:padding="5dp"
         android:src="@mipmap/ic_close_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,6 +24,7 @@
         android:layout_marginTop="15dp"
         android:text="支付订单"
         android:textColor="@color/black"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +34,7 @@
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="¥ 0.01"
         android:textColor="@color/black"
         android:textSize="30sp"
@@ -64,7 +67,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clPayWeChat"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,10 +75,10 @@
 
         <ImageView
             android:id="@+id/ivType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginStart="10dp"
-            android:src="@mipmap/ic_contact_wechat"
+            android:src="@mipmap/ic_pay_wechat"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="15dp"
-            android:text="已在手机安装微信应用即可选择支付"
+            android:text="推荐微信5.0及以上版本的用户使用"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivType" />
 
@@ -106,6 +109,7 @@
             android:layout_marginEnd="20dp"
             android:button="@drawable/rb_choose"
             android:checked="true"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +119,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clPayAli"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -124,10 +128,10 @@
 
         <ImageView
             android:id="@+id/ivType2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginStart="10dp"
-            android:src="@mipmap/ic_contact_wechat"
+            android:src="@mipmap/ic_pay_ali"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -147,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="15dp"
-            android:text="已在手机安装支付宝应用即可选择支付"
+            android:text="推荐有支付宝账户的用户使用"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivType2" />
 
@@ -157,6 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:button="@drawable/rb_choose"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -178,7 +183,7 @@
         android:id="@+id/tvTip2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="抓紧支付，精美的商品将立即发出"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,10 +196,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/btn_selector_linear_radius"
         android:paddingVertical="11dp"
-        android:text="确定"
+        android:text="立即支付"
         android:textColor="#ffffffff"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

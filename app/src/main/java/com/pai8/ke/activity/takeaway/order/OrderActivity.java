@@ -1,52 +1,26 @@
 package com.pai8.ke.activity.takeaway.order;
 
-import android.view.View;
+import android.os.Bundle;
 
-import com.flyco.tablayout.SlidingTabLayout;
-import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.adapter.ViewPagerAdapter;
-import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.BasePresenter;
+import com.lhs.library.base.BaseActivity;
+import com.lhs.library.base.NoViewModel;
+import com.pai8.ke.databinding.ActivityOrderBinding;
+import com.pai8.ke.groupBuy.adapter.ViewPagerAdapter;
+import com.pai8.ke.shop.viewmodel.OrderViewModel;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.Nullable;
 
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
+public class OrderActivity extends BaseActivity<NoViewModel, ActivityOrderBinding> {
 
-public class OrderActivity extends BaseMvpActivity implements View.OnClickListener {
-
-    private ArrayList<Fragment> fragments;
-    @Override
-    public BasePresenter initPresenter() {
-        return null;
-    }
+    private ViewPagerAdapter tabFragmentAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_order;
+    public void initView(@Nullable Bundle savedInstanceState) {
+        tabFragmentAdapter.addFragment(new OrderFragment(), "外卖");
+        tabFragmentAdapter.addFragment(new OrderFragment(), "团购");
+        mBinding.viewPager.setOffscreenPageLimit(2);
+        mBinding.viewPager.setAdapter(tabFragmentAdapter);
+        mBinding.tabLayout.setViewPager(mBinding.viewPager);
     }
 
-    @Override
-    public void initView() {
-        setImmersionBar(R.id.base_tool_bar);
-        findViewById(R.id.toolbar_back_all).setOnClickListener(this);
-        SlidingTabLayout mTabLayout = findViewById(R.id.tabLayout);
-        ViewPager mViewPager = findViewById(R.id.vp_balance);
-        fragments = new ArrayList<>();
-        fragments.add(new OrderFragment());
-        fragments.add(new OrderFragment());
-        String[] mTitles = new String[]{"外卖","团购"};
-        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragments, mTitles));
-        mTabLayout.setViewPager(mViewPager);
-        mViewPager.setOffscreenPageLimit(3);
-        mViewPager.setCurrentItem(0);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.toolbar_back_all) {
-            finish();
-        }
-    }
 }
