@@ -162,11 +162,11 @@
                 app:layout_constraintStart_toEndOf="@id/ivRating" />
 
             <TextView
-                android:id="@+id/tvTotalSales"
+                android:id="@+id/tvMonthSaleCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="总销量 2.5W件"
+                android:text="月售 0"
                 android:textColor="#ff666666"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/ivRating"

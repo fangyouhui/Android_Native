@@ -1,6 +1,7 @@
 package com.pai8.ke.shop.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -99,7 +100,8 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
         ImageLoadUtils.loadImage(shopInfo.getShop_img(), mBinding.ivLogo);
         mBinding.tvName.setText(shopInfo.getShop_name());
         mBinding.tvFraction.setText(shopInfo.getScore() + "");
-        mBinding.tvTotalSales.setText(String.format("总销量 %s件", shopInfo.getPay_account()));
+        mBinding.tvMonthSaleCount.setText(String.format("月售 %d", shopInfo.getMonth_sale_count()));
+        mBinding.tvIntroduction.setText("简介：" + (TextUtils.isEmpty(shopInfo.getShop_desc()) ? "暂无简介" : shopInfo.getShop_desc()));
         mBinding.tvAddress.setText(shopInfo.getCity() + shopInfo.getDistrict() + shopInfo.getAddress());
         mBinding.tvPhone.setText(String.format("电话：%s", shopInfo.getMobile()));
         mBinding.btnCall.setTag(shopInfo.getMobile());

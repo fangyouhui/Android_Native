@@ -45,4 +45,13 @@ interface GroupBuyApiService {
     suspend fun getGroupGoodsInfo(@Query("id") productId: String): BaseHttpResult<GroupGoodsInfoResult>
 
 
+    @POST("Order/orderPrepay")
+    suspend fun orderPrepayWithWx(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: Int,
+                                  @Query("pay_type") pay_type: Int): BaseHttpResult<OrderPrepayResult>
+
+    @POST("Order/orderPrepay")
+    suspend fun orderPrepayWithAli(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: Int,
+                                   @Query("pay_type") pay_type: Int): BaseHttpResult<String>
+
+
 }

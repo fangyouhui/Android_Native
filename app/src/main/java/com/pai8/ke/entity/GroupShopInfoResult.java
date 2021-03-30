@@ -3,8 +3,6 @@ package com.pai8.ke.entity;
 import java.io.Serializable;
 
 public class GroupShopInfoResult implements Serializable {
-
-
     private int id;
     private String tag;
     private String shop_name;
