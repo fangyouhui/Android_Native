@@ -100,7 +100,7 @@ public interface TakeawayApiService {
      * @return
      */
     @POST("Group/AddGroupGoods")
-    Observable<BaseRespose<String>> addGroupFood(@Body GroupFoodReq parm);
+    Observable<BaseRespose<smallGoodsInfo>> addGroupFood(@Body GroupFoodReq parm);
 
     /**
      * 修改团购商品
@@ -108,7 +108,7 @@ public interface TakeawayApiService {
      * @return
      */
     @POST("Group/UpGroupGoods")
-    Observable<BaseRespose<String>> editGroupFood(@Body GroupFoodReq parm);
+    Observable<BaseRespose<smallGoodsInfo>> editGroupFood(@Body GroupFoodReq parm);
 
     /**
      * 得到团购商品
@@ -123,7 +123,7 @@ public interface TakeawayApiService {
      * @return
      */
     @POST("Group/SetGroupGoodsStatus")
-    Observable<BaseRespose<String>> setGroupGoodsStatus(@Body RequestBody parm);
+    Observable<BaseRespose<smallGoodsInfo>> setGroupGoodsStatus(@Body RequestBody parm);
 
 
     @POST("shop/editGoods")

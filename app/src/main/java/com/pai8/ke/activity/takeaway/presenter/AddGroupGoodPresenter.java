@@ -29,9 +29,9 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<smallGoodsInfo>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(smallGoodsInfo data){
                         view.addGoodSuccess(data);
                     }
 
@@ -49,9 +49,9 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<smallGoodsInfo>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(smallGoodsInfo data){
                         view.editGoodSuccess(data);
                     }
 
@@ -93,9 +93,9 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<smallGoodsInfo>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(smallGoodsInfo data){
                         view.deleteGoodSuccess(data);
                     }
 

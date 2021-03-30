@@ -7,14 +7,14 @@ import com.pai8.ke.base.BaseView;
 public interface AddGroupGoodContract {
     interface View extends BaseView {
 
-        void addGoodSuccess(String data);
+        void addGoodSuccess(smallGoodsInfo data);
 
 
-        void editGoodSuccess(String data);
+        void editGoodSuccess(smallGoodsInfo data);
 
 
 
-        void deleteGoodSuccess(String data);
+        void deleteGoodSuccess(smallGoodsInfo data);
 
         void getGoodSuccess(GoodsInfoModel data);
 

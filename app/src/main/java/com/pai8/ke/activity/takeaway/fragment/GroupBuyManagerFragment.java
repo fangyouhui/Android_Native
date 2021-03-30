@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -38,10 +39,15 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
     @BindView(R.id.sr_layout)
     SwipeRefreshLayout srLayout;
     private AddGroupGoodPresenter.GroupBuyManagerPresenter presenter;
+    private CheckListener checkListener;
 
     private GroupBuyManagerAdapter mAdapter;
     private int page = 1;
     private List<smallGoodsInfo> mList = new ArrayList<>();
+
+    public void setListener(CheckListener listener) {
+        this.checkListener = listener;
+    }
 
     @Override
     public AddGroupGoodPresenter.GroupBuyManagerPresenter initPresenter() {
@@ -55,6 +61,8 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
 
     @Override
     protected void initView(Bundle arguments) {
+        EventBus.getDefault().register(this);
+
         srLayout.setOnRefreshListener(this);
         srLayout.setColorSchemeResources(R.color.colorPrimary);
 
@@ -168,7 +176,7 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(NotifyEvent event) {
-        if (event.type == Constants.EVENT_TYPE_REFRESH_SHOP_GOOD) {
+        if (event.type == Constants.EVENT_TYPE_REFRESH_SHOP_GROUP) {
             page=1;
             presenter.ShopGroupList(page);
         }
@@ -182,5 +190,10 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
         page=1;
         presenter.ShopGroupList(page);
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
