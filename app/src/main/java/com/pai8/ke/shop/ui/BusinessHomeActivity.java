@@ -86,9 +86,7 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
 
     @Override
     public void addObserve() {
-        mViewModel.getGetGroupShopInfoData().observe(this, data -> {
-            bindGroupShopInfo(data);
-        });
+        mViewModel.getGetGroupShopInfoData().observe(this, data -> bindGroupShopInfo(data));
     }
 
     @Override

@@ -95,15 +95,21 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
     }
 
     /**
-     * 10位int型的时间戳转换为String(yyyy-MM-dd HH:mm:ss)
+     * 10,13位int型的时间戳转换为String(yyyy-MM-dd HH:mm:ss)
      *
      * @param time
      * @return
      */
     private String timeStampToString(String time) {
         SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd");
-        int i = Integer.parseInt(time);
-        String times = sdr.format(new Date(i * 1000L));
+        String times;
+        if (time.length() == 13) {
+            long i = Long.parseLong(time);
+            times = sdr.format(new Date(i));
+        } else {
+            int i = Integer.parseInt(time);
+            times = sdr.format(new Date(i * 1000L));
+        }
         return times;
     }
 
