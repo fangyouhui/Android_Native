@@ -31,7 +31,7 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
 
         tabFragmentAdapter.addFragment(BusinessGroupBuyListFragment.newInstance(shopId), "团购");
         tabFragmentAdapter.addFragment(BusinessVideoListFragment.newInstance(shopId + ""), "商家视频");
-        tabFragmentAdapter.addFragment(BusinessVideoListFragment.newInstance(shopId + ""), "外卖");
+        //     tabFragmentAdapter.addFragment(BusinessVideoListFragment.newInstance(shopId + ""), "外卖");
         mBinding.viewPager.setNoScroll(true);
         mBinding.viewPager.setOffscreenPageLimit(2);
         mBinding.viewPager.setAdapter(tabFragmentAdapter);
@@ -71,7 +71,6 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
         });
     }
 
-
     public void finishRefresh() {
         mBinding.smartRefreshLayout.finishRefresh();
     }
@@ -82,11 +81,6 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
         } else {
             mBinding.smartRefreshLayout.finishLoadMore();
         }
-    }
-
-    private BusinessGroupBuyListFragment getCurrentFragment() {
-        int pos = mBinding.viewPager.getCurrentItem();
-        return (BusinessGroupBuyListFragment) tabFragmentAdapter.getFragment(pos);
     }
 
     @Override

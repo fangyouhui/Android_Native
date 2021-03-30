@@ -30,7 +30,9 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         shopId = getIntent().getStringExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
         productId = getIntent().getStringExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1);
         mBinding.btnBuy.setOnClickListener(v -> {
-            startActivity(new Intent(getBaseContext(), ConfirmOrderActivity.class));
+            Intent intent = new Intent(getBaseContext(), ConfirmOrderActivity.class);
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, mViewModel.getGetGroupGoodsInfoData().getValue());
+            startActivity(intent);
         });
         mBinding.btnShop.setOnClickListener(v -> {
             Intent intent = new Intent(this, BusinessHomeActivity.class);

@@ -339,7 +339,7 @@ public class GroupGoodsInfoResult implements Serializable {
     }
 
 
-    public class Term {
+    public class Term implements Serializable {
 
         private String start_time;
         private String end_time;
@@ -363,7 +363,7 @@ public class GroupGoodsInfoResult implements Serializable {
     }
 
 
-    public class Shop {
+    public class Shop implements Serializable {
 
         private String shop_name;
         private String address;
