@@ -235,6 +235,11 @@
             android:label="商家首页"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.takeaway.order.OrderDetailActivity"
+            android:label="订单详情"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"

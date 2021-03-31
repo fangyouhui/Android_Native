@@ -109,8 +109,8 @@ public class OrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
 
         if(item.goods_info.size()>3)
             item.goods_info.subList(0,2);
-        OrderFoodAdapter adapter = new OrderFoodAdapter(item.goods_info);
-        rvFood.setAdapter(adapter);
+     //   OrderFoodAdapter adapter = new OrderFoodAdapter(item.goods_info);
+       // rvFood.setAdapter(adapter);
 
     }
 }

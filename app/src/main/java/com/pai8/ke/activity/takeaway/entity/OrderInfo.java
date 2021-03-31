@@ -32,9 +32,11 @@ public class OrderInfo implements Serializable {
     public String shop_phone;
     public StoreInfo shop_info;
     public int pay_type;
-    public List<FoodGoodInfo> goods_info;
+    public List<OrderListResult.Goods_info> goods_info;
     public int count;
     public String remain_pay_time;
+
+
 
     public RiderInfo rider_info;
     public AddressInfo address_info;

@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="30dp">
 
     <include layout="@layout/toolbar_layout_base_with_white" />
 
@@ -12,8 +13,8 @@
         android:id="@+id/smartRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableLoadMore="false"
-        app:srlEnableRefresh="false">
+        android:background="@color/color_bg"
+        app:srlEnablePureScrollMode="true">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -37,7 +38,7 @@
                     android:paddingVertical="20dp">
 
                     <TextView
-                        android:id="@+id/tv_status"
+                        android:id="@+id/tvOrderStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -59,17 +60,18 @@
                         android:textSize="12sp" />
 
                     <LinearLayout
+                        android:id="@+id/llOp"
                         android:layout_width="match_parent"
-                        android:layout_height="44dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginTop="16dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/btnChaKan"
+                            android:id="@+id/btnLeft"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="44dp"
                             android:layout_marginHorizontal="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/btn_selector_stroke_white"
@@ -78,9 +80,9 @@
                             android:textSize="16sp" />
 
                         <Button
-                            android:id="@+id/btnPay"
+                            android:id="@+id/btnRight"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="44dp"
                             android:layout_marginHorizontal="5dp"
                             android:layout_weight="1"
                             android:background="@drawable/shape_orgin_gradient"
@@ -110,7 +112,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tvName"
+                        android:id="@+id/tvShopName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -127,8 +129,8 @@
                         android:layout_marginTop="5dp"
                         android:paddingBottom="2dp"
                         android:src="@mipmap/icon_rating_bar_select"
-                        app:layout_constraintStart_toStartOf="@id/tvName"
-                        app:layout_constraintTop_toBottomOf="@id/tvName" />
+                        app:layout_constraintStart_toStartOf="@id/tvShopName"
+                        app:layout_constraintTop_toBottomOf="@id/tvShopName" />
 
                     <TextView
                         android:id="@+id/tvFraction"
@@ -142,30 +144,15 @@
                         app:layout_constraintStart_toEndOf="@id/ivRating" />
 
                     <TextView
-                        android:id="@+id/tvMonthSaleCount"
+                        android:id="@+id/tvTotalSaleCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="月售 0"
+                        android:text="总销量 0"
                         android:textColor="#ff666666"
                         android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/ivRating"
+                        app:layout_constraintBottom_toBottomOf="@id/tvFraction"
                         app:layout_constraintStart_toEndOf="@id/tvFraction" />
-
-                    <TextView
-                        android:id="@+id/tvIntroduction"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:paddingEnd="10dp"
-                        android:text="简介：阿好看哒我肯定会挖到我 的玩具啊多久啊我到家啊"
-                        android:textColor="#ff999999"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/ivLogo"
-                        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
                     <ImageView
                         android:id="@+id/ivLocation"
@@ -174,7 +161,7 @@
                         android:layout_marginTop="10dp"
                         android:src="@mipmap/ic_location_gray"
                         app:layout_constraintStart_toStartOf="@id/ivLogo"
-                        app:layout_constraintTop_toBottomOf="@id/tvIntroduction" />
+                        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
                     <TextView
                         android:id="@+id/tvAddress"
@@ -236,24 +223,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/llContactInfo">
 
-                    <com.pai8.ke.widget.CircleImageView
-                        android:id="@+id/ivShopLogo"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@mipmap/ic_launcher"
-                        app:ease_radius="4dp"
-                        app:es_shape_type="rectangle"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
                     <TextView
-                        android:id="@+id/tvShopName"
+                        android:id="@+id/tipTuanGou"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:drawableEnd="@mipmap/me_right_arrow"
-                        android:drawablePadding="5dp"
-                        android:text="必胜客美食优享"
+                        android:text="团购详情"
                         android:textColor="#ff2f2f2f"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -267,8 +242,8 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="15dp"
                         android:background="@color/color_divider"
-                        app:layout_constraintStart_toStartOf="@id/ivShopLogo"
-                        app:layout_constraintTop_toBottomOf="@id/ivShopLogo" />
+                        app:layout_constraintStart_toStartOf="@id/tipTuanGou"
+                        app:layout_constraintTop_toBottomOf="@id/tipTuanGou" />
 
                     <FrameLayout
                         android:id="@+id/flPlay"
@@ -363,7 +338,7 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="15dp"
                         android:background="@color/color_divider"
-                        app:layout_constraintStart_toStartOf="@id/ivShopLogo"
+                        app:layout_constraintStart_toStartOf="@id/tipTuanGou"
                         app:layout_constraintTop_toBottomOf="@id/flPlay" />
 
                     <TextView
@@ -418,7 +393,7 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="15dp"
                         android:background="@color/color_divider"
-                        app:layout_constraintStart_toStartOf="@id/ivShopLogo"
+                        app:layout_constraintStart_toStartOf="@id/tipTuanGou"
                         app:layout_constraintTop_toBottomOf="@id/tvManJianQuan" />
 
                     <TextView
@@ -463,12 +438,12 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/bg_corner_white_radius_10"
                     android:orientation="vertical"
-                    android:paddingVertical="15dp">
+                    android:paddingVertical="15dp"
+                    android:paddingStart="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
                         android:text="购买须知"
                         android:textColor="#ff262626"
                         android:textSize="16sp"
@@ -553,6 +528,7 @@
                         app:layout_constraintTop_toBottomOf="@id/divide_line4" />
 
                     <TextView
+                        android:id="@+id/tvContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -561,6 +537,74 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tipContact" />
+
+
+                    <TextView
+                        android:id="@+id/tipPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="联系电话"
+                        android:textColor="#ff999999"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tipContact" />
+
+                    <TextView
+                        android:id="@+id/tvPhone2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="测试者"
+                        android:textColor="#ff999999"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tipPhone" />
+
+
+                    <TextView
+                        android:id="@+id/tipOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="订单号"
+                        android:textColor="#ff999999"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tipPhone" />
+
+                    <TextView
+                        android:id="@+id/tvOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="测试者"
+                        android:textColor="#ff999999"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tipOrder" />
+
+                    <TextView
+                        android:id="@+id/tipOrderTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="下单时间"
+                        android:textColor="#ff999999"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tipOrder" />
+
+                    <TextView
+                        android:id="@+id/tvOrderTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="测试者"
+                        android:textColor="#ff999999"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tipOrderTime" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
