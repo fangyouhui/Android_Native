@@ -18,16 +18,17 @@ public class CommentActivity extends BaseActivity<NoViewModel, ActivityCommentBi
         mBinding.evaluateRatingBar.setOnRatingChangeListener(new AndRatingBar.OnRatingChangeListener() {
             @Override
             public void onRatingChanged(AndRatingBar ratingBar, float rating) {
-                mBinding.tvScore.setText(rating + "fen");
-                if (rating == 1) {
+                int score = (int) rating;
+                mBinding.tvScore.setText(rating + "分");
+                if (score == 1) {
                     mBinding.tvScoreTxt.setText("(极差)");
-                } else if (2 == rating) {
+                } else if (2 == score) {
                     mBinding.tvScoreTxt.setText("(很差)");
-                } else if (3 == rating) {
+                } else if (3 == score) {
                     mBinding.tvScoreTxt.setText("(一般般)");
-                } else if (4 == rating) {
+                } else if (4 == score) {
                     mBinding.tvScoreTxt.setText("(还不错)");
-                } else if (5 == rating) {
+                } else if (5 == score) {
                     mBinding.tvScoreTxt.setText("(很棒)");
                 }
             }
