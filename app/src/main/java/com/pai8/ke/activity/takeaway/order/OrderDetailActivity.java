@@ -86,7 +86,6 @@ public class OrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> i
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
      //   ivMore = findViewById(R.id.toolbar_more);
         ivMore.setOnClickListener(this);
-        mRvOrderDetail = findViewById(R.id.rv_order_detail);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRvOrderDetail.setLayoutManager(layoutManager);
         mAdapter = new OrderDetailAdapter(null);
