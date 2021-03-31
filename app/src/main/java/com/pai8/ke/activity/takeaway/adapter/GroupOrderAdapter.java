@@ -2,6 +2,7 @@ package com.pai8.ke.activity.takeaway.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.pai8.ke.utils.ImageLoadUtils;
 import java.util.List;
 
 public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> {
+    private CountDownTimer countDownTimer;
+
     public GroupOrderAdapter(Context context, List<OrderListResult> list) {
         super(context, list);
     }
@@ -36,7 +39,33 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
 
             ImageLoadUtils.loadImage(bean.getShop_img(), holder.binding.ivShopLogo);
             holder.binding.tvShopName.setText(bean.getShop_name());
-            if (bean.getOrder_status() == 9) {
+            //订单状态 0为待支付 1为已支付 2为商家已接单 7为订单制作完成 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单 10为订单已评价
+            int orderStatus = bean.getOrder_status();
+            if (orderStatus == 0) {
+                holder.binding.tvOrderStatus.setText("待付款");
+                holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ffff7f47"));
+                holder.binding.btnQuXiaoDingDan.setVisibility(View.VISIBLE);
+                holder.binding.btnChaKan.setVisibility(View.GONE);
+                holder.binding.btnZaiCiGouMai.setVisibility(View.GONE);
+                holder.binding.btnLiJiFuKuan.setVisibility(View.VISIBLE);
+                holder.binding.btnLiJiFuKuan.setText(timeConversion(bean.getRemain_pay_time()) + " 立即付款");
+                holder.binding.btnScan.setVisibility(View.GONE);
+                holder.binding.btnEvaluation.setVisibility(View.GONE);
+                holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
+                countDownTimer = new CountDownTimer(bean.getRemain_pay_time() * 1000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        int mill = (int) (millisUntilFinished / 1000);
+                        holder.binding.btnLiJiFuKuan.setText(timeConversion(mill) + " 立即付款");
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        bean.setOrder_status(-1);
+                    }
+                };
+                countDownTimer.start();
+            } else if (orderStatus == -1 || bean.getOrder_status() == 9) {
                 holder.binding.tvOrderStatus.setText("已取消");
                 holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ff999999"));
                 holder.binding.btnQuXiaoDingDan.setVisibility(View.GONE);
@@ -46,6 +75,16 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
                 holder.binding.btnScan.setVisibility(View.GONE);
                 holder.binding.btnEvaluation.setVisibility(View.GONE);
                 holder.binding.btnChongXinXiaDan.setVisibility(View.VISIBLE);
+            } else if (orderStatus == 4) {
+                holder.binding.tvOrderStatus.setText("已完成");
+                holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ffff7f47"));
+                holder.binding.btnQuXiaoDingDan.setVisibility(View.GONE);
+                holder.binding.btnChaKan.setVisibility(View.GONE);
+                holder.binding.btnZaiCiGouMai.setVisibility(View.VISIBLE);
+                holder.binding.btnLiJiFuKuan.setVisibility(View.GONE);
+                holder.binding.btnScan.setVisibility(View.GONE);
+                holder.binding.btnEvaluation.setVisibility(View.VISIBLE);
+                holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
             }
 
             OrderListResult.Goods_info goodInfo = bean.getGoods_info().get(0);
@@ -60,10 +99,49 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
             holder.binding.tvTotalPrice.setText("总价：¥" + bean.getOrder_price());
             holder.binding.tvDiscountPrice.setText("优惠：¥" + bean.getExpress_discount_price());
 
+            holder.binding.getRoot().setOnClickListener(v -> {
+                if (mListener != null) {
+                    mListener.onItemClick(bean, position);
+                }
+            });
+
 
         }
     }
 
+    public void destroy() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+    }
+
+    public String timeConversion(int time) {
+        int hour = 0;
+        int minutes = 0;
+        int sencond = 0;
+        int temp = time % 3600;
+        if (time > 3600) {
+            hour = time / 3600;
+            if (temp != 0) {
+                if (temp > 60) {
+                    minutes = temp / 60;
+                    if (temp % 60 != 0) {
+                        sencond = temp % 60;
+                    }
+                } else {
+                    sencond = temp;
+                }
+            }
+        } else {
+            minutes = time / 60;
+            if (time % 60 != 0) {
+                sencond = time % 60;
+            }
+        }
+        //   return (hour < 10 ? ("0" + hour) : hour) + ":" + (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (sencond < 10 ? ("0" + sencond) : sencond);
+        return (minutes < 10 ? ("0" + minutes) : minutes) + ":" + (sencond < 10 ? ("0" + sencond) : sencond);
+    }
 
     class GroupOrderViewHolder extends BaseViewHolder<ItemGroupOrderBinding> {
 

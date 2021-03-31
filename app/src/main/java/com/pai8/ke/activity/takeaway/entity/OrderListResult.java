@@ -17,7 +17,7 @@ public class OrderListResult implements Serializable {
     private String order_discount_price;
     private String express_discount_coupon_id;
     private String express_discount_price;
-    private int order_status;
+    private int order_status; //订单状态 0为待支付 1为已支付 2为商家已接单 7为订单制作完成 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单 10为订单已评价
     private String order_express_no;
     private long add_time;
     private long update_time;
@@ -34,6 +34,7 @@ public class OrderListResult implements Serializable {
     private String shop_phone;
     private int count;
     private int remain_pay_time;
+
     private List<Goods_info> goods_info;
 
     public void setId(int id) {
