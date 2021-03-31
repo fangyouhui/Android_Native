@@ -19,6 +19,9 @@ public class Constants {
 
     public static int EVENT_TYPE_REFRESH_SHOP_GROUP = 1006; //刷新商家团购商品
 
+    public static int EVENT_TYPE_REFRESH_SHOP_ORDER_GOOD = 1007; //刷新商家团购商品
+
+
     public static String WX_APP_ID = "wx00290ee6e44c1cfd";
 
     public static String WX_APP_KEY = "db5d02b7d93bcffbb15f3f0fb1ead4f";

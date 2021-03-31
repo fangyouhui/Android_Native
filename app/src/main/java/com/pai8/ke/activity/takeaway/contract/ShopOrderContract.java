@@ -12,6 +12,7 @@ public interface ShopOrderContract {
 
     interface View extends BaseView {
 
+        void getShopGroupListSuccess(List<OrderInfo> data);
 
         void getShopListSuccess(List<OrderInfo> data);
 
