@@ -1,40 +1,68 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.OrderStatusAdapter;
 import com.pai8.ke.activity.takeaway.adapter.ShopOrderAdapter;
+import com.pai8.ke.activity.takeaway.adapter.ViewPagerAdapter;
+import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.ShopOrderContract;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
+import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
+import com.pai8.ke.activity.takeaway.fragment.GroupBuyManagerFragment;
+import com.pai8.ke.activity.takeaway.fragment.TakeawayManagerFragment;
+import com.pai8.ke.activity.takeaway.fragment.shopGroupOrderFragment;
+import com.pai8.ke.activity.takeaway.fragment.shopWaiMainFragment;
 import com.pai8.ke.activity.takeaway.order.ShopOrderDetailActivity;
 import com.pai8.ke.activity.takeaway.presenter.ShopOrderPresenter;
+import com.pai8.ke.activity.takeaway.widget.SendPricePop;
 import com.pai8.ke.base.BaseMvpActivity;
+import com.pai8.ke.base.retrofit.BaseObserver;
+import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.manager.AccountManager;
+import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
+import com.youth.banner.listener.OnPageChangeListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
-public class OrderProcessingActivity extends BaseMvpActivity<ShopOrderPresenter> implements View.OnClickListener, ShopOrderContract.View {
+import org.greenrobot.eventbus.EventBus;
 
-    private RecyclerView mRvOrder;
-    private ShopOrderAdapter mAdapter;
+import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GROUP;
+
+public class OrderProcessingActivity extends BaseMvpActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+    private ArrayList<Fragment> fragments;
+
     private BottomDialog mOrderFilterDialog;
     private int page = 1;
     private String status = "";
-
+    private Fragment waimaifragment = new shopWaiMainFragment();
+    private Fragment shopGroupfragment = new shopGroupOrderFragment();
     @Override
     public ShopOrderPresenter initPresenter() {
-        return new ShopOrderPresenter(this);
+        return null;
     }
 
     @Override
@@ -47,59 +75,28 @@ public class OrderProcessingActivity extends BaseMvpActivity<ShopOrderPresenter>
         setImmersionBar(R.id.base_tool_bar);
         findViewById(R.id.base_tool_bar).setOnClickListener(this);
         findViewById(R.id.toolbar_iv_menu).setOnClickListener(this);
-        mRvOrder = findViewById(R.id.rv_order);
-        mRvOrder.setLayoutManager(new LinearLayoutManager(this));
+        SlidingTabLayout mTabLayout = findViewById(R.id.tabLayout);
+        ViewPager mViewPager = findViewById(R.id.vp_balance);
+
+        mViewPager.addOnPageChangeListener((ViewPager.OnPageChangeListener) this);
+        fragments = new ArrayList<>();
+        fragments.add(waimaifragment);
+        fragments.add(shopGroupfragment);
+        String[] mTitles = new String[]{"外卖", "团购"};
+        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragments, mTitles));
+        mTabLayout.setViewPager(mViewPager);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setCurrentItem(0);
+
 
     }
 
     @Override
     public void initData() {
         super.initData();
-        mAdapter = new ShopOrderAdapter(null);
-        mRvOrder.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(OrderProcessingActivity.this, ShopOrderDetailActivity.class)
-                        .putExtra("order",mAdapter.getData().get(position)));
-
-            }
-        });
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                OrderInfo orderInfo = mAdapter.getData().get(position);
-                //0为接单 1为拒绝订单 2为同意退款申请 3为拒绝退款申请 4为订单制作完成 5为订单配送操作
-                if(view.getId() == R.id.tv_cancel){
-                    if(orderInfo.order_status == 1){  //拒绝接单
-                        mPresenter.shopDealOrder(orderInfo.order_no,1);
-                    }else if(orderInfo.order_status == 5){  //拒绝退款
-                        mPresenter.shopDealOrder(orderInfo.order_no,3);
-                    }
-                }else if(view.getId() == R.id.tv_food_status){
-                    if(orderInfo.order_status == 1){  //接单
-                        mPresenter.shopDealOrder(orderInfo.order_no,0);
-                    }else if(orderInfo.order_status == 5){   //同意退款
-                        mPresenter.shopDealOrder(orderInfo.order_no,2);
-                    }else if(orderInfo.order_status == 2){  //制作完成
-                        mPresenter.shopDealOrder(orderInfo.order_no,4);
-                    }else if(orderInfo.order_status == 7){  //送出
-                        mPresenter.shopDealOrder(orderInfo.order_no,5);
-                    }
-                }
-            }
-        });
-        mPresenter.orderList(status,page);
-        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                page++;
-                mPresenter.orderList(status,page);
-
-            }
-        },mRvOrder);
 
     }
+
 
     @Override
     public void onClick(View v) {
@@ -174,7 +171,19 @@ public class OrderProcessingActivity extends BaseMvpActivity<ShopOrderPresenter>
             @Override
             public void onClick(View v) {
                 page = 1;
-                mPresenter.orderList(stringBuilder.substring(0,stringBuilder.length()-1),page);
+//                mPresenter.orderList(stringBuilder.substring(0,stringBuilder.length()-1),page);
+//waimaifragment.set
+      //  waimaifragment = () getFragmentManager().findFragmentById(R.id.example_fragment);
+                //waimaifragment.setRefresh(stringBuilder.substring(0,stringBuilder.length()-1),pag);
+                //构建 Bundle
+                //绑定 Fragment
+                Map<String,String>map = new HashMap<>();
+
+                map.put("name",stringBuilder.substring(0,stringBuilder.length()-1));
+                map.put("page","1");
+
+                EventBus.getDefault().post(map);
+
                 mOrderFilterDialog.dismiss();
             }
         });
@@ -186,21 +195,41 @@ public class OrderProcessingActivity extends BaseMvpActivity<ShopOrderPresenter>
     }
 
 
+    /**
+     * This method will be invoked when the current page is scrolled, either as part
+     * of a programmatically initiated smooth scroll or a user initiated touch scroll.
+     *
+     * @param position             Position index of the first page currently being displayed.
+     *                             Page position+1 will be visible if positionOffset is nonzero.
+     * @param positionOffset       Value from [0, 1) indicating the offset from the page at position.
+     * @param positionOffsetPixels Value in pixels indicating the offset from position.
+     */
     @Override
-    public void getShopListSuccess(List<OrderInfo> data) {
-        if(page == 1){
-            mAdapter.setNewData(data);
-        }else{
-            mAdapter.addData(data);
-            if(data.size()<10){
-                mAdapter.setEnableLoadMore(false);
-            }
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    /**
+     * This method will be invoked when a new page becomes selected. Animation is not
+     * necessarily complete.
+     *
+     * @param position Position index of the new selected page.
+     */
+    @Override
+    public void onPageSelected(int position) {
+        if (position==1){
+
+            TextView textView = findViewById(R.id.toolbar_iv_menu);
+            textView.setVisibility(View.GONE);
+        }
+        else{
+            TextView textView = findViewById(R.id.toolbar_iv_menu);
+            textView.setVisibility(View.VISIBLE);
 
         }
     }
 
     @Override
-    public void getStatusSuccess(String data) {
-        mPresenter.orderList(status,page);
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

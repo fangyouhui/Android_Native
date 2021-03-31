@@ -228,16 +228,13 @@
             android:textColor="@color/text_black"
             android:textStyle="bold" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
-
             >
-
             <TextView
                 android:id="@+id/tv_good_manager"
                 android:layout_width="0dp"
@@ -261,7 +258,17 @@
                 android:text="订单处理"
                 android:textColor="@color/text_black"
                 android:textSize="12sp" />
-
+            <TextView
+                android:id="@+id/tv_group_hedui"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/ic_waimai"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:text="团购核销"
+                android:textColor="@color/text_black"
+                android:textSize="12sp" />
             <TextView
                 android:id="@+id/tv_second_manager"
                 android:layout_width="0dp"
@@ -274,6 +281,17 @@
                 android:textColor="@color/text_black"
                 android:textSize="12sp" />
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="10dp"
+
+            >
+
+
             <TextView
                 android:id="@+id/tv_marketing_manager"
                 android:layout_width="0dp"
@@ -285,7 +303,24 @@
                 android:text="营销管理"
                 android:textColor="@color/text_black"
                 android:textSize="12sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
 
+                ></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                ></TextView>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                ></TextView>
         </LinearLayout>
 
 

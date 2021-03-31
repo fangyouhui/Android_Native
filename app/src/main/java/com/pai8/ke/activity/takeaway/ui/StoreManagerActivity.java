@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -7,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.common.ScanActivity;
 import com.pai8.ke.activity.takeaway.contract.StoreManagerContract;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.presenter.StoreManagerPresenter;
@@ -48,6 +51,8 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
         findViewById(R.id.tv_order_manager).setOnClickListener(this);
         findViewById(R.id.tv_good_manager).setOnClickListener(this);
         findViewById(R.id.toolbar_iv_menu).setOnClickListener(this);
+        findViewById(R.id.tv_group_hedui).setOnClickListener(this);
+
         findViewById(R.id.tv_second_manager).setOnClickListener(this);
         findViewById(R.id.tv_marketing_manager).setOnClickListener(this);
         findViewById(R.id.rl_num_rank).setOnClickListener(this);
@@ -66,6 +71,17 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            case R.id.tv_group_hedui:
+                new IntentIntegrator(this)
+                        .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+                        .setPrompt("请对准二维码进行扫描")
+                        .setOrientationLocked(false)
+                        .setCameraId(0)// 选择摄像头
+                        .setBeepEnabled(true)// 是否开启声音
+                        .setCaptureActivity(ScanActivity.class)
+                        .initiateScan();
+                break;
 
             case R.id.toolbar_back_all:
                 finish();
@@ -108,6 +124,7 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
         }
 
     }
+
 
     private void showBottomDialog() {
         View view = View.inflate(this, R.layout.dialog_store_status, null);

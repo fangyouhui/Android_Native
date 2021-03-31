@@ -8,8 +8,11 @@ import java.util.List;
 
 public class OrderInfo implements Serializable {
 
+    public String buyer_avatar;
+
     public int id;
     public String order_no;
+    public String title;
     public int shop_id;
     public int order_type;
     public int buyer_id;
@@ -29,10 +32,13 @@ public class OrderInfo implements Serializable {
     public String comment;
     public String shop_name;
     public String shop_img;
+    public String buyer_name;
     public String shop_phone;
     public StoreInfo shop_info;
     public int pay_type;
     public List<FoodGoodInfo> goods_info;
+    public List<String> cover;
+
     public int count;
     public String remain_pay_time;
 
