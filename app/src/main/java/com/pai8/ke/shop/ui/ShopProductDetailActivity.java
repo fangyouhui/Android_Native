@@ -14,6 +14,7 @@ import com.pai8.ke.entity.GroupShopInfoResult;
 import com.pai8.ke.shop.adapter.ProductImgDetailAdapter;
 import com.pai8.ke.shop.viewmodel.ShopProductDetailViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.TimeUtil;
 import com.youth.banner.indicator.CircleIndicator;
 
 import org.jetbrains.annotations.Nullable;
@@ -87,30 +88,12 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         mBinding.tvSoldCount.setText("已售：" + bean.getSale_count());
         mBinding.tvStockCount.setText(String.format("库存：%d份", bean.getStock()));
         mBinding.tvProductDesc.setText("套餐包含：" + bean.getDesc());
-        String startTime = timeStampToString(bean.getTerm().getStart_time());
-        String endTime = timeStampToString(bean.getTerm().getEnd_time());
+        String startTime = TimeUtil.timeStampToString(bean.getTerm().getStart_time());
+        String endTime = TimeUtil.timeStampToString(bean.getTerm().getEnd_time());
         mBinding.tvTermTime.setText(String.format("%s至%s （周末、法定节假日通用）", startTime, endTime));
         mBinding.tvMatter.setText(bean.getMatter());
         mBinding.recyclerView.setAdapter(new ProductImgDetailAdapter(this, bean.getDetails_img()));
     }
 
-    /**
-     * 10,13位int型的时间戳转换为String(yyyy-MM-dd HH:mm:ss)
-     *
-     * @param time
-     * @return
-     */
-    private String timeStampToString(String time) {
-        SimpleDateFormat sdr = new SimpleDateFormat("yyyy-MM-dd");
-        String times;
-        if (time.length() == 13) {
-            long i = Long.parseLong(time);
-            times = sdr.format(new Date(i));
-        } else {
-            int i = Integer.parseInt(time);
-            times = sdr.format(new Date(i * 1000L));
-        }
-        return times;
-    }
 
 }

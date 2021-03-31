@@ -1,7 +1,6 @@
 package com.pai8.ke;
 
-import com.blankj.utilcode.constant.TimeConstants;
-import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.TimeUtils;
 
 import org.junit.Test;
 
@@ -31,11 +30,19 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void testTime2() {
+    public void testTime2() { //秒转时分秒
         String time = "1746";
         int mill = Integer.parseInt(time) * 1000;
         System.out.println(change(1746));
     }
+
+    @Test
+    public void testTime3() { //10位时间戳转
+        long time = 1616548875;
+        long mill = time * 1000L;
+        System.out.println(TimeUtils.millis2String(mill));
+    }
+
 
     public static String getTime(int second) {
         SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");

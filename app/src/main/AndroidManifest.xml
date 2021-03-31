@@ -240,6 +240,11 @@
             android:label="订单详情"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".shop.ui.CommentActivity"
+            android:label="评价"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"

@@ -1,5 +1,7 @@
 package com.pai8.ke.activity.takeaway.entity;
 
+import com.pai8.ke.entity.GroupGoodsInfoResult;
+
 import java.util.List;
 
 public class OrderDetailResult {
@@ -32,6 +34,24 @@ public class OrderDetailResult {
     private Rider_info rider_info;
     private String address_info;
     private int remain_pay_time;
+    private GroupGoodsInfoResult.Term term;
+    private String matter;
+
+    public String getMatter() {
+        return matter;
+    }
+
+    public void setMatter(String matter) {
+        this.matter = matter;
+    }
+
+    public GroupGoodsInfoResult.Term getTerm() {
+        return term;
+    }
+
+    public void setTerm(GroupGoodsInfoResult.Term term) {
+        this.term = term;
+    }
 
     public void setId(int id) {
         this.id = id;

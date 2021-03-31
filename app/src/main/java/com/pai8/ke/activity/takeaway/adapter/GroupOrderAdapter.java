@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.takeaway.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -10,10 +11,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.lhs.library.base.BaseViewHolder;
 import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.databinding.ItemGroupOrderBinding;
+import com.pai8.ke.shop.ui.CommentActivity;
+import com.pai8.ke.shop.ui.ShopProductDetailActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import java.util.List;
@@ -105,7 +109,17 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
                 }
             });
 
-
+            holder.binding.btnChongXinXiaDan.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, ShopProductDetailActivity.class);
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getShop_id() + "");
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, goodInfo.getId() + "");
+                mContext.startActivity(intent);
+            });
+            holder.binding.btnZaiCiGouMai.setOnClickListener(v -> holder.binding.btnChongXinXiaDan.callOnClick());
+            holder.binding.btnEvaluation.setOnClickListener(v -> {
+                Intent intent = new Intent(mContext, CommentActivity.class);
+                mContext.startActivity(intent);
+            });
         }
     }
 

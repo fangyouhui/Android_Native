@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingTop="30dp">
+    android:paddingTop="20dp">
 
     <include layout="@layout/toolbar_layout_base_with_white" />
 
@@ -211,7 +211,6 @@
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@id/tvPhone"
                         app:layout_constraintTop_toTopOf="@id/tvPhone" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -272,7 +271,6 @@
                             android:layout_gravity="center"
                             android:src="@mipmap/img_waimai_video_play"
                             android:visibility="invisible" />
-
                     </FrameLayout>
 
                     <TextView
@@ -431,7 +429,6 @@
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="@id/tvTotalPrice"
                         app:layout_constraintEnd_toStartOf="@id/tvHeJi" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
@@ -447,7 +444,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="购买须知"
+                        android:text="使用须知"
                         android:textColor="#ff262626"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -541,12 +538,11 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tipContact" />
 
-
                     <TextView
                         android:id="@+id/tipPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:text="联系电话"
                         android:textColor="#ff999999"
                         android:textSize="14sp"
@@ -564,12 +560,11 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tipPhone" />
 
-
                     <TextView
                         android:id="@+id/tipOrder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:text="订单号"
                         android:textColor="#ff999999"
                         android:textSize="14sp"
@@ -577,13 +572,14 @@
                         app:layout_constraintTop_toBottomOf="@id/tipPhone" />
 
                     <TextView
-                        android:id="@+id/tvOrder"
+                        android:id="@+id/tvOrderNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="测试者"
                         android:textColor="#ff999999"
                         android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tipOrder"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tipOrder" />
 
@@ -591,7 +587,7 @@
                         android:id="@+id/tipOrderTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:text="下单时间"
                         android:textColor="#ff999999"
                         android:textSize="14sp"
@@ -606,6 +602,7 @@
                         android:text="测试者"
                         android:textColor="#ff999999"
                         android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tipOrderTime"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tipOrderTime" />
 
