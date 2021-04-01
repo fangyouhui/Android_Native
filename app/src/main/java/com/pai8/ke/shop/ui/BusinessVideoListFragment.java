@@ -1,10 +1,12 @@
 package com.pai8.ke.shop.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.style.PictureSelectorUIStyle;
+import com.pai8.ke.R;
 import com.pai8.ke.databinding.FragmentBusinessVideoListBinding;
 import com.pai8.ke.shop.adapter.BusinessVideoAdapter;
 import com.pai8.ke.shop.viewmodel.BusinessHomeViewModel;
@@ -34,7 +36,10 @@ public class BusinessVideoListFragment extends BaseFragment<BusinessHomeViewMode
     public void initView(@Nullable Bundle savedInstanceState) {
         mBinding.recyclerView.setAdapter(adapter = new BusinessVideoAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
-            // TODO: 2021/3/29 跳转到视频播放
+            PictureSelector.create(this)
+                    .themeStyle(R.style.picture_default_style)
+                    .setPictureUIStyle(PictureSelectorUIStyle.ofDefaultStyle())// 动态自定义相册主题
+                    .externalPictureVideo(item.getVideo_path());
         });
     }
 
