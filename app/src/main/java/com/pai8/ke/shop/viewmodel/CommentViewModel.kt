@@ -13,12 +13,12 @@ import com.pai8.ke.manager.UploadFileManager
 
 class CommentViewModel : BaseViewModel() {
 
-
     fun submit(images: List<LocalMedia>, bean: OrderListResult) {
+        val imgList = arrayListOf<String>()
         images.forEach {
             UploadFileManager.getInstance().upload(getPathByLocalMedia(it), object : UploadFileManager.Callback {
                 override fun onSuccess(url: String, key: String) {
-
+                    imgList.add(key);
 
                 }
 

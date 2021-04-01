@@ -50,12 +50,16 @@ public class CommentActivity extends BaseActivity<CommentViewModel, ActivityComm
         shop_id = getIntent().getStringExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1);
         String size = getIntent().getStringExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_2);
         GoodsInfo info = (GoodsInfo) getIntent().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_3);
-        ImageLoadUtils.loadImage(info.getCover().get(0), mBinding.ivProductImg);
-        mBinding.tvProductName.setText(info.getTitle());
-        mBinding.tvDesc.setText(info.getDesc());
+        if (info.getCover() != null) {
+            ImageLoadUtils.loadImage(info.getCover().get(0), mBinding.ivProductImg);
+        } else {
+            ImageLoadUtils.loadImage(info.getGoods_img().get(0), mBinding.ivProductImg);
+        }
+
+        mBinding.tvProductName.setText(TextUtils.isEmpty(info.getTitle()) ? info.getGoods_title() : info.getTitle());
         mBinding.tvCount2.setText("X" + size);
-        mBinding.tvSellPrice.setText("¥" + info.getSell_price());
-        mBinding.tvOriginPrice.setText("¥" + info.getOrigin_price());
+        mBinding.tvSellPrice.setText("¥" + (TextUtils.isEmpty(info.getSell_price()) ? info.getGoods_sell_price() : info.getSell_price()));
+        mBinding.tvOriginPrice.setText("¥" + (TextUtils.isEmpty(info.getOrigin_price()) ? info.getGoods_origin_price() : info.getOrigin_price()));
         mBinding.tvOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         mBinding.etContent.addTextChangedListener(new TextWatcherAdapter() {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.blankj.utilcode.util.PhoneUtils;
@@ -25,6 +26,17 @@ import org.jetbrains.annotations.Nullable;
 public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, ActivityOrderDetailBinding> {
 
     private String orderNo;
+    private ActivityResultLauncher activityResultLauncher;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                initData();
+            }
+        });
+    }
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
@@ -141,12 +153,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getShop_id() + "");
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_2, bean.getGoods_info().size() + "");
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_3, bean.getGoods_info().get(0));
-
-                registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        initData();
-                    }
-                }).launch(intent);
+                activityResultLauncher.launch(intent);
             }
         });
 

@@ -23,206 +23,225 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/viewBackground" />
 
-    <FrameLayout
-        android:id="@+id/flPlay"
-        android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar">
 
-        <com.pai8.ke.widget.CircleImageView
-            android:id="@+id/ivProductImg"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/llBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/bg_store_month_num"
-            app:ease_radius="15dp"
-            app:es_shape_type="rectangle"
-            app:layout_constraintStart_toStartOf="@id/divide_line"
-            app:layout_constraintTop_toBottomOf="@id/divide_line" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:src="@mipmap/img_waimai_video_play"
-            android:visibility="invisible" />
-    </FrameLayout>
+            <FrameLayout
+                android:id="@+id/flPlay"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tvProductName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="2人份下午茶套餐"
-        android:textColor="#ff262626"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/flPlay"
-        app:layout_constraintTop_toTopOf="@id/flPlay" />
+                <com.pai8.ke.widget.CircleImageView
+                    android:id="@+id/ivProductImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/bg_store_month_num"
+                    app:ease_radius="15dp"
+                    app:es_shape_type="rectangle"
+                    app:layout_constraintStart_toStartOf="@id/divide_line"
+                    app:layout_constraintTop_toBottomOf="@id/divide_line" />
 
-    <TextView
-        android:id="@+id/tvDesc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:paddingEnd="15dp"
-        android:text="清蒸白鱼1份，招牌梅干菜扣肉1份，豆腐汤1份，米饭3份还有更多现实不下…"
-        android:textColor="#ff999999"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/tvProductName"
-        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/img_waimai_video_play"
+                    android:visibility="invisible" />
+            </FrameLayout>
 
-    <TextView
-        android:id="@+id/tvCount2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="X1"
-        android:textColor="#ff999999"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@id/flPlay"
-        app:layout_constraintStart_toStartOf="@id/tvProductName" />
+            <TextView
+                android:id="@+id/tvProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="2人份下午茶套餐"
+                android:textColor="#ff262626"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/flPlay"
+                app:layout_constraintTop_toTopOf="@id/flPlay" />
 
-    <TextView
-        android:id="@+id/tvSellPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="¥2088"
-        android:textColor="#ff2f2f2f"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/flPlay"
-        app:layout_constraintStart_toEndOf="@id/tvCount2" />
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingEnd="15dp"
+                android:text="清蒸白鱼1份，招牌梅干菜扣肉1份，豆腐汤1份，米饭3份还有更多现实不下…"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvProductName"
+                app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
-    <TextView
-        android:id="@+id/tvOriginPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="¥3200"
-        android:textColor="#ff999999"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/flPlay"
-        app:layout_constraintStart_toEndOf="@id/tvSellPrice" />
+            <TextView
+                android:id="@+id/tvCount2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X1"
+                android:textColor="#ff999999"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/flPlay"
+                app:layout_constraintStart_toStartOf="@id/tvProductName" />
 
-    <ImageView
-        android:id="@+id/ivArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/ic_arrow_up_with_white"
-        app:layout_constraintStart_toStartOf="@id/flPlay"
-        app:layout_constraintTop_toBottomOf="@id/flPlay" />
+            <TextView
+                android:id="@+id/tvSellPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="¥2088"
+                android:textColor="#ff2f2f2f"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/flPlay"
+                app:layout_constraintStart_toEndOf="@id/tvCount2" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        android:background="@drawable/bg_corner_white_radius_10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivArrow">
+            <TextView
+                android:id="@+id/tvOriginPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:text="¥3200"
+                android:textColor="#ff999999"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/flPlay"
+                app:layout_constraintStart_toEndOf="@id/tvSellPrice" />
 
-        <TextView
-            android:id="@+id/tipFirst"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="您觉得本次购买商品怎么样"
-            android:textColor="#ff2f2f2f"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/ivArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_arrow_up_with_white"
+                app:layout_constraintStart_toStartOf="@id/flPlay"
+                app:layout_constraintTop_toBottomOf="@id/flPlay" />
 
-        <per.wsj.library.AndRatingBar
-            android:id="@+id/evaluateRatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="25dp"
-            android:stepSize="1"
-            app:bgDrawable="@mipmap/icon_rating_bar_normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tipFirst"
-            app:starColor="#FFFF7B08"
-            app:starSpacing="20dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/bg_corner_white_radius_10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivArrow">
 
-        <TextView
-            android:id="@+id/tvScore"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="40dp"
-            android:text="5分"
-            android:textColor="#ffff7b08"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@id/evaluateRatingBar"
-            app:layout_constraintStart_toStartOf="@id/evaluateRatingBar"
-            app:layout_constraintTop_toBottomOf="@id/evaluateRatingBar" />
+                <TextView
+                    android:id="@+id/tipFirst"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="您觉得本次购买商品怎么样"
+                    android:textColor="#ff2f2f2f"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvScoreTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="(很棒)"
-            android:textColor="#ff9b9b9b"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@id/tvScore"
-            app:layout_constraintStart_toEndOf="@id/tvScore"
-            app:layout_constraintTop_toTopOf="@id/tvScore" />
+                <per.wsj.library.AndRatingBar
+                    android:id="@+id/evaluateRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="25dp"
+                    android:stepSize="1"
+                    app:bgDrawable="@mipmap/icon_rating_bar_normal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tipFirst"
+                    app:starColor="#FFFF7B08"
+                    app:starSpacing="20dp" />
+
+                <TextView
+                    android:id="@+id/tvScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:text="5分"
+                    android:textColor="#ffff7b08"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="@id/evaluateRatingBar"
+                    app:layout_constraintStart_toStartOf="@id/evaluateRatingBar"
+                    app:layout_constraintTop_toBottomOf="@id/evaluateRatingBar" />
+
+                <TextView
+                    android:id="@+id/tvScoreTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="(很棒)"
+                    android:textColor="#ff9b9b9b"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvScore"
+                    app:layout_constraintStart_toEndOf="@id/tvScore"
+                    app:layout_constraintTop_toTopOf="@id/tvScore" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvScoreTxt"
-            app:spanCount="4" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvScoreTxt"
+                    app:spanCount="4" />
 
 
-        <EditText
-            android:id="@+id/etContent"
-            android:layout_width="0dp"
-            android:layout_height="120dp"
-            android:background="@null"
-            android:maxLength="100"
-            android:padding="10dp"
-            android:text="请输入新的反馈意见，这里最多显示100个字符哈哈。请输入新的反馈意见，这里最多显示100个字符哈哈。请输入新的反馈意见，这里最多显示100个字符哈哈。请输入新的反馈意见，这里最多显示"
-            android:textColor="#ff2f2f2f"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler" />
+                <EditText
+                    android:id="@+id/etContent"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
+                    android:background="@null"
+                    android:hint="请输入新的反馈意见"
+                    android:maxLength="100"
+                    android:padding="10dp"
+                    android:textColor="#ff2f2f2f"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recycler" />
 
-        <TextView
-            android:id="@+id/tvLength"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="(97/100)"
-            android:textColor="#ffc0c0c0"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/etContent"
-            app:layout_constraintEnd_toEndOf="@id/etContent" />
+                <TextView
+                    android:id="@+id/tvLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="(97/100)"
+                    android:textColor="#ffc0c0c0"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/etContent"
+                    app:layout_constraintEnd_toEndOf="@id/etContent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <FrameLayout
+        android:id="@+id/llBottom"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:background="@color/white"
