@@ -1,7 +1,6 @@
 package com.pai8.ke.activity.takeaway.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -11,13 +10,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.lhs.library.base.BaseViewHolder;
+import com.pai8.ke.activity.takeaway.entity.GoodsInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.databinding.ItemGroupOrderBinding;
-import com.pai8.ke.shop.ui.CommentActivity;
-import com.pai8.ke.shop.ui.ShopProductDetailActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import java.util.List;
@@ -91,7 +88,7 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
                 holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
             }
 
-            OrderListResult.Goods_info goodInfo = bean.getGoods_info().get(0);
+            GoodsInfo goodInfo = bean.getGoods_info().get(0);
             ImageLoadUtils.loadImage(goodInfo.getCover().get(0), holder.binding.ivProductImg);
             holder.binding.tvProductName.setText(goodInfo.getTitle());
             holder.binding.tvDesc.setText(goodInfo.getDesc());
@@ -104,21 +101,22 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
             holder.binding.tvDiscountPrice.setText("优惠：¥" + bean.getExpress_discount_price());
 
             holder.binding.getRoot().setOnClickListener(v -> {
-                if (mListener != null) {
-                    mListener.onItemClick(bean, position);
+                if (onItemListener != null) {
+                    onItemListener.onItemClick(bean, position);
                 }
             });
 
             holder.binding.btnChongXinXiaDan.setOnClickListener(v -> {
-                Intent intent = new Intent(mContext, ShopProductDetailActivity.class);
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getShop_id() + "");
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, goodInfo.getId() + "");
-                mContext.startActivity(intent);
+                if (onItemListener != null) {
+                    onItemListener.onItemReOrder(bean, position);
+                }
             });
             holder.binding.btnZaiCiGouMai.setOnClickListener(v -> holder.binding.btnChongXinXiaDan.callOnClick());
             holder.binding.btnEvaluation.setOnClickListener(v -> {
-                Intent intent = new Intent(mContext, CommentActivity.class);
-                mContext.startActivity(intent);
+                if (onItemListener != null) {
+                    onItemListener.onItemComment(bean, position);
+                }
+
             });
         }
     }
@@ -130,7 +128,20 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
         }
     }
 
-    public String timeConversion(int time) {
+    private OnItemListener onItemListener;
+
+    public void setOnItemListener(OnItemListener listener) {
+        this.onItemListener = listener;
+    }
+
+    public interface OnItemListener extends BaseItemTouchListener<OrderListResult> {
+        void onItemComment(OrderListResult item, int position);
+
+        void onItemReOrder(OrderListResult item, int position);
+    }
+
+
+    private String timeConversion(int time) {
         int hour = 0;
         int minutes = 0;
         int sencond = 0;
