@@ -7,10 +7,7 @@ import org.json.JSONException
 import retrofit2.HttpException
 import java.net.ConnectException
 
-/**
- *   @auther : Aleyn
- *   time   : 2019/08/12
- */
+
 object ExceptionHandle {
 
     fun handleException(e: Throwable): ResponseThrowable {
@@ -20,8 +17,8 @@ object ExceptionHandle {
         } else if (e is HttpException) {
             ex = ResponseThrowable(ERROR.HTTP_ERROR, e)
         } else if (e is JsonParseException
-            || e is JSONException
-            || e is ParseException || e is MalformedJsonException
+                || e is JSONException
+                || e is ParseException || e is MalformedJsonException
         ) {
             ex = ResponseThrowable(ERROR.PARSE_ERROR, e)
         } else if (e is ConnectException) {

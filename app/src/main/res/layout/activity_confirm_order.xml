@@ -167,7 +167,6 @@
                 android:drawableEnd="@mipmap/me_right_arrow"
                 android:hint="请选择优惠券"
                 android:textColor="#ffd8d8d8" />
-
         </LinearLayout>
     </LinearLayout>
 

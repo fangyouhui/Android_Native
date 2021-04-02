@@ -1,7 +1,6 @@
 package com.pai8.ke.groupBuy.http
 
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
-import com.pai8.ke.activity.takeaway.entity.OrderInfo
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.entity.*
 import retrofit2.http.Body
@@ -49,11 +48,11 @@ interface GroupBuyApiService {
 
 
     @POST("Order/orderPrepay")
-    suspend fun orderPrepayWithWx(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: Int,
+    suspend fun orderPrepayWithWx(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String,
                                   @Query("pay_type") pay_type: Int): BaseHttpResult<OrderPrepayResult>
 
     @POST("Order/orderPrepay")
-    suspend fun orderPrepayWithAli(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: Int,
+    suspend fun orderPrepayWithAli(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String,
                                    @Query("pay_type") pay_type: Int): BaseHttpResult<String>
 
 
@@ -63,6 +62,9 @@ interface GroupBuyApiService {
 
     @POST("Order/orderDetail")
     suspend fun orderDetail(@Query("order_no") order_no: String): BaseHttpResult<OrderDetailResult>
+
+    @POST("Order/cancelOrder")
+    suspend fun cancelOrder(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String): BaseHttpResult<String>
 
 
     @POST("shop/upComment")

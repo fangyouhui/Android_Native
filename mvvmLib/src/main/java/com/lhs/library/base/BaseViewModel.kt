@@ -5,16 +5,17 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.viewModelScope
 import com.aleyn.mvvm.app.MVVMLin
-import com.lhs.library.network.ResponseThrowable
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.Utils
 import com.lhs.library.event.Message
 import com.lhs.library.event.SingleLiveEvent
+import com.lhs.library.network.ResponseThrowable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 open class BaseViewModel(
-    application: Application = Utils.getApp()
+        application: Application = Utils.getApp()
 ) : AndroidViewModel(application), LifecycleObserver {
 
     val defUI: UIChange by lazy { UIChange() }
@@ -42,22 +43,22 @@ open class BaseViewModel(
      * @param isShowDialog 是否显示加载框
      */
     fun launchGo(
-        block: suspend CoroutineScope.() -> Unit,
-        error: suspend CoroutineScope.(ResponseThrowable) -> Unit = {
-            defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
-        },
-        complete: suspend CoroutineScope.() -> Unit = {},
-        isShowDialog: Boolean = true
+            block: suspend CoroutineScope.() -> Unit,
+            error: suspend CoroutineScope.(ResponseThrowable) -> Unit = {
+                defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
+            },
+            complete: suspend CoroutineScope.() -> Unit = {},
+            isShowDialog: Boolean = true
     ) {
         if (isShowDialog) defUI.showDialog.call()
         launchUI {
             handleException(
-                withContext(Dispatchers.IO) { block },
-                { error(it) },
-                {
-                    defUI.dismissDialog.call()
-                    complete()
-                }
+                    withContext(Dispatchers.IO) { block },
+                    { error(it) },
+                    {
+                        defUI.dismissDialog.call()
+                        complete()
+                    }
             )
         }
     }
@@ -71,30 +72,31 @@ open class BaseViewModel(
      * @param isShowDialog 是否显示加载框
      */
     fun <T> launchOnlyResult(
-        block: suspend CoroutineScope.() -> IBaseResponse<T>,
-        success: (T) -> Unit,
-        error: (ResponseThrowable) -> Unit = {
-            defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
-        },
-        complete: () -> Unit = {},
-        isShowDialog: Boolean = false
+            block: suspend CoroutineScope.() -> IBaseResponse<T>,
+            success: (T) -> Unit,
+            error: (ResponseThrowable) -> Unit = {
+                defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
+                LogUtils.eTag(javaClass.simpleName, it.localizedMessage)
+            },
+            complete: () -> Unit = {},
+            isShowDialog: Boolean = false
     ) {
         if (isShowDialog) defUI.showDialog.call()
         launchUI {
             handleException(
-                {
-                    withContext(Dispatchers.IO) {
-                        block().let {
-                            if (it.isSuccess()) it.data()
-                            else throw ResponseThrowable(it.code(), it.msg())
-                        }
-                    }.also { success(it) }
-                },
-                { error(it) },
-                {
-                    defUI.dismissDialog.call()
-                    complete()
-                }
+                    {
+                        withContext(Dispatchers.IO) {
+                            block().let {
+                                if (it.isSuccess()) it.data()
+                                else throw ResponseThrowable(it.code(), it.msg())
+                            }
+                        }.also { success(it) }
+                    },
+                    { error(it) },
+                    {
+                        defUI.dismissDialog.call()
+                        complete()
+                    }
             )
         }
     }
@@ -104,9 +106,9 @@ open class BaseViewModel(
      * 异常统一处理
      */
     private suspend fun handleException(
-        block: suspend CoroutineScope.() -> Unit,
-        error: suspend CoroutineScope.(ResponseThrowable) -> Unit,
-        complete: suspend CoroutineScope.() -> Unit
+            block: suspend CoroutineScope.() -> Unit,
+            error: suspend CoroutineScope.(ResponseThrowable) -> Unit,
+            complete: suspend CoroutineScope.() -> Unit
     ) {
         coroutineScope {
             try {

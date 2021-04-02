@@ -1,56 +1,36 @@
 package com.pai8.ke.activity.takeaway.ui;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.OrderStatusAdapter;
-import com.pai8.ke.activity.takeaway.adapter.ShopOrderAdapter;
 import com.pai8.ke.activity.takeaway.adapter.ViewPagerAdapter;
-import com.pai8.ke.activity.takeaway.api.TakeawayApi;
-import com.pai8.ke.activity.takeaway.contract.ShopOrderContract;
-import com.pai8.ke.activity.takeaway.entity.OrderInfo;
-import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
-import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
-import com.pai8.ke.activity.takeaway.fragment.GroupBuyManagerFragment;
-import com.pai8.ke.activity.takeaway.fragment.TakeawayManagerFragment;
 import com.pai8.ke.activity.takeaway.fragment.shopGroupOrderFragment;
 import com.pai8.ke.activity.takeaway.fragment.shopWaiMainFragment;
-import com.pai8.ke.activity.takeaway.order.ShopOrderDetailActivity;
 import com.pai8.ke.activity.takeaway.presenter.ShopOrderPresenter;
-import com.pai8.ke.activity.takeaway.widget.SendPricePop;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.manager.AccountManager;
-import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
-import com.youth.banner.listener.OnPageChangeListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-import org.greenrobot.eventbus.EventBus;
-
-import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GROUP;
+/**
+ * 商家订单处理
+ */
 
 public class OrderProcessingActivity extends BaseMvpActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private ArrayList<Fragment> fragments;
@@ -60,6 +40,7 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
     private String status = "";
     private Fragment waimaifragment = new shopWaiMainFragment();
     private Fragment shopGroupfragment = new shopGroupOrderFragment();
+
     @Override
     public ShopOrderPresenter initPresenter() {
         return null;
@@ -100,9 +81,9 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.base_tool_bar){
+        if (v.getId() == R.id.base_tool_bar) {
             finish();
-        }else if(v.getId() == R.id.toolbar_iv_menu){
+        } else if (v.getId() == R.id.toolbar_iv_menu) {
             showBottomDialog();
         }
     }
@@ -113,7 +94,7 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
         ImageButton itnClose = view.findViewById(R.id.itn_close);
         TextView tvConfirm = view.findViewById(R.id.tv_next);
         RecyclerView rvOrderFilter = view.findViewById(R.id.rv_order_filter);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,3);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         rvOrderFilter.setLayoutManager(layoutManager);
 
         //0为待支付 1为已支付 2为商家已接单 7为订单制作完成 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
@@ -152,9 +133,9 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
             @Override
             public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
                 adapter.choosePosition(position);
-                stringBuilder.delete(0,stringBuilder.length());
-                for(int i=0;i<adapter.getData().size();i++){
-                    if(adapter.getData().get(i).isSelect){
+                stringBuilder.delete(0, stringBuilder.length());
+                for (int i = 0; i < adapter.getData().size(); i++) {
+                    if (adapter.getData().get(i).isSelect) {
                         stringBuilder.append(adapter.getData().get(i).status);
                         stringBuilder.append("/");
                     }
@@ -173,14 +154,14 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
                 page = 1;
 //                mPresenter.orderList(stringBuilder.substring(0,stringBuilder.length()-1),page);
 //waimaifragment.set
-      //  waimaifragment = () getFragmentManager().findFragmentById(R.id.example_fragment);
+                //  waimaifragment = () getFragmentManager().findFragmentById(R.id.example_fragment);
                 //waimaifragment.setRefresh(stringBuilder.substring(0,stringBuilder.length()-1),pag);
                 //构建 Bundle
                 //绑定 Fragment
-                Map<String,String>map = new HashMap<>();
+                Map<String, String> map = new HashMap<>();
 
-                map.put("name",stringBuilder.substring(0,stringBuilder.length()-1));
-                map.put("page","1");
+                map.put("name", stringBuilder.substring(0, stringBuilder.length() - 1));
+                map.put("page", "1");
 
                 EventBus.getDefault().post(map);
 
@@ -216,12 +197,11 @@ public class OrderProcessingActivity extends BaseMvpActivity implements View.OnC
      */
     @Override
     public void onPageSelected(int position) {
-        if (position==1){
+        if (position == 1) {
 
             TextView textView = findViewById(R.id.toolbar_iv_menu);
             textView.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             TextView textView = findViewById(R.id.toolbar_iv_menu);
             textView.setVisibility(View.VISIBLE);
 

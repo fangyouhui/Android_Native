@@ -33,6 +33,7 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
     }
 
     open fun initView() {}
+    open fun addObserve() {}
     open fun initData() {}
 
     override fun onStart() {
@@ -77,6 +78,7 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
         createViewModel()
         lifecycle.addObserver(mViewModel)
         initView()
+        addObserve()
         initData()
     }
 

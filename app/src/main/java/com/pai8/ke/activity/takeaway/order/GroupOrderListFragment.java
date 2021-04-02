@@ -15,11 +15,11 @@ import com.pai8.ke.databinding.FragmentGroupOrderListBinding;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.shop.ui.CommentActivity;
 import com.pai8.ke.shop.ui.ShopProductDetailActivity;
-import com.pai8.ke.shop.viewmodel.GroupOrderListViewModel;
+import com.pai8.ke.shop.viewmodel.OrderListViewModel;
 
 import org.jetbrains.annotations.Nullable;
 
-public class GroupOrderListFragment extends BaseFragment<GroupOrderListViewModel, FragmentGroupOrderListBinding> {
+public class GroupOrderListFragment extends BaseFragment<OrderListViewModel, FragmentGroupOrderListBinding> {
     private GroupOrderAdapter adapter;
     private ActivityResultLauncher activityResultLauncher;
 

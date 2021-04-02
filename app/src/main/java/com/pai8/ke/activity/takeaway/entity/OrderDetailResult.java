@@ -297,7 +297,7 @@ public class OrderDetailResult {
         private String mobile;
         private String shop_img;
         private String address;
-        private int score;
+        private double score;
         private int sale_count;
 
         public void setId(int id) {
@@ -340,11 +340,11 @@ public class OrderDetailResult {
             return address;
         }
 
-        public void setScore(int score) {
+        public void setScore(double score) {
             this.score = score;
         }
 
-        public int getScore() {
+        public double getScore() {
             return score;
         }
 

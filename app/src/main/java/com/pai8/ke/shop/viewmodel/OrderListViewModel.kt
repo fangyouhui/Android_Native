@@ -4,8 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import com.lhs.library.base.BaseViewModel
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.groupBuy.http.RetrofitClient
+import com.pai8.ke.manager.AccountManager
 
-class GroupOrderListViewModel : BaseViewModel() {
+class OrderListViewModel : BaseViewModel() {
 
     val orderListData = MutableLiveData<List<OrderListResult>>()
 
@@ -13,6 +14,13 @@ class GroupOrderListViewModel : BaseViewModel() {
         launchOnlyResult(
                 { RetrofitClient.getInstance().getMainService().orderList(buyer_id, order_type) },
                 { orderListData.value = it })
+    }
+
+    val cancelOrderData = MutableLiveData<String>()
+    fun cancelOrder(orderNO: String) {
+        launchOnlyResult({
+            RetrofitClient.getInstance().getMainService().cancelOrder(orderNO, AccountManager.getInstance().uid)
+        }, { cancelOrderData.value = it })
     }
 
 }

@@ -9,13 +9,16 @@ import com.pai8.ke.groupBuy.adapter.ViewPagerAdapter;
 
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 我的订单
+ */
 public class OrderActivity extends BaseActivity<NoViewModel, ActivityOrderBinding> {
 
     private ViewPagerAdapter tabFragmentAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        //  tabFragmentAdapter.addFragment(new OrderFragment(), "外卖"); 会闪退，时间紧迫，后续有空处理
+        tabFragmentAdapter.addFragment(new TakeawayOrderListFragment(), "外卖");
         tabFragmentAdapter.addFragment(new GroupOrderListFragment(), "团购");
         mBinding.viewPager.setOffscreenPageLimit(2);
         mBinding.viewPager.setAdapter(tabFragmentAdapter);

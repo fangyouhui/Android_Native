@@ -2,10 +2,6 @@ package com.lhs.library.network
 
 import com.lhs.library.base.IBaseResponse
 
-/**
- *   @auther : Aleyn
- *   time   : 2019/08/12
- */
 open class ResponseThrowable : Exception {
     var code: Int
     var errMsg: String
