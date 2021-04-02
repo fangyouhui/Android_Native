@@ -17,6 +17,7 @@ import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
 import com.pai8.ke.databinding.ActivityOrderDetailBinding;
 import com.pai8.ke.groupBuy.viewmodel.OrderDetailViewModel;
 import com.pai8.ke.shop.ui.CommentActivity;
+import com.pai8.ke.shop.ui.PayBottomDialogFragment;
 import com.pai8.ke.shop.ui.ShopProductDetailActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TimeUtil;
@@ -145,7 +146,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
             if (bean.getOrder_status() == 9 || -1 == bean.getOrder_status()) {
                 Intent intent = new Intent(this, ShopProductDetailActivity.class);
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getShop_id() + "");
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getId() + "");
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getGoods_info().get(0).getGoods_id() + "");
                 startActivity(intent);
             } else if (4 == bean.getOrder_status()) {
                 Intent intent = new Intent(this, CommentActivity.class);
@@ -154,9 +155,17 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_2, bean.getGoods_info().size() + "");
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_3, bean.getGoods_info().get(0));
                 activityResultLauncher.launch(intent);
+            } else if (0 == bean.getOrder_status()) {//待支付
+                PayBottomDialogFragment paySelectBottomDialog = PayBottomDialogFragment.newInstance(mBinding.tvTotalPrice.getTag().toString(), bean.getOrder_no());
+                paySelectBottomDialog.showNow(getSupportFragmentManager(), "payWay");
             }
         });
 
+        mBinding.btnLeft.setOnClickListener(v -> {
+            if (4 == bean.getOrder_status()) { //再次购买
+                mBinding.btnRight.callOnClick();
+            }
+        });
 
     }
 

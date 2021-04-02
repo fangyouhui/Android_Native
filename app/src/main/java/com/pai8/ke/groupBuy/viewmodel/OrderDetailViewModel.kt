@@ -3,7 +3,6 @@ package com.pai8.ke.groupBuy.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.lhs.library.base.BaseViewModel
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
-import com.pai8.ke.activity.takeaway.entity.OrderInfo
 import com.pai8.ke.groupBuy.http.RetrofitClient
 
 class OrderDetailViewModel : BaseViewModel() {
@@ -15,6 +14,6 @@ class OrderDetailViewModel : BaseViewModel() {
             RetrofitClient.getInstance().getMainService().orderDetail(orderNo)
         }, {
             orderDetailData.value = it
-        })
+        }, isShowDialog = true)
     }
 }

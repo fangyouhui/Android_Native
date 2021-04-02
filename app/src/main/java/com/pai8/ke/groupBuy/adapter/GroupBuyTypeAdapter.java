@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
-import com.blankj.utilcode.util.Utils;
 import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.lhs.library.base.BaseViewHolder;
 import com.pai8.ke.R;
@@ -23,7 +22,6 @@ import com.pai8.ke.utils.PreferencesUtils;
 import java.util.List;
 
 public class GroupBuyTypeAdapter extends BaseRecyclerViewAdapter<GetGroupShopListResult.ShopList> {
-
 
     public GroupBuyTypeAdapter(Context context, List<GetGroupShopListResult.ShopList> list) {
         super(context, list);
@@ -41,21 +39,22 @@ public class GroupBuyTypeAdapter extends BaseRecyclerViewAdapter<GetGroupShopLis
         if (viewHolder instanceof GroupBuyTypeViewHolder) {
             GroupBuyTypeViewHolder holder = (GroupBuyTypeViewHolder) viewHolder;
             GetGroupShopListResult.ShopList bean = mData.get(position);
-            ImageLoadUtils.loadImage(Utils.getApp(), bean.getShop_img(), holder.binding.imageView, R.color.colorPrimary);
+            ImageLoadUtils.loadImage(bean.getShop_img(), holder.binding.imageView);
             holder.binding.tvTitle.setText(bean.getShop_name());
             holder.binding.tvScore.setText(bean.getScore() + "");
             holder.binding.tvMonthSaleCount.setText("月售 " + bean.getMonth_sale_count());
             holder.binding.tvType.setText(bean.getCate_name());
             holder.binding.tvAddress.setText(bean.getAddress());
 
-            String latitude = (String) PreferencesUtils.get(mContext, "latitude", "0");
-            String longitude = (String) PreferencesUtils.get(mContext, "longitude", "0");
+//            String latitude = (String) PreferencesUtils.get(mContext, "latitude", "0");
+//            String longitude = (String) PreferencesUtils.get(mContext, "longitude", "0");
+//
+//            LatLng latLng01 = new LatLng(Double.valueOf(latitude), Double.valueOf(longitude));
+//            LatLng latLng02 = new LatLng(Double.valueOf(bean.getLatitude()), Double.valueOf(bean.getLongitude()));
+//            //单位米
+//            float distance = AMapUtils.calculateLineDistance(latLng01, latLng02);
+//            holder.binding.tvDistance.setText((distance / 1000) + "km");
 
-            LatLng latLng01 = new LatLng(Double.valueOf(latitude), Double.valueOf(longitude));
-            LatLng latLng02 = new LatLng(Double.valueOf(bean.getLatitude()), Double.valueOf(bean.getLongitude()));
-            //单位米
-            float distance = AMapUtils.calculateLineDistance(latLng01, latLng02);
-            holder.binding.tvDistance.setText((distance / 1000) + "km");
             if (TextUtils.isEmpty(bean.getShop_desc())) {
                 holder.binding.tvDesc.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
                 holder.binding.tvDesc.setTextColor(Color.parseColor("#ff666666"));

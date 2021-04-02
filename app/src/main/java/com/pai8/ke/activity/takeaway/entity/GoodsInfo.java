@@ -39,11 +39,59 @@ public class GoodsInfo implements Serializable {
     private int food_type;
     private String is_weekend;
 
+
+    private int order_id;
+    private int goods_id;
+    private int goods_num;
+    private String goods_price;
+    private String goods_discount;
+
+
     //以下字段订单详情需要用到
     private List<String> goods_img;
     private String goods_title;
     private String goods_origin_price;
     private String goods_sell_price;
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
+    }
+
+    public int getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(int goods_id) {
+        this.goods_id = goods_id;
+    }
+
+    public int getGoods_num() {
+        return goods_num;
+    }
+
+    public void setGoods_num(int goods_num) {
+        this.goods_num = goods_num;
+    }
+
+    public String getGoods_price() {
+        return goods_price;
+    }
+
+    public void setGoods_price(String goods_price) {
+        this.goods_price = goods_price;
+    }
+
+    public String getGoods_discount() {
+        return goods_discount;
+    }
+
+    public void setGoods_discount(String goods_discount) {
+        this.goods_discount = goods_discount;
+    }
 
     public String getGoods_origin_price() {
         return goods_origin_price;

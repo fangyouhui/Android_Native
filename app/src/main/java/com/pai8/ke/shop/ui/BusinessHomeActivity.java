@@ -44,7 +44,10 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
                 PhoneUtils.dial(phone);
             }
         });
+        mBinding.btnContactMerchant.setOnClickListener(v -> mBinding.btnCall.callOnClick());
+        mBinding.btnReceiveDiscount.setOnClickListener(v -> { //领取优惠
 
+        });
         mBinding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {

@@ -101,13 +101,10 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
     public void addObserve() {
         mViewModel.getAddOrderData().observe(this, data -> {
             if (!TextUtils.isEmpty(data)) { //下单成功 HX126741617094442
-                int uid = Integer.parseInt(AccountManager.getInstance().getUid());
                 PayBottomDialogFragment paySelectBottomDialog = PayBottomDialogFragment.newInstance(mBinding.tvTotalPrice.getTag().toString(), data);
                 paySelectBottomDialog.showNow(getSupportFragmentManager(), "payWay");
             }
         });
-
-
     }
 
     private void toOrderDetailActivity(String orderNo) {
