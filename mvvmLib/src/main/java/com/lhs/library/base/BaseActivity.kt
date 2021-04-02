@@ -100,7 +100,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewBinding> : AppCompatAct
     /**
      * 打开等待框
      */
-    private fun showLoading() {
+    open fun showLoading() {
         if (progressDialog == null) {
             progressDialog = CustomProgressDialog(this)
         }
@@ -110,7 +110,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewBinding> : AppCompatAct
     /**
      * 关闭等待框
      */
-    private fun dismissLoading() {
+    open fun dismissLoading() {
         progressDialog?.cancel()
     }
 

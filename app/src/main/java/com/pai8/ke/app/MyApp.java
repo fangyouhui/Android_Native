@@ -18,6 +18,9 @@ import com.dueeeke.videoplayer.player.VideoViewManager;
 import com.gh.qiniushortvideo.QNShortVideo;
 import com.hjq.bar.TitleBar;
 import com.hjq.bar.initializer.LightBarInitializer;
+import com.luck.picture.lib.app.IApp;
+import com.luck.picture.lib.app.PictureAppMaster;
+import com.luck.picture.lib.engine.PictureSelectorEngine;
 import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
@@ -25,6 +28,7 @@ import com.pai8.ke.manager.QNRTCManager;
 import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.LogUtils;
+import com.pai8.ke.utils.PictureSelectorEngineImp;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -38,7 +42,7 @@ import java.util.List;
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cn.jpush.android.api.JPushInterface;
 
-public class MyApp extends Application {
+public class MyApp extends Application implements IApp {
 
     private static MyApp mContext;
     private static Handler mHandler;
@@ -139,6 +143,7 @@ public class MyApp extends Application {
         AMapLocationUtils.init(this);
         CustomActivityOnCrash.install(this);
         ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0, 0);
+        PictureAppMaster.getInstance().setApp(this);
     }
 
     public static void getLocation() {
@@ -250,4 +255,13 @@ public class MyApp extends Application {
         ImageLoadUtils.onTrimMemory(this, level);
     }
 
+    @Override
+    public Context getAppContext() {
+        return this;
+    }
+
+    @Override
+    public PictureSelectorEngine getPictureSelectorEngine() {
+        return new PictureSelectorEngineImp();
+    }
 }

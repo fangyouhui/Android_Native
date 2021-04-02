@@ -29,7 +29,7 @@ public class OrderDetailResult {
     private String order_qrcode;
     private String buyer_name;
     private String buyer_phone;
-    private List<Goods_info> goods_info;
+    private List<GoodsInfo> goods_info;
     private Shop_info shop_info;
     private Rider_info rider_info;
     private String address_info;
@@ -245,11 +245,11 @@ public class OrderDetailResult {
         return buyer_phone;
     }
 
-    public void setGoods_info(List<Goods_info> goods_info) {
+    public void setGoods_info(List<GoodsInfo> goods_info) {
         this.goods_info = goods_info;
     }
 
-    public List<Goods_info> getGoods_info() {
+    public List<GoodsInfo> getGoods_info() {
         return goods_info;
     }
 
@@ -290,170 +290,6 @@ public class OrderDetailResult {
 
     }
 
-
-    public class Goods_info {
-        private int id;
-        private int order_id;
-        private int goods_id;
-        private int goods_num;
-        private String goods_price;
-        private String goods_title;
-        private List<String> goods_img;
-        private String goods_origin_price;
-        private String goods_sell_price;
-        private String goods_discount;
-        private String term;
-        private String matter;
-        private String details;
-        private List<String> details_img;
-        private int food_sort;
-        private String is_weekend;
-        private String desc;
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setOrder_id(int order_id) {
-            this.order_id = order_id;
-        }
-
-        public int getOrder_id() {
-            return order_id;
-        }
-
-        public void setGoods_id(int goods_id) {
-            this.goods_id = goods_id;
-        }
-
-        public int getGoods_id() {
-            return goods_id;
-        }
-
-        public void setGoods_num(int goods_num) {
-            this.goods_num = goods_num;
-        }
-
-        public int getGoods_num() {
-            return goods_num;
-        }
-
-        public void setGoods_price(String goods_price) {
-            this.goods_price = goods_price;
-        }
-
-        public String getGoods_price() {
-            return goods_price;
-        }
-
-        public void setGoods_title(String goods_title) {
-            this.goods_title = goods_title;
-        }
-
-        public String getGoods_title() {
-            return goods_title;
-        }
-
-        public void setGoods_img(List<String> goods_img) {
-            this.goods_img = goods_img;
-        }
-
-        public List<String> getGoods_img() {
-            return goods_img;
-        }
-
-        public void setGoods_origin_price(String goods_origin_price) {
-            this.goods_origin_price = goods_origin_price;
-        }
-
-        public String getGoods_origin_price() {
-            return goods_origin_price;
-        }
-
-        public void setGoods_sell_price(String goods_sell_price) {
-            this.goods_sell_price = goods_sell_price;
-        }
-
-        public String getGoods_sell_price() {
-            return goods_sell_price;
-        }
-
-        public void setGoods_discount(String goods_discount) {
-            this.goods_discount = goods_discount;
-        }
-
-        public String getGoods_discount() {
-            return goods_discount;
-        }
-
-        public void setTerm(String term) {
-            this.term = term;
-        }
-
-        public String getTerm() {
-            return term;
-        }
-
-        public void setMatter(String matter) {
-            this.matter = matter;
-        }
-
-        public String getMatter() {
-            return matter;
-        }
-
-        public void setDetails(String details) {
-            this.details = details;
-        }
-
-        public String getDetails() {
-            return details;
-        }
-
-        public void setDetails_img(List<String> details_img) {
-            this.details_img = details_img;
-        }
-
-        public List<String> getDetails_img() {
-            return details_img;
-        }
-
-        public void setFood_sort(int food_sort) {
-            this.food_sort = food_sort;
-        }
-
-        public int getFood_sort() {
-            return food_sort;
-        }
-
-        public void setIs_weekend(String is_weekend) {
-            this.is_weekend = is_weekend;
-        }
-
-        public String getIs_weekend() {
-            return is_weekend;
-        }
-
-        public void setDesc(String desc) {
-            this.desc = desc;
-        }
-
-        public String getDesc() {
-            return desc;
-        }
-
-    }
-
-    /**
-     * Auto-generated: 2021-03-31 17:25:28
-     *
-     * @author bejson.com (i@bejson.com)
-     * @website http://www.bejson.com/java2pojo/
-     */
     public class Shop_info {
 
         private int id;

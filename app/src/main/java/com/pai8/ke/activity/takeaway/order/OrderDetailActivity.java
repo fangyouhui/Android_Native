@@ -1,16 +1,22 @@
 package com.pai8.ke.activity.takeaway.order;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.blankj.utilcode.util.PhoneUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
+import com.pai8.ke.activity.takeaway.entity.GoodsInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
 import com.pai8.ke.databinding.ActivityOrderDetailBinding;
 import com.pai8.ke.groupBuy.viewmodel.OrderDetailViewModel;
+import com.pai8.ke.shop.ui.CommentActivity;
 import com.pai8.ke.shop.ui.ShopProductDetailActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TimeUtil;
@@ -20,6 +26,17 @@ import org.jetbrains.annotations.Nullable;
 public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, ActivityOrderDetailBinding> {
 
     private String orderNo;
+    private ActivityResultLauncher activityResultLauncher;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                initData();
+            }
+        });
+    }
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
@@ -30,7 +47,6 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
                 PhoneUtils.dial(phone);
             }
         });
-
     }
 
     @Override
@@ -98,7 +114,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
         mBinding.tvPhone.setText("电话：" + bean.getShop_info().getMobile());
         mBinding.btnCall.setTag(bean.getShop_info().getMobile());
 
-        OrderDetailResult.Goods_info info = bean.getGoods_info().get(0);
+        GoodsInfo info = bean.getGoods_info().get(0);
         if (info != null) {
             ImageLoadUtils.loadImage(info.getGoods_img().get(0), mBinding.ivProductImg);
             mBinding.tvProductName.setText(info.getGoods_title());
@@ -131,6 +147,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getShop_id() + "");
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getId() + "");
                 startActivity(intent);
+            } else if (4 == bean.getOrder_status()) {
+                Intent intent = new Intent(this, CommentActivity.class);
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getOrder_no());
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getShop_id() + "");
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_2, bean.getGoods_info().size() + "");
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_3, bean.getGoods_info().get(0));
+                activityResultLauncher.launch(intent);
             }
         });
 

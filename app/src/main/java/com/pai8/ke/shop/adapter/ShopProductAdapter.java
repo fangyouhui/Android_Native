@@ -1,6 +1,7 @@
 package com.pai8.ke.shop.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -27,7 +28,6 @@ public class ShopProductAdapter extends BaseRecyclerViewAdapter<ShopTypeResult> 
         return new ShopProductViewHolder(commentBinding);
     }
 
-
     @Override
     protected void onBindNormalViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof ShopProductViewHolder) {
@@ -37,6 +37,7 @@ public class ShopProductAdapter extends BaseRecyclerViewAdapter<ShopTypeResult> 
             holder.binding.tvTitle.setText(bean.getTitle());
             holder.binding.tvGroupBuyPrice.setText("¥" + bean.getSell_price());
             holder.binding.tvOriginPrice.setText("¥" + bean.getOrigin_price());
+            holder.binding.tvOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             holder.binding.getRoot().setOnClickListener(v -> {
                 if (mListener != null) {
                     mListener.onItemClick(bean, position);

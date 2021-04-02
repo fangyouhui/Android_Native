@@ -65,4 +65,8 @@ interface GroupBuyApiService {
     suspend fun orderDetail(@Query("order_no") order_no: String): BaseHttpResult<OrderDetailResult>
 
 
+    @POST("shop/upComment")
+    suspend fun upComment(@Body param: UpCommentParam): BaseHttpResult<String>
+
+
 }
