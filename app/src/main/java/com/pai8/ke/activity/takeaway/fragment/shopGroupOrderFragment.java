@@ -92,14 +92,7 @@ public class shopGroupOrderFragment  extends BaseMvpFragment<ShopOrderPresenter>
 
         mAdapter = new shopOrderGroupAdapter(null);
         mRvOrder.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //startActivity(new Intent(mActivity, ShopOrderDetailActivity.class)
-                      //  .putExtra("order",mAdapter.getData().get(position)));
 
-            }
-        });
 
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
