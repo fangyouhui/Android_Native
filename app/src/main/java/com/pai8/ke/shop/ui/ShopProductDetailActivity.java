@@ -19,9 +19,6 @@ import com.youth.banner.indicator.CircleIndicator;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailViewModel, ActivityShopProductDetailBinding> {
     private String shopId;
     private String productId;
@@ -74,7 +71,6 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         ImageLoadUtils.loadImage(bean.getShop_img(), mBinding.ivLogo);
         mBinding.tvName.setText(bean.getShop_name());
         mBinding.tvFraction.setText(bean.getScore() + "");
-        mBinding.tvTotalSales.setText(String.format("总销量 %d", bean.getMonth_sale_count()));
         mBinding.tvAddress.setText("地址：" + bean.getCity() + bean.getDistrict() + bean.getAddress());
         mBinding.tvPhone.setText("电话：" + bean.getMobile());
         mBinding.btnCall.setTag(bean.getMobile());
@@ -85,9 +81,8 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         mBinding.tvGroupBuyPrice.setText(bean.getSell_price());
         mBinding.tvOriginPrice.setText("¥" + bean.getOrigin_price());
         mBinding.tvOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中间横线
-        mBinding.tvSoldCount.setText("已售：" + bean.getSale_count());
-        mBinding.tvStockCount.setText(String.format("库存：%d份", bean.getStock()));
         mBinding.tvProductDesc.setText("套餐包含：" + bean.getDesc());
+        mBinding.tvTotalSales.setText(String.format("总销量 %d", bean.getSale_count()));
         String startTime = TimeUtil.timeStampToString(bean.getTerm().getStart_time());
         String endTime = TimeUtil.timeStampToString(bean.getTerm().getEnd_time());
         mBinding.tvTermTime.setText(String.format("%s至%s （周末、法定节假日通用）", startTime, endTime));

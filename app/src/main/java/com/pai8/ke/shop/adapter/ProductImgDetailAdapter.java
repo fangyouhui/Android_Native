@@ -29,7 +29,7 @@ public class ProductImgDetailAdapter extends BaseRecyclerViewAdapter<String> {
     protected void onBindNormalViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof ProductImgDetailViewHolder) {
             ProductImgDetailViewHolder holder = (ProductImgDetailViewHolder) viewHolder;
-            ImageLoadUtils.loadImage(mData.get(position), holder.binding.imageView);
+            ImageLoadUtils.setRectImage(holder.binding.imageView.getContext(), mData.get(position), holder.binding.imageView);
         }
     }
 
@@ -38,4 +38,5 @@ public class ProductImgDetailAdapter extends BaseRecyclerViewAdapter<String> {
             super(viewBinding);
         }
     }
+
 }

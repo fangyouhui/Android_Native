@@ -277,7 +277,7 @@ public class CommentActivity extends BaseActivity<CommentViewModel, ActivityComm
         }
 
         showLoading();
-        //  mViewModel.submit(mAdapter.getData());
+        mViewModel.submit(mAdapter.getData(), order_no, shop_id, mBinding.evaluateRatingBar.getRating() + "", mBinding.etContent.getText().toString());
     }
 
 

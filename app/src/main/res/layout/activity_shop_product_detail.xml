@@ -75,7 +75,7 @@
                 android:id="@+id/collapsingToolbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentScrim="@color/colorPrimary"
+                app:contentScrim="@color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleEnabled="false">
 
@@ -139,15 +139,29 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="20dp"
-                        android:background="#FF7F47"
+                        android:background="@drawable/bg_conner_yellow_radius_5"
                         android:gravity="center"
-                        android:paddingHorizontal="4dp"
+                        android:paddingHorizontal="5dp"
                         android:paddingVertical="2dp"
                         android:text="团购"
                         android:textColor="#ffffffff"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tipDaoDian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/bg_store_corner_yellow_radius_5"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
+                        android:text="到店消费"
+                        android:textColor="#ffff7f47"
+                        android:textSize="10sp"
+                        app:layout_constraintStart_toStartOf="@id/tvGroupBuy"
+                        app:layout_constraintTop_toBottomOf="@id/tvGroupBuy" />
 
                     <TextView
                         android:id="@+id/tvProductTitle"
@@ -158,9 +172,8 @@
                         android:textColor="#ff262626"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/tvGroupBuy"
-                        app:layout_constraintStart_toEndOf="@id/tvGroupBuy"
-                        app:layout_constraintTop_toTopOf="@id/tvGroupBuy" />
+                        app:layout_constraintStart_toEndOf="@id/tipDaoDian"
+                        app:layout_constraintTop_toTopOf="@id/tipDaoDian" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -177,18 +190,18 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tvGroupBuy" />
 
-
                     <TextView
                         android:id="@+id/tvDollar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="15dp"
                         android:paddingBottom="2dp"
                         android:text="¥"
                         android:textColor="#ffff7f47"
                         android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@id/tvGroupBuy"
-                        app:layout_constraintTop_toBottomOf="@id/tvGroupBuy" />
+                        app:layout_constraintBottom_toBottomOf="@id/tvGroupBuy"
+                        app:layout_constraintStart_toEndOf="@id/tvGroupBuy"
+                        app:layout_constraintTop_toTopOf="@id/tvGroupBuy" />
 
                     <TextView
                         android:id="@+id/tvGroupBuyPrice"
@@ -212,28 +225,6 @@
                         app:layout_constraintBottom_toBottomOf="@id/tvGroupBuyPrice"
                         app:layout_constraintStart_toEndOf="@id/tvGroupBuyPrice"
                         app:layout_constraintTop_toTopOf="@id/tvGroupBuyPrice" />
-
-                    <TextView
-                        android:id="@+id/tvSoldCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="已售：300"
-                        android:textColor="#ff999999"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvOriginPrice" />
-
-                    <TextView
-                        android:id="@+id/tvStockCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="库存：1200份"
-                        android:textColor="#ff999999"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toStartOf="@id/tvSoldCount"
-                        app:layout_constraintTop_toTopOf="@id/tvOriginPrice" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -476,6 +467,7 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="2"

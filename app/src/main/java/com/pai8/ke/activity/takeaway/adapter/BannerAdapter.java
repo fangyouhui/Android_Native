@@ -17,6 +17,5 @@ public class BannerAdapter extends com.youth.banner.adapter.BannerImageAdapter<S
     public void onBindView(BannerImageHolder holder, String data, int position, int size) {
         holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         ImageLoadUtils.setRectImage(holder.imageView.getContext(), data, holder.imageView);
-
     }
 }
