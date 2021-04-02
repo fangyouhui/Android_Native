@@ -26,6 +26,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 查看评价
+ */
 public class LookCommentActivity extends BaseActivity<NoViewModel, ActivityLookCommentBinding> {
 
     private OrderDetailResult bean;

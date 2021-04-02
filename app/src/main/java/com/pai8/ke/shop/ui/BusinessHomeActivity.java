@@ -46,7 +46,7 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
         });
         mBinding.btnContactMerchant.setOnClickListener(v -> mBinding.btnCall.callOnClick());
         mBinding.btnReceiveDiscount.setOnClickListener(v -> { //领取优惠
-
+            mViewModel.shopCouponList(shopId);
         });
         mBinding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
@@ -90,6 +90,13 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
     @Override
     public void addObserve() {
         mViewModel.getGetGroupShopInfoData().observe(this, data -> bindGroupShopInfo(data));
+        mViewModel.getShopCouponListData().observe(this, data -> {
+            if (data.getExpress_coupon_list().isEmpty() && data.getOrder_coupon_list().isEmpty()) {//无任何优惠卷
+                // TODO: 4/2/21 无优惠卷对话框 
+                return;
+            }
+
+        });
     }
 
     @Override

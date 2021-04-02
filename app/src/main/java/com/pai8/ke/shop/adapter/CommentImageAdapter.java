@@ -32,8 +32,12 @@ public class CommentImageAdapter extends BaseRecyclerViewAdapter<LocalMedia> {
         if (viewHolder instanceof CommentImageViewHolder) {
             LocalMedia bean = getItem(position);
             CommentImageViewHolder holder = (CommentImageViewHolder) viewHolder;
-
-
+            ImageLoadUtils.loadImage(bean.getPath(), holder.binding.fiv);
+            holder.binding.getRoot().setOnClickListener(v -> {
+                if (mListener != null) {
+                    mListener.onItemClick(bean, position);
+                }
+            });
         }
 
     }
