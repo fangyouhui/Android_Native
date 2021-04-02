@@ -138,6 +138,7 @@
         android:text="¥3200"
         android:textColor="#ff999999"
         android:textSize="14sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/flPlay"
         app:layout_constraintStart_toEndOf="@id/tvSellPrice" />
 

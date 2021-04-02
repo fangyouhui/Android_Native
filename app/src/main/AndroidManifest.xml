@@ -246,6 +246,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
+
+        <activity
+            android:name=".shop.ui.LookCommentActivity"
+            android:label="评价"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"

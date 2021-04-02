@@ -68,7 +68,7 @@ interface GroupBuyApiService {
 
 
     @POST("shop/upComment")
-    suspend fun upComment(@Body param: UpCommentParam): BaseHttpResult<String>
+    suspend fun upComment(@Body param: UpCommentParam): BaseHttpResult<List<String>>
 
 
 }

@@ -24,6 +24,7 @@ import com.luck.picture.lib.tools.ScreenUtils;
 import com.luck.picture.lib.tools.SdkVersionUtils;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.entity.GoodsInfo;
+import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
 import com.pai8.ke.databinding.ActivityCommentBinding;
 import com.pai8.ke.groupBuy.adapter.TextWatcherAdapter;
 import com.pai8.ke.shop.adapter.GridImageAdapter;
@@ -43,6 +44,7 @@ public class CommentActivity extends BaseActivity<CommentViewModel, ActivityComm
 
     private String order_no;
     private String shop_id;
+
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {

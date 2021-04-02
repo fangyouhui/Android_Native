@@ -17,6 +17,7 @@ import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
 import com.pai8.ke.databinding.ActivityOrderDetailBinding;
 import com.pai8.ke.groupBuy.viewmodel.OrderDetailViewModel;
 import com.pai8.ke.shop.ui.CommentActivity;
+import com.pai8.ke.shop.ui.LookCommentActivity;
 import com.pai8.ke.shop.ui.PayBottomDialogFragment;
 import com.pai8.ke.shop.ui.ShopProductDetailActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -105,6 +106,13 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
             mBinding.btnRight.setVisibility(View.VISIBLE);
         } else if (bean.getOrder_status() == -2) {
             mBinding.tvOrderStatus.setText("商家拒绝接单");
+        } else if (bean.getOrder_status() == 10) {
+            mBinding.tvOrderStatus.setText("已完成");
+            mBinding.tvStatusName.setText("你的订单已完成");
+            mBinding.btnLeft.setText("重新下单");
+            mBinding.btnRight.setText("查看评价");
+            mBinding.btnRight.setVisibility(View.VISIBLE);
+            mBinding.btnLeft.setVisibility(View.VISIBLE);
         }
 
         ImageLoadUtils.loadImage(bean.getShop_info().getShop_img(), mBinding.ivLogo);
@@ -162,8 +170,16 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
         });
 
         mBinding.btnLeft.setOnClickListener(v -> {
-            if (4 == bean.getOrder_status()) { //再次购买
+            if (4 == bean.getOrder_status() || 10 == bean.getOrder_status()) { //再次购买
                 mBinding.btnRight.callOnClick();
+            }
+        });
+
+        mBinding.btnRight.setOnClickListener(v -> {
+            if (10 == bean.getOrder_status()) { //查看评价
+                Intent intent = new Intent(this, LookCommentActivity.class);
+                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean);
+                startActivity(intent);
             }
         });
 

@@ -2,9 +2,10 @@ package com.pai8.ke.activity.takeaway.entity;
 
 import com.pai8.ke.entity.GroupGoodsInfoResult;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderDetailResult {
+public class OrderDetailResult implements Serializable {
     private int id;
     private String order_no;
     private int shop_id;
@@ -22,7 +23,7 @@ public class OrderDetailResult {
     private long add_time;
     private long update_time;
     private int address_id;
-    private String comment;
+    private Comment comment;
     private String remark;
     private String pay_type;
     private String refund_reason;
@@ -189,11 +190,11 @@ public class OrderDetailResult {
         return address_id;
     }
 
-    public void setComment(String comment) {
+    public void setComment(Comment comment) {
         this.comment = comment;
     }
 
-    public String getComment() {
+    public Comment getComment() {
         return comment;
     }
 
@@ -286,11 +287,11 @@ public class OrderDetailResult {
     }
 
 
-    public class Rider_info {
+    public class Rider_info implements Serializable{
 
     }
 
-    public class Shop_info {
+    public class Shop_info implements Serializable{
 
         private int id;
         private String shop_name;
@@ -354,6 +355,102 @@ public class OrderDetailResult {
 
         public int getSale_count() {
             return sale_count;
+        }
+
+    }
+
+
+    public class Comment implements Serializable {
+
+        private int id;
+        private String image;
+        private int score;
+        private String content;
+        private int user_id;
+        private long create_time;
+        private String order_no;
+        private String reply;
+        private String video;
+        private int shop_id;
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public void setCreate_time(long create_time) {
+            this.create_time = create_time;
+        }
+
+        public long getCreate_time() {
+            return create_time;
+        }
+
+        public void setOrder_no(String order_no) {
+            this.order_no = order_no;
+        }
+
+        public String getOrder_no() {
+            return order_no;
+        }
+
+        public void setReply(String reply) {
+            this.reply = reply;
+        }
+
+        public String getReply() {
+            return reply;
+        }
+
+        public void setVideo(String video) {
+            this.video = video;
+        }
+
+        public String getVideo() {
+            return video;
+        }
+
+        public void setShop_id(int shop_id) {
+            this.shop_id = shop_id;
+        }
+
+        public int getShop_id() {
+            return shop_id;
         }
 
     }

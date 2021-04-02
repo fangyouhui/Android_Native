@@ -16,7 +16,7 @@ class CommentViewModel : BaseViewModel() {
     fun submit(images: List<LocalMedia>, order_no: String, shop_id: String, score: String, content: String) {
         val imgKeys = StringBuilder()
         var index = 0
-        var video: String? = null
+        var videoKeys = StringBuilder()
         images.forEach {
             UploadFileManager.getInstance().upload(getPathByLocalMedia(it), object : UploadFileManager.Callback {
                 override fun onSuccess(url: String, key: String) {
@@ -24,13 +24,14 @@ class CommentViewModel : BaseViewModel() {
                     val mimeType: String = it.mimeType
                     val mediaType = PictureMimeType.getMimeType(mimeType)
                     if (PictureConfig.TYPE_VIDEO == mediaType) {
-                        video = key
+                        videoKeys.append(key).append(",")
                     } else {
                         imgKeys.append(key).append(",")
                     }
                     if (index == images.size) {
                         imgKeys.deleteCharAt(imgKeys.lastIndexOf(","))
-                        upComment(order_no, imgKeys.toString(), video, score, content, shop_id)
+                        videoKeys.deleteCharAt(imgKeys.lastIndexOf(","))
+                        upComment(order_no, imgKeys.toString(), videoKeys.toString(), score, content, shop_id)
                     }
                 }
 
@@ -41,7 +42,7 @@ class CommentViewModel : BaseViewModel() {
     }
 
 
-    val upCommentData = MutableLiveData<String>()
+    val upCommentData = MutableLiveData<List<String>>()
 
     fun upComment(order_no: String, image: String, video: String?, score: String, content: String, shop_id: String) {
         launchOnlyResult({

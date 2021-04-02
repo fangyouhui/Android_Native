@@ -86,15 +86,24 @@ public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> 
                 holder.binding.btnScan.setVisibility(View.GONE);
                 holder.binding.btnEvaluation.setVisibility(View.VISIBLE);
                 holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
+            } else if (orderStatus == 10) {
+                holder.binding.tvOrderStatus.setText("已完成");
+                holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ffff7f47"));
+                holder.binding.btnQuXiaoDingDan.setVisibility(View.GONE);
+                holder.binding.btnChaKan.setVisibility(View.GONE);
+                holder.binding.btnZaiCiGouMai.setVisibility(View.VISIBLE);
+                holder.binding.btnLiJiFuKuan.setVisibility(View.GONE);
+                holder.binding.btnScan.setVisibility(View.GONE);
+                holder.binding.btnEvaluation.setVisibility(View.GONE);
+                holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
             }
-
             GoodsInfo goodInfo = bean.getGoods_info().get(0);
             ImageLoadUtils.loadImage(goodInfo.getCover().get(0), holder.binding.ivProductImg);
             holder.binding.tvProductName.setText(goodInfo.getTitle());
             holder.binding.tvDesc.setText(goodInfo.getDesc());
             holder.binding.tvCount2.setText("X" + bean.getGoods_info().size());
             holder.binding.tvSellPrice.setText("¥" + goodInfo.getSell_price());
-            holder.binding.tvOriginPrice.setText("¥" + goodInfo.getOrigin_price());
+            //    holder.binding.tvOriginPrice.setText("¥" + goodInfo.getOrigin_price());
 
             holder.binding.tvShiFuPrice.setText("实付：¥" + bean.getOrder_price());
             holder.binding.tvTotalPrice.setText("总价：¥" + bean.getOrder_price());
