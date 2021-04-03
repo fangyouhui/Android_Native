@@ -161,6 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginTop="25dp"
+                    android:isIndicator="true"
                     android:stepSize="1"
                     app:bgDrawable="@mipmap/icon_rating_bar_normal"
                     app:layout_constraintEnd_toEndOf="parent"
