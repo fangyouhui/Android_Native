@@ -11,7 +11,7 @@ import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.entity.resp.CouponResp;
+import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
 import com.pai8.ke.activity.takeaway.adapter.ShopCouponListAdapter;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.app.MyApp;
@@ -155,11 +155,11 @@ public class CouponActivity extends BaseActivity implements SwipeRefreshLayout.O
 
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<CouponResp>() {
+                .subscribe(new BaseObserver<ShopCouponListResult>() {
                     @Override
-                    protected void onSuccess(CouponResp resp) {
+                    protected void onSuccess(ShopCouponListResult resp) {
                         refreshComplete();
-                        List<CouponResp.CouponListBean> list = new ArrayList<>();
+                        List<ShopCouponListResult.CouponListBean> list = new ArrayList<>();
                         list.addAll(resp.getOrder_coupon_list());
                         list.addAll(resp.getExpress_coupon_list());
                         mAdapter.setDataList(list);

@@ -8,11 +8,11 @@ import java.util.List;
  * @time 2020/12/21 22:18
  * Description：
  */
-public class CouponResp {
+public class ShopCouponListResult {
 
 
-    private List<CouponListBean> express_coupon_list;
-    private List<CouponListBean> order_coupon_list;
+    private List<CouponListBean> express_coupon_list;//运费券列表
+    private List<CouponListBean> order_coupon_list;//订单优惠券列表
 
     public List<CouponListBean> getExpress_coupon_list() {
         return express_coupon_list;

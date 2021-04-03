@@ -2,12 +2,10 @@ package com.pai8.ke.shop.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.lhs.library.base.BaseViewModel
-import com.pai8.ke.activity.takeaway.entity.ShopCouponListResult
 import com.pai8.ke.entity.GroupShopInfoResult
 import com.pai8.ke.entity.ShopGroupListResult
 import com.pai8.ke.entity.ShopVideoResult
 import com.pai8.ke.groupBuy.http.RetrofitClient
-import com.pai8.ke.manager.AccountManager
 
 class BusinessHomeViewModel : BaseViewModel() {
 
@@ -27,11 +25,5 @@ class BusinessHomeViewModel : BaseViewModel() {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().getShopVideoList(shop_id, page, "10") }, { shopVideoListData.value = it })
     }
 
-
-    val shopCouponListData = MutableLiveData<ShopCouponListResult>()
-    fun shopCouponList(shop_id: String) {
-        launchOnlyResult({ RetrofitClient.getInstance().getMainService().shopCouponList(shop_id, AccountManager.getInstance().uid) },
-                { shopCouponListData.value = it })
-    }
 
 }

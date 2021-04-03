@@ -1,9 +1,7 @@
 package com.pai8.ke.activity.takeaway.ui;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.entity.resp.CouponResp;
 import com.pai8.ke.activity.takeaway.adapter.SecondAdminManagerAdapter;
 import com.pai8.ke.activity.takeaway.contract.SecondAdminManagerContract;
 import com.pai8.ke.activity.takeaway.entity.resq.SecondAdminManagerResq;
@@ -11,10 +9,8 @@ import com.pai8.ke.activity.takeaway.presenter.SecondAdminManagerPresenter;
 import com.pai8.ke.base.BaseMvpActivity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**

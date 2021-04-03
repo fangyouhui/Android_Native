@@ -5,24 +5,14 @@ import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.entity.resp.CouponResp;
+import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
-import com.pai8.ke.entity.CouponInfoEntity;
-import com.pai8.ke.entity.resp.CouponGetListResp;
-import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.utils.DateUtils;
-import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.SpanUtils;
-import com.pai8.ke.utils.TextViewUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +21,7 @@ import butterknife.BindView;
 /**
  * 商家优惠券Adapter
  */
-public class ShopCouponListAdapter extends BaseRecyclerViewAdapter<CouponResp.CouponListBean> {
+public class ShopCouponListAdapter extends BaseRecyclerViewAdapter<ShopCouponListResult.CouponListBean> {
 
     private Click mClick;
 
@@ -53,7 +43,7 @@ public class ShopCouponListAdapter extends BaseRecyclerViewAdapter<CouponResp.Co
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         ViewHolder viewHolder = (ViewHolder) holder;
-        CouponResp.CouponListBean coupons = mDataList.get(position);
+        ShopCouponListResult.CouponListBean coupons = mDataList.get(position);
         SpannableStringBuilder span = SpanUtils.getBuilder("")
                 .append(mContext, "￥")
                 .setProportion(0.7f)
@@ -98,6 +88,6 @@ public class ShopCouponListAdapter extends BaseRecyclerViewAdapter<CouponResp.Co
 
     public interface Click {
 
-        void onClick(CouponResp.CouponListBean bean);
+        void onClick(ShopCouponListResult.CouponListBean bean);
     }
 }

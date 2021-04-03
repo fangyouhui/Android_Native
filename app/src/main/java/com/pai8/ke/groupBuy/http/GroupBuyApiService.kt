@@ -1,8 +1,8 @@
 package com.pai8.ke.groupBuy.http
 
+import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
-import com.pai8.ke.activity.takeaway.entity.ShopCouponListResult
 import com.pai8.ke.entity.*
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -76,4 +76,11 @@ interface GroupBuyApiService {
     suspend fun shopCouponList(@Query("shop_id") shop_id: String, @Query("buyer_id") buyer_id: String): BaseHttpResult<ShopCouponListResult>
 
 
+    /**
+     * 领取
+     *
+     * @return
+     */
+    @POST("Coupon/getCoupon")
+    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<List<String>>
 }

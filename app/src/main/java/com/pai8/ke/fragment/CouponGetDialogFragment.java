@@ -3,56 +3,30 @@ package com.pai8.ke.fragment;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.lhs.library.base.BaseDialogFragment;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.entity.resp.CouponResp;
+import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
 import com.pai8.ke.adapter.CouponGetListAdapter;
-import com.pai8.ke.api.Api;
-import com.pai8.ke.base.BaseCommDialogFragment;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.CouponGetListResp;
-import com.pai8.ke.manager.AccountManager;
-import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.databinding.DialogCouponGetBinding;
+import com.pai8.ke.shop.viewmodel.CouponGetViewModel;
 import com.pai8.ke.utils.SpanUtils;
 import com.pai8.ke.utils.StringUtils;
-import com.pai8.ke.widget.SpaceItemDecoration;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.OnClick;
 
 import static android.view.View.VISIBLE;
 
 /**
  * 优惠券领取对话框
  */
-public class CouponGetDialogFragment extends BaseCommDialogFragment {
+public class CouponGetDialogFragment extends BaseDialogFragment<CouponGetViewModel, DialogCouponGetBinding> {
 
-    @BindView(R.id.rv)
-    RecyclerView rv;
-    @BindView(R.id.iv_btn_get)
-    ImageView ivBtnGet;
-    @BindView(R.id.iv_btn_close)
-    ImageView ivBtnClose;
-    @BindView(R.id.tv_tip)
-    TextView tvTip;
     private String mShopId;
-
     private CouponGetListAdapter mAdapter;
-
-    public static CouponGetDialogFragment newInstance() {
-        CouponGetDialogFragment fragment = new CouponGetDialogFragment();
-        Bundle bundle = new Bundle();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
 
     public static CouponGetDialogFragment newInstance(String shopId) {
         CouponGetDialogFragment fragment = new CouponGetDialogFragment();
@@ -63,110 +37,79 @@ public class CouponGetDialogFragment extends BaseCommDialogFragment {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.view_dialog_fragment_coupon_get;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mShopId = getArguments().getString("shopId");
     }
 
     @Override
-    public void initView(Bundle arguments) {
-        mShopId = arguments.getString("shopId");
-        mAdapter = new CouponGetListAdapter(getActivity());
-        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rv.setAdapter(mAdapter);
+    public void initView() {
+        mAdapter = new CouponGetListAdapter(getActivity(), null);
+        mBinding.recyclerView.setAdapter(mAdapter);
+        mBinding.ivBtnGet.setOnClickListener(v -> {
+            if (mBinding.tvTip.getVisibility() == VISIBLE) {
+                dismiss();
+            } else { //领取
+                List<ShopCouponListResult.CouponListBean> dataList = mAdapter.getData();
+                List<String> a = new ArrayList<>();
+                for (ShopCouponListResult.CouponListBean couponGetListResp : dataList) {
+                    a.add(couponGetListResp.getId() + "");
+                }
+                String s = StringUtils.intJoinStr(a, "/");
+                mViewModel.getCoupon(s);
+            }
+        });
+        mBinding.ivBtnClose.setOnClickListener(v -> dismiss());
+    }
+
+    @Override
+    public void addObserve() {
+        mViewModel.getShopCouponListData().observe(this, data -> {
+            List<ShopCouponListResult.CouponListBean> list = data.getExpress_coupon_list();
+            list.addAll(data.getOrder_coupon_list());
+            if (!list.isEmpty()) {
+                mAdapter.setData(list);
+                mBinding.recyclerView.setVisibility(VISIBLE);
+                mBinding.tvTip.setVisibility(View.INVISIBLE);
+                mBinding.ivBtnGet.setImageResource(R.mipmap.img_btn_get_coupon);
+            } else {
+                empty();
+            }
+        });
+
+        mViewModel.getGetCouponData().observe(this, data -> {
+            getSuccess();
+        });
     }
 
     @Override
     public void initData() {
-        if (StringUtils.isNotEmpty(mShopId)) {
-            Api.getInstance().shopCouponList(mShopId, AccountManager.getInstance().getUid())
-                    .doOnSubscribe(disposable -> {
-
-                    })
-                    .compose(RxSchedulers.io_main())
-                    .subscribe(new BaseObserver<CouponResp>() {
-                        @Override
-                        protected void onSuccess(CouponResp resp) {
-                            List<CouponResp.CouponListBean> list = resp.getExpress_coupon_list();
-                            list.addAll(resp.getOrder_coupon_list());
-                            if (CollectionUtils.isNotEmpty(list)) {
-                                mAdapter.setDataList(list);
-                                rv.setVisibility(VISIBLE);
-                                tvTip.setVisibility(View.INVISIBLE);
-                                ivBtnGet.setImageResource(R.mipmap.img_btn_get_coupon);
-                            } else {
-                                empty();
-                            }
-                        }
-
-                        @Override
-                        protected void onError(String msg, int errorCode) {
-                            super.onError(msg, errorCode);
-                        }
-                    });
-        }
-    }
-
-    @OnClick({R.id.iv_btn_get, R.id.iv_btn_close})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.iv_btn_get:
-                if (tvTip.getVisibility() == VISIBLE) {
-                    dismiss();
-                } else {
-                    //领取
-                    List<CouponResp.CouponListBean> dataList = mAdapter.getDataList();
-                    List<String> a = new ArrayList<>();
-                    for (CouponResp.CouponListBean couponGetListResp : dataList) {
-                        a.add(couponGetListResp.getId() + "");
-                    }
-                    String s = StringUtils.intJoinStr(a, "/");
-                    Api.getInstance().getCoupon(AccountManager.getInstance().getUid(), s)
-                            .doOnSubscribe(disposable -> {
-
-                            })
-                            .compose(RxSchedulers.io_main())
-                            .subscribe(new BaseObserver() {
-                                @Override
-                                protected void onSuccess(Object o) {
-                                    getSuccess();
-                                }
-
-                                @Override
-                                protected void onError(String msg, int errorCode) {
-                                    super.onError(msg, errorCode);
-                                }
-                            });
-                }
-                break;
-            case R.id.iv_btn_close:
-                dismiss();
-                break;
-        }
+        mViewModel.shopCouponList(mShopId);
     }
 
     private void getSuccess() {
         SpannableStringBuilder span = SpanUtils.getBuilder("")
-                .append(mContext, "恭喜您领取成功！\n")
+                .append(getContext(), "恭喜您领取成功！\n")
                 .setBold()
-                .append(mContext, "详情请前往【我的】-【优惠券】页面查看！")
+                .append(getContext(), "详情请前往【我的】-【优惠券】页面查看！")
                 .setProportion(0.7f)
-                .create(mContext);
-        tvTip.setText(span);
-        rv.setVisibility(View.INVISIBLE);
-        tvTip.setVisibility(VISIBLE);
-        ivBtnGet.setImageResource(R.mipmap.img_btn_submit);
+                .create(getContext());
+        mBinding.tvTip.setText(span);
+        mBinding.recyclerView.setVisibility(View.INVISIBLE);
+        mBinding.tvTip.setVisibility(VISIBLE);
+        mBinding.ivBtnGet.setImageResource(R.mipmap.img_btn_submit);
     }
 
     private void empty() {
         SpannableStringBuilder span = SpanUtils.getBuilder("")
-                .append(mContext, "暂无可领取的优惠券！\n")
+                .append(getContext(), "暂无可领取的优惠券！\n")
                 .setBold()
-                .append(mContext, "详情请前往【我的】-【优惠券】页面查看！")
+                .append(getContext(), "详情请前往【我的】-【优惠券】页面查看！")
                 .setProportion(0.7f)
-                .create(mContext);
-        tvTip.setText(span);
-        rv.setVisibility(View.INVISIBLE);
-        tvTip.setVisibility(VISIBLE);
-        ivBtnGet.setImageResource(R.mipmap.img_btn_submit);
+                .create(getContext());
+        mBinding.tvTip.setText(span);
+        mBinding.recyclerView.setVisibility(View.INVISIBLE);
+        mBinding.tvTip.setVisibility(VISIBLE);
+        mBinding.ivBtnGet.setImageResource(R.mipmap.img_btn_submit);
     }
 }

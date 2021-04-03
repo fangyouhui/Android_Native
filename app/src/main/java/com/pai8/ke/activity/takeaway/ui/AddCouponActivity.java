@@ -1,20 +1,17 @@
 package com.pai8.ke.activity.takeaway.ui;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.entity.resp.CouponResp;
+import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.CouponGetListResp;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.AppUtils;
-import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.PickerUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -36,7 +33,6 @@ import java.util.List;
 
 import androidx.annotation.IntDef;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -61,7 +57,7 @@ public class AddCouponActivity extends BaseActivity {
 
     public static final int TYPE_ADD = 1;
     public static final int TYPE_EDIT = 2;
-    private CouponResp.CouponListBean mCouponGetList;
+    private ShopCouponListResult.CouponListBean mCouponGetList;
     private OptionsPickerView mPvType;
     private int mOptions = -1;
 
@@ -80,7 +76,7 @@ public class AddCouponActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    public static void launchEdit(Context context, CouponResp.CouponListBean bean) {
+    public static void launchEdit(Context context, ShopCouponListResult.CouponListBean bean) {
         Intent intent = new Intent(context, AddCouponActivity.class);
         Bundle bundle = new Bundle();
         intent.putExtra("type", TYPE_EDIT);
@@ -99,7 +95,7 @@ public class AddCouponActivity extends BaseActivity {
     public void initView() {
         Bundle extras = getIntent().getExtras();
         mType = extras.getInt("type");
-        mCouponGetList = (CouponResp.CouponListBean) extras.getSerializable("couponGetListResp");
+        mCouponGetList = (ShopCouponListResult.CouponListBean) extras.getSerializable("couponGetListResp");
 
         if (mType == TYPE_ADD) {
             mTitleBar.setTitle("创建优惠券");

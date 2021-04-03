@@ -1,6 +1,6 @@
 package com.pai8.ke.api;
 
-import com.pai8.ke.activity.me.entity.resp.CouponResp;
+import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
@@ -8,7 +8,6 @@ import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.AttentionResp;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.CommentResp;
-import com.pai8.ke.entity.resp.CouponGetListResp;
 import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.entity.resp.Province;
@@ -361,8 +360,8 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("Coupon/shopCouponList")
-    Observable<BaseRespose<CouponResp>> shopCouponList(@Field("shop_id") String shop_id,
-                                                       @Field("buyer_id") String buyer_id);
+    Observable<BaseRespose<ShopCouponListResult>> shopCouponList(@Field("shop_id") String shop_id,
+                                                                 @Field("buyer_id") String buyer_id);
 
     /**
      * 领取
