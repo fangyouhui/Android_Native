@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white">
@@ -18,14 +19,17 @@
         android:layout_height="40dp"
         android:paddingLeft="54dp"
         android:paddingRight="54dp"
+
         app:layout_constraintTop_toTopOf="@+id/guide_line_top" />
+
+
 
     <TextView
         android:id="@+id/tv_search"
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+
         android:layout_marginEnd="15dp"
         android:background="@drawable/shape_input_radius18"
         android:drawableLeft="@mipmap/ic_home_search"
@@ -37,6 +41,7 @@
         android:textColor="@color/color_light_font"
         android:textSize="13sp"
         app:layout_constraintBottom_toTopOf="@+id/view_pager"
+        app:layout_constraintTop_toTopOf="@id/magic_indicator"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/iv_liwu"
         app:layout_constraintTop_toBottomOf="@+id/magic_indicator" />
@@ -69,41 +74,93 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_search">
-
-        <TextView
+       <LinearLayout
+            tools:ignore="MissingConstraints"
             android:id="@+id/bnWaiMai"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_red_light"
             android:gravity="center"
             android:text="外卖"
+           android:elevation="3dp"
+           android:layout_margin="1dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/bnTuanGou"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="horizontal"
+           android:background="@drawable/shap_me_layout_radius8">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/ic_home_waimai"
+            ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="外卖">
 
-        <TextView
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            tools:ignore="MissingConstraints"
             android:id="@+id/bnTuanGou"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_light"
             android:gravity="center"
             android:text="团购"
+            android:elevation="3dp"
+            android:layout_margin="1dp"
+
             app:layout_constraintLeft_toRightOf="@+id/bnWaiMai"
             app:layout_constraintRight_toLeftOf="@+id/bnAll"
-            app:layout_constraintTop_toTopOf="@+id/bnWaiMai" />
+            app:layout_constraintTop_toTopOf="@+id/bnWaiMai"
+            android:orientation="horizontal"
+            android:background="@drawable/shap_me_layout_radius8">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/home_tuangou"
+                ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="团购">
 
-        <TextView
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            tools:ignore="MissingConstraints"
             android:id="@+id/bnAll"
             android:layout_width="80dp"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_green_light"
             android:gravity="center"
             android:text="全部"
+            android:elevation="3dp"
+            android:layout_margin="1dp"
+
             app:layout_constraintLeft_toRightOf="@+id/bnTuanGou"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/bnWaiMai" />
+            app:layout_constraintTop_toTopOf="@+id/bnWaiMai"
+            android:orientation="horizontal"
+            android:background="@drawable/shap_me_layout_radius8">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/home_all"
+                ></ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部">
+
+            </TextView>
+        </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager.widget.ViewPager

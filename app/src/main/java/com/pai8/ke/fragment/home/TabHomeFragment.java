@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
+import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
 import com.pai8.ke.groupBuy.ui.GroupBuyMainActivity;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
@@ -101,7 +103,7 @@ public class TabHomeFragment extends BaseFragment {
                 "：" + MyApp.getLngLat().get(2) + "-city：" + MyApp.getCity());
     }
 
-    @OnClick({R.id.tv_search, R.id.iv_liwu, R.id.iv_scan, R.id.bnTuanGou})
+    @OnClick({R.id.tv_search, R.id.iv_liwu, R.id.iv_scan, R.id.bnTuanGou, R.id.bnWaiMai})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_search:
@@ -132,6 +134,9 @@ public class TabHomeFragment extends BaseFragment {
                 break;
             case R.id.bnTuanGou:
                 startActivity(new Intent(getContext(), GroupBuyMainActivity.class));
+                break;
+            case R.id.bnWaiMai:
+                startActivity(new Intent(getContext(), TakeawayActivity.class));
                 break;
         }
     }
