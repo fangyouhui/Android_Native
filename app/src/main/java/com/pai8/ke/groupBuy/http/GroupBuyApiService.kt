@@ -83,4 +83,15 @@ interface GroupBuyApiService {
      */
     @POST("Coupon/getCoupon")
     suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<List<String>>
+
+
+    /**
+     * 领取
+     *
+     * @return
+     */
+    @POST("Order/verifyOrder")
+    suspend fun verifyOrder(@Query("order_no") order_no: String, @Query("shop_id") shop_id: String): BaseHttpResult<String>
+
+
 }

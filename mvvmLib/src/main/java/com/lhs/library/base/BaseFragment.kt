@@ -14,10 +14,6 @@ import com.lhs.library.event.Message
 import com.lhs.library.widget.CustomProgressDialog
 import java.lang.reflect.ParameterizedType
 
-/**
- *   @auther : Aleyn
- *   time   : 2019/11/01
- */
 abstract class BaseFragment<VM : BaseViewModel, DB : ViewBinding> : Fragment() {
 
     protected lateinit var mViewModel: VM

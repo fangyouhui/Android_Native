@@ -2,7 +2,6 @@ package com.pai8.ke.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Rect;
 import android.graphics.Shader;
@@ -88,12 +87,12 @@ public class CustomViewfinderView extends ViewfinderView {
     @Override
     public void onDraw(Canvas canvas) {
         refreshSizes();
-        if (framingRect == null || previewFramingRect == null) {
+        if (framingRect == null) {
             return;
         }
 
         Rect frame = framingRect;
-        Rect previewFrame = previewFramingRect;
+        Rect previewFrame = null;
 
         int width = canvas.getWidth();
         int height = canvas.getHeight();

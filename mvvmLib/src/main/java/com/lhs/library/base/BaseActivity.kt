@@ -28,10 +28,11 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewBinding> : AppCompatAct
 
     private var progressDialog: CustomProgressDialog? = null
 
-    protected val TAG = javaClass.simpleName
+    protected lateinit var TAG: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        TAG = javaClass.simpleName
         LogUtils.e(TAG, "激活页面：$TAG")
         initViewDataBinding()
         lifecycle.addObserver(mViewModel)

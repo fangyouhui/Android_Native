@@ -2,6 +2,8 @@ package com.pai8.ke.api;
 
 import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
 import com.pai8.ke.base.BaseRespose;
+import com.pai8.ke.entity.UserInfo;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
@@ -14,11 +16,9 @@ import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.entity.resp.ShareMiniResp;
 import com.pai8.ke.entity.resp.ShareResp;
 import com.pai8.ke.entity.resp.ShopList;
-import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.entity.resp.VersionResp;
 import com.pai8.ke.entity.resp.VideoListResp;
 import com.pai8.ke.entity.resp.VideoNearResp;
-import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.resp.VideoResp;
 import com.pai8.ke.entity.resp.WxOrderPrepayResp;
 
@@ -417,4 +417,9 @@ public interface ApiService {
     @POST("system/share")
     Observable<BaseRespose<ShareMiniResp>> shareMini(@Field("type") int type,
                                                      @Field("id") String id);
+
+    @FormUrlEncoded
+    @POST("Order/verifyOrder")
+    Observable<BaseRespose<List<String>>> verifyOrder(@Field("order_no") String order_no,
+                                                      @Field("shop_id") String shop_id);
 }

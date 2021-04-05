@@ -252,6 +252,16 @@
             android:label="评价"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.takeaway.ui.ScanItActivity"
+            android:label="二维码"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.takeaway.ui.WriteOffErrorActivity"
+            android:label="团队核对结果"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"
