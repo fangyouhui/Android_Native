@@ -7,6 +7,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderDetailAdapter;
 import com.pai8.ke.activity.takeaway.contract.OrderDetailContract;
@@ -20,9 +22,6 @@ import com.pai8.ke.fragment.pay.PayDialogFragment;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pai8.ke.utils.DateUtils.FORMAT_YYYY_MM_DD_HHMM;
 
@@ -47,7 +46,7 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
     ImageView ivMore;
 
     private OrderInfo mOrderInfo;
-    private TextView mTvRiderName,mTvRiderTime;
+    private TextView mTvRiderName, mTvRiderTime;
 
 
     private TextView mTvCoupon;
@@ -69,17 +68,16 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_order_detail;
+        return R.layout.activity_shop_order_detail;
     }
 
     @Override
     public void initView() {
         setImmersionBar(R.id.base_tool_bar);
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
-     //   ivMore = findViewById(R.id.toolbar_more);
+        ivMore = findViewById(R.id.toolbar_more);
         ivMore.setOnClickListener(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRvOrderDetail.setLayoutManager(layoutManager);
+        mRvOrderDetail = findViewById(R.id.rv_order_detail);
         mAdapter = new OrderDetailAdapter(null);
         mRvOrderDetail.setAdapter(mAdapter);
         mViewHead = getLayoutInflater().inflate(R.layout.activity_order_detail_shop_head, (ViewGroup) mRvOrderDetail.getParent(), false);
@@ -149,7 +147,7 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
             mTvStoreName.setText(orderInfo.shop_info.shop_name);
         }
 
-        mTvPayWay.setText(orderInfo.pay_type == 1 ?"微信支付" : "支付宝");
+        mTvPayWay.setText(orderInfo.pay_type == 1 ? "微信支付" : "支付宝");
 
 
         mTvStatusName.setText("");
@@ -203,7 +201,7 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
             mTvStatus.setText("商家拒绝接单");
         }
 
-        if(orderInfo.rider_info!=null){
+        if (orderInfo.rider_info != null) {
             mTvRiderName.setText(orderInfo.rider_info.rider_name);
 //            mTvRiderTime.setText("尽快送达")
         }
@@ -218,27 +216,24 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
             if (mOrderInfo.shop_info != null) {
                 AppUtils.intentCallPhone(this, mOrderInfo.shop_info.mobile);
             }
-        }
-//        else if (v.getId() == R.id.toolbar_more) {
-//            if (mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4) {
-//                CancelOrderPop pop = new CancelOrderPop(this, mOrderInfo.order_status);
-//                pop.setOnSelectListener(new CancelOrderPop.OnSelectListener() {
-//                    @Override
-//                    public void onSelect(int status) {
-//                        if (status == 0) {
-//                            mPresenter.cancelOrder(mOrderInfo.order_no);
-//                        } else {
-//                            mPresenter.applyRefund(mOrderInfo.order_no);
-//                        }
-//
-//                    }
-//                });
-//                pop.showPopupWindow();
-//            }
-//
-//        }
+        } else if (v.getId() == R.id.toolbar_more) {
+            if (mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4) {
+                CancelOrderPop pop = new CancelOrderPop(this, mOrderInfo.order_status);
+                pop.setOnSelectListener(new CancelOrderPop.OnSelectListener() {
+                    @Override
+                    public void onSelect(int status) {
+                        if (status == 0) {
+                            mPresenter.cancelOrder(mOrderInfo.order_no);
+                        } else {
+                            mPresenter.applyRefund(mOrderInfo.order_no);
+                        }
 
-        else if (v.getId() == R.id.tv_status_pay) {
+                    }
+                });
+                pop.showPopupWindow();
+            }
+
+        } else if (v.getId() == R.id.tv_status_pay) {
 
             if (mOrderInfo.order_status == 0) {
                 mTvStatus.setText("待支付");

@@ -9,7 +9,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pai8.ke.R;
 import com.pai8.ke.activity.common.NaviActivity;
 import com.pai8.ke.activity.video.tiktok.TikTokView;
@@ -25,11 +27,7 @@ import com.pai8.ke.widget.CircleImageView;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
 public class TikTokAdapter extends BaseRecyclerViewAdapter<Video> {
@@ -97,17 +95,17 @@ public class TikTokAdapter extends BaseRecyclerViewAdapter<Video> {
         //开始预加载
         PreloadManager.getInstance(context).addPreloadTask(videoData.getVideo_path(), position);
         ImageLoadUtils.loadPicsFitWidth(context, videoData.getCover_path(), viewHolder.mThumb);
-        ImageLoadUtils.loadImage(mContext, videoData.getUser().getAvatar(), viewHolder.civAvatar,
-                R.mipmap.img_head_def);
+        if (videoData.getUser() != null) {
+            ImageLoadUtils.loadImage(mContext, videoData.getUser().getAvatar(), viewHolder.civAvatar, R.mipmap.img_head_def);
+            viewHolder.tvName.setText(videoData.getUser().getNickname());
+        }
         viewHolder.tvLike.setText(videoData.getLike_counts() + "");
         viewHolder.tvComment.setText(videoData.getComment_counts() + "");
-        viewHolder.tvName.setText(videoData.getUser().getNickname());
         viewHolder.tvSign.setText(videoData.getVideo_desc());
 
         Shop shop = videoData.getShop();
         if (shop != null) {
-            ImageLoadUtils.loadImage(mContext, shop.getImg(), viewHolder.civCover,
-                    R.mipmap.ic_shop_def_circle);
+            ImageLoadUtils.loadImage(mContext, shop.getImg(), viewHolder.civCover, R.mipmap.ic_shop_def_circle);
             viewHolder.tvCoverName.setText(shop.getName());
             viewHolder.ivBottomBg.setVisibility(VISIBLE);
             viewHolder.tvCoverName.setVisibility(VISIBLE);
