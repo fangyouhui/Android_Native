@@ -13,18 +13,19 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.contract.StoreManagerContract;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.order.OrderDetailActivity;
+import com.pai8.ke.activity.takeaway.order.WriteOffOrderDetailActivity;
 import com.pai8.ke.activity.takeaway.presenter.StoreManagerPresenter;
 import com.pai8.ke.activity.takeaway.widget.ShopStatusPop;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.ShareMiniResp;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.widget.BottomDialog;
@@ -56,14 +57,15 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
                         .subscribe(new BaseObserver<List<String>>() {
                             @Override
                             protected void onSuccess(List<String> shareMiniResp) {
-                                Intent intent = new Intent(getBaseContext(), OrderDetailActivity.class)
+                                Intent intent = new Intent(getBaseContext(), WriteOffOrderDetailActivity.class)
                                         .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, orderNo);
                                 startActivity(intent);
                             }
 
                             @Override
                             protected void onError(String msg, int errorCode) {
-                                startActivity(new Intent(getBaseContext(), WriteOffErrorActivity.class));
+                                //   startActivity(new Intent(getBaseContext(), WriteOffErrorActivity.class));
+                                ToastUtils.showShort("核销失败");
                             }
                         });
             }

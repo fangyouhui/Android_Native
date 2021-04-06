@@ -262,6 +262,11 @@
             android:label="团队核对结果"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.takeaway.order.WriteOffOrderDetailActivity"
+            android:label="核销"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"
