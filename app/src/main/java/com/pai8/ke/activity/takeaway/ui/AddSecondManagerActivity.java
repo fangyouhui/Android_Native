@@ -1,33 +1,26 @@
 package com.pai8.ke.activity.takeaway.ui;
 
-import com.afollestad.materialdialogs.DialogAction;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.me.adapter.FansAdapter;
 import com.pai8.ke.activity.takeaway.adapter.AddAdminManagerAdapter;
-import com.pai8.ke.activity.takeaway.adapter.SecondAdminManagerAdapter;
 import com.pai8.ke.activity.takeaway.contract.AddSecondManagerContract;
 import com.pai8.ke.activity.takeaway.entity.resq.SecondAdminManagerResq;
 import com.pai8.ke.activity.takeaway.presenter.AddSecondManagerPresenter;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.BaseMvpFragment;
-import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.utils.StringUtils;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -57,11 +50,11 @@ public class AddSecondManagerActivity extends BaseMvpActivity<AddSecondManagerPr
     public void initCreate(@Nullable Bundle savedInstanceState) {
         super.initCreate(savedInstanceState);
         Intent intent = getIntent();
-        if(intent != null) {
+        if (intent != null) {
             Integer managerId = intent.getIntExtra("managerId", Integer.MIN_VALUE);
             String power = intent.getStringExtra("power");
             String phoneNumber = intent.getStringExtra("phoneNumber");
-            if(managerId != Integer.MIN_VALUE && power != null && phoneNumber != null) {
+            if (managerId != Integer.MIN_VALUE && power != null && phoneNumber != null) {
                 editMode = true;
                 this.power = power;
                 this.managerId = managerId;
@@ -100,26 +93,26 @@ public class AddSecondManagerActivity extends BaseMvpActivity<AddSecondManagerPr
             return;
         }
         builder.deleteCharAt(builder.length() - 1);
-        if(!editMode) {
-            new MaterialDialog.Builder(this)
-                    .title("温馨提示")
-                    .content("确定要将手机号为" + phone + "的用户添加为管理员吗？")
-                    .positiveText("确认")
-                    .negativeText("取消")
-                    .onPositive((dialog, which) -> {
-                        mPresenter.addSecondManager(phone, builder.toString());
-                    })
-                    .show();
+        if (!editMode) {
+//            new MaterialDialog.Builder(this)
+//                    .title("温馨提示")
+//                    .content("确定要将手机号为" + phone + "的用户添加为管理员吗？")
+//                    .positiveText("确认")
+//                    .negativeText("取消")
+//                    .onPositive((dialog, which) -> {
+//                        mPresenter.addSecondManager(phone, builder.toString());
+//                    })
+//                    .show();
         } else {
-            new MaterialDialog.Builder(this)
-                    .title("温馨提示")
-                    .content("确定要提交吗？")
-                    .positiveText("确认")
-                    .negativeText("取消")
-                    .onPositive((dialog, which) -> {
-                        mPresenter.updateSecondAdmin(managerId, 1, builder.toString());
-                    })
-                    .show();
+//            new MaterialDialog.Builder(this)
+//                    .title("温馨提示")
+//                    .content("确定要提交吗？")
+//                    .positiveText("确认")
+//                    .negativeText("取消")
+//                    .onPositive((dialog, which) -> {
+//                        mPresenter.updateSecondAdmin(managerId, 1, builder.toString());
+//                    })
+//                    .show();
         }
     }
 
@@ -127,11 +120,11 @@ public class AddSecondManagerActivity extends BaseMvpActivity<AddSecondManagerPr
     public void getListSuccess(List<SecondAdminManagerResq.PowerArrayBean> data) {
         mList.clear();
         mList.addAll(data);
-        if(editMode && this.power != null) {
+        if (editMode && this.power != null) {
             String[] selected = this.power.split(",");
-            for(SecondAdminManagerResq.PowerArrayBean bean : mList) {
-                for(String s : selected) {
-                    if(s.equals(String.valueOf(bean.getId()))) {
+            for (SecondAdminManagerResq.PowerArrayBean bean : mList) {
+                for (String s : selected) {
+                    if (s.equals(String.valueOf(bean.getId()))) {
                         bean.setChoose(true);
                     }
                 }
@@ -161,7 +154,7 @@ public class AddSecondManagerActivity extends BaseMvpActivity<AddSecondManagerPr
 
     @Override
     public void initView() {
-        if(editMode) {
+        if (editMode) {
             mTitleBar.setTitle("编辑二级管理员");
         } else {
             mTitleBar.setTitle("添加二级管理员");

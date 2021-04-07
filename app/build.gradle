@@ -5,7 +5,7 @@ apply plugin: 'kotlin-android'
 android {
 
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.pai8.ke"
@@ -49,14 +49,15 @@ android {
             minifyEnabled false
             zipAlignEnabled true
             shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            applicationVariants.all { variant ->
-                variant.outputs.all {
-                    def time = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
-                    outputFileName = "pai8_release_v${variant.versionName}_${time}.apk"
-                }
-            }
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def time = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
+            outputFileName = "pai8_ ${variant.buildType.name} _v${variant.versionName} _${time}.apk "
         }
     }
 
@@ -69,12 +70,12 @@ android {
         viewBinding true
     }
 
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
-        }
-    }
+//    sourceSets {
+//        main {
+//            jniLibs.srcDirs = ['libs']
+//            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
+//        }
+//    }
     flavorDimensions "market"
     productFlavors {
         HuaWei {
@@ -141,7 +142,6 @@ MobSDK {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs/alipaySdk-15.7.9-20200727142814-noUtdid.aar')
@@ -207,10 +207,10 @@ dependencies {
     implementation 'cat.ereza:customactivityoncrash:2.2.0'
     implementation 'com.just.agentweb:agentweb:4.0.2'
     //裁剪框架
-    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     //rxbinding
-    implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
-    implementation 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
+    //   implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+    // implementation 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
 
     implementation project(':mvvmLib')
     implementation 'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
@@ -219,8 +219,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.3.0-rc01'
     implementation 'com.google.android.material:material:1.3.0'
-    implementation 'com.github.giswangsj:AndRatingBar:1.0.5'
-
+    implementation 'com.github.giswangsj:AndRatingBar:1.0.5' //评分条
 
 
 }
