@@ -11,6 +11,9 @@
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="rating_bar_custom" parent="@android:style/Widget.RatingBar">

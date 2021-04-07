@@ -1,6 +1,5 @@
 package com.pai8.ke.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
@@ -8,6 +7,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.next.easynavigation.view.EasyNavigationBar;
@@ -48,17 +50,8 @@ public class MainActivity extends BaseMvpActivity<VersionContract.Presenter> imp
     //选中时icon
     private int[] selectIcon = {R.mipmap.icon_tabbar_home_select, R.mipmap.icon_tabbar_shopping_select,
             R.mipmap.icon_tabbar_msg_select, R.mipmap.icon_tabbar_me_select};
-    private String[] menuTextItems = {"", "", "", ""};
     private EasyNavigationBar navigationBar;
     private List<Fragment> fragments = new ArrayList<>();
-
-    private long mExitTime;
-
-    public static void launch(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -143,7 +136,7 @@ public class MainActivity extends BaseMvpActivity<VersionContract.Presenter> imp
     @Override
     public void initData() {
         getShopInfo();
-        MyApp.getMyAppHandler().postDelayed(() -> {
+        ThreadUtils.runOnUiThreadDelayed(() -> {
             MyApp.setJPushAlias();
             mPresenter.getVersion();
         }, 1000);
@@ -152,16 +145,24 @@ public class MainActivity extends BaseMvpActivity<VersionContract.Presenter> imp
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - mExitTime) > 1800) {
-                toast("再按一次退出app");
-                mExitTime = System.currentTimeMillis();
-            } else {
-                this.finish();
-            }
-            return true;
+            exit();
+            return false;
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    private long mExitTime;
+
+    private void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+            ToastUtils.showShort("再按一次退出程序");
+            mExitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            AppUtils.exitApp();
+        }
+    }
+
 
     private void getShopInfo() {
         if (!mAccountManager.isLogin()) return;

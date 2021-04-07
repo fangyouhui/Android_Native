@@ -57,7 +57,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all {
             def time = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
-            outputFileName = "pai8_ ${variant.buildType.name} _v${variant.versionName} _${time}.apk "
+            outputFileName = "pai8_${variant.buildType.name}_v${variant.versionName} _${time}.apk "
         }
     }
 
@@ -184,7 +184,8 @@ dependencies {
     implementation 'com.hjq:titlebar:8.0'
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.qiniu:qiniu-android-sdk:8.0.+'
-    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+//    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+    implementation 'com.github.hackware1993:MagicIndicator:1.7.0' // for androidx
     //jPush
     implementation 'cn.jiguang.sdk:jpush:3.8.6'
     implementation 'cn.jiguang.sdk:jcore:2.5.5'
