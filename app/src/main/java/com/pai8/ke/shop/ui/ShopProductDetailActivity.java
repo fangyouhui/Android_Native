@@ -11,6 +11,7 @@ import com.pai8.ke.activity.takeaway.adapter.BannerAdapter;
 import com.pai8.ke.databinding.ActivityShopProductDetailBinding;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
 import com.pai8.ke.entity.GroupShopInfoResult;
+import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.shop.adapter.ProductImgDetailAdapter;
 import com.pai8.ke.shop.viewmodel.ShopProductDetailViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -43,6 +44,10 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
                 String phone = (String) mBinding.btnCall.getTag();
                 PhoneUtils.dial(phone);
             }
+        });
+        mBinding.btnCoupon.setOnClickListener(v -> {
+            CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance(shopId);
+            newInstance.show(getSupportFragmentManager(), "CouponGetDialog");
         });
     }
 

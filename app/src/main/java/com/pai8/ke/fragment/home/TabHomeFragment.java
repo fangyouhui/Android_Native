@@ -91,14 +91,6 @@ public class TabHomeFragment extends BaseFragment<NoViewModel, FragmentTabHomeBi
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
             }
-//            new IntentIntegrator(getActivity())
-//                    .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
-//                    .setPrompt("请对准二维码进行扫描")
-//                    .setOrientationLocked(false)
-//                    .setCameraId(0)// 选择摄像头
-//                    .setBeepEnabled(true)// 是否开启声音
-//                    .setCaptureActivity(ScanActivity.class)
-//                    .initiateScan();
             activityResultLauncher.launch(new Intent(getContext(), ScanItActivity.class));
 
         });

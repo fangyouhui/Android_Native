@@ -1,7 +1,5 @@
 package com.pai8.ke.activity.takeaway.adapter;
 
-import android.widget.ImageView;
-
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.youth.banner.holder.BannerImageHolder;
 
@@ -15,7 +13,8 @@ public class BannerAdapter extends com.youth.banner.adapter.BannerImageAdapter<S
 
     @Override
     public void onBindView(BannerImageHolder holder, String data, int position, int size) {
-        holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        ImageLoadUtils.setRectImage(holder.imageView.getContext(), data, holder.imageView);
+        //  holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        //    ImageLoadUtils.setRectImage(holder.imageView.getContext(), data, holder.imageView);
+        ImageLoadUtils.loadImage(data, holder.imageView);
     }
 }

@@ -32,8 +32,10 @@ import java.util.List;
 
 import razerdp.util.KeyboardUtils;
 
+/**
+ * 外卖
+ */
 public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> implements View.OnClickListener, TakeawayContract.View {
-
 
     private TakeawayPresenter p;
     private TakeawayAdapter mAdapter;
@@ -76,7 +78,6 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 Intent intent = new Intent(TakeawayActivity.this, StoreActivity.class);
                 intent.putExtra("storeInfo", (Serializable) mAdapter.getData().get(position));
                 startActivity(intent);
@@ -153,9 +154,6 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
             for (int i = 0; i < data.banner.size(); i++) {
                 images.add(data.banner.get(i).imgurl);
             }
-
-//            mBanner.setImageLoader(new GlideImageLoader());
-//            mBanner.setImages(images);
             mBanner.setAdapter(new BannerAdapter(images));
             mBanner.start();
         }
@@ -176,18 +174,6 @@ public class TakeawayActivity extends BaseMvpActivity<TakeawayPresenter> impleme
     public TakeawayPresenter initPresenter() {
         return new TakeawayPresenter(this);
     }
-
-//    public class GlideImageLoader extends ImageLoader {
-//
-//        @Override
-//        public void displayImage(Context context, Object path, ImageView imageView) {
-//            if (context != null) {
-//                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//                ImageLoadUtils.setRectImage(context, (String) path, imageView);
-//
-//            }
-//        }
-//    }
 
     @Override
     protected void onDestroy() {

@@ -1,6 +1,5 @@
 package com.pai8.ke.groupBuy.adapter;
 
-import com.pai8.ke.R;
 import com.pai8.ke.entity.GetGroupShopListResult;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.youth.banner.holder.BannerImageHolder;
@@ -15,6 +14,6 @@ public class GroupBuyBannerAdapter extends com.youth.banner.adapter.BannerImageA
     @Override
     public void onBindView(BannerImageHolder holder, GetGroupShopListResult.Banner data, int position, int size) {
         holder.imageView.setTag(data);
-        ImageLoadUtils.loadImage(holder.imageView.getContext(), data.getImgurl(), holder.imageView, R.color.colorPrimary);
+        ImageLoadUtils.loadImage(data.getImgurl(), holder.imageView);
     }
 }
