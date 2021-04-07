@@ -261,6 +261,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.takeaway.ui.QRCodeHandleActivity"
+            android:label="扫一扫"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.takeaway.ui.WriteOffErrorActivity"
             android:label="团队核对结果"
             android:screenOrientation="portrait" />

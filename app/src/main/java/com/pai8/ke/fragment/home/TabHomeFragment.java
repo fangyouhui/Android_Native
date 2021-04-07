@@ -1,14 +1,22 @@
 package com.pai8.ke.fragment.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
-import com.google.zxing.integration.android.IntentIntegrator;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+
+import com.blankj.utilcode.util.ToastUtils;
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
 import com.lhs.library.base.NoViewModel;
 import com.pai8.ke.activity.account.LoginActivity;
-import com.pai8.ke.activity.common.ScanActivity;
 import com.pai8.ke.activity.home.SearchVideoActivity;
+import com.pai8.ke.activity.takeaway.ui.ScanItActivity;
 import com.pai8.ke.activity.takeaway.ui.TakeawayActivity;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.databinding.FragmentTabHomeBinding;
@@ -20,6 +28,24 @@ import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.TabCreateUtils;
 
 public class TabHomeFragment extends BaseFragment<NoViewModel, FragmentTabHomeBinding> {
+    private ActivityResultLauncher activityResultLauncher;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            int resultCode = result.getResultCode();
+            if (resultCode == Activity.RESULT_CANCELED) { //用户取消
+                return;
+            }
+            if (resultCode == Activity.RESULT_OK) {
+                String data = result.getData().getStringExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+                ToastUtils.showShort("扫描结果:" + data);
+            } else {
+                ToastUtils.showShort("未识别出二维码");
+            }
+        });
+    }
 
     @Override
     public void initView(Bundle arguments) {
@@ -32,6 +58,22 @@ public class TabHomeFragment extends BaseFragment<NoViewModel, FragmentTabHomeBi
         mBinding.viewPager.setAdapter(viewPagerAdapter);
         mBinding.viewPager.setCurrentItem(1);
         TabCreateUtils.setHomeTab(getActivity(), mBinding.magicIndicator, mBinding.viewPager, viewPagerAdapter.getTitleList());
+        mBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mBinding.tab.setVisibility(position == 1 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         mBinding.tvSearch.setOnClickListener(v -> startActivity(new Intent(getContext(), SearchVideoActivity.class)));
         mBinding.ivLiwu.setOnClickListener(v -> {
@@ -49,15 +91,15 @@ public class TabHomeFragment extends BaseFragment<NoViewModel, FragmentTabHomeBi
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
             }
-            new IntentIntegrator(getActivity())
-                    .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
-                    .setPrompt("请对准二维码进行扫描")
-                    .setOrientationLocked(false)
-                    .setCameraId(0)// 选择摄像头
-                    .setBeepEnabled(true)// 是否开启声音
-                    .setCaptureActivity(ScanActivity.class)
-                    .initiateScan();
-
+//            new IntentIntegrator(getActivity())
+//                    .setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+//                    .setPrompt("请对准二维码进行扫描")
+//                    .setOrientationLocked(false)
+//                    .setCameraId(0)// 选择摄像头
+//                    .setBeepEnabled(true)// 是否开启声音
+//                    .setCaptureActivity(ScanActivity.class)
+//                    .initiateScan();
+            activityResultLauncher.launch(new Intent(getContext(), ScanItActivity.class));
 
         });
         mBinding.bnWaiMai.setOnClickListener(v -> startActivity(new Intent(getContext(), TakeawayActivity.class)));

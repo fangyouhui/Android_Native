@@ -23,7 +23,7 @@ public final class AsyncTaskExecManager extends PlatformSupportManager<AsyncTask
 
     public AsyncTaskExecManager() {
         super(AsyncTaskExecInterface.class, new DefaultAsyncTaskExecInterface());
-        addImplementationClass(11, "com.google.zxing.okHttpClient.android.common.executor.HoneycombAsyncTaskExecInterface");
+        addImplementationClass(11, "com.pai8.ke.qrcode.zxing.executor.HoneycombAsyncTaskExecInterface");
     }
 
 }

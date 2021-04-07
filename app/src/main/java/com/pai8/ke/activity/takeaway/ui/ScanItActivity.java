@@ -3,30 +3,33 @@ package com.pai8.ke.activity.takeaway.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.NoViewModel;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.pai8.ke.databinding.ActivityScanItBinding;
 import com.pai8.ke.qrcode.QRCodeReaderView;
 import com.pai8.ke.qrcode.QRCodeTools;
+import com.pai8.ke.utils.ChoosePicUtils;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * @Description: 扫一扫（二维码识别）-支持Carame取景和手机内置图片
  */
 public class ScanItActivity extends BaseActivity<NoViewModel, ActivityScanItBinding> {
-    /**
-     * 扫一扫结果 key值  通过Intent向外部发送识别结果
-     */
-    public static final String QR_CODE_RESULT = "scan_result";
-    public static final int REQUEST_CODE_HANDLE_CONTENT = 115;
 
     private boolean light = false;
 
@@ -46,27 +49,66 @@ public class ScanItActivity extends BaseActivity<NoViewModel, ActivityScanItBind
             light = !light;
             mBinding.qrcoderView.setLightEnable(light);
         });
-        mBinding.qrcoderView.setOnQRCodeReadListener(new QRCodeReaderView.OnQRCodeReadListener() {
-            @Override
-            public void onQRCodeRead(String text, PointF[] points) {
-                LogUtils.eTag(TAG, "扫描结果:" + text);
-                setResult(Activity.RESULT_OK, new Intent().putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, text));
-                finish();
-            }
-
-            @Override
-            public void cameraNotFound() {
-                mBinding.scanView.cameraOpenFailed();
-            }
-
-            @Override
-            public void QRCodeNotFoundOnCamImage() {
-
-            }
+        mBinding.photo.setOnClickListener(v -> {
+            mBinding.qrcoderView.stopPreview();
+            selectPhotos();
         });
-
+        mBinding.qrcoderView.setOnQRCodeReadListener(onQRCodeReadListener);
     }
 
+    private void callBack(String result) {
+        LogUtils.eTag(TAG, "扫描结果:" + result);
+        setResult(Activity.RESULT_OK, new Intent().putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, result));
+        finish();
+    }
+
+    private void selectPhotos() {
+        ChoosePicUtils.picSingle(this, new OnResultCallbackListener<LocalMedia>() {
+            @Override
+            public void onResult(List<LocalMedia> result) {
+                ThreadUtils.runOnUiThreadDelayed(() -> mBinding.qrcoderView.stopPreview(), 500);
+                Bitmap scanImage = QRCodeTools.decodeFile(result.get(0).getRealPath());
+                if (scanImage != null) {
+                    scanBitmap(scanImage);
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
+    }
+
+    private QRCodeReaderView.OnQRCodeReadListener onQRCodeReadListener = new QRCodeReaderView.OnQRCodeReadListener() {
+        @Override
+        public void onQRCodeRead(String text, PointF[] points) {
+            LogUtils.eTag(TAG, "二维码结果:" + text);
+            callBack(text);
+        }
+
+        @Override
+        public void cameraNotFound() {
+            mBinding.scanView.cameraOpenFailed();
+            finish();
+        }
+
+        @Override
+        public void QRCodeNotFoundOnCamImage() {
+
+        }
+    };
+
+
+    private void scanBitmap(Bitmap bitmap) {
+        mBinding.loading.setVisibility(View.VISIBLE);
+        String content = QRCodeTools.qrReaderBitmap(bitmap, onQRCodeReadListener);
+        if (TextUtils.isEmpty(content)) { //未识别出二维码
+            setResult(11000);
+            finish();
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -98,5 +140,4 @@ public class ScanItActivity extends BaseActivity<NoViewModel, ActivityScanItBind
             e.printStackTrace();
         }
     }
-
 }
