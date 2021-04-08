@@ -327,7 +327,7 @@ public interface TakeawayApiService {
 
 
     @POST("shop/editShop")
-    Observable<BaseRespose<String>> editShop(@Body StoreInfoReq body);
+    Observable<BaseRespose<JSONObject>> editShop(@Body StoreInfoReq body);
 
     /**
      * 二级管理员列表

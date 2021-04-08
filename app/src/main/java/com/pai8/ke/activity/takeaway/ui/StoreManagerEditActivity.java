@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
@@ -29,14 +31,13 @@ import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
-import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 public class StoreManagerEditActivity extends BaseMvpActivity implements View.OnClickListener {
 
@@ -48,7 +49,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
     private String cateId;
     private String cateName;
     private TextView tv_address;
-    private EditText mEtName, et_contact , et_address_detail,et_desc,et_number;
+    private EditText mEtName, et_contact, et_address_detail, et_desc, et_number;
     private BottomDialog mGoodCategoryDialog;
     private String image;
     private StoreInfo mData;
@@ -94,7 +95,6 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
         et_desc = findViewById(R.id.et_desc);
 
 
-
     }
 
 
@@ -102,24 +102,22 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
     public void initData() {
         super.initData();
         mData = (StoreInfo) getIntent().getSerializableExtra("data");
-        ImageLoadUtils.setCircularImage(this,mData.shop_img_url,mIvCover,R.mipmap.ic_launcher);
+        ImageLoadUtils.setCircularImage(this, mData.shop_img_url, mIvCover, R.mipmap.ic_launcher);
         mEtName.setText(mData.shop_name);
         shopEditInfo();
 
     }
 
 
-
     private void setData(StoreInfo data) {
         et_contact.setText(data.mobile);
-        tv_address.setText(data.province+data.city+data.district);
+        tv_address.setText(data.province + data.city + data.district);
         et_address_detail.setText(data.address);
         mTvCategory.setText(data.cate_name);
         et_number.setText(data.house_number);
         et_desc.setText(data.shop_desc);
 
     }
-
 
 
     @Override
@@ -129,10 +127,10 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
         } else if (v.getId() == R.id.tv_category) {
             getBusinessType();
 
-        } else  if(v.getId() == R.id.tv_address){
+        } else if (v.getId() == R.id.tv_address) {
             getProvince();
-        }else if (v.getId() == R.id.iv_cover) {
-            ChoosePicUtils.picSingle(StoreManagerEditActivity.this, 0,  RESULT_PICTURE);
+        } else if (v.getId() == R.id.iv_cover) {
+            ChoosePicUtils.picSingle(StoreManagerEditActivity.this, 0, RESULT_PICTURE);
         } else if (v.getId() == R.id.tv_publish) {  //发布
             editShop();
         }
@@ -241,6 +239,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
         }
 
     }
+
     private void showPicker() {
         pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
@@ -251,7 +250,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
                     mProvince = province.getName();
                     if (mCityList.get(options1).size() > 0) {
                         City city = mCityList.get(options1).get(options2);
-                        mCityId = city.getId()+"";
+                        mCityId = city.getId() + "";
                         mCity = city.getName();
                     }
                     if (mDistrictList.get(options1).get(options2).size() > 0) {
@@ -259,7 +258,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
                         mDistrict = district.getName();
                     }
                     tv_address.setText(mProvince + mCity + mDistrict);
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -323,7 +322,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
     }
 
 
-    public void shopEditInfo(){
+    public void shopEditInfo() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("shop_id", AccountManager.getInstance().getShopId());
         map.put("user_id", AccountManager.getInstance().getUid());
@@ -333,7 +332,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<StoreInfo>() {
                     @Override
-                    protected void onSuccess(StoreInfo data){
+                    protected void onSuccess(StoreInfo data) {
                         mData = data;
                         setData(data);
                     }
@@ -346,7 +345,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
     }
 
 
-    public void editShop(){
+    public void editShop() {
         StoreInfoReq storeInfo = new StoreInfoReq();
         storeInfo.shop_id = Integer.parseInt(AccountManager.getInstance().getShopId());
         storeInfo.shop_name = mEtName.getText().toString();
@@ -364,11 +363,10 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<JSONObject>() {
                     @Override
-                    protected void onSuccess(String data){
-
-                        ToastUtils.showShort("编辑成功");
+                    protected void onSuccess(JSONObject data) {
+                        com.blankj.utilcode.util.ToastUtils.showShort("编辑成功");
                         setResult(RESULT_OK);
                         finish();
                     }
