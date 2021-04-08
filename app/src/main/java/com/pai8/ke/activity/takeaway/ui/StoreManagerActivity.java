@@ -245,7 +245,7 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
     }
 
     @Override
-    public void getStatusSuccess(String data) {
+    public void getStatusSuccess(List<String> data) {
         mPresenter.shopIndex();
     }
 }
