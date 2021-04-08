@@ -5,6 +5,8 @@ import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.base.BaseView;
 
+import org.json.JSONObject;
+
 /*
  */
 public interface StoreContract {
@@ -15,7 +17,7 @@ public interface StoreContract {
         void getShopContentSuccess(ShopContent data);
 
 
-        void collectionSuccess(String data);
+        void collectionSuccess(JSONObject data);
 
         void unCollectionSuccess(String data);
 

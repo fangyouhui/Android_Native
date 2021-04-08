@@ -14,6 +14,7 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.manager.AccountManager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +54,9 @@ public class StorePresenter extends BasePresenterImpl<StoreContract.View> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<JSONObject>() {
                     @Override
-                    protected void onSuccess(String shopList) {
+                    protected void onSuccess(JSONObject shopList) {
 
                         view.collectionSuccess(shopList);
 

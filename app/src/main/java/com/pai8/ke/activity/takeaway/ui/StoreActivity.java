@@ -29,6 +29,7 @@ import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.activity.takeaway.fragment.EvaluateFragment;
 import com.pai8.ke.activity.takeaway.fragment.GoodFragment;
 import com.pai8.ke.activity.takeaway.fragment.StoreFragment;
+import com.pai8.ke.activity.takeaway.order.OrderConfirmActivity;
 import com.pai8.ke.shop.ui.ConfirmOrderActivity;
 import com.pai8.ke.activity.takeaway.presenter.StorePresenter;
 import com.pai8.ke.activity.takeaway.utils.AddToCartUtil;
@@ -53,6 +54,7 @@ import com.pai8.ke.widget.BottomDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -440,7 +442,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             mPop.setOnSelectListener(new ShopCarPop.OnSelectListener() {
                 @Override
                 public void onSelect() {
-                    Intent intent = new Intent(StoreActivity.this, ConfirmOrderActivity.class);
+                    Intent intent = new Intent(StoreActivity.this, OrderConfirmActivity.class);
                     intent.putExtra("shopCar", (Serializable) mGoodInfoList);
                     intent.putExtra("storeInfo", mStoreInfo);
                     startActivity(intent);
@@ -448,7 +450,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             });
             mPop.showPopupWindow();
         } else if (v.getId() == R.id.tv_order) {
-            Intent intent = new Intent(this, ConfirmOrderActivity.class);
+            Intent intent = new Intent(this, OrderConfirmActivity.class);
             intent.putExtra("shopCar", (Serializable) mGoodInfoList);
             intent.putExtra("storeInfo", mStoreInfo);
             startActivity(intent);
@@ -524,7 +526,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     }
 
     @Override
-    public void collectionSuccess(String data) {
+    public void collectionSuccess(JSONObject data) {
         mStoreInfo.is_collect = 1;
         mIvCollection.setImageResource(R.mipmap.icon_rating_bar_select);
 

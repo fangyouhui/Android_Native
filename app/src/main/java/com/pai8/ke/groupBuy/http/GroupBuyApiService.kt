@@ -10,6 +10,7 @@ import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.resp.MyInfoResp
 import com.pai8.ke.entity.resp.VersionResp
+import org.json.JSONObject
 import retrofit2.http.*
 
 interface GroupBuyApiService {
@@ -109,7 +110,7 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("Coupon/getCoupon")
-    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<List<String>>
+    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<JSONObject>
 
 
     /**
