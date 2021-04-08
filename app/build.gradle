@@ -54,12 +54,12 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.all {
-            def time = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
-            outputFileName = "pai8_${variant.buildType.name}_v${variant.versionName} _${time}.apk"
-        }
-    }
+//    applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            def time = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08:00"))
+//            outputFileName = "pai8_${variant.buildType.name}_v${variant.versionName} _${time}.apk"
+//        }
+//    }
 
     lintOptions {
         checkReleaseBuilds false
