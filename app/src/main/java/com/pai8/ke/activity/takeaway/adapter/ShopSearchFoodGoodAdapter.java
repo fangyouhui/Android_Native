@@ -4,6 +4,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.gson.Gson;
@@ -25,12 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class ShopSearchFoodGoodAdapter extends BaseQuickAdapter<FoodGoodInfo,BaseViewHolder> {
+public class ShopSearchFoodGoodAdapter extends BaseQuickAdapter<FoodGoodInfo, BaseViewHolder> {
 
     List<FoodGoodInfo> goodInfoList = new ArrayList<>();
 
@@ -172,9 +173,9 @@ public class ShopSearchFoodGoodAdapter extends BaseQuickAdapter<FoodGoodInfo,Bas
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data) {
+                    protected void onSuccess(List<String> data) {
 
                     }
 

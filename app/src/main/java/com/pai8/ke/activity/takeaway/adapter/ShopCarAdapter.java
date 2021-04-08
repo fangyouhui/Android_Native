@@ -1,9 +1,11 @@
 package com.pai8.ke.activity.takeaway.adapter;
 
-import com.google.gson.Gson;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.Gson;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
@@ -20,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
@@ -65,19 +65,19 @@ public class ShopCarAdapter extends BaseQuickAdapter<FoodGoodInfo, BaseViewHolde
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data) {
+                    protected void onSuccess(List<String> data) {
                         if (type == 1) {
-                            mData.get(postion).goods_num ++ ;
+                            mData.get(postion).goods_num++;
                             EventBus.getDefault().post(new CartNumEvent(
-                                    Constants.EVENT_TYPE_ADD_CAR, mData.get(postion).goods_num ++, goods_id));
+                                    Constants.EVENT_TYPE_ADD_CAR, mData.get(postion).goods_num++, goods_id));
                         } else {
-                            if(-- mData.get(postion).goods_num == 0){
+                            if (--mData.get(postion).goods_num == 0) {
                                 mData.remove(postion);
                                 EventBus.getDefault().post(new CartNumEvent(
-                                        Constants.EVENT_TYPE_DELETE_CAR,0, goods_id));
-                            }else{
+                                        Constants.EVENT_TYPE_DELETE_CAR, 0, goods_id));
+                            } else {
                                 EventBus.getDefault().post(new CartNumEvent(
                                         Constants.EVENT_TYPE_DELETE_CAR, mData.get(postion).goods_num, goods_id));
                             }

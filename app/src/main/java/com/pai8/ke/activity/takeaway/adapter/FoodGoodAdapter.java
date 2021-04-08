@@ -285,9 +285,9 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
 
                     }
                     @Override
@@ -310,9 +310,9 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
 
                     }
                     @Override

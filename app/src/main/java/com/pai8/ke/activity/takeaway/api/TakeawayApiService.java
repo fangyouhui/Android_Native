@@ -24,7 +24,6 @@ import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.activity.wallet.data.InOutRecordRequest;
 import com.pai8.ke.activity.wallet.data.InOutRecordResp;
 import com.pai8.ke.activity.wallet.data.MemberCashRequest;
-import com.pai8.ke.activity.wallet.data.MemberCashResponse;
 import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.resp.BusinessType;
@@ -51,6 +50,7 @@ public interface TakeawayApiService {
 
     /**
      * 添加分类
+     *
      * @return
      */
     @POST("shop/upCategory")
@@ -63,6 +63,7 @@ public interface TakeawayApiService {
 
     /**
      * 商家商品类别
+     *
      * @param parm
      * @return
      */
@@ -71,6 +72,7 @@ public interface TakeawayApiService {
 
     /**
      * 团购商品类别
+     *
      * @param parm
      * @return
      */
@@ -80,6 +82,7 @@ public interface TakeawayApiService {
 
     /**
      * 删除商品类别
+     *
      * @param parm
      * @return
      */
@@ -88,6 +91,7 @@ public interface TakeawayApiService {
 
     /**
      * 添加商品
+     *
      * @param parm
      * @return
      */
@@ -96,6 +100,7 @@ public interface TakeawayApiService {
 
     /**
      * 添加团购商品
+     *
      * @param parm
      * @return
      */
@@ -104,6 +109,7 @@ public interface TakeawayApiService {
 
     /**
      * 修改团购商品
+     *
      * @param parm
      * @return
      */
@@ -112,6 +118,7 @@ public interface TakeawayApiService {
 
     /**
      * 得到团购商品
+     *
      * @return
      */
     @POST("Group/GetGroupGoodsInfo")
@@ -131,8 +138,10 @@ public interface TakeawayApiService {
 
     @POST("shop/foodDelete")
     Observable<BaseRespose<String>> foodDelete(@Body RequestBody body);
+
     /**
      * 收获地址
+     *
      * @return
      */
     @POST("shop/addressList")
@@ -140,6 +149,7 @@ public interface TakeawayApiService {
 
     /**
      * 用户钱包提现
+     *
      * @return
      */
     @POST("user/MemberCash")
@@ -147,6 +157,7 @@ public interface TakeawayApiService {
 
     /**
      * 钱包页面
+     *
      * @return
      */
     @POST("user/MemberWallet")
@@ -155,6 +166,7 @@ public interface TakeawayApiService {
 
     /**
      * 设置商户拍客返点比例
+     *
      * @return
      */
     @POST("shop/SetupShopbeatRebate")
@@ -162,6 +174,7 @@ public interface TakeawayApiService {
 
     /**
      * 商户关注送礼商品编辑
+     *
      * @return
      */
     @POST("shop/SetUpShopGift")
@@ -170,6 +183,7 @@ public interface TakeawayApiService {
 
     /**
      * 收支记录
+     *
      * @param body
      * @return
      */
@@ -178,6 +192,7 @@ public interface TakeawayApiService {
 
     /**
      * 提现记录
+     *
      * @param body
      * @return
      */
@@ -196,6 +211,7 @@ public interface TakeawayApiService {
 
     /**
      * 收藏
+     *
      * @param parm
      * @return
      */
@@ -220,6 +236,7 @@ public interface TakeawayApiService {
 
     /**
      * 商家列表
+     *
      * @param parm
      * @return
      */
@@ -234,12 +251,12 @@ public interface TakeawayApiService {
     Observable<BaseRespose<String>> addOrder(@Body RequestBody body);
 
 
-
     @POST("Order/shopOrderList")
     Observable<BaseRespose<List<OrderInfo>>> shopOrderList(@Body RequestBody body);
 
     /**
      * 获取订单列表
+     *
      * @param body
      * @return
      */
@@ -270,10 +287,10 @@ public interface TakeawayApiService {
 
 
     @POST("Order/addCart")
-    Observable<BaseRespose<String>> addCart(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> addCart(@Body RequestBody body);
 
     @POST("Order/updateCartNum")
-    Observable<BaseRespose<String>> updateCartNum(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> updateCartNum(@Body RequestBody body);
 
     @POST("Order/getCart")
     Observable<BaseRespose<ShopFoodGoodInfo>> getCart(@Body RequestBody body);
@@ -312,6 +329,7 @@ public interface TakeawayApiService {
 
     /**
      * 二级管理员列表
+     *
      * @param parm
      * @return
      */
@@ -320,6 +338,7 @@ public interface TakeawayApiService {
 
     /**
      * 删除二级管理员
+     *
      * @param parm
      * @return
      */
@@ -328,6 +347,7 @@ public interface TakeawayApiService {
 
     /**
      * 更新二级管理员
+     *
      * @param parm
      * @return
      */
@@ -336,6 +356,7 @@ public interface TakeawayApiService {
 
     /**
      * 添加二级管理员
+     *
      * @param parm
      * @return
      */
@@ -344,6 +365,7 @@ public interface TakeawayApiService {
 
     /**
      * 获取商户所有二级管理员权限
+     *
      * @param parm
      * @return
      */
