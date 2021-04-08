@@ -93,5 +93,32 @@ interface GroupBuyApiService {
     @POST("Order/verifyOrder")
     suspend fun verifyOrder(@Query("order_no") order_no: String, @Query("shop_id") shop_id: String): BaseHttpResult<String>
 
+    /**
+     * 商家收藏/关注
+     */
+    @POST("shop/shopCollect")
+    suspend fun shopCollect(@Query("shop_id") shop_id: String): BaseHttpResult<List<String>>
+
+
+    /**
+     * 商家取消收藏
+     */
+    @POST("shop/shopUncollect")
+    suspend fun shopUncollect(@Query("shop_id") shop_id: String): BaseHttpResult<List<String>>
+
+
+    /**
+     * 商品收藏
+     */
+    @POST("Group/AddGoodsCollection")
+    suspend fun AddGoodsCollection(@Query("goods_id") goods_id: String): BaseHttpResult<List<String>>
+
+
+    /**
+     * 商品取消收藏
+     */
+    @POST("Group/SetGoodsUncollect")
+    suspend fun SetGoodsUncollect(@Query("goods_id") goods_id: String): BaseHttpResult<List<String>>
+
 
 }

@@ -49,6 +49,15 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
             CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance(shopId);
             newInstance.show(getSupportFragmentManager(), "CouponGetDialog");
         });
+        mBinding.btnCollect.setOnClickListener(v -> {
+            if (mBinding.btnCollect.isSelected()) {
+                mViewModel.setGoodsUncollect(productId);
+                return;
+            }
+            mViewModel.addGoodsCollection(productId);
+
+        });
+        mBinding.btnCollect2.setOnClickListener(v -> mBinding.btnCollect.callOnClick());
     }
 
     @Override
@@ -63,6 +72,9 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         mViewModel.getGetGroupGoodsInfoData().observe(this, data -> {
             bindBanner(data);
             bindProductInfo(data);
+        });
+        mViewModel.getAddGoodsCollectionData().observe(this, data -> {
+            mBinding.btnCollect.setSelected(data);
         });
     }
 

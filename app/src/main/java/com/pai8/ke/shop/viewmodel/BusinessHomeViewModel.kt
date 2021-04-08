@@ -25,5 +25,17 @@ class BusinessHomeViewModel : BaseViewModel() {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().getShopVideoList(shop_id, page, "10") }, { shopVideoListData.value = it })
     }
 
+    val shopCollectData = MutableLiveData<Boolean>()
+    fun shopCollect(shop_id: String) {
+        launchOnlyResult({ RetrofitClient.getInstance().getMainService().shopCollect(shop_id) }, {
+            shopCollectData.value = true
+        })
+    }
 
+
+    fun shopUncollect(shop_id: String) {
+        launchOnlyResult({ RetrofitClient.getInstance().getMainService().shopUncollect(shop_id) }, {
+            shopCollectData.value = false
+        })
+    }
 }

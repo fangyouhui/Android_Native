@@ -18,4 +18,19 @@ class ShopProductDetailViewModel : BaseViewModel() {
     fun getGroupGoodsInfo(productId: String) {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().getGroupGoodsInfo(productId) }, { getGroupGoodsInfoData.value = it })
     }
+
+
+    val addGoodsCollectionData = MutableLiveData<Boolean>()
+    fun addGoodsCollection(goods_id: String) {
+        launchOnlyResult({ RetrofitClient.getInstance().getMainService().AddGoodsCollection(goods_id) }, {
+            addGoodsCollectionData.value = true
+        })
+    }
+
+
+    fun setGoodsUncollect(goods_id: String) {
+        launchOnlyResult({ RetrofitClient.getInstance().getMainService().SetGoodsUncollect(goods_id) }, {
+            addGoodsCollectionData.value = false
+        })
+    }
 }

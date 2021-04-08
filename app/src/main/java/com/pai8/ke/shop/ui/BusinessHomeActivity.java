@@ -1,5 +1,6 @@
 package com.pai8.ke.shop.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -8,10 +9,12 @@ import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.PhoneUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.databinding.ActivityBusinessHomeBinding;
 import com.pai8.ke.entity.GroupShopInfoResult;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.groupBuy.adapter.ViewPagerAdapter;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.shop.viewmodel.BusinessHomeViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -75,6 +78,18 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
                 }
             }
         });
+        mBinding.btnFavorites.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(this, LoginActivity.class));
+                return;
+            }
+            if (mBinding.btnFavorites.isSelected()) {
+                mViewModel.shopUncollect(shopId);
+                return;
+            }
+            mViewModel.shopCollect(shopId);
+
+        });
     }
 
     public void finishRefresh() {
@@ -92,7 +107,9 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
     @Override
     public void addObserve() {
         mViewModel.getGetGroupShopInfoData().observe(this, data -> bindGroupShopInfo(data));
-
+        mViewModel.getShopCollectData().observe(this, data -> {
+            mBinding.btnFavorites.setSelected(data);
+        });
     }
 
     @Override
