@@ -2,6 +2,7 @@ package com.pai8.ke.shop.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.lhs.library.base.BaseViewModel
+import com.pai8.ke.activity.message.entity.GoodsCollectionResult
 import com.pai8.ke.entity.GroupGoodsInfoResult
 import com.pai8.ke.entity.GroupShopInfoResult
 import com.pai8.ke.groupBuy.http.RetrofitClient
@@ -27,10 +28,16 @@ class ShopProductDetailViewModel : BaseViewModel() {
         })
     }
 
-
     fun setGoodsUncollect(goods_id: String) {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().SetGoodsUncollect(goods_id) }, {
             addGoodsCollectionData.value = false
         })
+    }
+
+    val goodsCollectionData = MutableLiveData<GoodsCollectionResult>()
+    fun getGoodsCollection(goods_id: String) {
+        launchOnlyResult({ RetrofitClient.getInstance().getMainService().getGoodsCollection(goods_id) }, {
+            goodsCollectionData.value = it
+        }, {})
     }
 }

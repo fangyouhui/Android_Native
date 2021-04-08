@@ -1,14 +1,33 @@
 package com.pai8.ke.groupBuy.http
 
+import com.google.gson.JsonObject
 import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult
+import com.pai8.ke.activity.message.entity.GoodsCollectionResult
+import com.pai8.ke.activity.message.entity.UserFollowResult
+import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.entity.*
+import com.pai8.ke.entity.resp.MyInfoResp
+import com.pai8.ke.entity.resp.VersionResp
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface GroupBuyApiService {
+
+
+    @POST("system/checkUpgrade")
+    suspend fun checkUpgrade(): BaseHttpResult<VersionResp>
+
+    /**
+     * 获取个人中心
+     *
+     * @return
+     */
+    @POST("user/ucenter")
+    suspend fun getMyInfo(): BaseHttpResult<MyInfoResp>
+
 
     @POST("index/businessType")
     suspend fun businessType(): BaseHttpResult<List<BusinessTypeResult>>
@@ -94,31 +113,53 @@ interface GroupBuyApiService {
     suspend fun verifyOrder(@Query("order_no") order_no: String, @Query("shop_id") shop_id: String): BaseHttpResult<String>
 
     /**
-     * 商家收藏/关注
+     * 商家关注
      */
     @POST("shop/shopCollect")
-    suspend fun shopCollect(@Query("shop_id") shop_id: String): BaseHttpResult<List<String>>
+    suspend fun shopCollect(@Query("shop_id") shop_id: String): BaseHttpResult<JsonObject>
 
 
     /**
-     * 商家取消收藏
+     * 商家取消关注
      */
     @POST("shop/shopUncollect")
-    suspend fun shopUncollect(@Query("shop_id") shop_id: String): BaseHttpResult<List<String>>
+    suspend fun shopUncollect(@Query("shop_id") shop_id: String): BaseHttpResult<JsonObject>
 
+    /**
+     * 获取用户是否关注店铺信息
+     */
+    @POST("shop/IsUserFollow")
+    suspend fun isUserFollow(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<UserFollowResult>
 
     /**
      * 商品收藏
      */
     @POST("Group/AddGoodsCollection")
-    suspend fun AddGoodsCollection(@Query("goods_id") goods_id: String): BaseHttpResult<List<String>>
+    suspend fun AddGoodsCollection(@Query("goods_id") goods_id: String): BaseHttpResult<JsonObject>
 
 
     /**
      * 商品取消收藏
      */
     @POST("Group/SetGoodsUncollect")
-    suspend fun SetGoodsUncollect(@Query("goods_id") goods_id: String): BaseHttpResult<List<String>>
+    suspend fun SetGoodsUncollect(@Query("goods_id") goods_id: String): BaseHttpResult<JsonObject>
+
+    /**
+     * 获取该用户是否收藏该商品
+     * @param param
+     * @return
+     */
+    @POST("Group/GetGoodsCollection")
+    suspend fun getGoodsCollection(@Query("goods_id") goods_id: String): BaseHttpResult<GoodsCollectionResult>
+
+
+    /**
+     * 消息数量
+     * @param param
+     * @return
+     */
+    @POST("Msg/msgIndex")
+    suspend fun msgIndex(@Query("user_id") user_id: String): BaseHttpResult<MsgCountResp>
 
 
 }

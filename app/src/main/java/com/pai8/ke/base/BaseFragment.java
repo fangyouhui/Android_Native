@@ -6,15 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.pai8.ke.utils.EventBusUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 
 
@@ -49,14 +49,16 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public BaseActivity getBaseActivity() {
-        return (BaseActivity) this.getActivity();
+        if (getActivity() instanceof BaseActivity) {
+            return (BaseActivity) this.getActivity();
+        }
+        return null;
     }
 
     @Override
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         if (mRootView == null) {
             mRootView = inflater.inflate(getLayoutId(), container, false);
             ButterKnife.bind(this, mRootView);

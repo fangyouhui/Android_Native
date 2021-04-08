@@ -110,11 +110,15 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
         mViewModel.getShopCollectData().observe(this, data -> {
             mBinding.btnFavorites.setSelected(data);
         });
+        mViewModel.isUserFollowData().observe(this, data -> {
+            mBinding.btnFavorites.setSelected(true);
+        });
     }
 
     @Override
     public void initData() {
         mViewModel.getGroupShopInfo(shopId);
+        mViewModel.isUserFollow(shopId);
     }
 
     private void bindGroupShopInfo(GroupShopInfoResult shopInfo) {

@@ -8,6 +8,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.luck.picture.lib.PictureSelector;
@@ -19,8 +22,10 @@ import com.pai8.ke.activity.me.SettingActivity;
 import com.pai8.ke.activity.me.ui.AttentionMineActivity;
 import com.pai8.ke.activity.me.ui.EditPersonalInfoActivity;
 import com.pai8.ke.activity.me.ui.FansActivity;
+import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
 import com.pai8.ke.activity.me.ui.ReceiveLikesActivity;
 import com.pai8.ke.activity.takeaway.order.OrderActivity;
+import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
 import com.pai8.ke.activity.video.ReportActivity;
@@ -35,8 +40,7 @@ import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
-import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
@@ -60,8 +64,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
@@ -99,8 +101,9 @@ public class TabMeFragment extends BaseFragment {
     @BindView(R.id.app_bar)
     AppBarLayout mAppBarLayout;
 
-    private List<Fragment> mFragments;
-    private List<String> mTitles;
+    private List<Fragment> mFragments = new ArrayList<>();
+    private List<String> mTitles = new ArrayList<>();
+
     private TabAdapter mTabAdapter;
     private int mStatus;
     private CircleImageView mCivShareCover;
@@ -135,9 +138,6 @@ public class TabMeFragment extends BaseFragment {
                 .transparentStatusBar()
                 .statusBarDarkFont(true)
                 .init();
-
-        mTitles = new ArrayList<>();
-        mFragments = new ArrayList<>();
 
         mTitles.add("作品");
         mTitles.add("收藏");
@@ -191,7 +191,7 @@ public class TabMeFragment extends BaseFragment {
     }
 
     private void initUserInfo() {
-        if (!mActivity.mAccountManager.isLogin()) {
+        if (!AccountManager.getInstance().isLogin()) {
             tvNickName.setText("登录/注册");
             civAvatar.setImageResource(R.mipmap.img_head_def);
             setLikeCount(0);
@@ -224,17 +224,17 @@ public class TabMeFragment extends BaseFragment {
                         setHistoryCount(0);
                     }
                 });
-        Api.getInstance().getUserInfoById(mActivity.mAccountManager.getUid())
+        Api.getInstance().getUserInfoById(AccountManager.getInstance().getUid())
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<UserInfo>() {
                     @Override
                     protected void onSuccess(UserInfo user) {
-                        UserInfo userInfo = mActivity.mAccountManager.getUserInfo();
+                        UserInfo userInfo = AccountManager.getInstance().getUserInfo();
                         userInfo.setAvatar(user.getAvatar());
                         userInfo.setUser_nickname(user.getUser_nickname());
-                        mActivity.mAccountManager.saveUserInfo(userInfo);
+                        AccountManager.getInstance().saveUserInfo(userInfo);
                         tvNickName.setText(user.getUser_nickname());
                         ImageLoadUtils.loadImage(getActivity(), user.getAvatar(), civAvatar,
                                 R.mipmap.img_head_def);
@@ -327,20 +327,20 @@ public class TabMeFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.civ_avatar:
             case R.id.tv_nick_name:
-                if (!mActivity.mAccountManager.isLogin()) {
+                if (!AccountManager.getInstance().isLogin()) {
                     launch(LoginActivity.class);
                     return;
                 }
                 break;
             case R.id.iv_btn_edit:
-                if (!mActivity.mAccountManager.isLogin()) {
+                if (!AccountManager.getInstance().isLogin()) {
                     launch(LoginActivity.class);
                     return;
                 }
-                startActivityForResult(new Intent(mActivity, EditPersonalInfoActivity.class), 100);
+                startActivityForResult(new Intent(getContext(), EditPersonalInfoActivity.class), 100);
                 break;
             case R.id.iv_btn_msg:
-                if (!mActivity.mAccountManager.isLogin()) {
+                if (!AccountManager.getInstance().isLogin()) {
                     launch(LoginActivity.class);
                     return;
                 }
@@ -377,7 +377,7 @@ public class TabMeFragment extends BaseFragment {
                 launchInterceptLogin(DeliveryAddressActivity.class);
                 break;
             case R.id.tv_btn_coupon:
-                if (!mActivity.mAccountManager.isLogin()) {
+                if (!AccountManager.getInstance().isLogin()) {
                     launch(LoginActivity.class);
                     return;
                 }
@@ -385,21 +385,21 @@ public class TabMeFragment extends BaseFragment {
                 CouponListActivity.launch(getActivity(), CouponListActivity.INTENT_TYPE_CAN_USE);
                 break;
             case R.id.tv_btn_invite:
-                if (!mActivity.mAccountManager.isLogin()) {
+                if (!AccountManager.getInstance().isLogin()) {
                     launch(LoginActivity.class);
                     return;
                 }
                 share();
                 break;
             case R.id.tv_btn_feedback:
-                if (!mActivity.mAccountManager.isLogin()) {
+                if (!AccountManager.getInstance().isLogin()) {
                     launch(LoginActivity.class);
                     return;
                 }
                 ReportActivity.launchFeedBack(getActivity());
                 break;
             case R.id.tv_btn_contact_us:
-                if (!mActivity.mAccountManager.isLogin()) {
+                if (!AccountManager.getInstance().isLogin()) {
                     launch(LoginActivity.class);
                     return;
                 }
@@ -476,8 +476,8 @@ public class TabMeFragment extends BaseFragment {
     }
 
     //添加关联页
-    private void addLinkFragment(){
-        String title = mStatus == 3 ?"关联我的" : "我关联的";
+    private void addLinkFragment() {
+        String title = mStatus == 3 ? "关联我的" : "我关联的";
 
     }
 
@@ -527,8 +527,7 @@ public class TabMeFragment extends BaseFragment {
                     List<LocalMedia> imgs = PictureSelector.obtainMultipleResult(data);
                     if (CollectionUtils.isEmpty(imgs) || mCivShareCover == null) return;
                     String path = imgs.get(0).getPath();
-                    ImageLoadUtils.loadImage(getActivity(), path, mCivShareCover,
-                            R.mipmap.img_share_cover);
+                    ImageLoadUtils.loadImage(getActivity(), path, mCivShareCover, R.mipmap.img_share_cover);
                     UploadFileManager.getInstance().upload(path, new UploadFileManager.Callback() {
                         @Override
                         public void onSuccess(String url, String key) {

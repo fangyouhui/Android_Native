@@ -64,6 +64,7 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
     public void initData() {
         mViewModel.getGroupShopInfo(shopId);
         mViewModel.getGroupGoodsInfo(productId);
+        mViewModel.getGoodsCollection(productId);
     }
 
     @Override
@@ -75,6 +76,9 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         });
         mViewModel.getAddGoodsCollectionData().observe(this, data -> {
             mBinding.btnCollect.setSelected(data);
+        });
+        mViewModel.getGoodsCollectionData().observe(this, data -> {
+            mBinding.btnCollect.setSelected(true);
         });
     }
 
