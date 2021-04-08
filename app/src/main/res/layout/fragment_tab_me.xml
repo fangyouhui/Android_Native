@@ -20,7 +20,9 @@
             app:statusBarScrim="#F2F4F7"
             app:titleEnabled="false">
 
-            <include layout="@layout/view_head_me" />
+            <include
+                android:id="@+id/head_view"
+                layout="@layout/view_head_me" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

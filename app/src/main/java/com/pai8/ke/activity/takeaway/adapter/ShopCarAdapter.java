@@ -17,6 +17,7 @@ import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,9 +66,9 @@ public class ShopCarAdapter extends BaseQuickAdapter<FoodGoodInfo, BaseViewHolde
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<String>>() {
+                .subscribe(new BaseObserver<JSONObject>() {
                     @Override
-                    protected void onSuccess(List<String> data) {
+                    protected void onSuccess(JSONObject data) {
                         if (type == 1) {
                             mData.get(postion).goods_num++;
                             EventBus.getDefault().post(new CartNumEvent(

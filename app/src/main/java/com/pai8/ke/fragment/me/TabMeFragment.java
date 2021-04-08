@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.gyf.immersionbar.ImmersionBar;
+import com.lhs.library.base.BaseFragment;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
@@ -31,13 +32,10 @@ import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
 import com.pai8.ke.activity.video.ReportActivity;
 import com.pai8.ke.activity.wallet.WalletActivity;
 import com.pai8.ke.adapter.TabAdapter;
-import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseEvent;
-import com.pai8.ke.base.BaseFragment;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.databinding.FragmentTabMeBinding;
+import com.pai8.ke.databinding.FragmentTabMeCopyBinding;
 import com.pai8.ke.entity.UserInfo;
-import com.pai8.ke.entity.resp.MyInfoResp;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.manager.AccountManager;
@@ -53,19 +51,19 @@ import com.pai8.ke.utils.SpanUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.TabCreateUtils;
 import com.pai8.ke.utils.ToastUtils;
+import com.pai8.ke.viewmodel.TabMeViewModel;
 import com.pai8.ke.widget.AppBarStateChangeListener;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CircleImageView;
 import com.pai8.ke.widget.EditTextCountView;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
@@ -76,30 +74,7 @@ import static android.app.Activity.RESULT_OK;
 import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
 
-public class TabMeFragment extends BaseFragment {
-
-    @BindView(R.id.iv_bg_blur)
-    ImageView ivBgBlur;
-    @BindView(R.id.civ_avatar)
-    CircleImageView civAvatar;
-    @BindView(R.id.tv_nick_name)
-    TextView tvNickName;
-    @BindView(R.id.tv_like_count)
-    TextView tvLikeCount;
-    @BindView(R.id.tv_follow_count)
-    TextView tvFollowCount;
-    @BindView(R.id.tv_fans_count)
-    TextView tvFansCount;
-    @BindView(R.id.tv_history_count)
-    TextView tvHistoryCount;
-    @BindView(R.id.tv_apply_status)
-    TextView tvApplyStatus;
-    @BindView(R.id.magic_indicator)
-    MagicIndicator magicIndicator;
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @BindView(R.id.app_bar)
-    AppBarLayout mAppBarLayout;
+public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCopyBinding> {
 
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
@@ -110,15 +85,27 @@ public class TabMeFragment extends BaseFragment {
     private BottomDialog mShareModifyBottomDialog;
     private BottomDialog mShareBottomDialog;
     private String mShareImgUrl;
+    private ActivityResultLauncher activityResultLauncher;
 
     @Override
-    protected boolean isRegisterEventBus() {
-        return true;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), data -> {
+            if (data.getResultCode() == RESULT_OK) {
+                initUserInfo();
+            }
+        });
+        EventBusUtils.register(this);
     }
 
     @Override
-    protected void receiveEvent(BaseEvent event) {
-        super.receiveEvent(event);
+    public void onDestroy() {
+        super.onDestroy();
+        EventBusUtils.unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveEvent(BaseEvent event) {
         switch (event.getCode()) {
             case EventCode.EVENT_LOGIN_STATUS:
                 initUserInfo();
@@ -126,19 +113,9 @@ public class TabMeFragment extends BaseFragment {
         }
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_tab_me_copy;
-    }
 
     @Override
-    protected void initView(Bundle arguments) {
-        //透明状态栏，字体深色
-        ImmersionBar.with(this)
-                .transparentStatusBar()
-                .statusBarDarkFont(true)
-                .init();
-
+    public void initView(Bundle arguments) {
         mTitles.add("作品");
         mTitles.add("收藏");
         mTitles.add("喜欢");
@@ -151,25 +128,12 @@ public class TabMeFragment extends BaseFragment {
 
         mTabAdapter = new TabAdapter(getChildFragmentManager(), mFragments, mTitles);
 
-        viewPager.setOffscreenPageLimit(4);
-        viewPager.setAdapter(mTabAdapter);
-        viewPager.setCurrentItem(0);
-        TabCreateUtils.setMeTab(getActivity(), magicIndicator, viewPager, mTitles);
-    }
+        mBinding.viewPager.setOffscreenPageLimit(4);
+        mBinding.viewPager.setAdapter(mTabAdapter);
+        mBinding.viewPager.setCurrentItem(0);
+        TabCreateUtils.setMeTab(getActivity(), mBinding.magicIndicator, mBinding.viewPager, mTitles);
 
-    @Override
-    protected void initData() {
-        super.initData();
-        setLikeCount(0);
-        setFollowCount(0);
-        setFansCount(0);
-        setHistoryCount(0);
-    }
-
-    @Override
-    protected void initListener() {
-        super.initListener();
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+        mBinding.appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {//展开状态
@@ -183,68 +147,56 @@ public class TabMeFragment extends BaseFragment {
                 }
             }
         });
+
+        initEvent();
     }
 
     @Override
-    protected void onLazyLoad() {
+    public void initData() {
+        setLikeCount(0);
+        setFollowCount(0);
+        setFansCount(0);
+        setHistoryCount(0);
+
         initUserInfo();
+    }
+
+    @Override
+    public void addObserve() {
+        mViewModel.getMyInfoData().observe(getViewLifecycleOwner(), data -> {
+            setLikeCount(data.getMy_likes());
+            setFansCount(data.getMy_fans());
+            setFollowCount(data.getMy_fans());
+            setHistoryCount(data.getMy_history());
+            initVerifyStatus(data.getVerify_status() == null ? 0 : data.getVerify_status());
+            addLinkFragment();
+        });
+
+        mViewModel.getInfoByUidData().observe(getViewLifecycleOwner(), user -> {
+            UserInfo userInfo = AccountManager.getInstance().getUserInfo();
+            userInfo.setAvatar(user.getAvatar());
+            userInfo.setUser_nickname(user.getUser_nickname());
+            AccountManager.getInstance().saveUserInfo(userInfo);
+            mBinding.headView.tvNickName.setText(user.getUser_nickname());
+            ImageLoadUtils.loadImage(getActivity(), user.getAvatar(), mBinding.headView.civAvatar, R.mipmap.img_head_def);
+        });
+
     }
 
     private void initUserInfo() {
         if (!AccountManager.getInstance().isLogin()) {
-            tvNickName.setText("登录/注册");
-            civAvatar.setImageResource(R.mipmap.img_head_def);
+            mBinding.headView.tvNickName.setText("登录/注册");
+            mBinding.headView.civAvatar.setImageResource(R.mipmap.img_head_def);
             setLikeCount(0);
             setFansCount(0);
             setFollowCount(0);
             setHistoryCount(0);
             return;
         }
-        Api.getInstance().getMyInfo()
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<MyInfoResp>() {
-                    @Override
-                    protected void onSuccess(MyInfoResp myInfoResp) {
-                        setLikeCount(myInfoResp.getMy_likes());
-                        setFansCount(myInfoResp.getMy_fans());
-                        setFollowCount(myInfoResp.getMy_fans());
-                        setHistoryCount(myInfoResp.getMy_history());
-                        initVerifyStatus(myInfoResp.getVerify_status() == null ? 0 :
-                                myInfoResp.getVerify_status());
-                        addLinkFragment();
-                    }
 
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        setLikeCount(0);
-                        setFansCount(0);
-                        setFollowCount(0);
-                        setHistoryCount(0);
-                    }
-                });
-        Api.getInstance().getUserInfoById(AccountManager.getInstance().getUid())
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<UserInfo>() {
-                    @Override
-                    protected void onSuccess(UserInfo user) {
-                        UserInfo userInfo = AccountManager.getInstance().getUserInfo();
-                        userInfo.setAvatar(user.getAvatar());
-                        userInfo.setUser_nickname(user.getUser_nickname());
-                        AccountManager.getInstance().saveUserInfo(userInfo);
-                        tvNickName.setText(user.getUser_nickname());
-                        ImageLoadUtils.loadImage(getActivity(), user.getAvatar(), civAvatar,
-                                R.mipmap.img_head_def);
-                    }
+        mViewModel.getMyInfo();
+        mViewModel.getInfoByUid();
 
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-
-                    }
-                });
     }
 
     private void setLikeCount(int likeCount) {
@@ -255,7 +207,7 @@ public class TabMeFragment extends BaseFragment {
                 .setBold()
                 .append(getActivity(), "\n获赞")
                 .create(getActivity());
-        tvLikeCount.setText(span);
+        mBinding.headView.tvLikeCount.setText(span);
     }
 
     private void setFollowCount(int followCount) {
@@ -266,7 +218,7 @@ public class TabMeFragment extends BaseFragment {
                 .setBold()
                 .append(getActivity(), "\n关注")
                 .create(getActivity());
-        tvFollowCount.setText(span);
+        mBinding.headView.tvFollowCount.setText(span);
     }
 
     private void setFansCount(int fansCount) {
@@ -277,7 +229,7 @@ public class TabMeFragment extends BaseFragment {
                 .setBold()
                 .append(getActivity(), "\n粉丝")
                 .create(getActivity());
-        tvFansCount.setText(span);
+        mBinding.headView.tvFansCount.setText(span);
     }
 
     private void setHistoryCount(int historyCount) {
@@ -288,7 +240,7 @@ public class TabMeFragment extends BaseFragment {
                 .setBold()
                 .append(getActivity(), "\n足迹")
                 .create(getActivity());
-        tvHistoryCount.setText(span);
+        mBinding.headView.tvHistoryCount.setText(span);
     }
 
     /**
@@ -303,115 +255,115 @@ public class TabMeFragment extends BaseFragment {
         switch (status) {
             case 0:
             case 3:
-                tvApplyStatus.setEnabled(true);
-                tvApplyStatus.setText("申请商家入驻");
+                mBinding.headView.tvApplyStatus.setEnabled(true);
+                mBinding.headView.tvApplyStatus.setText("申请商家入驻");
                 break;
             case 1:
-                tvApplyStatus.setEnabled(false);
-                tvApplyStatus.setText("正在审核中...");
+                mBinding.headView.tvApplyStatus.setEnabled(false);
+                mBinding.headView.tvApplyStatus.setText("正在审核中...");
                 break;
             case 2:
-                tvApplyStatus.setEnabled(true);
-                tvApplyStatus.setText("店铺管理");
+                mBinding.headView.tvApplyStatus.setEnabled(true);
+                mBinding.headView.tvApplyStatus.setText("店铺管理");
                 break;
             default:
                 break;
         }
     }
 
-    @OnClick({R.id.civ_avatar, R.id.tv_nick_name, R.id.iv_btn_edit, R.id.iv_btn_msg, R.id.ll_like_count,
-            R.id.ll_follow_count, R.id.ll_fans_count, R.id.ll_history_count, R.id.tv_apply_status,
-            R.id.tv_btn_order, R.id.tv_btn_wallet, R.id.tv_btn_address, R.id.tv_btn_coupon,
-            R.id.tv_btn_invite, R.id.tv_btn_feedback, R.id.tv_btn_contact_us, R.id.tv_btn_setting})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.civ_avatar:
-            case R.id.tv_nick_name:
-                if (!AccountManager.getInstance().isLogin()) {
-                    launch(LoginActivity.class);
-                    return;
-                }
-                break;
-            case R.id.iv_btn_edit:
-                if (!AccountManager.getInstance().isLogin()) {
-                    launch(LoginActivity.class);
-                    return;
-                }
-                startActivityForResult(new Intent(getContext(), EditPersonalInfoActivity.class), 100);
-                break;
-            case R.id.iv_btn_msg:
-                if (!AccountManager.getInstance().isLogin()) {
-                    launch(LoginActivity.class);
-                    return;
-                }
-                EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
-                break;
-            case R.id.ll_like_count:
-                launchInterceptLogin(ReceiveLikesActivity.class);
-                break;
-            case R.id.ll_follow_count:
-                launchInterceptLogin(AttentionMineActivity.class);
-                break;
-            case R.id.ll_fans_count:
-                launchInterceptLogin(FansActivity.class);
-                break;
-            case R.id.ll_history_count:
-                launchInterceptLogin(HistoryWatchActivity.class);
-                break;
-            case R.id.tv_apply_status:
-                //申请商家入驻
-                if (mStatus == 0 || mStatus == 3) {
-                    launchInterceptLogin(MerchantSettledFirstActivity.class);
-                } else if (mStatus == 2) {
-                    //店铺管理
-                    launchInterceptLogin(StoreManagerActivity.class);
-                }
-                break;
-            case R.id.tv_btn_order:
-                launchInterceptLogin(OrderActivity.class);
-                break;
-            case R.id.tv_btn_wallet:
-                launchInterceptLogin(WalletActivity.class);
-                break;
-            case R.id.tv_btn_address:
-                launchInterceptLogin(DeliveryAddressActivity.class);
-                break;
-            case R.id.tv_btn_coupon:
-                if (!AccountManager.getInstance().isLogin()) {
-                    launch(LoginActivity.class);
-                    return;
-                }
-                //优惠券
-                CouponListActivity.launch(getActivity(), CouponListActivity.INTENT_TYPE_CAN_USE);
-                break;
-            case R.id.tv_btn_invite:
-                if (!AccountManager.getInstance().isLogin()) {
-                    launch(LoginActivity.class);
-                    return;
-                }
-                share();
-                break;
-            case R.id.tv_btn_feedback:
-                if (!AccountManager.getInstance().isLogin()) {
-                    launch(LoginActivity.class);
-                    return;
-                }
-                ReportActivity.launchFeedBack(getActivity());
-                break;
-            case R.id.tv_btn_contact_us:
-                if (!AccountManager.getInstance().isLogin()) {
-                    launch(LoginActivity.class);
-                    return;
-                }
-                AppUtils.intentCallPhone(getActivity(), "18068446996");
-                break;
-            case R.id.tv_btn_setting:
-                launchInterceptLogin(SettingActivity.class);
-                break;
-            default:
-                break;
+
+    private void initEvent() {
+        mBinding.headView.civAvatar.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return;
+            }
+
+        });
+        mBinding.headView.tvNickName.setOnClickListener(v -> mBinding.headView.civAvatar.callOnClick());
+
+        mBinding.headView.ivBtnEdit.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return;
+            }
+
+            activityResultLauncher.launch(new Intent(getContext(), EditPersonalInfoActivity.class));
+        });
+
+        mBinding.headView.ivBtnMsg.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return;
+            }
+            EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
+        });
+
+        mBinding.headView.llLikeCount.setOnClickListener(v -> {
+            launchInterceptLogin(ReceiveLikesActivity.class);
+        });
+        mBinding.headView.llFollowCount.setOnClickListener(v -> launchInterceptLogin(AttentionMineActivity.class));
+
+        mBinding.headView.llFansCount.setOnClickListener(v -> launchInterceptLogin(FansActivity.class));
+        mBinding.headView.llHistoryCount.setOnClickListener(v -> launchInterceptLogin(HistoryWatchActivity.class));
+
+        mBinding.headView.tvApplyStatus.setOnClickListener(v -> {
+            if (mStatus == 0 || mStatus == 3) {
+                launchInterceptLogin(MerchantSettledFirstActivity.class);
+            } else if (mStatus == 2) {
+                //店铺管理
+                launchInterceptLogin(StoreManagerActivity.class);
+            }
+        });
+        mBinding.headView.tvBtnOrder.setOnClickListener(v -> launchInterceptLogin(OrderActivity.class));
+        mBinding.headView.tvBtnWallet.setOnClickListener(v -> launchInterceptLogin(WalletActivity.class));
+        mBinding.headView.tvBtnAddress.setOnClickListener(v -> launchInterceptLogin(DeliveryAddressActivity.class));
+
+        mBinding.headView.tvBtnCoupon.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return;
+            }
+            //优惠券
+            CouponListActivity.launch(getActivity(), CouponListActivity.INTENT_TYPE_CAN_USE);
+        });
+
+        mBinding.headView.tvBtnInvite.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return;
+            }
+            share();
+        });
+
+        mBinding.headView.tvBtnFeedback.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return;
+            }
+            ReportActivity.launchFeedBack(getActivity());
+        });
+
+        mBinding.headView.tvBtnContactUs.setOnClickListener(v -> {
+            if (!AccountManager.getInstance().isLogin()) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                return;
+            }
+            AppUtils.intentCallPhone(getActivity(), "18068446996");
+        });
+
+        mBinding.headView.tvBtnSetting.setOnClickListener(v -> launchInterceptLogin(SettingActivity.class));
+    }
+
+    private void launchInterceptLogin(Class clazz) {
+        if (AccountManager.getInstance().isLogin()) {
+            Intent intent = new Intent(getContext(), clazz);
+            startActivity(intent);
+        } else {
+            startActivity(new Intent(getContext(), LoginActivity.class));
         }
     }
+
 
     private void share() {
         View view = View.inflate(getActivity(), R.layout.view_dialog_share_modify, null);
@@ -432,7 +384,7 @@ public class TabMeFragment extends BaseFragment {
             String shareContent = etCv.getText();
 
             if (StringUtils.isEmpty(shareContent)) {
-                toast("请输入分享的内容");
+                com.blankj.utilcode.util.ToastUtils.showShort("请输入分享的内容");
                 return;
             }
             showShareBottomDialog("http://www.baidu.com", shareContent);
@@ -506,7 +458,7 @@ public class TabMeFragment extends BaseFragment {
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
                 getActivity().runOnUiThread(() -> {
-                    toast("分享失败");
+                    com.blankj.utilcode.util.ToastUtils.showShort("分享失败");
                 });
             }
 
@@ -539,11 +491,6 @@ public class TabMeFragment extends BaseFragment {
                             ToastUtils.showShort(msg);
                         }
                     });
-                    break;
-                case 100:
-                    initUserInfo();
-                    break;
-                default:
                     break;
             }
         }

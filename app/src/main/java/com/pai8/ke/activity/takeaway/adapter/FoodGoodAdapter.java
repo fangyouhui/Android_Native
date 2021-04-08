@@ -20,6 +20,7 @@ import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -285,9 +286,9 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<String>>() {
+                .subscribe(new BaseObserver<JSONObject>() {
                     @Override
-                    protected void onSuccess(List<String> data){
+                    protected void onSuccess(JSONObject data){
 
                     }
                     @Override
@@ -310,9 +311,9 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<String>>() {
+                .subscribe(new BaseObserver<JSONObject>() {
                     @Override
-                    protected void onSuccess(List<String> data){
+                    protected void onSuccess(JSONObject data){
 
                     }
                     @Override

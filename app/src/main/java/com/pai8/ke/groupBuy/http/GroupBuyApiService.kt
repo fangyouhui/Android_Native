@@ -10,9 +10,7 @@ import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.resp.MyInfoResp
 import com.pai8.ke.entity.resp.VersionResp
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface GroupBuyApiService {
 
@@ -27,6 +25,16 @@ interface GroupBuyApiService {
      */
     @POST("user/ucenter")
     suspend fun getMyInfo(): BaseHttpResult<MyInfoResp>
+
+
+    /**
+     * 根据id获取用户信息
+     *
+     * @param uid
+     * @return
+     */
+    @POST("user/getInfoByUid")
+    suspend fun getUserInfoById(@Query("uid") uid: String): BaseHttpResult<UserInfo>
 
 
     @POST("index/businessType")
@@ -126,7 +134,7 @@ interface GroupBuyApiService {
     suspend fun shopUncollect(@Query("shop_id") shop_id: String): BaseHttpResult<JsonObject>
 
     /**
-     * 获取用户是否关注店铺信息
+     * 获取用户是否关注商家信息
      */
     @POST("shop/IsUserFollow")
     suspend fun isUserFollow(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<UserFollowResult>

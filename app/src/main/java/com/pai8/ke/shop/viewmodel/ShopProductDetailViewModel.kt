@@ -38,6 +38,6 @@ class ShopProductDetailViewModel : BaseViewModel() {
     fun getGoodsCollection(goods_id: String) {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().getGoodsCollection(goods_id) }, {
             goodsCollectionData.value = it
-        }, {})
+        })
     }
 }

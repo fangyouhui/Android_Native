@@ -28,6 +28,8 @@ import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.resp.BusinessType;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -287,10 +289,10 @@ public interface TakeawayApiService {
 
 
     @POST("Order/addCart")
-    Observable<BaseRespose<List<String>>> addCart(@Body RequestBody body);
+    Observable<BaseRespose<JSONObject>> addCart(@Body RequestBody body);
 
     @POST("Order/updateCartNum")
-    Observable<BaseRespose<List<String>>> updateCartNum(@Body RequestBody body);
+    Observable<BaseRespose<JSONObject>> updateCartNum(@Body RequestBody body);
 
     @POST("Order/getCart")
     Observable<BaseRespose<ShopFoodGoodInfo>> getCart(@Body RequestBody body);

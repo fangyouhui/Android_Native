@@ -78,7 +78,7 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
             mBinding.btnCollect.setSelected(data);
         });
         mViewModel.getGoodsCollectionData().observe(this, data -> {
-            mBinding.btnCollect.setSelected(true);
+            mBinding.btnCollect.setSelected(data.getId() != 0);
         });
     }
 
