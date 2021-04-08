@@ -19,7 +19,7 @@ public interface StoreContract {
 
         void collectionSuccess(JSONObject data);
 
-        void unCollectionSuccess(String data);
+        void unCollectionSuccess(JSONObject data);
 
 
         void getCarSuccess(ShopFoodGoodInfo data);

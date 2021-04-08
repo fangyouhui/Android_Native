@@ -10,6 +10,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.gyf.immersionbar.ImmersionBar;
@@ -30,7 +35,6 @@ import com.pai8.ke.activity.takeaway.fragment.EvaluateFragment;
 import com.pai8.ke.activity.takeaway.fragment.GoodFragment;
 import com.pai8.ke.activity.takeaway.fragment.StoreFragment;
 import com.pai8.ke.activity.takeaway.order.OrderConfirmActivity;
-import com.pai8.ke.shop.ui.ConfirmOrderActivity;
 import com.pai8.ke.activity.takeaway.presenter.StorePresenter;
 import com.pai8.ke.activity.takeaway.utils.AddToCartUtil;
 import com.pai8.ke.activity.takeaway.widget.ShopCarPop;
@@ -62,10 +66,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -310,7 +310,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
             if (data != null) {
                 saveCurLocation(data.getStringExtra("lat"), data.getStringExtra("lng"),
                         data.getStringExtra("address"));
-                mPresenter.outDistance( mStoreInfo.id + "", data.getIntExtra("id", -1) + "");
+                mPresenter.outDistance(mStoreInfo.id + "", data.getIntExtra("id", -1) + "");
             }
         }
     }
@@ -492,7 +492,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
                 String distance = mData.shop_info.distance;
                 String latitude = mData.shop_info.latitude;
                 String longitude = mData.shop_info.longitude;
-                NaviActivity.launch(this, address, distance,  longitude,latitude);
+                NaviActivity.launch(this, address, distance, longitude, latitude);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -533,7 +533,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     }
 
     @Override
-    public void unCollectionSuccess(String data) {
+    public void unCollectionSuccess(JSONObject data) {
         mStoreInfo.is_collect = 0;
         mIvCollection.setImageResource(R.mipmap.icon_rating_bar_normal);
     }

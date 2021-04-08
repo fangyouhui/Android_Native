@@ -75,9 +75,9 @@ public class StorePresenter extends BasePresenterImpl<StoreContract.View> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<JSONObject>() {
                     @Override
-                    protected void onSuccess(String shopList) {
+                    protected void onSuccess(JSONObject shopList) {
                         view.unCollectionSuccess(shopList);
 
 

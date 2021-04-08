@@ -220,12 +220,9 @@ public interface TakeawayApiService {
     @POST("shop/shopCollect")
     Observable<BaseRespose<JSONObject>> collection(@Body ShopIdReq parm);
 
-    @POST("shop/shopUncollect")
-    Observable<BaseRespose<String>> shopUncollect(@Body ShopIdReq parm);
-
 
     @POST("shop/shopUncollect")
-    Observable<BaseRespose<String>> unCollection(@Body ShopIdReq parm);
+    Observable<BaseRespose<JSONObject>> unCollection(@Body ShopIdReq parm);
 
     @FormUrlEncoded
     @POST("Order/waimaiPrice")
