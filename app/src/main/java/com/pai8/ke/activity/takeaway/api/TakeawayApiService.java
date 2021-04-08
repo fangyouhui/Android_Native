@@ -323,7 +323,7 @@ public interface TakeawayApiService {
     Observable<BaseRespose<StoreInfo>> shopIndex(@Body RequestBody body);
 
     @POST("shop/shopStatus")
-    Observable<BaseRespose<List<String>>> shopStatus(@Body RequestBody body);
+    Observable<BaseRespose<JSONObject>> shopStatus(@Body RequestBody body);
 
 
     @POST("shop/editShop")

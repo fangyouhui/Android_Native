@@ -8,6 +8,8 @@ import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.manager.AccountManager;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -67,9 +69,9 @@ public class StoreManagerPresenter extends BasePresenterImpl<StoreManagerContrac
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<String>>() {
+                .subscribe(new BaseObserver<JSONObject>() {
                     @Override
-                    protected void onSuccess(List<String> data) {
+                    protected void onSuccess(JSONObject data) {
                         view.getStatusSuccess(data);
                     }
 

@@ -30,6 +30,8 @@ import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.widget.BottomDialog;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter> implements View.OnClickListener, StoreManagerContract.View {
@@ -245,7 +247,7 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
     }
 
     @Override
-    public void getStatusSuccess(List<String> data) {
+    public void getStatusSuccess(JSONObject data) {
         mPresenter.shopIndex();
     }
 }
