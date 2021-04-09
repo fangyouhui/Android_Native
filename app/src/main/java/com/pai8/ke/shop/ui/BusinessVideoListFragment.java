@@ -4,9 +4,7 @@ import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
-import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.style.PictureSelectorUIStyle;
-import com.pai8.ke.R;
+import com.pai8.ke.activity.video.tiktok.TikTokActivity;
 import com.pai8.ke.databinding.FragmentBusinessVideoListBinding;
 import com.pai8.ke.shop.adapter.BusinessVideoAdapter;
 import com.pai8.ke.shop.viewmodel.BusinessHomeViewModel;
@@ -36,10 +34,13 @@ public class BusinessVideoListFragment extends BaseFragment<BusinessHomeViewMode
     public void initView(@Nullable Bundle savedInstanceState) {
         mBinding.recyclerView.setAdapter(adapter = new BusinessVideoAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
-            PictureSelector.create(this)
-                    .themeStyle(R.style.picture_default_style)
-                    .setPictureUIStyle(PictureSelectorUIStyle.ofDefaultStyle())// 动态自定义相册主题
-                    .externalPictureVideo(item.getVideo_path());
+//            PictureSelector.create(this)
+//                    .themeStyle(R.style.picture_default_style)
+//                    .setPictureUIStyle(PictureSelectorUIStyle.ofDefaultStyle())// 动态自定义相册主题
+//                    .externalPictureVideo(item.getVideo_path());
+
+
+            TikTokActivity.launch(getContext(), adapter.getData(), 1, position, 7);
         });
     }
 

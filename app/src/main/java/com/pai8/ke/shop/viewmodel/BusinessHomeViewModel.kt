@@ -5,8 +5,7 @@ import com.lhs.library.base.BaseViewModel
 import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.entity.GroupShopInfoResult
 import com.pai8.ke.entity.ShopGroupListResult
-import com.pai8.ke.entity.ShopVideoResult
-import com.pai8.ke.entity.resp.ShareMiniResp
+import com.pai8.ke.entity.Video
 import com.pai8.ke.groupBuy.http.RetrofitClient
 import com.pai8.ke.manager.AccountManager
 
@@ -30,7 +29,7 @@ class BusinessHomeViewModel : BaseViewModel() {
     }
 
 
-    val shopVideoListData = MutableLiveData<List<ShopVideoResult>>()
+    val shopVideoListData = MutableLiveData<List<Video>>()
     fun getShopVideoList(shop_id: String, page: String) {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().getShopVideoList(shop_id, page, "10") }, { shopVideoListData.value = it })
     }

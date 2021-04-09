@@ -61,8 +61,7 @@ public class VideoHistoryFragment extends BaseMvpFragment<HistoryWatchPresenter>
         super.initListener();
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
             Video videoResp = mList.get(position);
-            TikTokActivity.launch(getActivity(),mList, videoResp.getPage(), position
-                    , position);
+            TikTokActivity.launch(getActivity(),mList, videoResp.getPage(), position, position);
         });
     }
 

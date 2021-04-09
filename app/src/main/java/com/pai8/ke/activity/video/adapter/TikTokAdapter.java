@@ -83,8 +83,7 @@ public class TikTokAdapter extends BaseRecyclerViewAdapter<Video> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_tik_tok,
-                parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_tik_tok, parent, false));
     }
 
     @Override

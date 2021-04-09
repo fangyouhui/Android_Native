@@ -27,7 +27,36 @@ public class Video implements Serializable {
     private String share_url;
     private Shop shop;
     private User user;
-    private String  user_id;
+    private String user_id;
+
+
+    private int goods_id;
+    private String user_nickname;
+    private String avatar;
+
+    public int getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(int goods_id) {
+        this.goods_id = goods_id;
+    }
+
+    public String getUser_nickname() {
+        return user_nickname;
+    }
+
+    public void setUser_nickname(String user_nickname) {
+        this.user_nickname = user_nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     private int page;
 

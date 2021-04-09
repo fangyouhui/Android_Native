@@ -66,6 +66,7 @@ import com.pai8.ke.widget.CircleImageView;
 import com.pai8.ke.widget.EditTextCountView;
 import com.pai8.ke.widget.VerticalViewPager;
 import com.theartofdev.edmodo.cropper.CropImage;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -78,6 +79,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
+
 import butterknife.BindView;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -102,8 +104,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         SwipeRefreshLayout.OnRefreshListener, ReportContract.View, VideoDetailContract.View,
         VideoHomeContract.View, ShareContract.View {
 
-    @BindView(R.id.vp2)
-    ViewPager2 mViewPager;
+    private ViewPager2 mViewPager;
 
     private int mCurPlayPos;
     private int mPageNo = 1;
@@ -178,7 +179,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                     //裁剪后跳转分享框
                     CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     Uri resultUri = result.getUri();
-                    shareUrl(getCurVideo().getShare_url(),resultUri.toString());
+                    shareUrl(getCurVideo().getShare_url(), resultUri.toString());
                     break;
             }
         }
@@ -691,7 +692,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         sp.setTitleUrl(url);
         sp.setText(name);
         sp.setUrl(url);
-        if(mShareImgUrl != null && mShareImgUrl.length() > 0) {
+        if (mShareImgUrl != null && mShareImgUrl.length() > 0) {
             sp.setImageUrl(mShareImgUrl);
         } else {
             sp.setImageUrl(url);
@@ -747,10 +748,14 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                     break;
                 case 4: //喜欢
                     mVideoHomePresenter.myLike(mPageNo, REFRESH);
+                    break;
                 case 5: //搜索
                     mVideoHomePresenter.search(mKeyWords, mPageNo, REFRESH);
+                    break;
                 case 6://我关联/关联我
                     mVideoHomePresenter.myLink(mPageNo, REFRESH);
+                    break;
+
 
             }
         }, 200);
@@ -800,14 +805,15 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         LogUtils.d("video:" + video.toString());
         if (refreshPage) {
             mTikTokAdapter.notifyItemChanged(mCurPlayPos, video);
-            if (mTvCommentsTitle != null) mTvCommentsTitle.setText("评论(" + video.getComment_counts() + ")");
+            if (mTvCommentsTitle != null)
+                mTvCommentsTitle.setText("评论(" + video.getComment_counts() + ")");
         }
         //通知首页视频列表局部刷新
         EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_VIDEO_ITEM,
                 new VideoItemRefreshEvent(mCurPlayPos, video)));
     }
 
-    public void shareUrl(String url,String localUrl) {
+    public void shareUrl(String url, String localUrl) {
         View view = View.inflate(this, R.layout.view_dialog_share_modify, null);
         ImageButton itnClose = view.findViewById(R.id.itn_close);
         TextView tvBtnShare = view.findViewById(R.id.tv_btn_share);
@@ -902,10 +908,10 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
 
     @Override
     public void shareMini(ShareMiniResp resp) {
-        if(mShareImgUrl != null && mShareImgUrl.length() > 0) {
+        if (mShareImgUrl != null && mShareImgUrl.length() > 0) {
             resp.setThumb(mShareImgUrl);
         }
-        if(mShareDescription != null && mShareDescription.length() > 0) {
+        if (mShareDescription != null && mShareDescription.length() > 0) {
             resp.setDescription(mShareDescription);
         }
         WxShareUtils.shareToWeChat(resp, new PlatformActionListener() {
@@ -936,12 +942,12 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
      * 裁剪图片
      */
     @SuppressLint("CheckResult")
-    private void cropImage(String url){
+    private void cropImage(String url) {
         Flowable.create((FlowableOnSubscribe<File>) emitter -> {
             try {
                 FutureTarget<File> target = Glide.with(TikTokActivity.this)
                         .downloadOnly()
-                        .load(TextUtils.isEmpty(url)?"":url)
+                        .load(TextUtils.isEmpty(url) ? "" : url)
                         .submit(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
                 File imageFile = target.get();
                 emitter.onNext(imageFile);

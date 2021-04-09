@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.lhs.library.base.BaseViewHolder;
 import com.pai8.ke.databinding.ItemBusinessVideoBinding;
-import com.pai8.ke.entity.ShopVideoResult;
+import com.pai8.ke.entity.Video;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import java.util.List;
 
-public class BusinessVideoAdapter extends BaseRecyclerViewAdapter<ShopVideoResult> {
+public class BusinessVideoAdapter extends BaseRecyclerViewAdapter<Video> {
 
-    public BusinessVideoAdapter(Context mContext, List<ShopVideoResult> list, boolean isShowEmptyView) {
+    public BusinessVideoAdapter(Context mContext, List<Video> list, boolean isShowEmptyView) {
         super(mContext, list, isShowEmptyView);
     }
 
@@ -30,7 +30,7 @@ public class BusinessVideoAdapter extends BaseRecyclerViewAdapter<ShopVideoResul
     @Override
     protected void onBindNormalViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof BusinessVideoViewHolder) {
-            ShopVideoResult bean = getItem(position);
+            Video bean = getItem(position);
             BusinessVideoViewHolder holder = (BusinessVideoViewHolder) viewHolder;
             ImageLoadUtils.loadImage(bean.getCover_path(), holder.binding.imageView);
             holder.binding.tvEvaluation.setText(bean.getVideo_desc());
