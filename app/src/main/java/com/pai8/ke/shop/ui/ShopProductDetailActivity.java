@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.blankj.utilcode.util.PhoneUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
+import com.pai8.ke.activity.common.ShareBottomDialogFragment;
 import com.pai8.ke.activity.takeaway.adapter.BannerAdapter;
 import com.pai8.ke.databinding.ActivityShopProductDetailBinding;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
@@ -47,7 +48,7 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         });
         mBinding.btnCoupon.setOnClickListener(v -> {
             CouponGetDialogFragment newInstance = CouponGetDialogFragment.newInstance(shopId);
-            newInstance.show(getSupportFragmentManager(), "CouponGetDialog");
+            newInstance.showNow(getSupportFragmentManager(), "CouponGetDialog");
         });
         mBinding.btnCollect.setOnClickListener(v -> {
             if (mBinding.btnCollect.isSelected()) {
@@ -58,6 +59,10 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
 
         });
         mBinding.btnCollect2.setOnClickListener(v -> mBinding.btnCollect.callOnClick());
+        mBinding.btnShare.setOnClickListener(v -> {
+            ShareBottomDialogFragment dialogFragment = ShareBottomDialogFragment.newInstance(3, productId);
+            dialogFragment.showNow(getSupportFragmentManager(), "share");
+        });
     }
 
     @Override
