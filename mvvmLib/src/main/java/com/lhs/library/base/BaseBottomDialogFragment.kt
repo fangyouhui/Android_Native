@@ -32,7 +32,7 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
         LogUtils.eTag(TAG, "销毁fragment页面：" + javaClass.simpleName)
     }
 
-    open fun initView() {}
+    open fun initView(savedInstanceState: Bundle?) {}
     open fun addObserve() {}
     open fun initData() {}
 
@@ -77,7 +77,7 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
         super.onViewCreated(view, savedInstanceState)
         createViewModel()
         lifecycle.addObserver(mViewModel)
-        initView()
+        initView(savedInstanceState)
         addObserve()
         initData()
     }

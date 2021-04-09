@@ -4,14 +4,8 @@ import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.resp.ShareMiniResp;
-import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.interfaces.contract.ShareContract;
-import com.pai8.ke.utils.CollectionUtils;
-import com.pai8.ke.utils.WxShareUtils;
-
-import java.util.List;
 
 public class SharePresenter extends BasePresenterImpl<ShareContract.View> implements ShareContract.Presenter {
 

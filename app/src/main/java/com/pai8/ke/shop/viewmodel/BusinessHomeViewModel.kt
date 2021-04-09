@@ -6,6 +6,7 @@ import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.entity.GroupShopInfoResult
 import com.pai8.ke.entity.ShopGroupListResult
 import com.pai8.ke.entity.ShopVideoResult
+import com.pai8.ke.entity.resp.ShareMiniResp
 import com.pai8.ke.groupBuy.http.RetrofitClient
 import com.pai8.ke.manager.AccountManager
 

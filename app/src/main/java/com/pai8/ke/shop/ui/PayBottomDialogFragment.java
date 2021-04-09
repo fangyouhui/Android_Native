@@ -62,7 +62,7 @@ public class PayBottomDialogFragment extends BaseBottomDialogFragment<PaySelectB
     }
 
     @Override
-    public void initView() {
+    public void initView(Bundle bundle) {
         mBinding.tvPrice.setText("¥ " + totalPrice);
         mBinding.btnPay.setText("¥ " + totalPrice + " 立即支付");
         mBinding.ivClose.setOnClickListener(v -> {

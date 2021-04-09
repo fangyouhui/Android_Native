@@ -157,16 +157,16 @@ public class NavUtils {
         intent.setPackage(PN_BAIDU_MAP);
         intent.setData(Uri.parse(uriString));
         context.startActivity(intent);
+
     }
 
-    public static void selectNav(final Context context, final double dlat, final double dlon,
-                                 final String dName) {
+    public static void selectNav(final Context context, final double dlat, final double dlon, final String dName) {
         new AlertDialog.Builder(context)
                 .setTitle("选择导航地图")
                 .setItems(R.array.nav, (dialog, which) -> {
                     if (which == 0) { // 导航应用1高德
-                        if (NavUtils.isGdMapInstalled()) {
-                            NavUtils.openGaoDeNavi(context, 0, 0, "", dlat, dlon, dName);
+                        if (isGdMapInstalled()) {
+                            openGaoDeNavi(context, 0, 0, "", dlat, dlon, dName);
                         } else {
                             ToastUtils.showShort("您还未安装高德地图！");
                             new AlertDialog.Builder(context)
@@ -177,8 +177,8 @@ public class NavUtils {
                                     .show();
                         }
                     } else if (which == 1) { //导航应用2百度
-                        if (NavUtils.isBaiduMapInstalled()) {
-                            NavUtils.openBaiDuNavi(context, 0, 0, "", dlat, dlon, dName);
+                        if (isBaiduMapInstalled()) {
+                            openBaiDuNavi(context, 0, 0, "", dlat, dlon, dName);
                         } else {
                             ToastUtils.showShort("您还未安装百度地图！");
                             new AlertDialog.Builder(context)

@@ -6,10 +6,14 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
 import com.blankj.utilcode.util.PhoneUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.account.LoginActivity;
+import com.pai8.ke.activity.common.NaviActivity;
+import com.pai8.ke.activity.common.ShareBottomDialogFragment;
 import com.pai8.ke.databinding.ActivityBusinessHomeBinding;
 import com.pai8.ke.entity.GroupShopInfoResult;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
@@ -17,6 +21,8 @@ import com.pai8.ke.groupBuy.adapter.ViewPagerAdapter;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.shop.viewmodel.BusinessHomeViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.MyAMapUtils;
+import com.pai8.ke.utils.PreferencesUtils;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 
@@ -90,6 +96,26 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
             mViewModel.shopCollect(shopId);
 
         });
+
+        mBinding.tvAddress.setOnClickListener(v -> {
+            GroupShopInfoResult shopInfo = mViewModel.getGetGroupShopInfoData().getValue();
+            if (shopInfo != null) {
+                String curLatitude = (String) PreferencesUtils.get(getBaseContext(), "latitude", "0");
+                String curLongitude = (String) PreferencesUtils.get(getBaseContext(), "longitude", "0");
+                // 单位为米
+                LatLng latLng01 = new LatLng(Double.valueOf(shopInfo.getLatitude()), Double.valueOf(shopInfo.getLongitude()));
+                LatLng latLng02 = new LatLng(Double.valueOf(curLatitude), Double.valueOf(curLongitude));
+                //单位米
+                float distance = AMapUtils.calculateLineDistance(latLng01, latLng02);
+                NaviActivity.launch(this, shopInfo.getAddress(), MyAMapUtils.getFormatDistance(distance), shopInfo.getLongitude(), shopInfo.getLatitude());
+            }
+
+        });
+
+        mBinding.ivShare.setOnClickListener(v -> {
+            ShareBottomDialogFragment dialogFragment = ShareBottomDialogFragment.newInstance(2, shopId + "");
+            dialogFragment.show(getSupportFragmentManager(), "share");
+        });
     }
 
     public void finishRefresh() {
@@ -113,6 +139,7 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
         mViewModel.isUserFollowData().observe(this, data -> {
             mBinding.btnFavorites.setSelected(data.getId() != 0);
         });
+
     }
 
     @Override

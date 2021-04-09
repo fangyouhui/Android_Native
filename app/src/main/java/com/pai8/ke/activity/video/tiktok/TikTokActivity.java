@@ -815,8 +815,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         EditTextCountView etCv = view.findViewById(R.id.et_cv);
         etCv.setLength(50);
         etCv.setEtText(StringUtils.strSafe(getCurVideo().getVideo_desc()));
-        ImageLoadUtils.loadImage(this, localUrl, mCivShareCover,
-                R.mipmap.img_share_cover);
+        ImageLoadUtils.loadImage(this, localUrl, mCivShareCover, R.mipmap.img_share_cover);
         mCivShareCover.setOnClickListener(view1 -> {
             View popView = View.inflate(TikTokActivity.this, R.layout.view_dialog_choose_qnvideo,
                     null);
@@ -909,7 +908,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         if(mShareDescription != null && mShareDescription.length() > 0) {
             resp.setDescription(mShareDescription);
         }
-        WxShareUtils.shareMini(resp, new PlatformActionListener() {
+        WxShareUtils.shareToWeChat(resp, new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 runOnUiThread(() -> {

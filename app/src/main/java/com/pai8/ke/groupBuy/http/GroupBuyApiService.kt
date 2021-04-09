@@ -9,6 +9,7 @@ import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.resp.MyInfoResp
+import com.pai8.ke.entity.resp.ShareMiniResp
 import com.pai8.ke.entity.resp.VersionResp
 import org.json.JSONObject
 import retrofit2.http.*
@@ -169,6 +170,10 @@ interface GroupBuyApiService {
      */
     @POST("Msg/msgIndex")
     suspend fun msgIndex(@Query("user_id") user_id: String): BaseHttpResult<MsgCountResp>
+
+
+    @POST("system/share")
+    suspend fun shareMini(@Query("type") type: Int, @Query("id") id: String): BaseHttpResult<ShareMiniResp>
 
 
 }

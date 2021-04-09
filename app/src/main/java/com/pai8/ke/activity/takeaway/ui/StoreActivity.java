@@ -564,7 +564,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     @Override
     public void shareMini(ShareMiniResp resp) {
-        WxShareUtils.shareMini(resp, new PlatformActionListener() {
+        WxShareUtils.shareToWeChat(resp, new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
                 runOnUiThread(() -> {
