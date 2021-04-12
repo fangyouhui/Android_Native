@@ -113,7 +113,7 @@ public class StoreManagerEditActivity extends BaseMvpActivity implements View.On
         et_contact.setText(data.mobile);
         tv_address.setText(data.province + data.city + data.district);
         et_address_detail.setText(data.address);
-        mTvCategory.setText(data.cate_name);
+     //   mTvCategory.setText(data.cate_name);
         et_number.setText(data.house_number);
         et_desc.setText(data.shop_desc);
 

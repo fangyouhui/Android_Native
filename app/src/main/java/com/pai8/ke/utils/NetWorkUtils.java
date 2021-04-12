@@ -34,7 +34,9 @@ public class NetWorkUtils {
         ClientBuilder.connectTimeout(6, TimeUnit.SECONDS);//连接超时
         ClientBuilder.writeTimeout(60, TimeUnit.SECONDS);//写入超时
         //支持HTTPS请求，跳过证书验证
-        ClientBuilder.sslSocketFactory(createSSLSocketFactory());
+        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
+        //  ClientBuilder.sslSocketFactory(sslParams.sSLSocketFactory);
+        ClientBuilder.sslSocketFactory(createSSLSocketFactory(), sslParams.trustManager);
         ClientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {

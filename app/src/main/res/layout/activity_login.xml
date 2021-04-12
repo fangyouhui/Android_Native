@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/image_head"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@mipmap/icon2" />
@@ -26,13 +26,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/head_Layout"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginHorizontal="30dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/et_user_name"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/shap_edit_bg_me"
@@ -49,7 +48,7 @@
 
         <EditText
             android:id="@+id/et_Message"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@id/et_user_name"
             android:layout_marginTop="10dp"
@@ -58,8 +57,8 @@
             android:drawablePadding="10dp"
             android:hint="请输入短信密码"
             android:inputType="number"
-            android:paddingStart="12dp"
             android:maxLength="16"
+            android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:singleLine="true"
             android:textColor="#000000"
@@ -120,7 +119,7 @@
 
         <Button
             android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/ll_showPro"
             android:layout_marginTop="20dp"
@@ -133,7 +132,7 @@
 
         <Button
             android:id="@+id/btn_changLogin"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/btn_login"
             android:layout_marginTop="15dp"
@@ -145,7 +144,7 @@
 
         <Button
             android:id="@+id/btn_register"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/btn_changLogin"
             android:layout_marginTop="15dp"

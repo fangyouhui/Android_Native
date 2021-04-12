@@ -1,6 +1,7 @@
 package com.pai8.ke.activity.takeaway.entity.resq;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class StoreInfo implements Serializable {
 
@@ -16,7 +17,7 @@ public class StoreInfo implements Serializable {
     public double score;
     public int is_open;
     public String cate_id;
-    public String cate_name;
+    private List<String> cate_name;
     public String send_cost;
     public String province;
     public String province_name;

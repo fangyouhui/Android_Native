@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.blankj.utilcode.util.GsonUtils;
@@ -38,6 +39,7 @@ import java.util.List;
  */
 public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, ActivityConfirmOrderBinding> {
     private GroupGoodsInfoResult bean;
+    private ActivityResultLauncher activityResultLauncher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +47,12 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
         EventBusUtils.register(this);
         bean = (GroupGoodsInfoResult) getIntent().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
         bindView();
+
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+
+            }
+        });
     }
 
     @Override
@@ -73,11 +81,8 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
         mBinding.llCoupon.setOnClickListener(v -> {
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK) {
-
-                }
-            }).launch(new Intent(this, CouponListActivity.class));
+            activityResultLauncher.launch(new Intent(this, CouponListActivity.class)
+                    .putExtra("intentType", CouponListActivity.INTENT_TYPE_CAN_USE));
         });
         mBinding.llBottom.setOnClickListener(v -> pay());
         mBinding.btnReduce.setOnClickListener(v -> {

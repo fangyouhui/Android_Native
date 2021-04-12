@@ -14,9 +14,9 @@ android {
         versionCode 4
         versionName "2.1.0"
 
-        ndk {
-            abiFilters "armeabi-v7a", "x86", "armeabi"
-        }
+//        ndk {
+//            abiFilters "armeabi-v7a", "x86", "armeabi"
+//        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -46,7 +46,7 @@ android {
             signingConfig signingConfigs.release
         }
         release {
-            minifyEnabled false
+            minifyEnabled false  //关闭混淆
             zipAlignEnabled true
             shrinkResources false
             signingConfig signingConfigs.release
@@ -222,5 +222,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'com.github.giswangsj:AndRatingBar:1.0.5' //评分条
 
+    implementation files('libs/qndroid-rtc-3.0.2.jar') //七牛实时音视频
+    //  implementation 'com.qiniu:happy-dns:0.2.17'
 
 }
