@@ -7,10 +7,10 @@ import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
+import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo
 import com.pai8.ke.entity.*
-import com.pai8.ke.entity.resp.MyInfoResp
-import com.pai8.ke.entity.resp.ShareMiniResp
-import com.pai8.ke.entity.resp.VersionResp
+import com.pai8.ke.entity.resp.*
 import org.json.JSONObject
 import retrofit2.http.*
 
@@ -174,6 +174,26 @@ interface GroupBuyApiService {
 
     @POST("system/share")
     suspend fun shareMini(@Query("type") type: Int, @Query("id") id: String): BaseHttpResult<ShareMiniResp>
+
+
+    @POST("shop/shopEditInfo")
+    suspend fun shopEditInfo(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<StoreInfo>
+
+
+    /**
+     * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
+     */
+    @POST("index/businessType")
+    suspend fun getBusinessType(): BaseHttpResult<List<BusinessType>>
+
+
+    //***************************视频模块End*******************************
+    @POST("public/area")
+    suspend fun getArea(): BaseHttpResult<List<Province>>
+
+
+    @POST("shop/editShop")
+    suspend fun editShop(@Body body: StoreInfoReq): BaseHttpResult<JSONObject>
 
 
 }

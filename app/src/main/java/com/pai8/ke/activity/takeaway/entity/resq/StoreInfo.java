@@ -17,7 +17,7 @@ public class StoreInfo implements Serializable {
     public double score;
     public int is_open;
     public String cate_id;
-    private List<String> cate_name;
+    public List<String> cate_name;
     public String send_cost;
     public String province;
     public String province_name;
