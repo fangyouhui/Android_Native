@@ -66,6 +66,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.account.RegisterActivity"
+            android:label="欢迎注册"
             android:screenOrientation="portrait" />
         <activity
             android:name=".wxapi.WXEntryActivity"

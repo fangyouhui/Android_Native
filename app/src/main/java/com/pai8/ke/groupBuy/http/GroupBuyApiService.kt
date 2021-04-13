@@ -29,6 +29,15 @@ interface GroupBuyApiService {
     suspend fun getMyInfo(): BaseHttpResult<MyInfoResp>
 
 
+    @POST("public/getCode")
+    suspend fun getCode(@Query("mobile") mobile: String): BaseHttpResult<JSONObject>
+
+
+    @POST("public/register")
+    suspend fun register(@Query("mobile") mobile: String, @Query("code") code: String,
+                         @Query("pwd") pwd: String, @Query("repwd") repwd: String): BaseHttpResult<JSONObject>
+
+
     /**
      * 根据id获取用户信息
      *

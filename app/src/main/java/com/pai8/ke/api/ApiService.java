@@ -44,6 +44,10 @@ public interface ApiService {
     @POST("public/getCode")
     Observable<BaseRespose> verifyCode(@Body CodeReq param);
 
+    @POST("public/register")
+    Observable<BaseRespose> register(@Body Map<String,String> param);
+
+
     /**
      * 登录
      */
