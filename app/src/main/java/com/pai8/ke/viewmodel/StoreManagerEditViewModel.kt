@@ -21,15 +21,6 @@ class StoreManagerEditViewModel : BaseViewModel() {
         })
     }
 
-    val businessTypeData = MutableLiveData<List<BusinessType>>()
-    fun businessType() {
-        launchOnlyResult({
-            RetrofitClient.getInstance().getMainService().getBusinessType()
-        }, {
-            businessTypeData.value = it
-        })
-    }
-
 
     val areaData = MutableLiveData<List<Province>>()
     fun area() {

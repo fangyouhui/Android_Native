@@ -2,22 +2,20 @@ package com.pai8.ke.activity.takeaway.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.lhs.library.base.BaseActivity;
+import com.lhs.library.base.BaseBottomDialogFragment;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
 import com.pai8.ke.databinding.ActivityGoodManagerEditBinding;
+import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.City;
 import com.pai8.ke.entity.resp.District;
 import com.pai8.ke.entity.resp.Province;
@@ -26,6 +24,8 @@ import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.viewmodel.StoreManagerEditViewModel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,14 +33,9 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
 
     private final int RESULT_PICTURE = 1000;  //图片
     private final int RESULT_VIDEO = 1001;
-    private String cateId;
     private String image;
     private StoreInfo mData;
-    private String mCityId;
-
-    private String mProvince, mCity, mDistrict;
-
-    private OptionsPickerView pvOptions, mPvType;
+    private OptionsPickerView pvOptions;
     private List<Province> mProvinceList;
     private List<List<City>> mCityList;
     private List<List<List<District>>> mDistrictList;
@@ -51,9 +46,32 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
     @Override
     public void initView(@org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         mBinding.tvPublish.setOnClickListener(v -> editShop());
-        mBinding.tvCategory.setOnClickListener(v -> mViewModel.businessType());
+        mBinding.tvCategory.setOnClickListener(v -> showCategoryBottomDialog());
         mBinding.ivCover.setOnClickListener(v -> ChoosePicUtils.picSingle(StoreManagerEditActivity.this, 0, RESULT_PICTURE));
         mBinding.tvAddress.setOnClickListener(v -> mViewModel.area());
+    }
+
+    private void showCategoryBottomDialog() {
+        CategoryBottomDialogFragment categoryBottomDialogFragment = CategoryBottomDialogFragment.newInstance(new ArrayList<>());
+        categoryBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
+            @Override
+            public void onConfirmClickListener(@NotNull Object data) {
+                List<BusinessType> list = (List<BusinessType>) data;
+                if (list.isEmpty()) {
+                    return;
+                }
+                StringBuilder builder = new StringBuilder();
+                StringBuilder ids = new StringBuilder();
+                for (BusinessType businessType : list) {
+                    builder.append(businessType.type_name).append(" ");
+                    ids.append(businessType.id).append(",");
+                }
+                ids.deleteCharAt(ids.lastIndexOf(","));
+                mBinding.tvCategory.setText(builder.toString());
+                mData.cate_id = ids.toString();
+            }
+        });
+        categoryBottomDialogFragment.show(getSupportFragmentManager(), "category");
     }
 
     @Override
@@ -61,28 +79,6 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         mViewModel.getShopEditInfoData().observe(this, data -> {
             mData = data;
             setData(data);
-        });
-
-        mViewModel.getBusinessTypeData().observe(this, list -> {
-            List<String> options1Items = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                options1Items.add(list.get(i).type_name);
-            }
-
-            if (mPvType == null) {
-                mPvType = new OptionsPickerBuilder(StoreManagerEditActivity.this, (options1, option2, options3, v) -> {
-                    //返回的分别是三个级别的选中位置
-                    String tx = list.get(options1).type_name;
-                    mBinding.tvCategory.setText(tx);
-                    cateId = list.get(options1).id + "";
-                    mData.cate_id = cateId;
-
-                })
-                        .setDecorView(findViewById(R.id.rl_merchant))
-                        .build();
-            }
-            mPvType.setPicker(options1Items);
-            mPvType.show();
         });
 
         mViewModel.getAreaData().observe(this, areaResps -> {
@@ -110,7 +106,11 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         mBinding.etContact.setText(data.mobile);
         mBinding.tvAddress.setText(data.province + data.city + data.district);
         mBinding.etAddressDetail.setText(data.address);
-        mBinding.tvCategory.setText(data.cate_name.toString());
+        StringBuilder builder = new StringBuilder();
+        for (String s : data.cate_name) {
+            builder.append(s).append(" ");
+        }
+        mBinding.tvCategory.setText(builder.toString());
         mBinding.etNumber.setText(data.house_number);
         mBinding.etDesc.setText(data.shop_desc);
     }
@@ -130,7 +130,7 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
             mCityList.add(cList);
             List<String> sList = new ArrayList<>();
             List<List<String>> cityList = new ArrayList<>();
-            List<List<District>> disList = new ArrayList<List<District>>();
+            List<List<District>> disList = new ArrayList<>();
             for (City city : cList) {
                 if (city == null) {
                     return;
@@ -155,33 +155,23 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
     }
 
     private void showPicker() {
-        pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                try {
-                    Province province = mProvinceList.get(options1);
-                    int mProvinceId = province.getId();
-                    mProvince = province.getName();
-                    if (mCityList.get(options1).size() > 0) {
-                        City city = mCityList.get(options1).get(options2);
-                        mCityId = city.getId() + "";
-                        mCity = city.getName();
-                    }
-                    if (mDistrictList.get(options1).get(options2).size() > 0) {
-                        District district = mDistrictList.get(options1).get(options2).get(options3);
-                        mDistrict = district.getName();
-                    }
-                    mBinding.tvAddress.setText(mProvince + mCity + mDistrict);
-                } catch (Exception e) {
+        pvOptions = new OptionsPickerBuilder(this, (options1, options2, options3, v) -> {
+            Province province = mProvinceList.get(options1);
+            mData.province = province.getId() + "";
+            mData.province_name = province.getName();
 
-                }
+            if (mCityList.get(options1).size() > 0) {
+                City city = mCityList.get(options1).get(options2);
+                mData.city_id = city.getId() + "";
+                mData.city = city.getName();
+            }
+            if (mDistrictList.get(options1).get(options2).size() > 0) {
+                District district = mDistrictList.get(options1).get(options2).get(options3);
+                mData.district = district.getId() + "";
+                mData.district_name = district.getName();
 
             }
-        }).setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
-            @Override
-            public void onOptionsSelectChanged(int options1, int options2, int options3) {
-
-            }
+            mBinding.tvAddress.setText(mData.province_name + mData.city + mData.district_name);
         }).setSubmitText("确定")//确定按钮文字
                 .setCancelText("取消")//取消按钮文字
                 .setSubCalSize(18)//确定和取消文字大小
@@ -191,11 +181,9 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
                 .setCyclic(false, false, false)//循环与否
                 .setSelectOptions(0, 0, 0)  //设置默认选中项
                 .setOutSideCancelable(false)//点击外部dismiss default true
-                .setDecorView((ViewGroup) findViewById(R.id.rl_merchant))
                 .build();
         pvOptions.setPicker(mProvinceNameList, mCityNameList, mDistrictNameList);//添加数据源
         pvOptions.show();
-
     }
 
 
@@ -247,7 +235,7 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         storeInfo.shop_desc = mBinding.etDesc.getText().toString();
         storeInfo.province = mData.province;
         storeInfo.city = mData.city;
-        storeInfo.city_id = mCityId;
+        storeInfo.city_id = mData.city_id;
         storeInfo.district = mData.district;
         storeInfo.house_number = mBinding.etNumber.getText().toString();
 

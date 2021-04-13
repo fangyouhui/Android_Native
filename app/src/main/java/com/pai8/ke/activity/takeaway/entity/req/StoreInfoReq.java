@@ -11,8 +11,8 @@ public class StoreInfoReq implements Serializable {
     public String cate_id;
     public String province;
     public String city;
-    public String district;
     public String city_id;
+    public String district;
     public String address;
     public String mobile;
     public String house_number;

@@ -44,6 +44,8 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
 //        params.width = WindowManager.LayoutParams.MATCH_PARENT
 //        window.attributes = params
 //        window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog!!.setCancelable(false)
+        dialog!!.setCanceledOnTouchOutside(false)
         setWindow()
     }
 
@@ -130,7 +132,7 @@ abstract class BaseBottomDialogFragment<VM : BaseViewModel, DB : ViewBinding> : 
             val tClass = tp as? Class<VM> ?: BaseViewModel::class.java
             //     mViewModel = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(tClass) as VM
 
-            val viewModelStore = if (isShareVM()) activity!!.viewModelStore else this.viewModelStore
+            val viewModelStore = if (isShareVM()) requireActivity().viewModelStore else this.viewModelStore
             mViewModel = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(tClass) as VM
         }
     }

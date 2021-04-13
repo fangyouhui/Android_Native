@@ -1,7 +1,7 @@
 package com.pai8.ke.activity.takeaway.entity.resq;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class StoreInfo implements Serializable {
 
@@ -17,13 +17,13 @@ public class StoreInfo implements Serializable {
     public double score;
     public int is_open;
     public String cate_id;
-    public List<String> cate_name;
+    public ArrayList<String> cate_name;
     public String send_cost;
     public String province;
     public String province_name;
+    public String city_id;
     public String city;
     public String district;
-    public String city_id;
     public String district_name;
     public String loge_img;
     public String floor_send_cost;
