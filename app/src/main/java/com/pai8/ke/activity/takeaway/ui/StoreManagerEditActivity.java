@@ -175,7 +175,6 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         }).setSubmitText("确定")//确定按钮文字
                 .setCancelText("取消")//取消按钮文字
                 .setSubCalSize(18)//确定和取消文字大小
-                .setTitleSize(20)//标题文字大小
                 .setContentTextSize(18)//滚轮文字大小
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
                 .setCyclic(false, false, false)//循环与否
