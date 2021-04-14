@@ -3,7 +3,7 @@ package com.pai8.ke.activity.takeaway.entity.resq;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StoreInfo implements Serializable {
+public class StoreInfoResult implements Serializable {
 
     public int shop_id;
     public int id;
@@ -16,13 +16,13 @@ public class StoreInfo implements Serializable {
     public String delivery_time;
     public double score;
     public int is_open;
-    public String cate_id;
+    public String cate_id; //店铺分类id
     public ArrayList<String> cate_name;
     public String send_cost;
     public String province;
     public String province_name;
-    public String city_id;
     public String city;
+    public String city_name;
     public String district;
     public String district_name;
     public String loge_img;

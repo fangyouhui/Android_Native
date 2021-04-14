@@ -21,7 +21,7 @@ import com.pai8.ke.activity.takeaway.adapter.ConfirmOrderAdapter;
 import com.pai8.ke.activity.takeaway.contract.ConfirmContract;
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderGoodInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.activity.takeaway.presenter.ConfirmOrderPresenter;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
@@ -73,7 +73,7 @@ public class OrderConfirmActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     private ConfirmOrderAdapter mAdapter;
     private TextView mTvStoreName;
     private ImageView mIvStore;
-    private StoreInfo mStoreInfo;
+    private StoreInfoResult mStoreInfo;
     private List<FoodGoodInfo> mFoodInfoList;
 
     @Override
@@ -121,7 +121,7 @@ public class OrderConfirmActivity extends BaseMvpActivity<ConfirmOrderPresenter>
     public void initData() {
         super.initData();
 
-        mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
+        mStoreInfo = (StoreInfoResult) getIntent().getSerializableExtra("storeInfo");
         mFoodInfoList = (List<FoodGoodInfo>) getIntent().getSerializableExtra("shopCar");
 
         mTvStoreName.setText(mStoreInfo.shop_name);

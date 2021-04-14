@@ -2,7 +2,7 @@ package com.pai8.ke.activity.takeaway.presenter;
 
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.StoreManagerContract;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
@@ -11,7 +11,6 @@ import com.pai8.ke.manager.AccountManager;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class StoreManagerPresenter extends BasePresenterImpl<StoreManagerContract.View> {
 
@@ -28,9 +27,9 @@ public class StoreManagerPresenter extends BasePresenterImpl<StoreManagerContrac
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<StoreInfo>() {
+                .subscribe(new BaseObserver<StoreInfoResult>() {
                     @Override
-                    protected void onSuccess(StoreInfo data) {
+                    protected void onSuccess(StoreInfoResult data) {
                         view.getStoreInfo(data);
                     }
 
@@ -48,9 +47,9 @@ public class StoreManagerPresenter extends BasePresenterImpl<StoreManagerContrac
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<StoreInfo>() {
+                .subscribe(new BaseObserver<StoreInfoResult>() {
                     @Override
-                    protected void onSuccess(StoreInfo data) {
+                    protected void onSuccess(StoreInfoResult data) {
                         view.getStoreInfo(data);
                     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 public class TakeawayResq {
 
 
-    public List<StoreInfo> shop_list;
+    public List<StoreInfoResult> shop_list;
     public List<BannerBean> banner;
 
 

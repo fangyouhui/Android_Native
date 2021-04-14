@@ -30,7 +30,7 @@ import com.pai8.ke.activity.takeaway.entity.event.CartNumEvent;
 import com.pai8.ke.activity.takeaway.entity.event.ShopCarEvent;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.fragment.EvaluateFragment;
 import com.pai8.ke.activity.takeaway.fragment.GoodFragment;
 import com.pai8.ke.activity.takeaway.fragment.StoreFragment;
@@ -86,7 +86,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     private ImageView mIvBack, mIvCollection, mIvShare;
     private ImageView mIvShopCar;
     private TextView mTvOrder;
-    private StoreInfo mStoreInfo;  //商家信息
+    private StoreInfoResult mStoreInfo;  //商家信息
     private ImageView mIvStorePic;
     private TextView mTvStoreName;
     private TextView mTvShopNum;
@@ -113,7 +113,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
 
     public static void launch(Context context, String shopId) {
         if (StringUtils.isEmpty(shopId)) return;
-        StoreInfo storeInfo = new StoreInfo();
+        StoreInfoResult storeInfo = new StoreInfoResult();
         storeInfo.id = Integer.parseInt(shopId);
         Intent intent = new Intent(context, StoreActivity.class);
         intent.putExtra("storeInfo", storeInfo);
@@ -398,7 +398,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         mSharePresenter = new SharePresenter(this);
         EventBus.getDefault().register(this);
         orderNo = getIntent().getStringExtra("orderNo");
-        mStoreInfo = (StoreInfo) getIntent().getSerializableExtra("storeInfo");
+        mStoreInfo = (StoreInfoResult) getIntent().getSerializableExtra("storeInfo");
         setData(mStoreInfo);
         mShopIdReq = new ShopIdReq();
         mShopIdReq.shop_id = mStoreInfo.id + "";
@@ -411,7 +411,7 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
     }
 
 
-    private void setData(StoreInfo mStoreInfo) {
+    private void setData(StoreInfoResult mStoreInfo) {
         if (mStoreInfo != null && !TextUtils.isEmpty(mStoreInfo.shop_name)) {
             ImageLoadUtils.setCircularImage(this, mStoreInfo.shop_img, mIvStorePic, R.mipmap.ic_launcher);
             mTvStoreName.setText(mStoreInfo.shop_name);

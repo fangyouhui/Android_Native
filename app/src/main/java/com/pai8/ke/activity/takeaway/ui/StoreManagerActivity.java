@@ -17,8 +17,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.contract.StoreManagerContract;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
-import com.pai8.ke.activity.takeaway.order.OrderDetailActivity;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.order.WriteOffOrderDetailActivity;
 import com.pai8.ke.activity.takeaway.presenter.StoreManagerPresenter;
 import com.pai8.ke.activity.takeaway.widget.ShopStatusPop;
@@ -38,7 +37,7 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
 
     private BottomDialog mStoreStatusDialog;
     private TextView mTvStatus, mTvIncome, mTvSaleNum;
-    private StoreInfo mData;
+    private StoreInfoResult mData;
 
     private ImageView mIvStore;
 
@@ -224,7 +223,7 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
 
 
     @Override
-    public void getStoreInfo(StoreInfo data) {
+    public void getStoreInfo(StoreInfoResult data) {
         mData = data;
         ImageLoadUtils.setCircularImage(this, data.shop_img_url, mIvStore, R.mipmap.ic_launcher);
         mTvShopName.setText(data.shop_name);

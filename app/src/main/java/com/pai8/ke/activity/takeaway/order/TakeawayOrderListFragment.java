@@ -2,14 +2,12 @@ package com.pai8.ke.activity.takeaway.order;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lhs.library.base.BaseFragment;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.TakeawayOrderAdapter;
 import com.pai8.ke.activity.takeaway.entity.OrderListResult;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.databinding.FragmentTakeawayOrderListBinding;
 import com.pai8.ke.fragment.pay.PayDialogFragment;
@@ -53,7 +51,7 @@ public class TakeawayOrderListFragment extends BaseFragment<OrderListViewModel, 
                 } else if (orderInfo.getOrder_status() == 1) {  //联系商家
                     AppUtils.intentCallPhone(getActivity(), orderInfo.getShop_phone());
                 } else if (orderInfo.getOrder_status() == 9) {  //重新下单
-                    StoreInfo storeInfo = new StoreInfo();
+                    StoreInfoResult storeInfo = new StoreInfoResult();
                     storeInfo.id = orderInfo.getShop_id();
                     Intent intent = new Intent(getActivity(), StoreActivity.class);
                     intent.putExtra("storeInfo", storeInfo);

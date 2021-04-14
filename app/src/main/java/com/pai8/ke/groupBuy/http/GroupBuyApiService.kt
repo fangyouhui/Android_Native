@@ -7,8 +7,8 @@ import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
-import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo
+import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.resp.*
 import org.json.JSONObject
@@ -186,7 +186,7 @@ interface GroupBuyApiService {
 
 
     @POST("shop/shopEditInfo")
-    suspend fun shopEditInfo(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<StoreInfo>
+    suspend fun shopEditInfo(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<StoreInfoResult>
 
 
     /**
@@ -202,7 +202,7 @@ interface GroupBuyApiService {
 
 
     @POST("shop/editShop")
-    suspend fun editShop(@Body body: StoreInfoReq): BaseHttpResult<JSONObject>
+    suspend fun editShop(@Body body: StoreInfoParam): BaseHttpResult<JSONObject>
 
 
 }

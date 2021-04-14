@@ -13,7 +13,7 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderDetailAdapter;
 import com.pai8.ke.activity.takeaway.contract.OrderDetailContract;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.presenter.OrderDetailPresenter;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.activity.takeaway.widget.CancelOrderPop;
@@ -280,7 +280,7 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
                 mTvStatus.setText("订单已取消");
                 mTvStatusName.setText("您的订单已经取消，可重新选购下单");
                 mTvStatusPay.setText("重新下单");
-                StoreInfo storeInfo = new StoreInfo();
+                StoreInfoResult storeInfo = new StoreInfoResult();
                 storeInfo.id = mOrderInfo.shop_id;
                 Intent intent = new Intent(this, StoreActivity.class);
                 intent.putExtra("storeInfo", storeInfo);

@@ -9,7 +9,7 @@ import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
 import com.pai8.ke.activity.takeaway.entity.req.RebateReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopIdReq;
 import com.pai8.ke.activity.takeaway.entity.req.ShopListReq;
-import com.pai8.ke.activity.takeaway.entity.req.StoreInfoReq;
+import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam;
 import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
 import com.pai8.ke.activity.takeaway.entity.resq.CommentInfo;
@@ -17,7 +17,7 @@ import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel;
 import com.pai8.ke.activity.takeaway.entity.resq.SecondAdminManagerResq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopContent;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.entity.resq.TakeawayResq;
 import com.pai8.ke.activity.takeaway.entity.resq.WaimaiResq;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
@@ -313,18 +313,18 @@ public interface TakeawayApiService {
 
 
     @POST("shop/shopEditInfo")
-    Observable<BaseRespose<StoreInfo>> shopEditInfo(@Body RequestBody body);
+    Observable<BaseRespose<StoreInfoResult>> shopEditInfo(@Body RequestBody body);
 
 
     @POST("shop/shopIndex")
-    Observable<BaseRespose<StoreInfo>> shopIndex(@Body RequestBody body);
+    Observable<BaseRespose<StoreInfoResult>> shopIndex(@Body RequestBody body);
 
     @POST("shop/shopStatus")
     Observable<BaseRespose<JSONObject>> shopStatus(@Body RequestBody body);
 
 
     @POST("shop/editShop")
-    Observable<BaseRespose<JSONObject>> editShop(@Body StoreInfoReq body);
+    Observable<BaseRespose<JSONObject>> editShop(@Body StoreInfoParam body);
 
     /**
      * 二级管理员列表

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ShopContent {
 
-    public StoreInfo shop_info;
+    public StoreInfoResult shop_info;
     public List<FoodClassifyInfo> goods;
 
 }

@@ -9,7 +9,7 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.contract.StoreFragmentContract;
 import com.pai8.ke.activity.takeaway.entity.event.ShopDataEvent;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfo;
+import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.presenter.StoreFragmentPresenter;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -50,7 +50,7 @@ public class StoreFragment extends BaseMvpFragment<StoreFragmentPresenter> imple
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(ShopDataEvent event) {
         if (event.type == Constants.EVENT_TYPE_SHOP_CONTENT) {
-            StoreInfo data = event.data.shop_info;
+            StoreInfoResult data = event.data.shop_info;
 
             mTvStoreName.setText(data.shop_name);
             mTvAddress.setText(data.address);
