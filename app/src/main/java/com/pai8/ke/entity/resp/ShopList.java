@@ -17,7 +17,7 @@ public class ShopList implements Serializable {
     private String shop_name;
     private String shop_desc;
     private String shop_img;
-    private int score;
+    private float score;
     private String address;
     private String longitude;
     private String latitude;
@@ -54,11 +54,11 @@ public class ShopList implements Serializable {
         this.shop_img = shop_img;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 
