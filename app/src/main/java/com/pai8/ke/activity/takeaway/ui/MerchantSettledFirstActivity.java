@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,25 +15,16 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseBottomDialogFragment;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
-import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.BasePresenter;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.resp.BusinessType;
-import com.pai8.ke.entity.resp.City;
-import com.pai8.ke.entity.resp.District;
-import com.pai8.ke.entity.resp.Province;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -44,8 +34,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,13 +53,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
 
     private String mProvince, mCity = "", mDistrict;
 
-    private OptionsPickerView pvOptions, mPvType;
-    private List<Province> mProvinceList;
-    private List<List<City>> mCityList;
-    private List<List<List<District>>> mDistrictList;
-    private List<String> mProvinceNameList;
-    private List<List<String>> mCityNameList;
-    private List<List<List<String>>> mDistrictNameList;
+
     private BottomDialog mBottomDialog;
     private String mCardAddress;
     private String mCardNo;
@@ -276,7 +260,6 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     }
 
     private void getBusinessType() {
-
         CategoryBottomDialogFragment categoryBottomDialogFragment = CategoryBottomDialogFragment.newInstance(null);
         categoryBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
             @Override
@@ -297,109 +280,29 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             }
         });
         categoryBottomDialogFragment.show(getSupportFragmentManager(), "category");
-
     }
-
 
     private void getProvince() {
-        Api.getInstance().getArea()
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<Province>>() {
-                    @Override
-                    protected void onSuccess(List<Province> areaResps) {
-                        mProvinceList = areaResps;
-                        initProvinceData(areaResps);
-                        showPicker();
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        dismissLoadingDialog();
-                        super.onError(msg, errorCode);
-                    }
-                });
-    }
-
-
-    private void initProvinceData(List<Province> provinceList) {
-        mCityList = new ArrayList<>();
-        mDistrictList = new ArrayList<>();
-        mProvinceNameList = new ArrayList<>();
-        mCityNameList = new ArrayList<>();
-        mDistrictNameList = new ArrayList<>();
-        for (Province province : provinceList) {
-            if (province == null) {
-                return;
-            }
-            mProvinceNameList.add(province.getName());
-            List<City> cList = province.getChildren();
-            mCityList.add(cList);
-            List<String> sList = new ArrayList<>();
-            List<List<String>> cityList = new ArrayList<>();
-            List<List<District>> disList = new ArrayList<List<District>>();
-            for (City city : cList) {
-                if (city == null) {
-                    return;
-                }
-                sList.add(city.getName());
-                List<District> dList = city.getChildren();
-                List<String> disString = new ArrayList<>();
-                for (District district : dList) {
-                    if (district == null) {
-                        return;
-                    }
-                    disString.add(district.getName());
-                }
-                cityList.add(disString);
-                disList.add(dList);
-            }
-            mDistrictList.add(disList);
-            mDistrictNameList.add(cityList);
-            mCityNameList.add(sList);
-        }
-
-    }
-
-
-    private void showPicker() {
-        pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+        AreaBottomDialogFragment areaBottomDialogFragment = AreaBottomDialogFragment.newInstance();
+        areaBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
             @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                Province province = mProvinceList.get(options1);
-                int mProvinceId = province.getId();
-                mProvince = province.getName();
-                if (mCityList.get(options1).size() > 0) {
-                    City city = mCityList.get(options1).get(options2);
-                    int mCityId = city.getId();
-                    mCity = city.getName();
-                }
-                if (mDistrictList.get(options1).get(options2).size() > 0) {
-                    District district = mDistrictList.get(options1).get(options2).get(options3);
-                    mDistrict = district.getName();
-                }
+            public void onConfirmClickListener(@NotNull Object data) {
+                Map<String, Object> map = (Map<String, Object>) data;
+                int provinceId = (int) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_0, 0);
+                String provinceName = (String) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_1, "");
+                int cityId = (int) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_2, 0);
+                String cityName = (String) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_3, "");
+                int districtId = (int) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_4, 0);
+                String districtName = (String) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_5, "");
+
+                mProvince = provinceName;
+                mCity = cityName;
+                mDistrict = districtName;
+
                 mTvAddress.setText(mProvince + mCity + mDistrict);
             }
-        }).setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
-            @Override
-            public void onOptionsSelectChanged(int options1, int options2, int options3) {
-
-            }
-        }).setSubmitText("确定")//确定按钮文字
-                .setCancelText("取消")//取消按钮文字
-                .setSubCalSize(18)//确定和取消文字大小
-                .setTitleSize(20)//标题文字大小
-                .setContentTextSize(18)//滚轮文字大小
-                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                .setCyclic(false, false, false)//循环与否
-                .setSelectOptions(0, 0, 0)  //设置默认选中项
-                .setOutSideCancelable(false)//点击外部dismiss default true
-                .setDecorView((ViewGroup) findViewById(R.id.rl_merchant))
-                .build();
-        pvOptions.setPicker(mProvinceNameList, mCityNameList, mDistrictNameList);//添加数据源
-        pvOptions.show();
-
+        });
+        areaBottomDialogFragment.show(getSupportFragmentManager(), "province");
     }
 
 
@@ -425,7 +328,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     }
 
 
-    Address mAddress;
+    private Address mAddress;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

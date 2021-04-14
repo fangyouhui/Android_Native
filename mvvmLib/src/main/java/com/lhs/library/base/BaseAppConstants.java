@@ -28,6 +28,7 @@ public class BaseAppConstants {
         public final static String ARG_PARAMS_2 = "param2";
         public final static String ARG_PARAMS_3 = "param3";
         public final static String ARG_PARAMS_4 = "param4";
+        public final static String ARG_PARAMS_5 = "param5";
     }
 
     public static class AppMessageWhat {
