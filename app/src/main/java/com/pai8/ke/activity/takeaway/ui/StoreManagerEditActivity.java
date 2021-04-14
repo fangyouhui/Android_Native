@@ -22,7 +22,6 @@ import com.pai8.ke.viewmodel.StoreManagerEditViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,32 +36,10 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
     public void initView(@org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         mBinding.tvPublish.setOnClickListener(v -> editShop());
         mBinding.tvCategory.setOnClickListener(v -> showCategoryBottomDialog());
-        mBinding.ivCover.setOnClickListener(v -> ChoosePicUtils.picSingle(StoreManagerEditActivity.this, 0, RESULT_PICTURE));
-        mBinding.tvAddress.setOnClickListener(v -> showProvince());
+        mBinding.ivCover.setOnClickListener(v -> ChoosePicUtils.picSingle(this, 0, RESULT_PICTURE));
+        mBinding.tvAddress.setOnClickListener(v -> showProvinceBottomDialog());
     }
 
-    private void showCategoryBottomDialog() {
-        CategoryBottomDialogFragment categoryBottomDialogFragment = CategoryBottomDialogFragment.newInstance(new ArrayList<>());
-        categoryBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
-            @Override
-            public void onConfirmClickListener(@NotNull Object data) {
-                List<BusinessType> list = (List<BusinessType>) data;
-                if (list.isEmpty()) {
-                    return;
-                }
-                StringBuilder builder = new StringBuilder();
-                StringBuilder ids = new StringBuilder();
-                for (BusinessType businessType : list) {
-                    builder.append(businessType.type_name).append(" ");
-                    ids.append(businessType.id).append(",");
-                }
-                ids.deleteCharAt(ids.lastIndexOf(","));
-                mBinding.tvCategory.setText(builder.toString());
-                mData.cate_id = ids.toString();
-            }
-        });
-        categoryBottomDialogFragment.show(getSupportFragmentManager(), "category");
-    }
 
     @Override
     public void addObserve() {
@@ -101,7 +78,7 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
     }
 
 
-    private void showProvince() {
+    private void showProvinceBottomDialog() {
         AreaBottomDialogFragment areaBottomDialogFragment = AreaBottomDialogFragment.newInstance();
         areaBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
             @Override
@@ -125,6 +102,29 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
             }
         });
         areaBottomDialogFragment.show(getSupportFragmentManager(), "province");
+    }
+
+    private void showCategoryBottomDialog() {
+        CategoryBottomDialogFragment categoryBottomDialogFragment = CategoryBottomDialogFragment.newInstance(mData == null ? null : mData.cate_name);
+        categoryBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
+            @Override
+            public void onConfirmClickListener(@NotNull Object data) {
+                List<BusinessType> list = (List<BusinessType>) data;
+                if (list.isEmpty()) {
+                    return;
+                }
+                StringBuilder builder = new StringBuilder();
+                StringBuilder ids = new StringBuilder();
+                for (BusinessType businessType : list) {
+                    builder.append(businessType.type_name).append(" ");
+                    ids.append(businessType.id).append(",");
+                }
+                ids.deleteCharAt(ids.lastIndexOf(","));
+                mBinding.tvCategory.setText(builder.toString());
+                mData.cate_id = ids.toString();
+            }
+        });
+        categoryBottomDialogFragment.show(getSupportFragmentManager(), "category");
     }
 
 
@@ -173,8 +173,8 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         storeInfo.address = mBinding.etAddressDetail.getText().toString();
         storeInfo.shop_desc = mBinding.etDesc.getText().toString();
         storeInfo.province = mData.province_name;
-        storeInfo.city = mData.city_name;
         storeInfo.city_id = mData.city;
+        storeInfo.city = mData.city_name;
         storeInfo.district = mData.district_name;
         storeInfo.house_number = mBinding.etNumber.getText().toString();
         mViewModel.editShop(storeInfo);
