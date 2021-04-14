@@ -223,7 +223,7 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
     }
 
 
-    public void editShop() {
+    private void editShop() {
         StoreInfoReq storeInfo = new StoreInfoReq();
         storeInfo.shop_id = Integer.parseInt(AccountManager.getInstance().getShopId());
         storeInfo.shop_name = mBinding.etName.getText().toString();

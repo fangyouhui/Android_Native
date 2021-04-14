@@ -33,7 +33,6 @@ import com.pai8.ke.activity.video.ReportActivity;
 import com.pai8.ke.activity.wallet.WalletActivity;
 import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseEvent;
-import com.pai8.ke.databinding.FragmentTabMeBinding;
 import com.pai8.ke.databinding.FragmentTabMeCopyBinding;
 import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.fragment.home.TabHomeChildFragment;
@@ -168,7 +167,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             setFansCount(data.getMy_fans());
             setFollowCount(data.getMy_fans());
             setHistoryCount(data.getMy_history());
-            initVerifyStatus(data.getVerify_status() == null ? 0 : data.getVerify_status());
+            initVerifyStatus(data.getVerify_status());
             addLinkFragment();
         });
 
@@ -251,7 +250,6 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
      */
     private void initVerifyStatus(int status) {
         mStatus = status;
-        mStatus = 2;
         switch (status) {
             case 0:
             case 3:

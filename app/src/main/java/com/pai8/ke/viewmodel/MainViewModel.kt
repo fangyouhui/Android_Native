@@ -20,7 +20,7 @@ class MainViewModel : BaseViewModel() {
     val myInfoData = MutableLiveData<MyInfoResp>()
     fun getMyInfo() {
         launchOnlyResult({
-            RetrofitClient.getInstance().getMainService().getMyInfo()
+            RetrofitClient.getInstance().getMainService().ucenter()
         }, {
             myInfoData.value = it
         })

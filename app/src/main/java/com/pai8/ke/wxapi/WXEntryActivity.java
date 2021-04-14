@@ -3,21 +3,11 @@ package com.pai8.ke.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.pai8.ke.activity.MainActivity;
 import com.pai8.ke.base.BaseEvent;
-import com.pai8.ke.entity.resp.WeixinBean;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.EventBusUtils;
-import com.pai8.ke.utils.LogUtils;
-import com.pai8.ke.utils.NetWorkUtils;
-import com.pai8.ke.utils.ToastUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -26,19 +16,12 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
-
 import cn.sharesdk.wechat.utils.WechatHandlerActivity;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEventHandler {
-    private static final String TAG = "WXEntryActivity";
+    private final String TAG = "WXEntryActivity";
 
-    private static IWXAPI wxApi;
+    private IWXAPI wxApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

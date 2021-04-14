@@ -26,7 +26,7 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("user/ucenter")
-    suspend fun getMyInfo(): BaseHttpResult<MyInfoResp>
+    suspend fun ucenter(): BaseHttpResult<MyInfoResp>
 
 
     @POST("public/getCode")

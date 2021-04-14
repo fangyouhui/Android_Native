@@ -20,7 +20,7 @@ public class MyInfoResp {
     private String avatar;
     private String user_nickname;
     private String shop_id;
-    private Integer verify_status;
+    private int verify_status;
     private int my_follows;
     private int my_fans;
     private int my_likes;
@@ -60,11 +60,11 @@ public class MyInfoResp {
         this.shop_id = shop_id;
     }
 
-    public Integer getVerify_status() {
-        return verify_status == null ? 0 : verify_status;
+    public int getVerify_status() {
+        return verify_status;
     }
 
-    public void setVerify_status(Integer verify_status) {
+    public void setVerify_status(int verify_status) {
         this.verify_status = verify_status;
     }
 
