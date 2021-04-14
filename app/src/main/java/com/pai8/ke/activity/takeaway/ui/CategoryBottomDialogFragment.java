@@ -20,9 +20,11 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
 
     public static CategoryBottomDialogFragment newInstance(ArrayList<String> select) {
         CategoryBottomDialogFragment fragment = new CategoryBottomDialogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(BaseAppConstants.BundleConstant.ARG_PARAMS_0, select);
-        fragment.setArguments(bundle);
+        if (select != null && !select.isEmpty()) {
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList(BaseAppConstants.BundleConstant.ARG_PARAMS_0, select);
+            fragment.setArguments(bundle);
+        }
         return fragment;
     }
 
@@ -40,11 +42,13 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
     @Override
     public void addObserve() {
         mViewModel.getBusinessTypeData().observe(getViewLifecycleOwner(), data -> {
-            ArrayList<String> select = getArguments().getStringArrayList(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
-            for (BusinessType datum : data) {
-                for (String s : select) {
-                    if (s.equalsIgnoreCase(datum.type_name)) {
-                        datum.isSelected = true;
+            if (getArguments() != null && getArguments().containsKey(BaseAppConstants.BundleConstant.ARG_PARAMS_0)) {
+                ArrayList<String> select = getArguments().getStringArrayList(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+                for (BusinessType datum : data) {
+                    for (String s : select) {
+                        if (s.equalsIgnoreCase(datum.type_name)) {
+                            datum.isSelected = true;
+                        }
                     }
                 }
             }

@@ -1,9 +1,26 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.content.Intent;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.lhs.library.base.BaseBottomDialogFragment;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
@@ -25,32 +42,14 @@ import com.pai8.ke.widget.BottomDialog;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import android.content.Intent;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.sharesdk.wechat.friends.Wechat;
-import cn.sharesdk.wechat.moments.WechatMoments;
 import razerdp.util.KeyboardUtils;
-
-import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
 public class MerchantSettledFirstActivity extends BaseMvpActivity implements View.OnClickListener, TextWatcher {
 
@@ -169,7 +168,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             getProvince();
         } else if (v.getId() == R.id.et_address_detail) {
             startActivityForResult(new Intent(MerchantSettledFirstActivity.this
-                    , MapAddressChooseActivity.class).putExtra("ADDRESS",mCity), 100);
+                    , MapAddressChooseActivity.class).putExtra("ADDRESS", mCity), 100);
 
         } else if (v.getId() == R.id.tv_next) {
 
@@ -277,43 +276,28 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     }
 
     private void getBusinessType() {
-        List<String> options1Items = new ArrayList<>();
-        Api.getInstance().getBusinessType()
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<BusinessType>>() {
-                    @Override
-                    protected void onSuccess(List<BusinessType> list) {
 
-                        for (int i = 0; i < list.size(); i++) {
-                            options1Items.add(list.get(i).type_name);
-                        }
+        CategoryBottomDialogFragment categoryBottomDialogFragment = CategoryBottomDialogFragment.newInstance(null);
+        categoryBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
+            @Override
+            public void onConfirmClickListener(@NotNull Object data) {
+                List<BusinessType> list = (List<BusinessType>) data;
+                if (list.isEmpty()) {
+                    return;
+                }
+                StringBuilder builder = new StringBuilder();
+                StringBuilder ids = new StringBuilder();
+                for (BusinessType businessType : list) {
+                    builder.append(businessType.type_name).append(" ");
+                    ids.append(businessType.id).append(",");
+                }
+                ids.deleteCharAt(ids.lastIndexOf(","));
+                mTvCate.setText(builder.toString());
+                mCate = ids.toString();
+            }
+        });
+        categoryBottomDialogFragment.show(getSupportFragmentManager(), "category");
 
-                        if (mPvType == null) {
-                            mPvType = new OptionsPickerBuilder(MerchantSettledFirstActivity.this, new OnOptionsSelectListener() {
-                                @Override
-                                public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                                    //返回的分别是三个级别的选中位置
-                                    String tx = list.get(options1).type_name;
-                                    mTvCate.setText(tx);
-                                    mCate = list.get(options1).id + "";
-
-                                }
-                            })
-                                    .setDecorView(findViewById(R.id.rl_merchant))
-                                    .build();
-                        }
-                        mPvType.setPicker(options1Items);
-                        mPvType.show();
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        dismissLoadingDialog();
-                        super.onError(msg, errorCode);
-                    }
-                });
     }
 
 
