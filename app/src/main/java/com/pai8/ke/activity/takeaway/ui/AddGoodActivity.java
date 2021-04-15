@@ -8,52 +8,42 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import androidx.annotation.Nullable;
+
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.gh.qiniushortvideo.ChooseVideo;
 import com.gh.qiniushortvideo.activity.ConfigActivity;
 import com.gh.qiniushortvideo.activity.MediaSelectActivity;
 import com.gh.qiniushortvideo.activity.VideoRecordActivity;
+import com.lhs.library.base.BaseBottomDialogFragment;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.adapter.GoodCategoryAdapter;
-import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.AddGoodContract;
 import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
-import com.pai8.ke.activity.takeaway.entity.req.UpCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo;
 import com.pai8.ke.activity.takeaway.presenter.AddGoodPresenter;
-import com.pai8.ke.activity.takeaway.utils.SoftHideKeyBoardUtil;
 import com.pai8.ke.activity.takeaway.widget.ChooseDiscountPricePop;
 import com.pai8.ke.activity.takeaway.widget.ChooseShopCoverPop;
-import com.pai8.ke.activity.video.tiktok.TikTokActivity;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
-import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.BottomDialog;
-import com.pai8.ke.widget.EditTextCountView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GOOD;
 
-public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implements View.OnClickListener,
-        AddGoodContract.View {
+public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implements View.OnClickListener, AddGoodContract.View {
 
     private final int RESULT_PICTURE = 1000;  //图片
     private final int RESULT_VIDEO = 1001;
@@ -120,8 +110,6 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
 
     @Override
     public void initView() {
-
-        SoftHideKeyBoardUtil.assistActivity(this);
         setImmersionBar(R.id.base_tool_bar);
         findViewById(R.id.toolbar_back_all).setOnClickListener(this);
         mTvPublish = findViewById(R.id.tv_publish);
@@ -139,13 +127,11 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
         mEtPrice = findViewById(R.id.et_price);
         mEtDesc = findViewById(R.id.et_desc);
         mEtPackPrice = findViewById(R.id.et_pack_price);
-
     }
 
 
     @Override
     public void initData() {
-        super.initData();
         addFoodReq = new AddFoodReq();
         mType = getIntent().getIntExtra("type", 0);
         if (mType == 0) {
@@ -175,8 +161,8 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
         if (v.getId() == R.id.toolbar_back_all) {
             finish();
         } else if (v.getId() == R.id.tv_category) {
-            getCategoryList();
-
+            KeyboardUtils.hideSoftInput(this);
+            showCategoryBottomDialog();
         } else if (v.getId() == R.id.iv_cover) {
             ChooseShopCoverPop pop = new ChooseShopCoverPop(this);
             pop.setOnSelectListener(type -> {
@@ -227,6 +213,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
             });
             pop.showPopupWindow();
         } else if (v.getId() == R.id.tv_discount_price) {
+            KeyboardUtils.hideSoftInput(this);
             ChooseDiscountPricePop pricePop = new ChooseDiscountPricePop(this);
             pricePop.setOnSelectListener(content -> mTvDiscountPrice.setText(content));
             pricePop.showPopupWindow();
@@ -324,61 +311,18 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
     }
 
 
-    private void getCategoryList() {
-        UpCategoryReq upCategoryReq = new UpCategoryReq();
-        upCategoryReq.shop_id = AccountManager.getInstance().getShopId();
-        TakeawayApi.getInstance().getCategoryList(upCategoryReq)
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<ShopInfo>>() {
-                    @Override
-                    protected void onSuccess(List<ShopInfo> data) {
-                        showBottomDialog(data);
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        super.onError(msg, errorCode);
-                    }
-                });
-
-    }
-
-    private void showBottomDialog(List<ShopInfo> shopInfoList) {
-        View view = View.inflate(this, R.layout.dialog_good_category, null);
-        ImageButton itnClose = view.findViewById(R.id.itn_close);
-        TextView tvSure = view.findViewById(R.id.tv_next);
-        RecyclerView rvGoodCategory = view.findViewById(R.id.rv_good_category);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
-        rvGoodCategory.setLayoutManager(layoutManager);
-
-
-        GoodCategoryAdapter adapter = new GoodCategoryAdapter(shopInfoList);
-        rvGoodCategory.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+    private void showCategoryBottomDialog() {
+        TakeawayProductCategoryBottomDialogFragment dialogFragment = TakeawayProductCategoryBottomDialogFragment.newInstance(null);
+        dialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter1, View view, int position) {
-                adapter.singleChoose(position);
-                cateName = adapter.getData().get(position).name;
-                cateId = adapter.getData().get(position).id + "";
+            public void onConfirmClickListener(@NotNull Object data) {
+                ShopInfo bean = (ShopInfo) data;
+                cateName = bean.getName();
+                cateId = bean.getId() + "";
+                mTvCategory.setText(cateName);
             }
         });
-
-        tvSure.setOnClickListener(v -> {
-            mTvCategory.setText(cateName);
-            mGoodCategoryDialog.dismiss();
-        });
-
-        itnClose.setOnClickListener(view1 -> {
-            mGoodCategoryDialog.dismiss();
-        });
-
-        if (mGoodCategoryDialog == null) {
-            mGoodCategoryDialog = new BottomDialog(this, view);
-        }
-        mGoodCategoryDialog.setIsCanceledOnTouchOutside(true);
-        mGoodCategoryDialog.show();
+        dialogFragment.show(getSupportFragmentManager(), "takeaway");
     }
 
 
@@ -427,14 +371,14 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
     private String mFoodPath;
 
     @Override
-    public void addGoodSuccess(String data) {
+    public void addGoodSuccess(List<String> data) {
         EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
         ToastUtils.showShort("发布成功");
         finish();
     }
 
     @Override
-    public void editGoodSuccess(String data) {
+    public void editGoodSuccess(List<String> data) {
         EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
         ToastUtils.showShort("编辑成功");
         dismissLoadingDialog();
@@ -442,7 +386,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
     }
 
     @Override
-    public void deleteGoodSuccess(String data) {
+    public void deleteGoodSuccess(List<String> data) {
         EventBus.getDefault().post(new NotifyEvent(EVENT_TYPE_REFRESH_SHOP_GOOD));
         ToastUtils.showShort("下架成功");
         dismissLoadingDialog();

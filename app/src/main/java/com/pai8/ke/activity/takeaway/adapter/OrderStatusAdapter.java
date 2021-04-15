@@ -3,14 +3,14 @@ package com.pai8.ke.activity.takeaway.adapter;
 import android.graphics.Color;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
 
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 public class OrderStatusAdapter extends BaseQuickAdapter<OrderStatusInfo, BaseViewHolder> {
     public OrderStatusAdapter(@Nullable List<OrderStatusInfo> data) {
@@ -19,8 +19,7 @@ public class OrderStatusAdapter extends BaseQuickAdapter<OrderStatusInfo, BaseVi
 
     @Override
     protected void convert(BaseViewHolder helper, OrderStatusInfo item) {
-
-        RelativeLayout rlStatus = helper.getView(R.id.rl_status);
+        RelativeLayout rlStatus = helper.getView(R.id.root);
         helper.setText(R.id.tv_content, item.name);
 
         if (item.isSelect) {

@@ -8,6 +8,7 @@ import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
+import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.resp.*
@@ -203,6 +204,16 @@ interface GroupBuyApiService {
 
     @POST("shop/editShop")
     suspend fun editShop(@Body body: StoreInfoParam): BaseHttpResult<JSONObject>
+
+
+    /**
+     * 外卖商品类别列表
+     *
+     * @param parm
+     * @return
+     */
+    @POST("shop/categoryList")
+    suspend fun categoryList(@Query("shop_id") shop_id: String): BaseHttpResult<List<ShopInfo>>
 
 
 }

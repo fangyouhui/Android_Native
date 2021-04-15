@@ -28,6 +28,7 @@ import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.entity.resp.BusinessType;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -98,7 +99,7 @@ public interface TakeawayApiService {
      * @return
      */
     @POST("shop/addFood")
-    Observable<BaseRespose<String>> addFood(@Body AddFoodReq parm);
+    Observable<BaseRespose<List<String>>> addFood(@Body AddFoodReq parm);
 
     /**
      * 添加团购商品
@@ -136,10 +137,10 @@ public interface TakeawayApiService {
 
 
     @POST("shop/editGoods")
-    Observable<BaseRespose<String>> editGoods(@Body AddFoodReq parm);
+    Observable<BaseRespose<List<String>>> editGoods(@Body AddFoodReq parm);
 
     @POST("shop/foodDelete")
-    Observable<BaseRespose<String>> foodDelete(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> foodDelete(@Body RequestBody body);
 
     /**
      * 收获地址

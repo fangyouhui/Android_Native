@@ -20,32 +20,6 @@ public class TakeawayManagerPresenter extends BasePresenterImpl<TakeawayManagerC
     }
 
 
-    /**
-     * 获取分类列表
-     */
-    public void getCategoryList(int shopId){
-        UpCategoryReq upCategoryReq = new UpCategoryReq();
-        upCategoryReq.shop_id = shopId+"";
-        TakeawayApi.getInstance().getCategoryList(upCategoryReq)
-                .doOnSubscribe(disposable -> {
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<ShopInfo>>() {
-                    @Override
-                    protected void onSuccess(List<ShopInfo> data) {
-                        view.getCategoryListSuccess(data);
-
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        super.onError(msg, errorCode);
-                    }
-                });
-
-    }
-
-
     public void goodslist(){
         HashMap<String, Object> map = new HashMap<>();
         map.put("shop_id", AccountManager.getInstance().getShopId());
@@ -87,8 +61,8 @@ public class TakeawayManagerPresenter extends BasePresenterImpl<TakeawayManagerC
                     @Override
                     protected void onSuccess(ShopInfo msg) {
                         ToastUtils.showShort("添加成功");
-                        msg.name = name;
-                        msg.id = Integer.parseInt(msg.cate_id);
+                        msg.setName(name);
+                     //   msg.setId( Integer.parseInt(msg.cate_id);
                         view.addUpCategorySuccess(msg);
                     }
 

@@ -7,7 +7,10 @@ import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 
+import org.json.JSONArray;
+
 import java.util.HashMap;
+import java.util.List;
 
 public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
 
@@ -22,9 +25,9 @@ public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
                         view.addGoodSuccess(data);
                     }
 
@@ -43,9 +46,9 @@ public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
                         view.editGoodSuccess(data);
                     }
 
@@ -65,9 +68,9 @@ public class AddGoodPresenter extends BasePresenterImpl<AddGoodContract.View> {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
                         view.deleteGoodSuccess(data);
                     }
 

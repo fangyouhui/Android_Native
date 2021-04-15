@@ -44,8 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_bottom"
-        android:layout_below="@+id/base_tool_bar"
-        >
+        android:layout_below="@+id/base_tool_bar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,9 +58,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="34dp"
-                android:scaleType="centerCrop"
                 android:layout_marginBottom="20dp"
-                android:background="@mipmap/icon_upload_store_pic" />
+                android:background="@mipmap/icon_upload_store_pic"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
 
@@ -132,6 +131,7 @@
                         android:text="商品价格"
                         android:textColor="@color/color_light_font"
                         android:textSize="15sp" />
+
                     <TextView
                         android:id="@+id/tv_contact1"
                         android:layout_width="wrap_content"
@@ -150,8 +150,8 @@
                         android:layout_toEndOf="@+id/tv_contact1"
                         android:background="@color/color_transition"
                         android:hint="请输入商品价格"
-                        android:singleLine="true"
                         android:inputType="numberDecimal"
+                        android:singleLine="true"
                         android:textColor="@color/text_black"
                         android:textColorHint="#D8D8D8"
                         android:textSize="15sp" />
@@ -183,11 +183,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/iv_arrow1"
                         android:layout_toEndOf="@+id/tv_email"
                         android:background="@color/color_transition"
                         android:hint="请选择折扣价格"
                         android:inputType="numberDecimal"
-                        android:layout_toStartOf="@+id/iv_arrow1"
                         android:singleLine="true"
                         android:textColor="@color/text_black"
                         android:textColorHint="#D8D8D8"
@@ -195,16 +195,13 @@
 
                     <ImageView
                         android:id="@+id/iv_arrow1"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/me_right_arrow"
-                        />
-
-
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@mipmap/me_right_arrow" />
 
 
                 </RelativeLayout>
@@ -249,8 +246,8 @@
                         android:layout_toEndOf="@+id/tv_pack_price1"
                         android:background="@color/color_transition"
                         android:hint="请输入该单个商品包装费"
-                        android:singleLine="true"
                         android:inputType="numberDecimal"
+                        android:singleLine="true"
                         android:textColor="@color/text_black"
                         android:textColorHint="#D8D8D8"
                         android:textSize="15sp" />
@@ -284,27 +281,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/iv_arrow2"
                         android:layout_toEndOf="@+id/tv_type"
                         android:background="@color/color_transition"
                         android:hint="请选择外卖的分类"
                         android:singleLine="true"
-                        android:layout_toStartOf="@+id/iv_arrow2"
                         android:textColor="@color/text_black"
                         android:textColorHint="#D8D8D8"
                         android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/iv_arrow2"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@mipmap/me_right_arrow"
 
                         />
-
 
 
                 </RelativeLayout>
@@ -315,8 +311,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/shape_white"
                 android:orientation="vertical">
 
@@ -376,33 +372,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:background="@color/color_white"
-        android:paddingTop="16dp"
+        android:orientation="horizontal"
         android:paddingStart="8dp"
+        android:paddingTop="16dp"
         android:paddingEnd="8dp"
-        android:paddingBottom="16dp"
-        >
+        android:paddingBottom="16dp">
+
         <TextView
             android:id="@+id/tv_del"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@drawable/shape_store_business"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:visibility="gone"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_store_business"
+            android:gravity="center"
             android:text="下架商品"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/tv_publish"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="44dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_weight="1"
             android:background="@drawable/shape_orgin_gradient"
             android:gravity="center"
             android:text="发布商品"
