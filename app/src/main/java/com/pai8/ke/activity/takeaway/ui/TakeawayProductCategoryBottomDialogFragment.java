@@ -15,6 +15,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 外卖产品分类
+ */
 public class TakeawayProductCategoryBottomDialogFragment extends BaseBottomDialogFragment<TakeWayProductCategoryViewModel, FragmentBottomDialogTakewayProductCategoryBinding> {
 
     private TakeawayProductCategoryAdapter adapter;
