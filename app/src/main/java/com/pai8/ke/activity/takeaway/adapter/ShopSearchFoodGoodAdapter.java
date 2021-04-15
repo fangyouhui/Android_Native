@@ -174,9 +174,9 @@ public class ShopSearchFoodGoodAdapter extends BaseQuickAdapter<FoodGoodInfo, Ba
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<JSONObject>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(JSONObject data) {
+                    protected void onSuccess(List<String> data) {
 
                     }
 

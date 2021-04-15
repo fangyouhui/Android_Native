@@ -48,7 +48,7 @@ public class MyApp extends Application implements IApp {
     private static Handler mHandler;
     private UploadManager mUpLoadManager;
     private HttpProxyCacheServer proxy;
-    public static AMapLocation mAMapLocation;
+    public static AMapLocation mAMapLocation; // TODO: 4/15/21 用户如果没打开GPS的话，这个值是为null的
 
     public static MyApp getMyApp() {
         return mContext;

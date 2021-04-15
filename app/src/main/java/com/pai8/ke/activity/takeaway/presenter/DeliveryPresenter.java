@@ -49,9 +49,9 @@ public class DeliveryPresenter extends BasePresenterImpl<DeliveryContract.View> 
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
                         view.addAddressSuccess(data);
                     }
 
@@ -75,9 +75,9 @@ public class DeliveryPresenter extends BasePresenterImpl<DeliveryContract.View> 
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
                         view.editAddressSuccess(data);
                     }
 
@@ -96,9 +96,9 @@ public class DeliveryPresenter extends BasePresenterImpl<DeliveryContract.View> 
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
 
                         view.deleteAddressSuccess(data,position);
                     }

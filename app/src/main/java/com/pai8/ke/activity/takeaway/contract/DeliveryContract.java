@@ -14,11 +14,11 @@ public interface DeliveryContract {
 
         void getAddressSuccess(List<AddressInfo> data);
 
-        void addAddressSuccess(String msg);
+        void addAddressSuccess(List<String> msg);
 
-        void editAddressSuccess(String msg);
+        void editAddressSuccess(List<String> msg);
 
-        void deleteAddressSuccess(String msg,int position);
+        void deleteAddressSuccess(List<String> msg,int position);
 
     }
 

@@ -203,14 +203,14 @@ public interface TakeawayApiService {
     Observable<BaseRespose<InOutRecordResp>> outRecord(@Body InOutRecordRequest body);
 
     @POST("shop/upAddress")
-    Observable<BaseRespose<String>> upAddress(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> upAddress(@Body RequestBody body);
 
     @POST("shop/editAddress")
-    Observable<BaseRespose<String>> editAddress(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> editAddress(@Body RequestBody body);
 
 
     @POST("shop/addressDelete")
-    Observable<BaseRespose<String>> deleteAddress(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> deleteAddress(@Body RequestBody body);
 
     /**
      * 收藏
@@ -287,10 +287,10 @@ public interface TakeawayApiService {
 
 
     @POST("Order/addCart")
-    Observable<BaseRespose<JSONObject>> addCart(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> addCart(@Body RequestBody body);
 
     @POST("Order/updateCartNum")
-    Observable<BaseRespose<JSONObject>> updateCartNum(@Body RequestBody body);
+    Observable<BaseRespose<List<String>>> updateCartNum(@Body RequestBody body);
 
     @POST("Order/getCart")
     Observable<BaseRespose<ShopFoodGoodInfo>> getCart(@Body RequestBody body);

@@ -3,6 +3,9 @@ package com.pai8.ke.activity.takeaway.ui;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.DeliveryAddressAdapter;
@@ -14,9 +17,6 @@ import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.utils.ToastUtils;
 
 import java.util.List;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> implements View.OnClickListener, DeliveryContract.View {
 
@@ -50,7 +50,7 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
 
         mId = getIntent().getIntExtra("id", 0);
         mType = getIntent().getIntExtra("TYPE", 0);
-        mAdapter = new DeliveryAddressAdapter(null,mType);
+        mAdapter = new DeliveryAddressAdapter(null, mType);
         mRvAddress.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -80,7 +80,7 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (mType == 0) {
                     return;
-                }else if (mType == 2){
+                } else if (mType == 2) {
                     Intent intent = new Intent();
                     intent.putExtra("lat", mAdapter.getData().get(position).latitude);
                     intent.putExtra("lng", mAdapter.getData().get(position).longitude);
@@ -150,24 +150,21 @@ public class DeliveryAddressActivity extends BaseMvpActivity<DeliveryPresenter> 
     }
 
     @Override
-    public void addAddressSuccess(String msg) {
+    public void addAddressSuccess(List<String> msg) {
         ToastUtils.showShort("添加成功");
         mPresenter.getAddress();
     }
 
     @Override
-    public void editAddressSuccess(String msg) {
+    public void editAddressSuccess(List<String> msg) {
         ToastUtils.showShort("更新成功");
         mPresenter.getAddress();
     }
 
     @Override
-    public void deleteAddressSuccess(String msg, int position) {
+    public void deleteAddressSuccess(List<String> msg, int position) {
         ToastUtils.showShort("删除成功");
-
         mAdapter.remove(position);
-
-
     }
 }
 

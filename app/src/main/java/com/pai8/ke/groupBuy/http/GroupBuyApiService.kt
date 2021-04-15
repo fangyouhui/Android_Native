@@ -121,7 +121,7 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("Coupon/getCoupon")
-    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<JSONObject>
+    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<List<String>>
 
 
     /**
