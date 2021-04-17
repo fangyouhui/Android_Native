@@ -141,7 +141,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
             mTvPublish.setText("确定");
             mTvTile.setText("编辑外卖商品");
             mFood = (AddFoodReq) getIntent().getSerializableExtra("food");
-            mTvCategory.setText(mFood.cateName);
+            mTvCategory.setText(mFood.cate_name);
             ImageLoadUtils.setCircularImage(this, mFood.cover, mIvCover, R.mipmap.ic_launcher);
             mTvDiscountPrice.setText(mFood.discount);
             mEtName.setText(mFood.title);
