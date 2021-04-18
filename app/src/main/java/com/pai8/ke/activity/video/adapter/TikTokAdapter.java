@@ -156,7 +156,7 @@ public class TikTokAdapter extends BaseRecyclerViewAdapter<Video> {
 
         viewHolder.tvLoc.setOnClickListener(view -> {
             if (shop == null) return;
-            NaviActivity.launch(mContext, videoData.getBusiness_district(), videoData.getDistance(),
+            NaviActivity.launch(mContext, videoData.getShop().getName(), videoData.getDistance(),
                     videoData.getLongitude(), videoData.getLatitude());
         });
 

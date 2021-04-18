@@ -29,7 +29,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_bg" />
 
-    <EditText
+    <androidx.emoji.widget.EmojiEditText
         android:id="@+id/et_input"
         android:layout_width="0dp"
         android:layout_height="36dp"

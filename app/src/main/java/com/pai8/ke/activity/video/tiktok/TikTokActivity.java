@@ -2,6 +2,7 @@ package com.pai8.ke.activity.video.tiktok;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.Group;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.blankj.utilcode.util.ClipboardUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.Target;
@@ -73,14 +82,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.Group;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager2.widget.ViewPager2;
-
-import butterknife.BindView;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
@@ -564,7 +565,10 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                     .setCancelable(false)
                     .setTitle("微信")
                     .setMessage("我的微信号是：" + getCurVideo().getUser().getWechat())
-                    .setPositiveButton("确认", null)
+                    .setPositiveButton("确认", (dialog, which) -> {
+                        ClipboardUtils.copyText(getCurVideo().getUser().getWechat());
+                        ToastUtils.showShort("已复制到粘贴板");
+                    })
                     .show();
         });
         tvBtnPtp.setOnClickListener(view1 -> {//一对一聊天

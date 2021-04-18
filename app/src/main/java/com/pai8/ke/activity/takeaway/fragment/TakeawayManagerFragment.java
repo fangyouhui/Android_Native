@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.common.VideoViewActivity;
@@ -35,9 +39,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import razerdp.util.KeyboardUtils;
 
 public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPresenter> implements OnClickListener, CheckListener, TakeawayManagerContract.View {
@@ -123,14 +124,7 @@ public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPres
         mTakeawayAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.iv_edit) {
-
-                    view.findViewById(R.id.iv_edit).setFocusable(true);
-                    view.findViewById(R.id.iv_edit).setFocusableInTouchMode(true);
-                    view.findViewById(R.id.iv_edit).requestFocus();
-
-
-                } else if (view.getId() == R.id.iv_del) {
+                if (view.getId() == R.id.iv_del) {
                     presenter.deleteCategory(mTakeawayAdapter.getData().get(position).id, position);
                 }
             }
@@ -153,9 +147,9 @@ public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPres
                         content = "title";
                         break;
                     case R.id.item_goods_iv_goods:
-                        if(mRightList.get(position).type == 2) {
+                        if (mRightList.get(position).type == 2) {
                             String videoUrl = mRightList.get(position).cover;
-                            if(videoUrl != null && videoUrl.length() > 0) {
+                            if (videoUrl != null && videoUrl.length() > 0) {
                                 Intent intent = new Intent(getContext(), VideoViewActivity.class);
                                 intent.putExtra("type", VideoViewActivity.TYPE_REMOTE);
                                 intent.putExtra("path", videoUrl);
@@ -219,7 +213,7 @@ public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPres
             mTakeawayAdapter.setCheckedPosition(position);
             //此处的位置需要根据每个分类的集合来进行计算
             int count = 0;
-            if (mLeftList!=null && mLeftList.size()>0 &&mLeftList.size() >= position) {
+            if (mLeftList != null && mLeftList.size() > 0 && mLeftList.size() >= position) {
                 for (int i = 0; i < position; i++) {
                     count += mLeftList.get(i).goods.size();
                 }

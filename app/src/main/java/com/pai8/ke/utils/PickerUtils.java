@@ -61,7 +61,7 @@ public class PickerUtils {
             callback.data(options1, a.get(options1));
         }).build();
         pvOptions.setNPicker(a, null, null);
-        pvOptions.setTitleText("有效时间");
+        pvOptions.setTitleText("起止时间");
         pvOptions.show();
     }
 

@@ -131,7 +131,9 @@
         <activity android:name=".activity.takeaway.ui.MerchantSettledFirstActivity" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledSecondActivity" />
         <activity android:name=".activity.takeaway.ui.MerchantSettledThreeActivity" />
-        <activity android:name=".activity.takeaway.ui.GoodManagerActivity" />
+        <activity
+            android:name=".activity.takeaway.ui.GoodManagerActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.takeaway.ui.AddGoodActivity"
             android:label="添加外卖商品"

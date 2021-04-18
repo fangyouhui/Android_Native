@@ -5,9 +5,14 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
 
 import com.amap.api.location.AMapLocation;
 import com.blankj.utilcode.util.ToastUtils;
@@ -57,6 +62,8 @@ public class MyApp extends Application implements IApp {
     public static Handler getMyAppHandler() {
         return mHandler;
     }
+
+    private final String TAG = "MyApp";
 
     /**
      * 当前版本环境，打包版本只需要修改此配置
@@ -144,6 +151,7 @@ public class MyApp extends Application implements IApp {
         CustomActivityOnCrash.install(this);
         ToastUtils.getDefaultMaker().setGravity(Gravity.CENTER, 0, 0);
         PictureAppMaster.getInstance().setApp(this);
+        loadEmojiFromBundled();
     }
 
     public static void getLocation() {
@@ -263,5 +271,24 @@ public class MyApp extends Application implements IApp {
     @Override
     public PictureSelectorEngine getPictureSelectorEngine() {
         return new PictureSelectorEngineImp();
+    }
+
+    private void loadEmojiFromBundled() {
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(getApplicationContext());
+
+        config.setReplaceAll(true)
+                .registerInitCallback(new EmojiCompat.InitCallback() {
+                    @Override
+                    public void onInitialized() {
+                        Log.i(TAG, "loadEmojiFromBundled()->onInitialized()");
+                    }
+
+                    @Override
+                    public void onFailed(@Nullable Throwable throwable) {
+                        Log.e(TAG, "loadEmojiFromBundled()->onFailed()", throwable);
+                    }
+                });
+
+        EmojiCompat.init(config);
     }
 }

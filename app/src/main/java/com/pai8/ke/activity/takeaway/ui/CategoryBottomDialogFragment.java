@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseBottomDialogFragment;
+import com.lhs.library.utils.SerializableUtil;
 import com.pai8.ke.activity.takeaway.adapter.CategoryAdapter;
 import com.pai8.ke.databinding.FragmentCategoryBottomDialogFragmentBinding;
 import com.pai8.ke.entity.resp.BusinessType;
@@ -31,7 +32,8 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        adapter = new CategoryAdapter(getContext(), null);
+        List<BusinessType> list = SerializableUtil.readObjectForList(getContext(), "BusinessTypeData");
+        adapter = new CategoryAdapter(getContext(), list);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.ivClose.setOnClickListener(v -> dismiss());
         mBinding.btnOk.setOnClickListener(v -> {
@@ -42,6 +44,7 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
     @Override
     public void addObserve() {
         mViewModel.getBusinessTypeData().observe(getViewLifecycleOwner(), data -> {
+            SerializableUtil.saveSerializable(getContext(), data, "BusinessTypeData");
             if (getArguments() != null && getArguments().containsKey(BaseAppConstants.BundleConstant.ARG_PARAMS_0)) {
                 ArrayList<String> select = getArguments().getStringArrayList(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
                 for (BusinessType datum : data) {

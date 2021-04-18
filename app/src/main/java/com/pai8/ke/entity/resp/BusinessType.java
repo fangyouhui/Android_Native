@@ -1,6 +1,8 @@
 package com.pai8.ke.entity.resp;
 
-public class BusinessType {
+import java.io.Serializable;
+
+public class BusinessType implements Serializable {
     public String type_name;
     public String id;
     public boolean isSelected = false;

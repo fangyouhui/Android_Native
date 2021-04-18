@@ -4,6 +4,7 @@ import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
+import com.pai8.ke.activity.takeaway.entity.req.EditCategoryReq;
 import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.MerchantSettledReq;
 import com.pai8.ke.activity.takeaway.entity.req.RebateReq;
@@ -61,7 +62,7 @@ public interface TakeawayApiService {
 
 
     @POST("shop/categoryEdit")
-    Observable<BaseRespose<ShopInfo>> categoryEdit(@Body UpCategoryReq parm);
+    Observable<BaseRespose<ShopInfo>> categoryEdit(@Body EditCategoryReq parm);
 
 
     /**

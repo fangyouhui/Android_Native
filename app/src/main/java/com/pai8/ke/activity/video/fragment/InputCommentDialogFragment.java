@@ -64,7 +64,7 @@ public class InputCommentDialogFragment extends BaseDialogFragment {
             return;
         }
         if (mInputCallback != null) {
-            mInputCallback.commentContent(StringUtils.getEditText(etInput));
+            mInputCallback.commentContent(etInput.getText().toString());
         }
         dismiss();
     }

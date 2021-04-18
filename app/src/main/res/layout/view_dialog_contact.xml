@@ -77,6 +77,7 @@
         android:text="私信"
         android:textColor="@color/color_mid_font"
         android:textSize="13sp"
+        android:visibility="gone"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_contact_wechat"
         app:layout_constraintLeft_toRightOf="@+id/tv_btn_contact_wechat" />
 
