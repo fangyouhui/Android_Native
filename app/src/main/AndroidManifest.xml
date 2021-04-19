@@ -104,6 +104,7 @@
             android:screenOrientation="portrait" /> <!-- 商家搜索列表 -->
         <activity
             android:name=".activity.video.ShopSearchListActivity"
+            android:label="关联店铺"
             android:screenOrientation="portrait" /> <!-- 地址选择 -->
         <activity
             android:name=".activity.me.AddressChooseActivity"

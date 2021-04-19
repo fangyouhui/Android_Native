@@ -1,225 +1,128 @@
 package com.pai8.ke.activity.video;
 
+import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
-import com.github.jdsjlzx.recyclerview.LuRecyclerView;
-import com.github.jdsjlzx.recyclerview.LuRecyclerViewAdapter;
-import com.github.jdsjlzx.recyclerview.ProgressStyle;
-import com.hjq.bar.OnTitleBarListener;
-import com.hjq.bar.TitleBar;
-import com.pai8.ke.R;
+import androidx.annotation.NonNull;
+
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.lhs.library.base.BaseActivity;
 import com.pai8.ke.activity.video.adapter.ShopSearchListAdapter;
-import com.pai8.ke.api.Api;
-import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.ShopList;
-import com.pai8.ke.entity.resp.ShopListResp;
+import com.pai8.ke.databinding.ActivityShopSearchListBinding;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.global.GlobalConstants;
-import com.pai8.ke.utils.AppUtils;
-import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.groupBuy.adapter.TextWatcherAdapter;
 import com.pai8.ke.utils.EventBusUtils;
-import com.pai8.ke.utils.StringUtils;
+import com.pai8.ke.viewmodel.ShopSearchViewModel;
 import com.pai8.ke.widget.SpaceItemDecoration;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 
-import java.util.List;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import butterknife.BindView;
-import butterknife.OnClick;
-
-import static com.pai8.ke.app.MyApp.getMyAppHandler;
-import static com.pai8.ke.global.GlobalConstants.LOADMORE;
-import static com.pai8.ke.global.GlobalConstants.REFRESH;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 商家搜索列表
  * Created by gh on 2020/11/14.
  */
-public class ShopSearchListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,
-        OnLoadMoreListener {
-
-    @BindView(R.id.title_bar)
-    TitleBar titleBar;
-    @BindView(R.id.tv_btn_cancel)
-    TextView tvBtnCancel;
-    @BindView(R.id.tv_status)
-    TextView tvStatus;
-    @BindView(R.id.et_search)
-    EditText etSearch;
-    @BindView(R.id.l_rv)
-    LuRecyclerView lrv;
-    @BindView(R.id.sr_layout)
-    SwipeRefreshLayout srLayout;
-
-    private LuRecyclerViewAdapter mLRvAdapter;
+public class ShopSearchListActivity extends BaseActivity<ShopSearchViewModel, ActivityShopSearchListBinding> {
     private ShopSearchListAdapter mAdapter;
-
     private int mPageNo = 1;
     private String mKeywords = "";
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_shop_search_list;
-    }
-
-    @Override
-    public void initView() {
-        titleBar.setTitle("关联店铺");
-        srLayout.setColorSchemeResources(R.color.colorPrimary);
-        mAdapter = new ShopSearchListAdapter(this);
-        mLRvAdapter = new LuRecyclerViewAdapter(mAdapter);
-        lrv.setLayoutManager(new LinearLayoutManager(this));
-        lrv.addItemDecoration(new SpaceItemDecoration(2, 0, 0, 0));
-        lrv.setHasFixedSize(true);
-        lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
-        lrv.setFooterViewColor(R.color.colorAccent, R.color.color_light_font, R.color.white);
-        lrv.setFooterViewHint("加载中...", "没有更多了", "没有网络了");
-        lrv.setAdapter(mLRvAdapter);
-
-        titleBar.setOnTitleBarListener(new OnTitleBarListener() {
-            @Override
-            public void onLeftClick(View v) {
-                finish();
-            }
-
-            @Override
-            public void onTitleClick(View v) {
-
-            }
-
-            @Override
-            public void onRightClick(View v) {
-
-            }
-        });
-    }
-
-    @Override
-    public void initData() {
-        super.initData();
-        onRefresh();
-    }
-
-    @Override
-    public void initListener() {
-        srLayout.setOnRefreshListener(this);
-        lrv.setOnLoadMoreListener(this);
-        mLRvAdapter.setOnItemClickListener((view, position) -> {
-            ShopList shopList = mAdapter.getDataList().get(position);
-            EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_CHOOSE_SHOP, shopList));
+    public void initView(@Nullable Bundle savedInstanceState) {
+        mAdapter = new ShopSearchListAdapter(this, null);
+        mBinding.recyclerView.addItemDecoration(new SpaceItemDecoration(2, 0, 0, 0));
+        mBinding.recyclerView.setHasFixedSize(true);
+        mBinding.recyclerView.setAdapter(mAdapter);
+        mAdapter.setListener((item, position) -> {
+            EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_CHOOSE_SHOP, item));
             finish();
         });
 
-        etSearch.addTextChangedListener(new TextWatcher() {
+        mBinding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                onLoadMoreData();
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                onRefreshData();
             }
+        });
 
+        mBinding.tvBtnCancel.setOnClickListener(v -> {
+            mBinding.etSearch.setText("");
+            KeyboardUtils.hideSoftInput(this);
+            initData();
+        });
+
+        mBinding.etSearch.setOnKeyListener((view, keyCode, keyEvent) -> {
+            if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                mKeywords = mBinding.etSearch.getText().toString();
+                initData();
+            }
+            return false;
+        });
+
+        mBinding.etSearch.addTextChangedListener(new TextWatcherAdapter() {
             @Override
-            public void afterTextChanged(Editable editable) {
-                String string = editable.toString();
-                if (StringUtils.isNotEmpty(string)) {
-                    tvBtnCancel.setVisibility(View.VISIBLE);
+            public void afterTextChanged(Editable s) {
+                mKeywords = mBinding.etSearch.getText().toString();
+                if (TextUtils.isEmpty(mKeywords)) {
+                    mBinding.tvBtnCancel.setVisibility(View.INVISIBLE);
                 } else {
-                    tvBtnCancel.setVisibility(View.GONE);
-                    mKeywords = "";
-                    onRefresh();
+                    mBinding.tvBtnCancel.setVisibility(View.VISIBLE);
                 }
-            }
-        });
-
-        etSearch.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    mKeywords = StringUtils.getEditText(etSearch);
-                    onRefresh();
-                }
-                return false;
+                initData();
             }
         });
 
     }
 
+
     @Override
-    public void onRefresh() {
+    public void initData() {
+        mBinding.tvStatus.setText(TextUtils.isEmpty(mKeywords) ? "附近店铺" : "搜索结果");
+        mViewModel.shopSelect(mPageNo, mKeywords);
+    }
+
+    @Override
+    public void addObserve() {
+        mViewModel.getShopSelectData().observe(this, data -> {
+            if (mBinding.smartRefreshLayout.isRefreshing()) {
+                mAdapter.setData(data);
+                mBinding.smartRefreshLayout.finishRefresh();
+                return;
+            }
+            if (mBinding.smartRefreshLayout.isLoading()) {
+                if (data == null || data.isEmpty()) {
+                    mBinding.smartRefreshLayout.finishLoadMoreWithNoMoreData();
+                } else {
+                    mAdapter.setData(data);
+                    mBinding.smartRefreshLayout.finishLoadMore();
+                }
+                return;
+            }
+
+            mAdapter.setData(data);
+        });
+    }
+
+
+    private void onRefreshData() {
         mPageNo = 1;
-        srLayout.setRefreshing(true);
-        lrv.setRefreshing(true);
-        getMyAppHandler().postDelayed(() -> {
-            getShopList(REFRESH);
-        }, 100);
+        initData();
     }
 
-    @Override
-    public void onLoadMore() {
+    private void onLoadMoreData() {
         mPageNo++;
-        getMyAppHandler().postDelayed(() -> {
-            getShopList(LOADMORE);
-        }, 400);
+        initData();
     }
 
-    private void getShopList(int tag) {
-        if (StringUtils.isNotEmpty(mKeywords)) {
-            tvStatus.setText("搜索结果");
-        } else {
-            tvStatus.setText("附件店铺");
-        }
-        Api.getInstance().shopSelect(mPageNo, mKeywords)
-                .doOnSubscribe(disposable -> {
-
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<ShopList>>() {
-                    @Override
-                    protected void onSuccess(List<ShopList> list) {
-                        refreshComplete();
-                        if (tag == GlobalConstants.REFRESH) {
-                            mAdapter.setDataList(list);
-                        }
-                        if (tag == GlobalConstants.LOADMORE) {
-                            mAdapter.addAll(list);
-                        }
-                        lrv.refreshComplete(list.size());
-                        mLRvAdapter.notifyDataSetChanged();
-                        if (list.size() == 0) {
-                            lrv.setNoMore(true);
-                        }
-                    }
-
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        refreshComplete();
-                        super.onError(msg, errorCode);
-                    }
-                });
-    }
-
-    public void refreshComplete() {
-        srLayout.setRefreshing(false);
-    }
-
-    @OnClick(R.id.tv_btn_cancel)
-    public void onViewClicked() {
-        etSearch.setText("");
-        mKeywords = "";
-        onRefresh();
-        AppUtils.hideInput(this);
-    }
 }
+

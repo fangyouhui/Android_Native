@@ -216,4 +216,11 @@ interface GroupBuyApiService {
     suspend fun categoryList(@Query("shop_id") shop_id: String): BaseHttpResult<List<ShopInfo>>
 
 
+    /**
+     * 商家列表
+     */
+
+    @POST("shop/shopSelect")
+    suspend fun shopSelect(@Query("page") page: Int,
+                           @Query("keywords") keywords: String): BaseHttpResult<List<ShopList>>
 }

@@ -39,7 +39,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-
                 <ImageView
                     android:id="@+id/iv_cover"
                     android:layout_width="wrap_content"
@@ -252,12 +251,10 @@
                         android:layout_toEndOf="@+id/tv_address_detail"
                         android:background="@color/color_transition"
                         android:hint="请输入详细街道"
-                        android:inputType="numberDecimal"
                         android:singleLine="true"
                         android:textColor="@color/text_black"
                         android:textColorHint="#D8D8D8"
                         android:textSize="15sp" />
-
 
                 </RelativeLayout>
 
