@@ -2,7 +2,6 @@ package com.pai8.ke.activity.video.tiktok;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,7 +57,6 @@ import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.presenter.SharePresenter;
 import com.pai8.ke.presenter.VideoHomePresenter;
-import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.DKPlayerUtils;
@@ -517,32 +515,37 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
         tvBtnCancel.setOnClickListener(view1 -> {
             mContactBottomDialog.dismiss();
         });
-        tvBtnPhone.setOnClickListener(view1 -> {//电话
-            String[] options = {"呼叫", "复制号码", "添加至手机通讯录"};
-            String mobile = getCurVideo().getUser().getPhone();
-            new AlertDialog.Builder(this)
-                    .setCancelable(false)
-                    .setTitle("这是电话号码，你可以")
-                    .setItems(options, (dialogInterface, which) -> {
-                        switch (which) {
-                            case 0:
-                                AppUtils.intentCallPhone(TikTokActivity.this, mobile);
-                                break;
-                            case 1:
-                                AppUtils.copyText(mobile);
-                                toast("复制成功");
-                                break;
-                            case 2:
-                                Shop shop = getCurVideo().getShop();
-                                if (shop != null) {
-                                    AppUtils.intentContactAdd(TikTokActivity.this, shop.getName(),
-                                            shop.getName(), mobile);
-                                } else {
-                                    AppUtils.intentContactAdd(TikTokActivity.this, "", "", mobile);
-                                }
-                                break;
-                        }
-                    }).show();
+        tvBtnPhone.setOnClickListener(view1 -> { //电话
+            mContactBottomDialog.dismiss();
+            Shop shop = getCurVideo().getShop();
+            PhoneBottomDialogFragment dialogFragment = PhoneBottomDialogFragment.newInstance(getCurVideo().getUser().getPhone(), shop.getName());
+            dialogFragment.show(getSupportFragmentManager(), "phone");
+
+//            String[] options = {"呼叫", "复制号码", "添加至手机通讯录"};
+//            String mobile = getCurVideo().getUser().getPhone();
+//            new AlertDialog.Builder(this)
+//                    .setCancelable(false)
+//                    .setTitle("这是电话号码，你可以")
+//                    .setItems(options, (dialogInterface, which) -> {
+//                        switch (which) {
+//                            case 0:
+//                                AppUtils.intentCallPhone(TikTokActivity.this, mobile);
+//                                break;
+//                            case 1:
+//                                AppUtils.copyText(mobile);
+//                                toast("复制成功");
+//                                break;
+//                            case 2:
+//                                Shop shop = getCurVideo().getShop();
+//                                if (shop != null) {
+//                                    AppUtils.intentContactAdd(TikTokActivity.this, shop.getName(),
+//                                            shop.getName(), mobile);
+//                                } else {
+//                                    AppUtils.intentContactAdd(TikTokActivity.this, "", "", mobile);
+//                                }
+//                                break;
+//                        }
+//                    }).show();
         });
         tvBtnSms.setOnClickListener(view1 -> {//私信
             if (getCurVideo().getUser() == null || StringUtils.isEmpty(getCurVideo().getUser().getPhone())) {

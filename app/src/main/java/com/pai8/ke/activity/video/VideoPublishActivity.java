@@ -1,11 +1,14 @@
 package com.pai8.ke.activity.video;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
 
 import com.gh.qiniushortvideo.ChooseVideo;
 import com.gh.qiniushortvideo.activity.ConfigActivity;
@@ -13,6 +16,7 @@ import com.gh.qiniushortvideo.activity.MediaSelectActivity;
 import com.gh.qiniushortvideo.activity.VideoRecordActivity;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.me.AddressChooseActivity;
 import com.pai8.ke.api.Api;
@@ -24,9 +28,8 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.ShopList;
-import com.pai8.ke.entity.resp.ShopListResp;
 import com.pai8.ke.global.EventCode;
-import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -36,9 +39,6 @@ import com.pai8.ke.utils.StringUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
-import androidx.cardview.widget.CardView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -209,6 +209,12 @@ public class VideoPublishActivity extends BaseActivity {
                 }
                 if (StringUtils.isEmpty(StringUtils.getEditText(etContent))) {
                     toast("请添加文字描述");
+                    return;
+                }
+                if (!AccountManager.getInstance().isLogin()) {
+                    Intent intent2 = new Intent(this, LoginActivity.class);
+                    intent2.putExtras(new Bundle());
+                    startActivity(intent2);
                     return;
                 }
 //                if (mAddress == null) {
