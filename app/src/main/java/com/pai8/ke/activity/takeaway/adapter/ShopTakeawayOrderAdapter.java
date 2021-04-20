@@ -16,8 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ShopOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
-    public ShopOrderAdapter(@Nullable List<OrderInfo> data) {
+public class ShopTakeawayOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
+    public ShopTakeawayOrderAdapter(@Nullable List<OrderInfo> data) {
         super(R.layout.item_order, data);
     }
 

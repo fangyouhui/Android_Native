@@ -136,7 +136,7 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
                 startActivity(new Intent(this, GoodManagerActivity.class));
                 break;
             case R.id.tv_order_manager:
-                startActivity(new Intent(this, OrderProcessingActivity.class));
+                startActivity(new Intent(this, ShopOrderActivity.class));
                 break;
             case R.id.iv_store:
             case R.id.toolbar_iv_menu:

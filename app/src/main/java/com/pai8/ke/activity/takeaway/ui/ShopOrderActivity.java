@@ -15,8 +15,8 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderStatusAdapter;
 import com.pai8.ke.activity.takeaway.adapter.ViewPagerAdapter;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
-import com.pai8.ke.activity.takeaway.fragment.shopGroupOrderFragment;
-import com.pai8.ke.activity.takeaway.fragment.shopWaiMainFragment;
+import com.pai8.ke.activity.takeaway.fragment.ShopGroupOrderListFragment;
+import com.pai8.ke.activity.takeaway.fragment.ShopTakeawayOrderListFragment;
 import com.pai8.ke.activity.takeaway.presenter.ShopOrderPresenter;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.widget.BottomDialog;
@@ -32,14 +32,14 @@ import java.util.Map;
  * 商家订单处理
  */
 
-public class OrderProcessingActivity extends BaseMvpActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
+public class ShopOrderActivity extends BaseMvpActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
     private ArrayList<Fragment> fragments;
 
     private BottomDialog mOrderFilterDialog;
     private int page = 1;
     private String status = "";
-    private Fragment waimaifragment = new shopWaiMainFragment();
-    private Fragment shopGroupfragment = new shopGroupOrderFragment();
+    private Fragment waimaifragment = new ShopTakeawayOrderListFragment();
+    private Fragment shopGroupfragment = new ShopGroupOrderListFragment();
 
     @Override
     public ShopOrderPresenter initPresenter() {

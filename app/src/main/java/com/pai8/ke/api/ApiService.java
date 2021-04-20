@@ -426,4 +426,6 @@ public interface ApiService {
     @POST("Order/verifyOrder")
     Observable<BaseRespose<List<String>>> verifyOrder(@Field("order_no") String order_no,
                                                       @Field("shop_id") String shop_id);
+
+
 }

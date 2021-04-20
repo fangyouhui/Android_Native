@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
-import com.pai8.ke.activity.takeaway.adapter.GroupOrderAdapter;
+import com.pai8.ke.activity.takeaway.adapter.UserGroupOrderAdapter;
 import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.databinding.FragmentGroupOrderListBinding;
 import com.pai8.ke.manager.AccountManager;
@@ -19,8 +19,8 @@ import com.pai8.ke.shop.viewmodel.OrderListViewModel;
 
 import org.jetbrains.annotations.Nullable;
 
-public class GroupOrderListFragment extends BaseFragment<OrderListViewModel, FragmentGroupOrderListBinding> {
-    private GroupOrderAdapter adapter;
+public class UserGroupOrderListFragment extends BaseFragment<OrderListViewModel, FragmentGroupOrderListBinding> {
+    private UserGroupOrderAdapter adapter;
     private ActivityResultLauncher activityResultLauncher;
 
     @Override
@@ -36,9 +36,9 @@ public class GroupOrderListFragment extends BaseFragment<OrderListViewModel, Fra
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
         mBinding.smartRefreshLayout.setOnRefreshListener(refreshLayout -> initData());
-        mBinding.recyclerView.setAdapter(adapter = new GroupOrderAdapter(getContext(), null));
+        mBinding.recyclerView.setAdapter(adapter = new UserGroupOrderAdapter(getContext(), null));
 
-        adapter.setOnItemListener(new GroupOrderAdapter.OnItemListener() {
+        adapter.setOnItemListener(new UserGroupOrderAdapter.OnItemListener() {
             @Override
             public void onItemComment(OrderListResult bean, int position) {
                 Intent intent = new Intent(getContext(), CommentActivity.class);
@@ -59,7 +59,7 @@ public class GroupOrderListFragment extends BaseFragment<OrderListViewModel, Fra
 
             @Override
             public void onItemClick(OrderListResult item, int position) {
-                Intent intent = new Intent(getContext(), OrderDetailActivity.class);
+                Intent intent = new Intent(getContext(), UserGroupOrderDetailActivity.class);
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item.getOrder_no());
                 startActivity(intent);
             }

@@ -86,7 +86,7 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".activity.takeaway.ui.StoreActivity" />
         <activity android:name=".activity.takeaway.ui.StoreManagerActivity" />
-        <activity android:name=".activity.takeaway.ui.OrderProcessingActivity" /> <!-- 视频滑动 -->
+        <activity android:name=".activity.takeaway.ui.ShopOrderActivity" /> <!-- 视频滑动 -->
         <activity
             android:name=".activity.video.tiktok.TikTokActivity"
             android:screenOrientation="portrait" /> <!-- 举报/投诉 -->
@@ -158,7 +158,7 @@
             android:name=".activity.takeaway.ui.MapAddressChooseActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.takeaway.order.OrderActivity"
+            android:name=".activity.takeaway.order.UserOrderActivity"
             android:label="订单列表"
             android:screenOrientation="portrait" />
         <activity
@@ -169,7 +169,10 @@
             android:name=".activity.takeaway.ui.ChooseCouponActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.takeaway.ui.ShopGoodSearchActivity" />
-        <activity android:name=".activity.takeaway.order.OrderSendActivity" />
+        <activity
+            android:name=".activity.takeaway.order.UserTakeawayOrderDetailActivity"
+            android:label="订单详情"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.takeaway.order.ShopOrderDetailActivity" />
         <activity
             android:name=".activity.takeaway.ui.StoreManagerEditActivity"
@@ -254,7 +257,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.takeaway.order.OrderDetailActivity"
+            android:name=".activity.takeaway.order.UserGroupOrderDetailActivity"
             android:label="订单详情"
             android:screenOrientation="portrait" />
 

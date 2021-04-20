@@ -15,7 +15,7 @@ import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.takeaway.entity.GoodsInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
 import com.pai8.ke.databinding.ActivityOrderDetailBinding;
-import com.pai8.ke.groupBuy.viewmodel.OrderDetailViewModel;
+import com.pai8.ke.groupBuy.viewmodel.UserOrderDetailViewModel;
 import com.pai8.ke.shop.ui.CommentActivity;
 import com.pai8.ke.shop.ui.LookCommentActivity;
 import com.pai8.ke.shop.ui.PayBottomDialogFragment;
@@ -25,7 +25,7 @@ import com.pai8.ke.utils.TimeUtil;
 
 import org.jetbrains.annotations.Nullable;
 
-public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, ActivityOrderDetailBinding> {
+public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailViewModel, ActivityOrderDetailBinding> {
 
     private String orderNo;
     private ActivityResultLauncher activityResultLauncher;
@@ -58,7 +58,7 @@ public class OrderDetailActivity extends BaseActivity<OrderDetailViewModel, Acti
 
     @Override
     public void initData() {
-        mViewModel.orderList(orderNo);
+        mViewModel.orderDetail(orderNo);
     }
 
     private void bindViewData(OrderDetailResult bean) {

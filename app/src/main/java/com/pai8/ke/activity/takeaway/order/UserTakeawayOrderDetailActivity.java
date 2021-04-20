@@ -1,138 +1,48 @@
 package com.pai8.ke.activity.takeaway.order;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.adapter.ShopOrderDetailAdapter;
-import com.pai8.ke.activity.takeaway.contract.ShopOrderDetailContract;
-import com.pai8.ke.activity.takeaway.entity.OrderInfo;
-import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
-import com.pai8.ke.activity.takeaway.presenter.ShopOrderDetailPresenter;
-import com.pai8.ke.activity.takeaway.ui.StoreActivity;
-import com.pai8.ke.activity.takeaway.widget.CancelOrderPop;
-import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.fragment.pay.PayDialogFragment;
+import com.lhs.library.base.BaseActivity;
+import com.lhs.library.base.BaseAppConstants;
+import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
+import com.pai8.ke.databinding.ActivityUserTakeawayOrderDetailBinding;
+import com.pai8.ke.groupBuy.viewmodel.UserOrderDetailViewModel;
 import com.pai8.ke.utils.AppUtils;
-import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.pai8.ke.utils.DateUtils.FORMAT_YYYY_MM_DD_HHMM;
+public class UserTakeawayOrderDetailActivity extends BaseActivity<UserOrderDetailViewModel, ActivityUserTakeawayOrderDetailBinding> {
 
-public class ShopOrderDetailActivity extends BaseMvpActivity<ShopOrderDetailPresenter> implements View.OnClickListener, ShopOrderDetailContract.View {
-
-
-    private RecyclerView mRvOrderDetail;
-    private ShopOrderDetailAdapter mAdapter;
-
-    private View mViewHead, mViewFooter;
-
-    private TextView mTvStoreName;
-    private ImageView mIvStore;
-    private TextView mTvStatus;
-    private TextView mTvStatusName;
-    private TextView mTvStatusPay;
-    private TextView mTvCall;
-    private TextView mTvReject, mTvAccept;
-    private LinearLayout mLlAccept;
-
-
-    private ImageView ivMore;
-
-    private OrderInfo mOrderInfo;
-    private TextView mTvRiderName, mTvRiderTime;
-
-
-    private TextView mTvCoupon;
-    private TextView mTvSendPrice;
-    private TextView mTvPackPrice;
-    private TextView mTvOrderTime;
-    private TextView mTvOrderNum;
-    private TextView mTvPrice;
-    private TextView mTvDiscount;
-
-    private TextView mTvPayWay;
-
-    private TextView mTvAdderss;
+    private String order_no;
 
     @Override
-    public ShopOrderDetailPresenter initPresenter() {
-        return new ShopOrderDetailPresenter(this);
+    public void initView(@Nullable Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
+        order_no = getIntent().getStringExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_shop_order_detail;
+    public void addObserve() {
+        mViewModel.getOrderDetailData().observe(this, data -> {
+            setData(data);
+        });
     }
-
-    @Override
-    public void initView() {
-        setImmersionBar(R.id.base_tool_bar);
-        findViewById(R.id.toolbar_back_all).setOnClickListener(this);
-        ivMore = findViewById(R.id.toolbar_more);
-        ivMore.setOnClickListener(this);
-        mRvOrderDetail = findViewById(R.id.rv_order_detail);
-        mAdapter = new ShopOrderDetailAdapter(null);
-        mRvOrderDetail.setAdapter(mAdapter);
-        mViewHead = getLayoutInflater().inflate(R.layout.activity_order_detail_shop_head, (ViewGroup) mRvOrderDetail.getParent(), false);
-        mViewFooter = getLayoutInflater().inflate(R.layout.activity_order_detail_footer, (ViewGroup) mRvOrderDetail.getParent(), false);
-        mAdapter.addHeaderView(mViewHead);
-        mAdapter.addFooterView(mViewFooter);
-        mTvStoreName = mViewHead.findViewById(R.id.tv_store_name);
-        mIvStore = mViewHead.findViewById(R.id.iv_store);
-        mTvStatus = mViewHead.findViewById(R.id.tv_status);
-        mTvStatusName = mViewHead.findViewById(R.id.tv_status_name);
-        mTvStatusPay = mViewHead.findViewById(R.id.tv_status_pay);
-        mTvStatusPay.setOnClickListener(this);
-        mTvCall = mViewHead.findViewById(R.id.tv_call);
-        mTvCall.setOnClickListener(this);
-        mLlAccept = mViewHead.findViewById(R.id.ll_accept);
-        mTvReject = mViewHead.findViewById(R.id.tv_reject);
-        mTvReject.setOnClickListener(this);
-        mTvAccept = mViewHead.findViewById(R.id.tv_accept);
-        mTvAccept.setOnClickListener(this);
-        //footer
-
-        mTvPackPrice = mViewFooter.findViewById(R.id.tv_pack_price);
-        mTvCoupon = mViewFooter.findViewById(R.id.tv_coupon);
-        mTvSendPrice = mViewFooter.findViewById(R.id.tv_send_price);
-        mTvOrderNum = mViewFooter.findViewById(R.id.tv_order_num);
-        mTvOrderTime = mViewFooter.findViewById(R.id.tv_order_time);
-        mTvAdderss = mViewFooter.findViewById(R.id.tv_address);
-        mTvPrice = mViewFooter.findViewById(R.id.tv_price);
-        mTvDiscount = mViewFooter.findViewById(R.id.tv_discount);
-        mTvPayWay = mViewFooter.findViewById(R.id.tv_pay_type);
-        mTvRiderName = mViewFooter.findViewById(R.id.tv_rider_name);
-        mTvRiderTime = mViewFooter.findViewById(R.id.tv_rider_time);
-    }
-
 
     @Override
     public void initData() {
-        super.initData();
-        mOrderInfo = (OrderInfo) getIntent().getSerializableExtra("order");
-        mAdapter.setNewData(mOrderInfo.goods_info);
-        setData(mOrderInfo);
-        mPresenter.orderDetail(mOrderInfo.order_no);
-
-        if (mOrderInfo.order_status == 0 || mOrderInfo.order_status == 4) {
-            ivMore.setVisibility(View.VISIBLE);
-        } else {
-            ivMore.setVisibility(View.GONE);
-        }
-
+        mViewModel.orderDetail(order_no);
     }
 
+    private void setData(OrderDetailResult orderInfo) {
+        if (orderInfo.getOrder_status() == 0 || orderInfo.getOrder_status() == 4) {
 
-    private void setData(OrderInfo orderInfo) {
+        } else {
+            //  ivMore.setVisibility(View.GONE);
+        }
         ImageLoadUtils.setCircularImage(this, orderInfo.shop_img, mIvStore, R.mipmap.ic_launcher);
         mTvPrice.setText(orderInfo.order_price);
         mTvPackPrice.setText(orderInfo.box_price);
@@ -210,11 +120,8 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<ShopOrderDetailPres
     }
 
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.toolbar_back_all) {
-            finish();
-        } else if (v.getId() == R.id.tv_call) {
+    private void onClick(View v) {
+        if (v.getId() == R.id.tv_call) {
             if (mOrderInfo.shop_info != null) {
                 AppUtils.intentCallPhone(this, mOrderInfo.shop_info.mobile);
             }
@@ -318,21 +225,18 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<ShopOrderDetailPres
         }
     }
 
-    @Override
     public void orderDetailSuccess(OrderInfo data) {
         mOrderInfo = data;
         setData(data);
     }
 
-    @Override
     public void orderCancelSuccess(List<String> data) {
         mPresenter.orderDetail(mOrderInfo.order_no);
     }
 
-    @Override
     public void getStatusSuccess(List<String> data) {
-        {
-            mPresenter.orderDetail(mOrderInfo.order_no);
-        }
+
+        mPresenter.orderDetail(mOrderInfo.order_no);
+
     }
 }

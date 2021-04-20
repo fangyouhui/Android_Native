@@ -19,10 +19,10 @@ import com.pai8.ke.utils.ImageLoadUtils;
 
 import java.util.List;
 
-public class GroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> {
+public class UserGroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResult> {
     private CountDownTimer countDownTimer;
 
-    public GroupOrderAdapter(Context context, List<OrderListResult> list) {
+    public UserGroupOrderAdapter(Context context, List<OrderListResult> list) {
         super(context, list);
     }
 

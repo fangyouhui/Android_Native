@@ -270,7 +270,7 @@ public interface TakeawayApiService {
 
 
     @POST("Order/orderDetail")
-    Observable<BaseRespose<OrderListResult>> orderDetail(@Body RequestBody body);
+    Observable<BaseRespose<OrderInfo>> orderDetail(@Body RequestBody body);
 
 
     @POST("shop/shopComments")

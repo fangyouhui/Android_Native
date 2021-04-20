@@ -6,12 +6,16 @@ import com.pai8.ke.activity.message.entity.GoodsCollectionResult
 import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
+import com.pai8.ke.activity.takeaway.entity.OrderInfo
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
+import com.pai8.ke.base.BaseRespose
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.resp.*
+import io.reactivex.Observable
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.http.*
 
@@ -223,4 +227,5 @@ interface GroupBuyApiService {
     @POST("shop/shopSelect")
     suspend fun shopSelect(@Query("page") page: Int,
                            @Query("keywords") keywords: String): BaseHttpResult<List<ShopList>>
+
 }

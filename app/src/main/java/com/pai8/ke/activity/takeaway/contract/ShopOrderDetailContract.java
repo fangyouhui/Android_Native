@@ -9,12 +9,12 @@ import java.util.List;
 
 /*
  */
-public interface OrderDetailContract {
+public interface ShopOrderDetailContract {
 
     interface View extends BaseView {
 
 
-        void orderDetailSuccess(OrderListResult data);
+        void orderDetailSuccess(OrderInfo data);
 
         void orderCancelSuccess(List<String> data);
 

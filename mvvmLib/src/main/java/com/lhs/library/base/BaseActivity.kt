@@ -187,7 +187,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewBinding> : AppCompatAct
         }
     }
 
-    open fun initFontScale() {
+    fun initFontScale() {
         val configuration: Configuration = resources.configuration
         configuration.fontScale = 1.toFloat()
         //0.85 小, 1 标准大小, 1.15 大，1.3 超大 ，1.45 特大

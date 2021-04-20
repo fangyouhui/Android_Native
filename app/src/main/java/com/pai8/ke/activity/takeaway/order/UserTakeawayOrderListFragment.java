@@ -3,9 +3,10 @@ package com.pai8.ke.activity.takeaway.order;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.adapter.TakeawayOrderAdapter;
+import com.pai8.ke.activity.takeaway.adapter.UserTakeawayOrderAdapter;
 import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.activity.takeaway.ui.StoreActivity;
@@ -17,24 +18,26 @@ import com.pai8.ke.utils.AppUtils;
 
 import org.jetbrains.annotations.Nullable;
 
-public class TakeawayOrderListFragment extends BaseFragment<OrderListViewModel, FragmentTakeawayOrderListBinding> {
+public class UserTakeawayOrderListFragment extends BaseFragment<OrderListViewModel, FragmentTakeawayOrderListBinding> {
 
-    private TakeawayOrderAdapter mAdapter;
+    private UserTakeawayOrderAdapter mAdapter;
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         mBinding.smartRefreshLayout.setOnRefreshListener(refreshLayout -> initData());
-        mBinding.recyclerView.setAdapter(mAdapter = new TakeawayOrderAdapter(null));
+        mBinding.recyclerView.setAdapter(mAdapter = new UserTakeawayOrderAdapter(null));
 
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (mAdapter.getData().get(position).getOrder_status() == 2
-                    || mAdapter.getData().get(position).getOrder_status() == 3
-                    || mAdapter.getData().get(position).getOrder_status() == 7) {
-                startActivity(new Intent(getActivity(), OrderSendActivity.class).putExtra("order", mAdapter.getData().get(position)));
-            } else {
-                startActivity(new Intent(getActivity(), OrderDetailActivity.class).putExtra("order", mAdapter.getData().get(position)));
-            }
+//            if (mAdapter.getData().get(position).getOrder_status() == 2
+//                    || mAdapter.getData().get(position).getOrder_status() == 3
+//                    || mAdapter.getData().get(position).getOrder_status() == 7) {
+//                startActivity(new Intent(getActivity(), UserTakeawayOrderDetailActivity.class).putExtra("order", mAdapter.getData().get(position)));
+//            } else {
+//                startActivity(new Intent(getActivity(), UserGroupOrderDetailActivity.class).putExtra("order", mAdapter.getData().get(position)));
+//            }
+            startActivity(new Intent(getActivity(), UserTakeawayOrderDetailActivity.class)
+                    .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, mAdapter.getData().get(position).getOrder_no()));
         });
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {

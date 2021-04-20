@@ -25,7 +25,7 @@ import com.pai8.ke.activity.me.ui.EditPersonalInfoActivity;
 import com.pai8.ke.activity.me.ui.FansActivity;
 import com.pai8.ke.activity.me.ui.HistoryWatchActivity;
 import com.pai8.ke.activity.me.ui.ReceiveLikesActivity;
-import com.pai8.ke.activity.takeaway.order.OrderActivity;
+import com.pai8.ke.activity.takeaway.order.UserOrderActivity;
 import com.pai8.ke.activity.takeaway.ui.DeliveryAddressActivity;
 import com.pai8.ke.activity.takeaway.ui.MerchantSettledFirstActivity;
 import com.pai8.ke.activity.takeaway.ui.StoreManagerActivity;
@@ -313,7 +313,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
                 launchInterceptLogin(StoreManagerActivity.class);
             }
         });
-        mBinding.headView.tvBtnOrder.setOnClickListener(v -> launchInterceptLogin(OrderActivity.class));
+        mBinding.headView.tvBtnOrder.setOnClickListener(v -> launchInterceptLogin(UserOrderActivity.class));
         mBinding.headView.tvBtnWallet.setOnClickListener(v -> launchInterceptLogin(WalletActivity.class));
         mBinding.headView.tvBtnAddress.setOnClickListener(v -> launchInterceptLogin(DeliveryAddressActivity.class));
 

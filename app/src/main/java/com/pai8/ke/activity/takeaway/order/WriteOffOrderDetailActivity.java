@@ -8,13 +8,13 @@ import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.takeaway.entity.GoodsInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
 import com.pai8.ke.databinding.ActivityWriteOffOrderDetailBinding;
-import com.pai8.ke.groupBuy.viewmodel.OrderDetailViewModel;
+import com.pai8.ke.groupBuy.viewmodel.UserOrderDetailViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TimeUtil;
 
 import org.jetbrains.annotations.Nullable;
 
-public class WriteOffOrderDetailActivity extends BaseActivity<OrderDetailViewModel, ActivityWriteOffOrderDetailBinding> {
+public class WriteOffOrderDetailActivity extends BaseActivity<UserOrderDetailViewModel, ActivityWriteOffOrderDetailBinding> {
 
     private String orderNo;
 
@@ -31,7 +31,7 @@ public class WriteOffOrderDetailActivity extends BaseActivity<OrderDetailViewMod
 
     @Override
     public void initData() {
-        mViewModel.orderList(orderNo);
+        mViewModel.orderDetail(orderNo);
     }
 
     private void bindViewData(OrderDetailResult bean) {

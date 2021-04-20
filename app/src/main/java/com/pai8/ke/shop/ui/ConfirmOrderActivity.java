@@ -15,7 +15,7 @@ import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
-import com.pai8.ke.activity.takeaway.order.OrderDetailActivity;
+import com.pai8.ke.activity.takeaway.order.UserGroupOrderDetailActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.databinding.ActivityConfirmOrderBinding;
 import com.pai8.ke.entity.AddOrderParam;
@@ -113,7 +113,7 @@ public class ConfirmOrderActivity extends BaseActivity<ConfirmOrderViewModel, Ac
     }
 
     private void toOrderDetailActivity(String orderNo) {
-        Intent intent = new Intent(getBaseContext(), OrderDetailActivity.class);
+        Intent intent = new Intent(getBaseContext(), UserGroupOrderDetailActivity.class);
         intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, orderNo);
         startActivity(intent);
         finish();
