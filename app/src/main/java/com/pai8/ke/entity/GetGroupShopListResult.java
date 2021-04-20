@@ -71,7 +71,7 @@ public class GetGroupShopListResult {
 
         private int id;
         private String shop_name;
-        private int cate_id;
+        private String cate_id;
         private double score;
         private String shop_desc;
         private String province;
@@ -102,11 +102,11 @@ public class GetGroupShopListResult {
             return shop_name;
         }
 
-        public void setCate_id(int cate_id) {
+        public void setCate_id(String cate_id) {
             this.cate_id = cate_id;
         }
 
-        public int getCate_id() {
+        public String getCate_id() {
             return cate_id;
         }
 

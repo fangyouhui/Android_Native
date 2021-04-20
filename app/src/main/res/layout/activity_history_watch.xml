@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:background="@color/white"
-              android:gravity="center_horizontal"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <include layout="@layout/view_comm_titlebar"/>
+    <include layout="@layout/view_comm_titlebar" />
 
     <net.lucode.hackware.magicindicator.MagicIndicator
-            android:id="@+id/mi_history"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"/>
+        android:id="@+id/mi_history"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp" />
 
     <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vp_history"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+        android:id="@+id/vp_history"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

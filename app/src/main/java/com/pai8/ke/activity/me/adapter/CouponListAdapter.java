@@ -9,13 +9,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.pai8.ke.R;
 import com.pai8.ke.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.base.BaseViewHolder;
 import com.pai8.ke.entity.CouponInfoEntity;
 import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.utils.DateUtils;
-import com.pai8.ke.utils.PickerUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.SpanUtils;
 import com.pai8.ke.utils.TextViewUtils;
@@ -23,8 +25,6 @@ import com.pai8.ke.utils.TextViewUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 /**
@@ -55,7 +55,6 @@ public class CouponListAdapter extends BaseRecyclerViewAdapter<CouponListResp> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
         ViewHolder viewHolder = (ViewHolder) holder;
         CouponListResp coupons = mDataList.get(position);
         CouponInfoEntity coupon_info = coupons.getCoupon_info();
@@ -68,11 +67,15 @@ public class CouponListAdapter extends BaseRecyclerViewAdapter<CouponListResp> {
             viewHolder.tvPrice.setText(span);
 
             viewHolder.tvTitle.setText(coupons.getShop_info().getShop_name());
-            String startTime =
-                    DateUtils.formatYYYYMMDD(String.valueOf(coupons.getCoupon_info().getStart_time()));
+            String startTime = DateUtils.formatYYYYMMDD(String.valueOf(coupons.getCoupon_info().getStart_time()));
             String endTime = DateUtils.formatYYYYMMDD(String.valueOf(coupons.getCoupon_info().getEnd_time()));
             viewHolder.tvDate.setText(startTime + " ~ " + endTime);
-            viewHolder.tvDiscountPrice.setText("满" + coupons.getCoupon_info().getTrig_price() + "减" + coupons.getCoupon_info().getDis_price());
+            if (coupons.getType() == 1) {
+                viewHolder.tvDiscountPrice.setText("满" + coupons.getCoupon_info().getTrig_price() + "减" + coupons.getCoupon_info().getDis_price());
+            } else {
+                viewHolder.tvDiscountPrice.setText("运费抵扣");
+            }
+            viewHolder.tvGuize.setText(String.format("优惠券使用日期：%s 至 %s", startTime, endTime));
         } else {
             viewHolder.tvPrice.setText("- -");
             viewHolder.tvTitle.setText("- -");
@@ -83,8 +86,8 @@ public class CouponListAdapter extends BaseRecyclerViewAdapter<CouponListResp> {
             viewHolder.tvUse.setVisibility(View.VISIBLE);
             viewHolder.ivCouponTimeOut.setVisibility(View.GONE);
             viewHolder.cb.setVisibility(View.GONE);
-
             viewHolder.tvUse.setOnClickListener(view -> mClick.onUseClick(coupons));
+
         } else if (type == 2) {
             viewHolder.tvUse.setVisibility(View.GONE);
             viewHolder.ivCouponTimeOut.setVisibility(View.VISIBLE);

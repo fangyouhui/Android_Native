@@ -1,70 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:background="@color/color_bg"
-              android:orientation="vertical"
-              android:layout_height="match_parent"
-              tools:context=".activity.me.fragment.ShopHistoryFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg"
+    android:orientation="vertical"
+    tools:context=".activity.me.fragment.ShopHistoryFragment">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="50dp"
-                  android:layout_marginStart="15dp"
-                  android:gravity="center_vertical"
-                  android:orientation="horizontal"
-                  android:visibility="gone">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-        <RadioGroup android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/rg_choose"
-                    android:gravity="center_vertical">
+        <RadioGroup
+            android:id="@+id/rg_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <RadioButton
-                    android:id="@+id/rb_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:text="全部"
-                    android:textSize="12sp"
-                    android:checked="true"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:textColor="@color/color_history_watch"
-                    android:background="@drawable/bg_history_choose"/>
-            <RadioButton
-                    android:id="@+id/rb_waimai"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:layout_marginStart="20dp"
-                    android:text="外卖"
-                    android:textSize="12sp"
-                    android:checked="false"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:textColor="@color/color_history_watch"
-                    android:background="@drawable/bg_history_choose"/>
-            <RadioButton
-                    android:id="@+id/rb_tuangou"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:text="团购"
-                    android:layout_marginStart="20dp"
-                    android:textSize="12sp"
-                    android:checked="false"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:textColor="@color/color_history_watch"
-                    android:background="@drawable/bg_history_choose"/>
+                android:id="@+id/rb_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_history_choose"
+                android:button="@null"
+                android:checked="true"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp"
+                android:text="全部"
+                android:textColor="@color/color_history_watch"
+                android:textSize="12sp" />
 
+            <RadioButton
+                android:id="@+id/rb_waimai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_history_choose"
+                android:button="@null"
+                android:checked="false"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp"
+                android:text="外卖"
+                android:textColor="@color/color_history_watch"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rb_tuangou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_history_choose"
+                android:button="@null"
+                android:checked="false"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp"
+                android:text="团购"
+                android:textColor="@color/color_history_watch"
+                android:textSize="12sp" />
 
         </RadioGroup>
 
@@ -72,15 +75,15 @@
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/sr_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/sr_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:id="@+id/rv_shop_history"/>
+            android:id="@+id/rv_shop_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
