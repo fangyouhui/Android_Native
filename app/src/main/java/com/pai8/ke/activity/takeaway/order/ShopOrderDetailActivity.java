@@ -151,7 +151,6 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<ShopOrderDetailPres
 
         mTvPayWay.setText(orderInfo.pay_type == 1 ? "微信支付" : "支付宝");
 
-
         mTvStatusName.setText("");
         mTvStatusPay.setVisibility(View.GONE);
         mLlAccept.setVisibility(View.GONE);
@@ -236,7 +235,6 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<ShopOrderDetailPres
             }
 
         } else if (v.getId() == R.id.tv_status_pay) {
-
             if (mOrderInfo.order_status == 0) {
                 mTvStatus.setText("待支付");
                 mTvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
@@ -290,7 +288,6 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<ShopOrderDetailPres
                 startActivity(intent);
             } else if (mOrderInfo.order_status == -1) {
                 mTvStatus.setText("订单超时");
-
             } else if (mOrderInfo.order_status == -2) {
                 mTvStatus.setText("商家拒绝接单");
             }

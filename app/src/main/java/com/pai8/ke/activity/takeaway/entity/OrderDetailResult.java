@@ -25,7 +25,7 @@ public class OrderDetailResult implements Serializable {
     private int address_id;
     private Comment comment;
     private String remark;
-    private String pay_type;
+    private int pay_type;
     private String refund_reason;
     private String order_qrcode;
     private String buyer_name;
@@ -33,7 +33,7 @@ public class OrderDetailResult implements Serializable {
     private List<GoodsInfo> goods_info;
     private Shop_info shop_info;
     private Rider_info rider_info;
-    private String address_info;
+    private AddressInfo address_info;
     private int remain_pay_time;
     private GroupGoodsInfoResult.Term term;
     private String matter;
@@ -206,11 +206,11 @@ public class OrderDetailResult implements Serializable {
         return remark;
     }
 
-    public void setPay_type(String pay_type) {
+    public void setPay_type(int pay_type) {
         this.pay_type = pay_type;
     }
 
-    public String getPay_type() {
+    public int getPay_type() {
         return pay_type;
     }
 
@@ -270,12 +270,12 @@ public class OrderDetailResult implements Serializable {
         return rider_info;
     }
 
-    public void setAddress_info(String address_info) {
-        this.address_info = address_info;
+    public AddressInfo getAddress_info() {
+        return address_info;
     }
 
-    public String getAddress_info() {
-        return address_info;
+    public void setAddress_info(AddressInfo address_info) {
+        this.address_info = address_info;
     }
 
     public void setRemain_pay_time(int remain_pay_time) {
@@ -287,11 +287,11 @@ public class OrderDetailResult implements Serializable {
     }
 
 
-    public class Rider_info implements Serializable{
+    public class Rider_info implements Serializable {
 
     }
 
-    public class Shop_info implements Serializable{
+    public class Shop_info implements Serializable {
 
         private int id;
         private String shop_name;
@@ -451,6 +451,93 @@ public class OrderDetailResult implements Serializable {
 
         public int getShop_id() {
             return shop_id;
+        }
+
+    }
+
+
+    public class AddressInfo implements Serializable {
+
+        private int id;
+        private int user_id;
+        private String address;
+        private String linkman;
+        private String phone;
+        private String longitude;
+        private String latitude;
+        private String house_number;
+        private long update_time;
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setUser_id(int user_id) {
+            this.user_id = user_id;
+        }
+
+        public int getUser_id() {
+            return user_id;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setLinkman(String linkman) {
+            this.linkman = linkman;
+        }
+
+        public String getLinkman() {
+            return linkman;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setLongitude(String longitude) {
+            this.longitude = longitude;
+        }
+
+        public String getLongitude() {
+            return longitude;
+        }
+
+        public void setLatitude(String latitude) {
+            this.latitude = latitude;
+        }
+
+        public String getLatitude() {
+            return latitude;
+        }
+
+        public void setHouse_number(String house_number) {
+            this.house_number = house_number;
+        }
+
+        public String getHouse_number() {
+            return house_number;
+        }
+
+        public void setUpdate_time(long update_time) {
+            this.update_time = update_time;
+        }
+
+        public long getUpdate_time() {
+            return update_time;
         }
 
     }
