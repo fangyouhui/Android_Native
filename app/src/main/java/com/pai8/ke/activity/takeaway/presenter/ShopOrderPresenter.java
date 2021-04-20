@@ -75,9 +75,9 @@ public class ShopOrderPresenter extends BasePresenterImpl<ShopOrderContract.View
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
 
                         view.getStatusSuccess(data);
                     }

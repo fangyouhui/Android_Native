@@ -37,6 +37,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -214,7 +215,7 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
 
     @Override
     public void videoList(List<Video> data, int tag) {
-        AppUtils.hideInput(this);
+        //  AppUtils.hideInput(this);
         if (tag == GlobalConstants.REFRESH) {
             if (CollectionUtils.isEmpty(data)) {
                 viewEmpty.setVisibility(View.VISIBLE);

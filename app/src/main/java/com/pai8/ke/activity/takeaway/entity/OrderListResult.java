@@ -24,7 +24,7 @@ public class OrderListResult implements Serializable {
     private int address_id;
     private String comment;
     private String remark;
-    private String pay_type;
+    private int pay_type;
     private String refund_reason;
     private String order_qrcode;
     private String buyer_name;
@@ -189,11 +189,11 @@ public class OrderListResult implements Serializable {
         return remark;
     }
 
-    public void setPay_type(String pay_type) {
+    public void setPay_type(int pay_type) {
         this.pay_type = pay_type;
     }
 
-    public String getPay_type() {
+    public int getPay_type() {
         return pay_type;
     }
 

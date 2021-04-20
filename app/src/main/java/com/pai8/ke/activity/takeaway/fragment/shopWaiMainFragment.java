@@ -49,7 +49,7 @@ public class shopWaiMainFragment extends BaseMvpFragment<ShopOrderPresenter> imp
     }
 
     @Override
-    public void getStatusSuccess(String data) {
+    public void getStatusSuccess(List<String> data) {
         mPresenter.orderList(status,page);
     }
 

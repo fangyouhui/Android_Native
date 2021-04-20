@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -17,15 +20,15 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.OrderDetailAdapter;
 import com.pai8.ke.activity.takeaway.contract.OrderDetailContract;
-import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.activity.takeaway.presenter.OrderDetailPresenter;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -58,7 +61,7 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
 
 
     ImageView ivMore;
-    private OrderInfo mOrderInfo;
+    private OrderListResult mOrderInfo;
     private TextView mTvCoupon;
     private TextView mTvSendPrice;
     private TextView mTvPackPrice;
@@ -66,7 +69,7 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     private TextView mTvOrderNum;
     private TextView mTvPrice;
     private TextView mTvDiscount;
-    private TextView mTvRiderName,mTvRiderTime;
+    private TextView mTvRiderName, mTvRiderTime;
 
     private TextView mTvAdderss;
 
@@ -143,82 +146,79 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     @Override
     public void initData() {
         super.initData();
-        mOrderInfo = (OrderInfo) getIntent().getSerializableExtra("order");
-        mAdapter.setNewData(mOrderInfo.goods_info);
+        mOrderInfo = (OrderListResult) getIntent().getSerializableExtra("order");
+        mAdapter.setNewData(mOrderInfo.getGoods_info());
         setData(mOrderInfo);
-        mPresenter.orderDetail(mOrderInfo.order_no);
+        mPresenter.orderDetail(mOrderInfo.getOrder_no());
     }
 
 
-    private void setData(OrderInfo orderInfo) {
-        ImageLoadUtils.setCircularImage(this, orderInfo.shop_img, mIvStore, R.mipmap.ic_launcher);
-        mTvPrice.setText(orderInfo.order_price);
-        mTvPackPrice.setText(orderInfo.box_price);
-        mTvCoupon.setText(orderInfo.order_discount_price);
-        mTvSendPrice.setText(orderInfo.express_price);
-        mTvOrderNum.setText(orderInfo.order_no);
-        mTvOrderTime.setText(DateUtils.millisToTime(FORMAT_YYYY_MM_DD_HHMM, orderInfo.add_time*1000));
-        mAdapter.setNewData(orderInfo.goods_info);
-        mTvDiscount.setText("优惠 ¥" + orderInfo.order_discount_price);
+    private void setData(OrderListResult orderInfo) {
+        ImageLoadUtils.setCircularImage(this, orderInfo.getShop_img(), mIvStore, R.mipmap.ic_launcher);
+        mTvPrice.setText(orderInfo.getOrder_price());
+        mTvPackPrice.setText(orderInfo.getBox_price());
+        mTvCoupon.setText(orderInfo.getOrder_discount_price());
+        mTvSendPrice.setText(orderInfo.getExpress_price());
+        mTvOrderNum.setText(orderInfo.getOrder_no());
+        mTvOrderTime.setText(DateUtils.millisToTime(FORMAT_YYYY_MM_DD_HHMM, orderInfo.getAdd_time() * 1000));
+        mAdapter.setNewData(orderInfo.getGoods_info());
+        mTvDiscount.setText("优惠 ¥" + orderInfo.getOrder_discount_price());
 
-        mTvPayType.setText(orderInfo.pay_type == 1 ?"微信支付" : "支付宝");
+        mTvPayType.setText(orderInfo.getPay_type() == 1 ? "微信支付" : "支付宝");
 
-        if (orderInfo.address_info != null) {
-            mTvAdderss.setText(orderInfo.address_info.address);
-        }
-        if (orderInfo.shop_info != null) {
-            mTvStoreName.setText(orderInfo.shop_info.shop_name);
-        }
+//        if (orderInfo.address_info != null) {
+//            mTvAdderss.setText(orderInfo.address_info.address);
+//        }
+//        if (orderInfo.shop_info != null) {
+//            mTvStoreName.setText(orderInfo.shop_info.shop_name);
+//        }
+//
+//        if (orderInfo.rider_info != null) {
+//            mTvRiderName.setText(orderInfo.rider_info.rider_name);
+//            mTvRiderTime.setText("尽快送达");
+//        }
 
-        if(orderInfo.rider_info!=null){
-            mTvRiderName.setText(orderInfo.rider_info.rider_name);
-            mTvRiderTime.setText("尽快送达");
-        }
 
-
-        if (orderInfo.order_status == 0) {
+        if (orderInfo.getOrder_status() == 0) {
             mTvStatus.setText("待支付");
             mTvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
             mTvStatusPay.setText("立即支付");
-        } else if (orderInfo.order_status == 1) {
+        } else if (orderInfo.getOrder_status() == 1) {
             mTvStatus.setText("待商家接单");
             mTvStatusName.setText("支付成功，请等待商家接单");
             mTvStatusPay.setText("联系商家");
-        } else if (orderInfo.order_status == 2) {
+        } else if (orderInfo.getOrder_status() == 2) {
             mTvStatus.setText("商品准备中");
 
-        } else if (orderInfo.order_status == 3) {
+        } else if (orderInfo.getOrder_status() == 3) {
             mTvStatus.setText("商品配送中");
-        } else if (orderInfo.order_status == 4) {
+        } else if (orderInfo.getOrder_status() == 4) {
             mTvStatus.setText("订单已完成");
             mTvStatusPay.setText("联系商家");
-        } else if (orderInfo.order_status == 5) {
+        } else if (orderInfo.getOrder_status() == 5) {
             mTvStatus.setText("退款申请中");
             mTvStatusName.setText("你发起的退款正在申请审批中，审批成功将为您发起退款");
             mTvStatusPay.setVisibility(View.INVISIBLE);
-        } else if (orderInfo.order_status == 6) {
+        } else if (orderInfo.getOrder_status() == 6) {
 
             mTvStatus.setText("拒绝退款");
             mTvStatusName.setText("您发起的退款申请审批未通过，请与商家进行联系");
             mTvStatusPay.setText("联系商家");
 
-        } else if (orderInfo.order_status == 8) {
+        } else if (orderInfo.getOrder_status() == 8) {
             mTvStatus.setText("订单已退款");
             mTvStatusName.setText("退款完成，在5~7个工作日内欠款将原路退回到你支付时的账户");
             mTvStatusPay.setVisibility(View.INVISIBLE);
-        } else if (orderInfo.order_status == 9) {
+        } else if (orderInfo.getOrder_status() == 9) {
             mTvStatus.setText("订单已取消");
             mTvStatusName.setText("您的订单已经取消，可重新选购下单");
             mTvStatusPay.setText("重新下单");
-        } else if (orderInfo.order_status == -1) {
+        } else if (orderInfo.getOrder_status() == -1) {
             mTvStatus.setText("订单超时");
 
-        } else if (orderInfo.order_status == -2) {
+        } else if (orderInfo.getOrder_status() == -2) {
             mTvStatus.setText("商家拒绝接单");
         }
-
-
-
 
 
     }
@@ -276,22 +276,22 @@ public class OrderSendActivity extends BaseMvpActivity<OrderDetailPresenter> imp
     }
 
     @Override
-    public void orderDetailSuccess(OrderInfo data) {
+    public void orderDetailSuccess(OrderListResult data) {
         mOrderInfo = data;
         setData(data);
-        if(!TextUtils.isEmpty(mOrderInfo.address_info.latitude)&&!TextUtils.isEmpty(mOrderInfo.address_info.longitude)){
-            moveMapCamera(Double.parseDouble(mOrderInfo.address_info.latitude),Double.parseDouble(mOrderInfo.address_info.longitude));
-        }
+//        if (!TextUtils.isEmpty(mOrderInfo.address_info.latitude) && !TextUtils.isEmpty(mOrderInfo.address_info.longitude)) {
+//            moveMapCamera(Double.parseDouble(mOrderInfo.address_info.latitude), Double.parseDouble(mOrderInfo.address_info.longitude));
+//        }
     }
 
 
     @Override
-    public void orderCancelSuccess(String data) {
+    public void orderCancelSuccess(List<String> data) {
 
     }
 
     @Override
-    public void getStatusSuccess(String data) {
+    public void getStatusSuccess(List<String> data) {
 
     }
 }

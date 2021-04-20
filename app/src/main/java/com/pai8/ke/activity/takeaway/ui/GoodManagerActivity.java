@@ -19,6 +19,7 @@ import com.pai8.ke.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -73,9 +74,9 @@ public class GoodManagerActivity extends BaseMvpActivity implements View.OnClick
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data) {
+                    protected void onSuccess(List<String> data) {
                         ToastUtils.showShort("配置成功");
                     }
 

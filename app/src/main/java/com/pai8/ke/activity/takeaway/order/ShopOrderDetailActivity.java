@@ -23,6 +23,8 @@ import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 
+import java.util.List;
+
 import static com.pai8.ke.utils.DateUtils.FORMAT_YYYY_MM_DD_HHMM;
 
 public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresenter> implements View.OnClickListener, OrderDetailContract.View {
@@ -323,12 +325,12 @@ public class ShopOrderDetailActivity extends BaseMvpActivity<OrderDetailPresente
     }
 
     @Override
-    public void orderCancelSuccess(String data) {
+    public void orderCancelSuccess(List<String> data) {
         mPresenter.orderDetail(mOrderInfo.order_no);
     }
 
     @Override
-    public void getStatusSuccess(String data) {
+    public void getStatusSuccess(List<String> data) {
         {
             mPresenter.orderDetail(mOrderInfo.order_no);
         }

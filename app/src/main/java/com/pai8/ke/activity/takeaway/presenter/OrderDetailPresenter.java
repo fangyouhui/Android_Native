@@ -3,12 +3,14 @@ package com.pai8.ke.activity.takeaway.presenter;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.OrderDetailContract;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
+import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.base.BasePresenterImpl;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.manager.AccountManager;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class OrderDetailPresenter extends BasePresenterImpl<OrderDetailContract.View> {
 
@@ -23,9 +25,9 @@ public class OrderDetailPresenter extends BasePresenterImpl<OrderDetailContract.
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<OrderInfo>() {
+                .subscribe(new BaseObserver<OrderListResult>() {
                     @Override
-                    protected void onSuccess(OrderInfo data){
+                    protected void onSuccess(OrderListResult data){
                         view.orderDetailSuccess(data);
                     }
 
@@ -44,9 +46,9 @@ public class OrderDetailPresenter extends BasePresenterImpl<OrderDetailContract.
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
 
                         view.orderCancelSuccess(data);
                     }
@@ -69,9 +71,9 @@ public class OrderDetailPresenter extends BasePresenterImpl<OrderDetailContract.
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
 
                         view.getStatusSuccess(data);
                     }
@@ -94,9 +96,9 @@ public class OrderDetailPresenter extends BasePresenterImpl<OrderDetailContract.
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<String>() {
+                .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(String data){
+                    protected void onSuccess(List<String> data){
 
                         view.orderCancelSuccess(data);
                     }

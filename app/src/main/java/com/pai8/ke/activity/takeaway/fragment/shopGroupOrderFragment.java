@@ -48,7 +48,7 @@ public class shopGroupOrderFragment  extends BaseMvpFragment<ShopOrderPresenter>
     }
 
     @Override
-    public void getStatusSuccess(String data) {
+    public void getStatusSuccess(List<String> data) {
         mPresenter.groudOrderList(page);
     }
 
