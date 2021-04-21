@@ -816,8 +816,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                 mTvCommentsTitle.setText("评论(" + video.getComment_counts() + ")");
         }
         //通知首页视频列表局部刷新
-        EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_VIDEO_ITEM,
-                new VideoItemRefreshEvent(mCurPlayPos, video)));
+        EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_VIDEO_ITEM, new VideoItemRefreshEvent(mCurPlayPos, video)));
     }
 
     public void shareUrl(String url, String localUrl) {

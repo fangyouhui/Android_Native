@@ -6,16 +6,12 @@ import com.pai8.ke.activity.message.entity.GoodsCollectionResult
 import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
-import com.pai8.ke.activity.takeaway.entity.OrderInfo
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
-import com.pai8.ke.base.BaseRespose
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.resp.*
-import io.reactivex.Observable
-import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.http.*
 
@@ -125,7 +121,7 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("Coupon/getCoupon")
-    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<List<String>>
+    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<JSONObject>
 
 
     /**
@@ -227,5 +223,31 @@ interface GroupBuyApiService {
     @POST("shop/shopSelect")
     suspend fun shopSelect(@Query("page") page: Int,
                            @Query("keywords") keywords: String): BaseHttpResult<List<ShopList>>
+
+
+    /**
+     * 附近的视频列表（新）
+     *
+     * @return
+     */
+    @POST("video/nearby")
+    suspend fun nearby(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+
+    /**
+     * 推荐的视频列表（新）
+     *
+     * @return
+     */
+    @POST("video/flow")
+    suspend fun flow(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+
+    /**
+     * 关注的视频列表（新）
+     *
+     * @return
+     */
+    @POST("video/follow")
+    suspend fun follow(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+
 
 }

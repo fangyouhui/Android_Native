@@ -95,7 +95,7 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
             case EVENT_VIDEO_ITEM:
                 try {
                     mRefreshEvent = (VideoItemRefreshEvent) event.getData();
-                    mAdapter.getDataList().set(mRefreshEvent.getPosition(), mRefreshEvent.getVideo());
+                    mAdapter.getData().set(mRefreshEvent.getPosition(), mRefreshEvent.getVideo());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -116,7 +116,7 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
     @Override
     public void initView() {
         srLayout.setColorSchemeResources(R.color.colorPrimary);
-        mAdapter = new HomeAdapter(this);
+        mAdapter = new HomeAdapter(this,null);
         srLayout.setColorSchemeResources(R.color.colorPrimary);
         mLRvAdapter = new LuRecyclerViewAdapter(mAdapter);
         lrv.setLayoutManager(new GridLayoutManager(this, 2));
@@ -151,8 +151,8 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
         srLayout.setOnRefreshListener(this);
         lrv.setOnLoadMoreListener(this);
         mLRvAdapter.setOnItemClickListener((view, position) -> {
-            Video videoResp = mAdapter.getDataList().get(position);
-            TikTokActivity.launchSearch(this, mAdapter.getDataList(),
+            Video videoResp = mAdapter.getData().get(position);
+            TikTokActivity.launchSearch(this, mAdapter.getData(),
                     StringUtils.getEditText(etSearch), videoResp.getPage(), position);
         });
 
@@ -222,9 +222,9 @@ public class SearchVideoActivity extends BaseMvpActivity<VideoHomeContract.Prese
             } else {
                 viewEmpty.setVisibility(View.GONE);
             }
-            mAdapter.setDataList(data);
+            mAdapter.setData(data);
         } else if (tag == GlobalConstants.LOADMORE) {
-            mAdapter.addAll(data);
+            mAdapter.addData(data);
         }
         lrv.refreshComplete(data.size());
         mLRvAdapter.notifyDataSetChanged();

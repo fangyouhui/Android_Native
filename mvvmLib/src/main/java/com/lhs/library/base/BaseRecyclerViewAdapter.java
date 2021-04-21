@@ -48,6 +48,31 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     public void addData(List<T> list) {
         mData.addAll(list);
         notifyDataSetChanged();
+
+//        int lastIndex = this.mData.size();
+//        if (this.mData.addAll(list)) {
+//            notifyItemRangeInserted(lastIndex, list.size());
+//        }
+    }
+
+    /**
+     * 移除指定postion
+     *
+     * @param position
+     */
+    public void remove(int position) {
+        if (this.mData.size() > 0) {
+            mData.remove(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    /**
+     * 清空
+     */
+    public void clear() {
+        mData.clear();
+        notifyDataSetChanged();
     }
 
     public List<T> getData() {
