@@ -1,13 +1,18 @@
 package com.pai8.ke.activity.takeaway.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
 import com.lhs.library.base.NoViewModel;
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
+import com.pai8.ke.activity.takeaway.order.UserTakeawayOrderDetailActivity;
 import com.pai8.ke.databinding.FragmentOrdetDetailHeadBinding;
 import com.pai8.ke.shop.ui.CommentActivity;
 import com.pai8.ke.shop.ui.LookCommentActivity;
@@ -19,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 public class OrderDetailHeadFragment extends BaseFragment<NoViewModel, FragmentOrdetDetailHeadBinding> {
 
     private OrderDetailResult bean;
+    private ActivityResultLauncher activityResultLauncher;
 
     public static OrderDetailHeadFragment newInstance(OrderDetailResult bean) {
         OrderDetailHeadFragment fragment = new OrderDetailHeadFragment();
@@ -32,6 +38,13 @@ public class OrderDetailHeadFragment extends BaseFragment<NoViewModel, FragmentO
     public void onCreate(@androidx.annotation.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bean = (OrderDetailResult) getArguments().getSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                if (getActivity() instanceof UserTakeawayOrderDetailActivity) {
+                    ((UserTakeawayOrderDetailActivity) getActivity()).initData();
+                }
+            }
+        });
     }
 
     @Override
@@ -105,13 +118,13 @@ public class OrderDetailHeadFragment extends BaseFragment<NoViewModel, FragmentO
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getShop_id() + "");
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getGoods_info().get(0).getGoods_id() + "");
                 startActivity(intent);
-            } else if (4 == bean.getOrder_status()) {
+            } else if (4 == bean.getOrder_status()) { //评论
                 Intent intent = new Intent(getContext(), CommentActivity.class);
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getOrder_no());
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getShop_id() + "");
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_2, bean.getGoods_info().size() + "");
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_3, bean.getGoods_info().get(0));
-                //    activityResultLauncher.launch(intent);
+                activityResultLauncher.launch(intent);
             } else if (0 == bean.getOrder_status()) {//待支付
                 PayBottomDialogFragment paySelectBottomDialog = PayBottomDialogFragment.newInstance(bean.getOrder_price(), bean.getOrder_no());
                 paySelectBottomDialog.showNow(getChildFragmentManager(), "payWay");

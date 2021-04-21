@@ -20,7 +20,6 @@ import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,20 +31,19 @@ import okhttp3.RequestBody;
 
 public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
 
-    List<FoodGoodInfo> goodInfoList = new ArrayList<>();
-    int shopId;
+    private List<FoodGoodInfo> goodInfoList = new ArrayList<>();
+    private int shopId;
 
-    public FoodGoodAdapter(Context context, List<FoodGoodInfo> list,int shopId,RvListener listener) {
+    public FoodGoodAdapter(Context context, List<FoodGoodInfo> list, int shopId, RvListener listener) {
         super(context, list, listener);
         this.shopId = shopId;
     }
 
 
-    public void setGoodInfoList( List<FoodGoodInfo> goodInfoList ){
+    public void setGoodInfoList(List<FoodGoodInfo> goodInfoList) {
         this.goodInfoList = goodInfoList;
         notifyDataSetChanged();
     }
-
 
 
     @Override
@@ -90,7 +88,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     ivBtnPlayer = itemView.findViewById(R.id.iv_btn_player);
                     tvTitle = itemView.findViewById(R.id.item_goods_tv_name);
                     tvPrice = itemView.findViewById(R.id.item_tv_price);
-                    tvSale  = itemView.findViewById(R.id.item_tv_month_seller);
+                    tvSale = itemView.findViewById(R.id.item_tv_month_seller);
                     tvLike = itemView.findViewById(R.id.item_tv_fabulous);
                     tvPriceDiscount = itemView.findViewById(R.id.item_tv_price_discount);
 
@@ -107,7 +105,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvTitle.setText(food.name);
                     break;
                 case 1:
-                    if(food.type == 2) {
+                    if (food.type == 2) {
                         ivBtnPlayer.setVisibility(View.VISIBLE);
                     } else {
                         ivBtnPlayer.setVisibility(View.INVISIBLE);
@@ -117,17 +115,17 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     });
                     tvTitle.setText(food.title);
                     tvPrice.setText(food.sell_price);
-                    tvSale.setText("月售 "+food.month_sale_count);
-                    tvLike.setText("赞 "+food.like_count);
-                    if(TextUtils.isEmpty(food.discount)||TextUtils.equals(food.discount,"0")){
+                    tvSale.setText("月售 " + food.month_sale_count);
+                    tvLike.setText("赞 " + food.like_count);
+                    if (TextUtils.isEmpty(food.discount) || TextUtils.equals(food.discount, "0")) {
                         tvPriceDiscount.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         tvPriceDiscount.setVisibility(View.VISIBLE);
-                        tvPriceDiscount.setText(food.discount);
-                        tvPriceDiscount.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
+                        tvPriceDiscount.setText(String.format("￥%s", food.discount));
+                        tvPriceDiscount.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
                     }
 
-                    ImageLoadUtils.setCircularImage(mContext,food.cover,ivGoods,R.mipmap.ic_launcher);
+                    ImageLoadUtils.setCircularImage(mContext, food.cover, ivGoods, R.mipmap.ic_launcher);
                     if (goodInfoList != null && goodInfoList.size() > 0) {
                         int num = 0;
                         for (int i = 0; i < goodInfoList.size(); i++) {
@@ -139,7 +137,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                         tvNum.setText(String.valueOf(num));
                         tvNum.setVisibility(View.VISIBLE);
                         tvReduce.setVisibility(View.VISIBLE);
-                        if(num == 0){
+                        if (num == 0) {
                             tvReduce.setVisibility(View.INVISIBLE);
                             tvNum.setVisibility(View.INVISIBLE);
                         }
@@ -149,58 +147,54 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     }
 
 
-
-                    tvAddGoods.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final int[] endXY = new int[2];
-                            v.getLocationInWindow(endXY);
-                            boolean isAdd = false;//不存在相同ID
-                            if (goodInfoList.size() > 0) {
-                                for (int i = 0; i < goodInfoList.size(); i++) {
-                                    if (goodInfoList.get(i).id == food.id) {
-                                        isAdd = true;
-                                    }
+                    tvAddGoods.setOnClickListener(v -> {
+                        final int[] endXY = new int[2];
+                        v.getLocationInWindow(endXY);
+                        boolean isAdd = false;//不存在相同ID
+                        if (goodInfoList.size() > 0) {
+                            for (int i = 0; i < goodInfoList.size(); i++) {
+                                if (goodInfoList.get(i).id == food.id) {
+                                    isAdd = true;
                                 }
                             }
-                            int num = 0;
-                            if (!isAdd) {
-                                num = num + 1;
-                                food.goods_num = num;
-                                tvNum.setText(String.valueOf(num));
-                                tvReduce.setVisibility(View.VISIBLE);
-                                tvNum.setVisibility(View.VISIBLE);
-                                goodInfoList.add(food);
-                                EventBus.getDefault().post(new AddGoodEvent(
-                                        Constants.EVENT_TYPE_ADD_CAR,endXY[0],endXY[1],num,goodInfoList));
+                        }
+                        int num = 0;
+                        if (!isAdd) {
+                            num = num + 1;
+                            food.goods_num = num;
+                            tvNum.setText(String.valueOf(num));
+                            tvReduce.setVisibility(View.VISIBLE);
+                            tvNum.setVisibility(View.VISIBLE);
+                            goodInfoList.add(food);
+                            EventBus.getDefault().post(new AddGoodEvent(
+                                    Constants.EVENT_TYPE_ADD_CAR, endXY[0], endXY[1], num, goodInfoList));
 
 
-                                // net
-                                Gson gson = new Gson();
-                                List<OrderGoodInfo> goodList = new ArrayList<>();
-                                OrderGoodInfo orderGoodInfo = new OrderGoodInfo();
-                                orderGoodInfo.goods_price = food.sell_price;
-                                orderGoodInfo.goods_num = food.goods_num;
-                                orderGoodInfo.packing_price = food.packing_price;
-                                orderGoodInfo.goods_id  = food.id;
-                                goodList.add(orderGoodInfo);
-                                String json = gson.toJson(goodList);
-                                addCart(json);
+                            // net
+                            Gson gson = new Gson();
+                            List<OrderGoodInfo> goodList = new ArrayList<>();
+                            OrderGoodInfo orderGoodInfo = new OrderGoodInfo();
+                            orderGoodInfo.goods_price = food.sell_price;
+                            orderGoodInfo.goods_num = food.goods_num;
+                            orderGoodInfo.packing_price = food.packing_price;
+                            orderGoodInfo.goods_id = food.id;
+                            goodList.add(orderGoodInfo);
+                            String json = gson.toJson(goodList);
+                            addCart(json);
 
-                            } else {
-                                int num_add = food.goods_num;
+                        } else {
+                            int num_add = food.goods_num;
 //                                for (int i = 0; i < goodInfoList.size(); i++) {
 //                                    num_add += goodInfoList.get(i).num;
 //                                }
-                                num = num_add + 1;
-                                food.goods_num = num;
-                                tvNum.setText(String.valueOf(num));
-                                tvReduce.setVisibility(View.VISIBLE);
-                                tvNum.setVisibility(View.VISIBLE);
-                                EventBus.getDefault().post(new AddGoodEvent(
-                                        Constants.EVENT_TYPE_ADD_CAR,endXY[0],endXY[1],num,goodInfoList));
-                                updateCartNum(1 ,food.id+"",num);
-                            }
+                            num = num_add + 1;
+                            food.goods_num = num;
+                            tvNum.setText(String.valueOf(num));
+                            tvReduce.setVisibility(View.VISIBLE);
+                            tvNum.setVisibility(View.VISIBLE);
+                            EventBus.getDefault().post(new AddGoodEvent(
+                                    Constants.EVENT_TYPE_ADD_CAR, endXY[0], endXY[1], num, goodInfoList));
+                            updateCartNum(1, food.id + "", num);
                         }
                     });
 
@@ -227,10 +221,9 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                                     }
                                 }
 //                                goodInfoList.remove(food);
-                                updateCartNum(2 ,food.id+"", food.goods_num);
+                                updateCartNum(2, food.id + "", food.goods_num);
                                 EventBus.getDefault().post(new AddGoodEvent(
-                                        Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));
-
+                                        Constants.EVENT_TYPE_DELETE_CAR, goodInfoList.size(), goodInfoList));
 
 
                             } else {
@@ -239,10 +232,11 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                                 tvNum.setVisibility(View.VISIBLE);
                                 tvReduce.setVisibility(View.VISIBLE);
                                 tvNum.setText(String.valueOf(num));
-                                updateSellerGoods(food,num);
-                                updateCartNum(2 ,food.id+"",num);
+                                updateSellerGoods(food, num);
+                                updateCartNum(2, food.id + "", num);
                                 EventBus.getDefault().post(new AddGoodEvent(
-                                        Constants.EVENT_TYPE_DELETE_CAR,goodInfoList.size(),goodInfoList));                             }
+                                        Constants.EVENT_TYPE_DELETE_CAR, goodInfoList.size(), goodInfoList));
+                            }
                         }
 
                     });
@@ -252,11 +246,11 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
 
         }
 
-        public  void deleteSellerGoods(List<FoodGoodInfo> sellerGoods) {
+        public void deleteSellerGoods(List<FoodGoodInfo> sellerGoods) {
             if (sellerGoods != null && sellerGoods.size() > 0) {
                 for (int i = 0; i < sellerGoods.size(); i++) {
-                    for(int j=0;j<goodInfoList.size();j++){
-                        if(sellerGoods.get(i).id == goodInfoList.get(j).id){
+                    for (int j = 0; j < goodInfoList.size(); j++) {
+                        if (sellerGoods.get(i).id == goodInfoList.get(j).id) {
                             goodInfoList.remove(j);
                         }
                     }
@@ -265,10 +259,10 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         }
 
 
-        public  void updateSellerGoods(FoodGoodInfo food,int num) {
+        public void updateSellerGoods(FoodGoodInfo food, int num) {
             if (food != null) {
                 for (int i = 0; i < goodInfoList.size(); i++) {
-                    if(food.id == goodInfoList.get(i).id){
+                    if (food.id == goodInfoList.get(i).id) {
                         goodInfoList.get(i).goods_num = num;
                     }
                 }
@@ -277,20 +271,21 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
     }
 
 
-    public void addCart(String goods_info){
+    public void addCart(String goods_info) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("goods_info",goods_info);
+        map.put("goods_info", goods_info);
         map.put("buyer_id", AccountManager.getInstance().getUid());
-        map.put("shop_id",shopId+"");
+        map.put("shop_id", shopId + "");
         TakeawayApi.getInstance().addCart(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(List<String> data){
+                    protected void onSuccess(List<String> data) {
 
                     }
+
                     @Override
                     protected void onError(String msg, int errorCode) {
                         super.onError(msg, errorCode);
@@ -299,31 +294,29 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
     }
 
 
-
-    public void updateCartNum(int type ,String goods_id,int num){
+    public void updateCartNum(int type, String goods_id, int num) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("type",type+"");   //1 增加 2减少
-        map.put("goods_id",goods_id);
+        map.put("type", type + "");   //1 增加 2减少
+        map.put("goods_id", goods_id);
         map.put("buyer_id", AccountManager.getInstance().getUid());
-        map.put("shop_id",shopId+"");
-        map.put("num",1);
+        map.put("shop_id", shopId + "");
+        map.put("num", 1);
         TakeawayApi.getInstance().updateCartNum(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
                 .subscribe(new BaseObserver<List<String>>() {
                     @Override
-                    protected void onSuccess(List<String> data){
+                    protected void onSuccess(List<String> data) {
 
                     }
+
                     @Override
                     protected void onError(String msg, int errorCode) {
                         super.onError(msg, errorCode);
                     }
                 });
     }
-
-
 
 
     public RequestBody createRequestBody(Map map) {

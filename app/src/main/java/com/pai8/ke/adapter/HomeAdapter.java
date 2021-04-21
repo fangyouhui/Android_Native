@@ -59,6 +59,7 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<Video> {
         } else {
             viewHolder.tvTagOnsale.setVisibility(View.VISIBLE);
         }
+        viewHolder.tvType.setText(video.getShop_type());
     }
 
     static class ViewHolder extends BaseViewHolder {
@@ -78,6 +79,8 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<Video> {
         TextView tvTagDistance;
         @BindView(R.id.tv_tag_onsale)
         TextView tvTagOnsale;
+        @BindView(R.id.tvType)
+        TextView tvType;
 
         public ViewHolder(View itemView) {
             super(itemView);

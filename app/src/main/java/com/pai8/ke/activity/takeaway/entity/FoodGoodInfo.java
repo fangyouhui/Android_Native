@@ -17,7 +17,7 @@ public class FoodGoodInfo implements Serializable {
     public String goods_price;
     public String origin_price;
     public String sell_price;
-    public String discount;
+    public String discount = "0";
     public String goods_discount;
     public String month_sale_count;
     public String like_count;

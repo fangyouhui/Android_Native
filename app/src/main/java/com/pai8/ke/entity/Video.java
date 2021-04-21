@@ -28,6 +28,7 @@ public class Video implements Serializable {
     private Shop shop;
     private User user;
     private String user_id;
+    private String shop_type;
 
 
     private int goods_id;
@@ -220,6 +221,14 @@ public class Video implements Serializable {
 
     public void setProxyUrl(String proxyUrl) {
         this.proxyUrl = proxyUrl;
+    }
+
+    public String getShop_type() {
+        return shop_type;
+    }
+
+    public void setShop_type(String shop_type) {
+        this.shop_type = shop_type;
     }
 
     public boolean isSelf() {

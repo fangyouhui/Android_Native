@@ -75,8 +75,7 @@ import cn.sharesdk.framework.PlatformActionListener;
 import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
 import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
-public class StoreActivity extends BaseMvpActivity<StorePresenter> implements View.OnClickListener,
-        StoreContract.View, ShareContract.View {
+public class StoreActivity extends BaseMvpActivity<StorePresenter> implements View.OnClickListener, StoreContract.View, ShareContract.View {
     private ArrayList<Fragment> fragments;
     private AppBarLayout appbarlayout;
     private Toolbar toolbar;
