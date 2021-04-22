@@ -1,5 +1,6 @@
 package com.pai8.ke.groupBuy.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -8,8 +9,8 @@ import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseActivity;
 import com.pai8.ke.databinding.ActivityGroupBuyMainBinding;
+import com.pai8.ke.entity.BannerResult;
 import com.pai8.ke.entity.BusinessTypeResult;
-import com.pai8.ke.entity.GetGroupShopListResult;
 import com.pai8.ke.groupBuy.adapter.GroupBuyBannerAdapter;
 import com.pai8.ke.groupBuy.adapter.ViewPagerAdapter;
 import com.pai8.ke.groupBuy.viewmodel.GroupBuyMainViewModel;
@@ -28,11 +29,11 @@ public class GroupBuyMainActivity extends BaseActivity<GroupBuyMainViewModel, Ac
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        addObserve();
         String poiName = (String) PreferencesUtils.get(this, "poiName", "");
         mBinding.tvGps.setText(TextUtils.isEmpty(poiName) ? "未知" : poiName);
 
         mBinding.tvSearch.setOnClickListener(v -> {
+            startActivity(new Intent(this, GroupBuySearchActivity.class));
         });
 
         mBinding.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
@@ -65,14 +66,15 @@ public class GroupBuyMainActivity extends BaseActivity<GroupBuyMainViewModel, Ac
         }
     }
 
-    public void setBanner(List<GetGroupShopListResult.Banner> banners) {
+    public void setBanner(List<BannerResult> banners) {
         GroupBuyBannerAdapter bannerAdapter = new GroupBuyBannerAdapter(banners);
         mBinding.banner.setAdapter(bannerAdapter);
         mBinding.banner.setOnBannerListener((data, position) -> {
-            GetGroupShopListResult.Banner banner = (GetGroupShopListResult.Banner) data;
+            BannerResult banner = (BannerResult) data;
             ToastUtils.showShort("敬请期待");
         });
     }
+
 
     @Override
     public void initData() {

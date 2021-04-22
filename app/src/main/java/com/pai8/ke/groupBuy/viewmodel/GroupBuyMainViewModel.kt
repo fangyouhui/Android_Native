@@ -1,16 +1,25 @@
 package com.pai8.ke.groupBuy.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.pai8.ke.groupBuy.http.RetrofitClient
 import com.lhs.library.base.BaseViewModel
+import com.pai8.ke.entity.BannerResult
 import com.pai8.ke.entity.BusinessTypeResult
 import com.pai8.ke.entity.GetGroupShopListParam
 import com.pai8.ke.entity.GetGroupShopListResult
+import com.pai8.ke.groupBuy.http.RetrofitClient
 
 class GroupBuyMainViewModel : BaseViewModel() {
 
-    val businessTypeData = MutableLiveData<List<BusinessTypeResult>>()
+    val bannerData = MutableLiveData<List<BannerResult>>()
+    fun getBannerList() {
+        launchOnlyResult({
+            RetrofitClient.getInstance().getMainService().getBannerList()
+        }, {
+            bannerData.value = it
+        })
+    }
 
+    val businessTypeData = MutableLiveData<List<BusinessTypeResult>>()
     fun businessType() {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().businessType() }, {
             businessTypeData.value = it

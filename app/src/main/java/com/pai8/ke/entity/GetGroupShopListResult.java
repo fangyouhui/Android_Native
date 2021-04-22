@@ -5,14 +5,14 @@ import java.util.List;
 
 public class GetGroupShopListResult {
 
-    private List<Banner> banner;
+    private List<BannerResult> banner;
     private List<ShopList> list;
 
-    public void setBanner(List<Banner> banner) {
+    public void setBanner(List<BannerResult> banner) {
         this.banner = banner;
     }
 
-    public List<Banner> getBanner() {
+    public List<BannerResult> getBanner() {
         return banner;
     }
 
@@ -25,46 +25,6 @@ public class GetGroupShopListResult {
     }
 
 
-    public class Banner {
-
-        private String imgurl;
-        private int type;
-        private int shop_id;
-        private String href_url;
-
-        public void setImgurl(String imgurl) {
-            this.imgurl = imgurl;
-        }
-
-        public String getImgurl() {
-            return imgurl;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setShop_id(int shop_id) {
-            this.shop_id = shop_id;
-        }
-
-        public int getShop_id() {
-            return shop_id;
-        }
-
-        public void setHref_url(String href_url) {
-            this.href_url = href_url;
-        }
-
-        public String getHref_url() {
-            return href_url;
-        }
-
-    }
 
 
     public class ShopList implements Serializable {

@@ -293,6 +293,11 @@
             android:label="核销"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".groupBuy.ui.GroupBuySearchActivity"
+            android:label="团购搜索"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"
