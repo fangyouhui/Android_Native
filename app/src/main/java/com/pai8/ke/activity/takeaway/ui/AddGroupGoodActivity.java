@@ -73,8 +73,7 @@ import butterknife.BindView;
 import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GOOD;
 import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GROUP;
 
-public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter> implements View.OnClickListener,
-        AddGroupGoodContract.View {
+public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter> implements View.OnClickListener, AddGroupGoodContract.View {
     @BindView(R.id.rv_group_banner)
     RecyclerView mRvGroupBuy;
 

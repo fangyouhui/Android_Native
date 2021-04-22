@@ -79,6 +79,6 @@ public class GroupBuySearchActivity extends BaseActivity<GroupBuyMainViewModel, 
 
     @Override
     public void addObserve() {
-        
+
     }
 }
