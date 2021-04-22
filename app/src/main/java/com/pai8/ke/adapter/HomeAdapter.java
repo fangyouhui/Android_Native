@@ -55,6 +55,12 @@ public class HomeAdapter extends BaseRecyclerViewAdapter<Video> {
             }
             holder.binding.tvType.setText(video.getShop_type());
 
+            holder.binding.getRoot().setOnClickListener(v -> {
+                if (mListener != null) {
+                    mListener.onItemClick(video, position);
+                }
+            });
+
         }
 
     }

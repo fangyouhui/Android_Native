@@ -137,9 +137,7 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
             mBinding.btnFavorites.setSelected(data);
         });
         mViewModel.isUserFollowData().observe(this, data -> {
-            if (data != null) {
-                mBinding.btnFavorites.setSelected(data.getId() != 0);
-            }
+            mBinding.btnFavorites.setSelected(data);
         });
 
     }

@@ -15,6 +15,7 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.entity.Shop;
 import com.pai8.ke.entity.Video;
 import com.pai8.ke.global.GlobalConstants;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ToastUtils;
 
 import java.util.HashMap;
@@ -36,6 +37,7 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
         map.put("page", page);
         map.put("size", GlobalConstants.PAGE_SIZE);
         map.put("cate", "store");
+        map.put("uid", AccountManager.getInstance().getUid());
         MineApi.getInstance().getHistoryList(createRequestBody(map))
                 .doOnSubscribe(disposable -> {
                     addDisposable(disposable);
@@ -88,7 +90,7 @@ public class HistoryWatchPresenter extends BasePresenterImpl<HistoryWatchContrac
                         if (data != null && data.getItems() != null && data.getPagination() != null) {
                             view.getHistorySuccess(data.getPagination().getTotal(), data.getItems());
                         } else {
-                            Log.d("####","数据异常");
+                            Log.d("####", "数据异常");
                             //ToastUtils.showShort("数据异常");
                         }
                     }

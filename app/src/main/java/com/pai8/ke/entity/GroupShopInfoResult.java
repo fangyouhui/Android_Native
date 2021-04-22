@@ -8,7 +8,7 @@ public class GroupShopInfoResult implements Serializable {
     private String shop_name;
     private int verify_status;
     private String mobile;
-    private int cate_id;
+    private String cate_id;
     private String shop_desc;
     private int begin_time;
     private int end_time;
@@ -94,11 +94,11 @@ public class GroupShopInfoResult implements Serializable {
         return mobile;
     }
 
-    public void setCate_id(int cate_id) {
+    public void setCate_id(String cate_id) {
         this.cate_id = cate_id;
     }
 
-    public int getCate_id() {
+    public String getCate_id() {
         return cate_id;
     }
 

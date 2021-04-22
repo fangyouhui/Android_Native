@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.common.VideoViewActivity;
@@ -30,10 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View.OnClickListener, CheckListener, GoodContract.View {
 
@@ -79,7 +79,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
         mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if(mRightList.size()>0){
+                if (mRightList.size() > 0) {
                     return mRightList.get(position).isTitle() ? 1 : 1;
                 }
                 return 0;
@@ -101,7 +101,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                     setChecked(position, true);
                 }
             });
-            mGoodAdapter = new FoodGoodAdapter(getActivity(), mRightList, event.data.shop_info.shop_id,new RvListener() {
+            mGoodAdapter = new FoodGoodAdapter(getActivity(), mRightList, event.data.shop_info.shop_id, new RvListener() {
                 @Override
                 public void onItemClick(int id, int position) {
                     String content = "";
@@ -110,9 +110,9 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                             content = "title";
                             break;
                         case R.id.item_goods_iv_goods:
-                            if(mRightList.get(position).type == 2) {
+                            if (mRightList.get(position).type == 2) {
                                 String videoUrl = mRightList.get(position).cover;
-                                if(videoUrl != null && videoUrl.length() > 0) {
+                                if (videoUrl != null && videoUrl.length() > 0) {
                                     Intent intent = new Intent(getContext(), VideoViewActivity.class);
                                     intent.putExtra("type", VideoViewActivity.TYPE_REMOTE);
                                     intent.putExtra("path", videoUrl);
@@ -137,7 +137,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                 mRightList.add(head);
                 List<FoodGoodInfo> goodInfos = goods.get(i).goods;
                 for (int j = 0; j < goodInfos.size(); j++) {
-                    if(goodInfos.get(j).status == 1) {      // 只显示上架的商品
+                    if (goodInfos.get(j).status == 1) {      // 只显示上架的商品
                         FoodGoodInfo body = new FoodGoodInfo(goodInfos.get(j).name);
                         body.setTag(String.valueOf(i));
                         String name = goodInfos.get(j).title;
@@ -152,6 +152,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                         body.video = goodInfos.get(j).video;
                         body.type = goodInfos.get(j).type;
                         body.title = name;
+                        body.origin_price = goodInfos.get(j).origin_price;
                         mRightList.add(body);
                     }
                 }
@@ -168,7 +169,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(ShopCarEvent event) {
 
-        if(mGoodAdapter!=null){
+        if (mGoodAdapter != null) {
             mGoodAdapter.setGoodInfoList(event.data.goods_info);
 
         }
@@ -272,7 +273,6 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
     protected void initListener() {
         mRvGoods.addOnScrollListener(new RecyclerViewListener());
     }
-
 
 
     private class RecyclerViewListener extends RecyclerView.OnScrollListener {

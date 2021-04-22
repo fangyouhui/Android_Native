@@ -72,7 +72,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         TextView tvPrice;
         TextView tvSale;
         TextView tvLike;
-        TextView tvPriceDiscount;  //折扣价
+        TextView tvPriceDiscount;  //原价
 
         public ClassifyHolder(View itemView, int type, RvListener listener) {
             super(itemView, type, listener);
@@ -117,11 +117,12 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvPrice.setText(food.sell_price);
                     tvSale.setText("月售 " + food.month_sale_count);
                     tvLike.setText("赞 " + food.like_count);
-                    if (TextUtils.isEmpty(food.discount) || TextUtils.equals(food.discount, "0")) {
+                    if (TextUtils.isEmpty(food.origin_price)) {
                         tvPriceDiscount.setVisibility(View.GONE);
                     } else {
                         tvPriceDiscount.setVisibility(View.VISIBLE);
-                        tvPriceDiscount.setText(String.format("￥%s", food.discount));
+                        //  float originPrice = Float.valueOf(food.sell_price) + Float.valueOf(food.discount);
+                        tvPriceDiscount.setText(String.format("￥%s", food.origin_price));
                         tvPriceDiscount.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
                     }
 

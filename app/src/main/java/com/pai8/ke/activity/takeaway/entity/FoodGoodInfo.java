@@ -4,8 +4,6 @@ package com.pai8.ke.activity.takeaway.entity;
 import java.io.Serializable;
 
 public class FoodGoodInfo implements Serializable {
-
-
     public int viewType;
     public int id;
     public int shop_id;
@@ -18,7 +16,6 @@ public class FoodGoodInfo implements Serializable {
     public String origin_price;
     public String sell_price;
     public String discount = "0";
-    public String goods_discount;
     public String month_sale_count;
     public String like_count;
     public String option;
@@ -30,7 +27,7 @@ public class FoodGoodInfo implements Serializable {
     public int position = -1;
     public int type = 2;
 
-    public boolean isTitle;
+    public boolean isTitle = false;
 
     public FoodGoodInfo() {
     }

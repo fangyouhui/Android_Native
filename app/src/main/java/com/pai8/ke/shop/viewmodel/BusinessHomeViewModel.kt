@@ -2,7 +2,6 @@ package com.pai8.ke.shop.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.lhs.library.base.BaseViewModel
-import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.entity.GroupShopInfoResult
 import com.pai8.ke.entity.ShopGroupListResult
 import com.pai8.ke.entity.Video
@@ -21,10 +20,12 @@ class BusinessHomeViewModel : BaseViewModel() {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().getShopGroupList(shop_id, page, "10") }, { shopGroupListData.value = it })
     }
 
-    val isUserFollowData = MutableLiveData<UserFollowResult>()
+    val isUserFollowData = MutableLiveData<Boolean>()
     fun isUserFollow(shop_id: String) {
         launchOnlyResult({ RetrofitClient.getInstance().getMainService().isUserFollow(shop_id, AccountManager.getInstance().uid) }, {
-            isUserFollowData.value = it
+            isUserFollowData.value = true
+        }, {
+            isUserFollowData.value = false
         })
     }
 

@@ -37,7 +37,6 @@ public class TabHomeChildFragment extends BaseFragment<VideoHomeViewModel, Fragm
     private int mPosition;
     private int mPageNo = 1;
 
-
     public static TabHomeChildFragment newInstance(int position) {
         TabHomeChildFragment fragment = new TabHomeChildFragment();
         Bundle bundle = new Bundle();

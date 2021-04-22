@@ -140,20 +140,20 @@ interface GroupBuyApiService {
      * 商家关注
      */
     @POST("shop/shopCollect")
-    suspend fun shopCollect(@Query("shop_id") shop_id: String): BaseHttpResult<JsonObject>
+    suspend fun shopCollect(@Query("shop_id") shop_id: String): BaseHttpResult<String>
 
 
     /**
      * 商家取消关注
      */
     @POST("shop/shopUncollect")
-    suspend fun shopUncollect(@Query("shop_id") shop_id: String): BaseHttpResult<JsonObject>
+    suspend fun shopUncollect(@Query("shop_id") shop_id: String): BaseHttpResult<String>
 
     /**
      * 获取用户是否关注商家信息
      */
     @POST("shop/IsUserFollow")
-    suspend fun isUserFollow(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<UserFollowResult>
+    suspend fun isUserFollow(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<JSONObject>
 
     /**
      * 商品收藏

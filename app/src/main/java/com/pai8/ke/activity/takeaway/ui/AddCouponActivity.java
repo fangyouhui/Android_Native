@@ -1,7 +1,28 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.annotation.IntDef;
+
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bigkoo.pickerview.view.TimePickerView;
+import com.blankj.utilcode.constant.TimeConstants;
+import com.blankj.utilcode.util.KeyboardUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.hjq.bar.OnTitleBarListener;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
@@ -13,25 +34,17 @@ import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.EventBusUtils;
-import com.pai8.ke.utils.PickerUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.widget.BottomDialog;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.IntDef;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -44,8 +57,10 @@ public class AddCouponActivity extends BaseActivity {
     EditText etPrice;
     @BindView(R.id.et_full)
     EditText etFull;
-    @BindView(R.id.tv_choose_time)
-    TextView tvChooseTime;
+    @BindView(R.id.tvChonseStartTime)
+    TextView tvChooseStartTime;
+    @BindView(R.id.tvChonseEndTime)
+    TextView tvChooseEndTime;
     @BindView(R.id.tv_choose_num)
     TextView tvChooseNum;
     @BindView(R.id.tv_choose_type)
@@ -107,7 +122,7 @@ public class AddCouponActivity extends BaseActivity {
                 tvChooseType.setText("运费抵扣券");
             }
             num = mCouponGetList.getNum();
-            tvChooseTime.setText(String.format("%d天", (mCouponGetList.getEnd_time() - mCouponGetList.getAdd_time()) / (60 * 60 * 24)));
+            //tvChooseTime.setText(String.format("%d天", (mCouponGetList.getEnd_time() - mCouponGetList.getAdd_time()) / (60 * 60 * 24)));
             etPrice.setText(mCouponGetList.getDis_price());
             etFull.setText(mCouponGetList.getTrig_price());
             tvChooseNum.setText(num == 0 ? "无限制" : num + "");
@@ -134,7 +149,7 @@ public class AddCouponActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.rl_time, R.id.rl_num, R.id.tv_create, R.id.rl_type})
+    @OnClick({R.id.rl_num, R.id.tv_create, R.id.rl_type, R.id.rlStartTime, R.id.rlEndTime})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_type:
@@ -156,12 +171,12 @@ public class AddCouponActivity extends BaseActivity {
                 }
                 mPvType.show();
                 break;
-            case R.id.rl_time:
-                AppUtils.hideInput(this);
-                PickerUtils.showDays(this, (position, day) -> {
-                    tvChooseTime.setText(day);
-                });
-                break;
+//            case R.id.rl_time:
+//                AppUtils.hideInput(this);
+//                PickerUtils.showDays(this, (position, day) -> {
+//                 //   tvChooseTime.setText(day);
+//                });
+//                break;
             case R.id.rl_num:
                 AppUtils.hideInput(this);
                 choose();
@@ -181,8 +196,12 @@ public class AddCouponActivity extends BaseActivity {
                     toast("请输入满减条件");
                     return;
                 }
-                if (StringUtils.isEmpty(StringUtils.getTextView(tvChooseTime))) {
-                    toast("请选择有效时间");
+                if (StringUtils.isEmpty(StringUtils.getTextView(tvChooseStartTime))) {
+                    toast("请选择开始时间");
+                    return;
+                }
+                if (StringUtils.isEmpty(StringUtils.getTextView(tvChooseEndTime))) {
+                    toast("请选择结束时间");
                     return;
                 }
                 if (StringUtils.isEmpty(StringUtils.getTextView(tvChooseNum))) {
@@ -190,10 +209,11 @@ public class AddCouponActivity extends BaseActivity {
                     return;
                 }
                 showLoadingDialog(null);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 if (mType == TYPE_ADD) {
+                    int day = (int) TimeUtils.getTimeSpan(tvChooseEndTime.getText().toString(), tvChooseStartTime.getText().toString(), simpleDateFormat, TimeConstants.DAY);
                     Api.getInstance().addCoupon(mAccountManager.getShopId(), StringUtils.getEditText(etPrice),
-                            StringUtils.getEditText(etFull), StringUtils.getTextView(tvChooseTime).replace(
-                                    "天", ""), String.valueOf(mOptions + 1), num + "")
+                            StringUtils.getEditText(etFull), String.valueOf(day), String.valueOf(mOptions + 1), num + "", "")
                             .doOnSubscribe(disposable -> {
                             })
                             .compose(RxSchedulers.io_main())
@@ -213,10 +233,10 @@ public class AddCouponActivity extends BaseActivity {
                                 }
                             });
                 } else {
+                    int day = (int) TimeUtils.getTimeSpan(tvChooseEndTime.getText().toString(), tvChooseStartTime.getText().toString(), simpleDateFormat, TimeConstants.DAY);
                     Api.getInstance().editCoupon(mCouponGetList.getId() + "", mAccountManager.getShopId(),
                             StringUtils.getEditText(etPrice),
-                            StringUtils.getEditText(etFull), StringUtils.getTextView(tvChooseTime).replace(
-                                    "天", ""), "1", num + "")
+                            StringUtils.getEditText(etFull), String.valueOf(day), "1", num + "", "")
                             .doOnSubscribe(disposable -> {
                             })
                             .compose(RxSchedulers.io_main())
@@ -237,6 +257,14 @@ public class AddCouponActivity extends BaseActivity {
                             });
                 }
 
+                break;
+            case R.id.rlStartTime:
+                KeyboardUtils.hideSoftInput(this);
+                timeStartChoose();
+                break;
+            case R.id.rlEndTime:
+                KeyboardUtils.hideSoftInput(this);
+                timeEndChoose();
                 break;
             default:
                 break;
@@ -286,4 +314,74 @@ public class AddCouponActivity extends BaseActivity {
         mChooseBottomDialog.setIsCanceledOnTouchOutside(true);
         mChooseBottomDialog.show();
     }
+
+    private void timeStartChoose() {
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2000, 0, 1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2099, 11, 1);
+        TimePickerView startTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+                tvChooseStartTime.setText(df.format(date));
+            }
+        })
+                .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
+                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setLabel("年", "月", "日", "时", "分", "秒")//默认设置为年月日时分秒
+                .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
+                .setTitleText("选择时间")
+                .setTitleColor(Color.parseColor("#111111"))
+                .setTitleSize(16)
+                .setCancelColor(Color.parseColor("#999999"))
+                .setSubmitColor(Color.parseColor("#2f2f2f"))
+                .build();
+        startTime.show();
+
+    }
+
+    private void timeEndChoose() {
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2000, 0, 1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2099, 11, 1);
+        TimePickerView endTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回
+
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                Date startT = null;
+                try {
+                    startT = df.parse(tvChooseStartTime.getText().toString());
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                if (startT.getTime() > date.getTime()) {
+                    toast("请选择比开始时间后的日期");
+
+                    return;
+                }
+                tvChooseEndTime.setText(df.format(date));
+            }
+        })
+                .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
+                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setLabel("年", "月", "日", "时", "分", "秒")//默认设置为年月日时分秒
+                .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
+                .setTitleText("选择时间")
+                .setTitleColor(Color.parseColor("#111111"))
+                .setTitleSize(16)
+                .setCancelColor(Color.parseColor("#999999"))
+                .setSubmitColor(Color.parseColor("#2f2f2f"))
+                .build();
+        endTime.show();
+    }
+
 }

@@ -45,7 +45,7 @@ public interface ApiService {
     Observable<BaseRespose> verifyCode(@Body CodeReq param);
 
     @POST("public/register")
-    Observable<BaseRespose> register(@Body Map<String,String> param);
+    Observable<BaseRespose> register(@Body Map<String, String> param);
 
 
     /**
@@ -390,7 +390,8 @@ public interface ApiService {
                                       @Field("trig_price") String trig_price,
                                       @Field("days") String days,
                                       @Field("type") String type,
-                                      @Field("num") String num);
+                                      @Field("num") String num,
+                                      @Field("rule") String rule);
 
     /**
      * 编辑优惠券
@@ -405,7 +406,8 @@ public interface ApiService {
                                        @Field("trig_price") String trig_price,
                                        @Field("days") String days,
                                        @Field("type") String type,
-                                       @Field("num") String num);
+                                       @Field("num") String num,
+                                       @Field("rule") String rule);
 
     /**
      * 删除优惠券

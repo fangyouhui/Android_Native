@@ -7,6 +7,7 @@ public class UserFollowResult implements Serializable {
     private int id;
     private int user_id;
     private int shop_id;
+    private String re_code;
 
     public void setId(int id) {
         this.id = id;
@@ -32,4 +33,11 @@ public class UserFollowResult implements Serializable {
         return shop_id;
     }
 
+    public String getRe_code() {
+        return re_code;
+    }
+
+    public void setRe_code(String re_code) {
+        this.re_code = re_code;
+    }
 }
