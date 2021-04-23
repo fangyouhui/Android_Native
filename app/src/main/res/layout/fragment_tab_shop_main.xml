@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -30,47 +31,52 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <LinearLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <com.youth.banner.Banner
-                android:id="@+id/banner"
+            <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="16dp" />
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                app:elevation="0dp">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:tabIndicatorColor="#F64974"
-                app:tabIndicatorFullWidth="false"
-                app:tabMode="auto"
-                app:tabRippleColor="@android:color/transparent"
-                app:tabSelectedTextColor="#2F2F2F"
-                app:tabTextColor="#666666" />
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp"
+                    app:layout_scrollFlags="scroll" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="3dp"
-                android:background="#EEEEEE" />
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:tabIndicatorColor="#F64974"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabMode="auto"
+                    app:tabRippleColor="@android:color/transparent"
+                    app:tabSelectedTextColor="#2F2F2F"
+                    app:tabTextColor="#666666" />
+
+            </com.google.android.material.appbar.AppBarLayout>
 
             <com.lhs.library.widget.NoScrollViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        </LinearLayout>
-
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.scwang.smart.refresh.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

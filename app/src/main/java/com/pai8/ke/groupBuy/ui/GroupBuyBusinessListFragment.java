@@ -57,7 +57,7 @@ public class GroupBuyBusinessListFragment extends BaseFragment<GroupBuyMainViewM
 
     @Override
     public void addObserve() {
-        mViewModel.getGetGroupShopListData().observe(getViewLifecycleOwner(), data -> {
+        mViewModel.getGetGroupShopListData().observe(this, data -> {
             GroupBuyMainActivity groupBuyMainActivity = null;
             if (getActivity() instanceof GroupBuyMainActivity) {
                 groupBuyMainActivity = (GroupBuyMainActivity) getActivity();

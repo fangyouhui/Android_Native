@@ -68,6 +68,6 @@ public class ShopProductListFragment extends BaseFragment<ShopMainViewModel, Fra
     public void onLoadMore() {
         page++;
         initData();
-
     }
+
 }

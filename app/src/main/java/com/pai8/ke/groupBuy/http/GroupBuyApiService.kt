@@ -254,4 +254,8 @@ interface GroupBuyApiService {
     suspend fun follow(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
 
 
+
+
+
+
 }
