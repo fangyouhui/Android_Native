@@ -42,7 +42,7 @@ public class CouponGetListAdapter extends BaseRecyclerViewAdapter<ShopCouponList
                     .append(mContext, coupons.getDis_price())
                     .create(mContext);
             holder.binding.tvPrice.setText(span);
-            holder.binding.tvTitle.setText(coupons.getCoupon_name());
+            holder.binding.tvTitle.setText(coupons.getShop_name() + coupons.getCoupon_name());
             switch (coupons.getType()) {
                 case 1:
                     holder.binding.tvDiscountPrice.setText(String.format("满%s减%s", coupons.getTrig_price(), coupons.getDis_price()));

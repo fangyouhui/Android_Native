@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dueeeke.videoplayer.player.VideoView;
 import com.google.gson.Gson;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
@@ -17,7 +18,6 @@ import com.pai8.ke.activity.takeaway.entity.event.AddGoodEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.manager.AccountManager;
-import com.pai8.ke.utils.ImageLoadUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -32,6 +32,7 @@ import okhttp3.RequestBody;
 public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
 
     private List<FoodGoodInfo> goodInfoList = new ArrayList<>();
+    private List<VideoView> mVideoViews = new ArrayList<>();
     private int shopId;
 
     public FoodGoodAdapter(Context context, List<FoodGoodInfo> list, int shopId, RvListener listener) {
@@ -67,7 +68,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         TextView tvAddGoods;
         TextView tvReduce;
         TextView tvNum;
-        ImageView ivGoods;
+        VideoView videoView;
         ImageView ivBtnPlayer;
         TextView tvPrice;
         TextView tvSale;
@@ -84,7 +85,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     tvAddGoods = itemView.findViewById(R.id.tv_add_goods);
                     tvReduce = itemView.findViewById(R.id.tv_reduce_goods);
                     tvNum = itemView.findViewById(R.id.tv_num);
-                    ivGoods = itemView.findViewById(R.id.item_goods_iv_goods);
+                    videoView = itemView.findViewById(R.id.videoView);
                     ivBtnPlayer = itemView.findViewById(R.id.iv_btn_player);
                     tvTitle = itemView.findViewById(R.id.item_goods_tv_name);
                     tvPrice = itemView.findViewById(R.id.item_tv_price);
@@ -110,7 +111,7 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     } else {
                         ivBtnPlayer.setVisibility(View.INVISIBLE);
                     }
-                    ivGoods.setOnClickListener(v -> {
+                    videoView.setOnClickListener(v -> {
                         listener.onItemClick(v.getId(), getAdapterPosition());
                     });
                     tvTitle.setText(food.title);
@@ -126,7 +127,13 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                         tvPriceDiscount.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
                     }
 
-                    ImageLoadUtils.setCircularImage(mContext, food.cover, ivGoods, R.mipmap.ic_launcher);
+                    videoView.setLooping(true);
+                    videoView.setScreenScaleType(VideoView.SCREEN_SCALE_CENTER_CROP);
+                    videoView.setMute(true);
+                    //    videoView.setVideoController(new TikTokController(mContext));
+                    videoView.setUrl(food.cover);
+                    videoView.start();
+                    mVideoViews.add(videoView);
                     if (goodInfoList != null && goodInfoList.size() > 0) {
                         int num = 0;
                         for (int i = 0; i < goodInfoList.size(); i++) {
@@ -326,5 +333,12 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
         return requestBody;
     }
 
+    public void destroy() {
+        for (VideoView mVideoView : mVideoViews) {
+            if (mVideoView != null) {
+                mVideoView.release();
+            }
+        }
+    }
 
 }

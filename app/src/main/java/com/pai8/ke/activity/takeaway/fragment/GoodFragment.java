@@ -109,7 +109,7 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
                         case R.id.root:
                             content = "title";
                             break;
-                        case R.id.item_goods_iv_goods:
+                        case R.id.videoView:
                             if (mRightList.get(position).type == 2) {
                                 String videoUrl = mRightList.get(position).cover;
                                 if (videoUrl != null && videoUrl.length() > 0) {
@@ -260,6 +260,9 @@ public class GoodFragment extends BaseMvpFragment<GoodPresenter> implements View
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mGoodAdapter != null) {
+            mGoodAdapter.destroy();
+        }
     }
 
     @Override

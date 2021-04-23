@@ -4,8 +4,8 @@ public class GlobalConstants {
 
     //---------------------HTTP环境配置-----------------------
     //生产环境
-    //public static String HTTP_URL_RELEASE = "http://www.5pai8.com/api.php/demo/";
-    public static String HTTP_URL_RELEASE = "http://test.5pai8.com/api.php/demo/";
+    public static String HTTP_URL_RELEASE = "http://www.5pai8.com/api.php/demo/";
+    // public static String HTTP_URL_RELEASE = "http://test.5pai8.com/api.php/demo/";
     //测试环境
     public static String HTTP_URL_TEST = "http://test.5pai8.com/api.php/demo/";
     //开发环境

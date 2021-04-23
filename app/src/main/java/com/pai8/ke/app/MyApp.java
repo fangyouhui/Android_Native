@@ -26,6 +26,7 @@ import com.hjq.bar.initializer.LightBarInitializer;
 import com.luck.picture.lib.app.IApp;
 import com.luck.picture.lib.app.PictureAppMaster;
 import com.luck.picture.lib.engine.PictureSelectorEngine;
+import com.pai8.ke.BuildConfig;
 import com.pai8.ke.R;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.manager.AccountManager;
@@ -85,16 +86,21 @@ public class MyApp extends Application implements IApp {
      * 获取HttpBaseUrl
      */
     public static String getHttpBaseUrl() {
-        if (getBuildType() == BuildType.RELEASE) {
-            return GlobalConstants.HTTP_URL_RELEASE;
-        }
-        if (getBuildType() == BuildType.TEST) {
+        if (BuildConfig.DEBUG) {
             return GlobalConstants.HTTP_URL_TEST;
         }
-        if (getBuildType() == BuildType.DEV) {
-            return GlobalConstants.HTTP_URL_DEV;
-        }
-        return "";
+        return GlobalConstants.HTTP_URL_TEST;
+
+//        if (getBuildType() == BuildType.RELEASE) {
+//            return GlobalConstants.HTTP_URL_RELEASE;
+//        }
+//        if (getBuildType() == BuildType.TEST) {
+//            return GlobalConstants.HTTP_URL_TEST;
+//        }
+//        if (getBuildType() == BuildType.DEV) {
+//            return GlobalConstants.HTTP_URL_DEV;
+//        }
+//        return "";
     }
 
     /**
