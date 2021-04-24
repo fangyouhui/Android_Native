@@ -87,7 +87,7 @@ public class MyApp extends Application implements IApp {
      */
     public static String getHttpBaseUrl() {
         if (BuildConfig.DEBUG) {
-            return GlobalConstants.HTTP_URL_TEST;
+            return GlobalConstants.HTTP_URL_RELEASE;
         }
         return GlobalConstants.HTTP_URL_TEST;
 

@@ -132,8 +132,14 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
                     videoView.setMute(true);
                     //    videoView.setVideoController(new TikTokController(mContext));
                     videoView.setUrl(food.cover);
+                    videoView.setMirrorRotation(false);
+                    videoView.setEnableAudioFocus(false);
+                    videoView.setFocusable(false);
                     videoView.start();
+                    videoView.setVolume(0f, 0f);
+
                     mVideoViews.add(videoView);
+
                     if (goodInfoList != null && goodInfoList.size() > 0) {
                         int num = 0;
                         for (int i = 0; i < goodInfoList.size(); i++) {
