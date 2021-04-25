@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +20,7 @@ import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.BasePresenter;
+import com.pai8.ke.databinding.ViewDialogCollectionAccountBinding;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.global.EventCode;
@@ -37,8 +35,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import razerdp.util.KeyboardUtils;
 
 public class MerchantSettledFirstActivity extends BaseMvpActivity implements View.OnClickListener, TextWatcher {
@@ -52,7 +48,6 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     private String mCate;
 
     private String mProvince, mCity = "", mDistrict;
-
 
     private BottomDialog mBottomDialog;
     private String mCardAddress;
@@ -104,7 +99,6 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
 //        mEtBankAddress.addTextChangedListener(this);
         mTvCate.addTextChangedListener(this);
         mTvAddress.addTextChangedListener(this);
-
     }
 
     private void editListener() {
@@ -183,14 +177,14 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     }
 
     private void showShareBottomDialog() {
-        View view = View.inflate(this, R.layout.view_dialog_collection_account, null);
-        ViewHolder holder = new ViewHolder(view);
-        holder.itnClose.setOnClickListener(view1 -> {
+        ViewDialogCollectionAccountBinding binding = ViewDialogCollectionAccountBinding.inflate(LayoutInflater.from(this));
+
+        binding.itnClose.setOnClickListener(view1 -> {
             mBottomDialog.dismiss();
         });
-        holder.btnConfirm.setOnClickListener(view1 -> {
-            if (holder.cbAlipay.isChecked()) {
-                String cardNo = holder.etAlipayAccount.getText().toString().trim();
+        binding.btnConfirm.setOnClickListener(view1 -> {
+            if (binding.cbAlipay.isChecked()) {
+                String cardNo = binding.etAlipayAccount.getText().toString().trim();
                 if (StringUtils.isEmpty(cardNo)) {
                     toast("请输入支付宝账号");
                     return;
@@ -199,8 +193,8 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 mCardNo = cardNo;
                 mPayType = 1;
                 mTvCollectionAccount.setText(String.format("%s：%s", mCardAddress, mCardNo));
-            } else if (holder.cbWechat.isChecked()) {
-                String cardNo = holder.etWechatAccount.getText().toString().trim();
+            } else if (binding.cbWechat.isChecked()) {
+                String cardNo = binding.etWechatAccount.getText().toString().trim();
                 if (StringUtils.isEmpty(cardNo)) {
                     toast("请输入微信账号");
                     return;
@@ -209,27 +203,6 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
                 mCardNo = cardNo;
                 mPayType = 2;
                 mTvCollectionAccount.setText(String.format("%s：%s", mCardAddress, mCardNo));
-            } else if (holder.cbBank.isChecked()) {
-                String cardAddress = holder.etBankAddress.getText().toString().trim();
-                String cardNo = holder.etBankNo.getText().toString().trim();
-                if (StringUtils.isEmpty(cardAddress) || StringUtils.isEmpty(cardNo)) {
-                    toast("请输入银行卡号/开户行地址");
-                    return;
-                }
-                mCardAddress = cardAddress;
-                mCardNo = cardNo;
-                mPayType = 3;
-                mTvCollectionAccount.setText(String.format("银行卡号：%s\n开户行地址：%s", mCardNo, mCardAddress));
-            } else if (holder.cbOther.isChecked()) {
-                String cardNo = holder.etOtherAccount.getText().toString().trim();
-                if (StringUtils.isEmpty(cardNo)) {
-                    toast("请输入账户号码");
-                    return;
-                }
-                mCardAddress = "指定账户";
-                mCardNo = cardNo;
-                mPayType = 4;
-                mTvCollectionAccount.setText(String.format("%s：%s", mCardAddress, mCardNo));
             } else {
                 toast("请选择收款账户");
                 return;
@@ -237,26 +210,20 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             editListener();
             mBottomDialog.dismiss();
         });
-        holder.llChooseAlipayAccount.setOnClickListener(view1 -> showView(holder, true, false, false, false));
-        holder.llChooseWechatAccount.setOnClickListener(view1 -> showView(holder, false, true, false, false));
-        holder.llChooseBankAccount.setOnClickListener(view1 -> showView(holder, false, false, true, false));
-        holder.llChooseOtherAccount.setOnClickListener(view1 -> showView(holder, false, false, false, true));
+        binding.llChooseAlipayAccount.setOnClickListener(view1 -> showView(binding, true, false));
+        binding.llChooseWechatAccount.setOnClickListener(view1 -> showView(binding, false, true));
         if (mBottomDialog == null) {
-            mBottomDialog = new BottomDialog(this, view);
+            mBottomDialog = new BottomDialog(this, binding.getRoot());
         }
         mBottomDialog.setIsCanceledOnTouchOutside(true);
         mBottomDialog.show();
     }
 
-    private void showView(ViewHolder holder, boolean ali, boolean wechat, boolean bank, boolean other) {
-        holder.cbAlipay.setChecked(ali);
-        holder.cbWechat.setChecked(wechat);
-        holder.cbBank.setChecked(bank);
-        holder.cbOther.setChecked(other);
-        holder.llAlipayAccount.setVisibility(ali ? View.VISIBLE : View.GONE);
-        holder.llWechatAccount.setVisibility(wechat ? View.VISIBLE : View.GONE);
-        holder.llBankAccount.setVisibility(bank ? View.VISIBLE : View.GONE);
-        holder.llOtherAccount.setVisibility(other ? View.VISIBLE : View.GONE);
+    private void showView(ViewDialogCollectionAccountBinding binding, boolean ali, boolean wechat) {
+        binding.cbAlipay.setChecked(ali);
+        binding.cbWechat.setChecked(wechat);
+        binding.llAlipayAccount.setVisibility(ali ? View.VISIBLE : View.GONE);
+        binding.llWechatAccount.setVisibility(wechat ? View.VISIBLE : View.GONE);
     }
 
     private void getBusinessType() {
@@ -344,54 +311,4 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
 
     }
 
-    class ViewHolder {
-        @BindView(R.id.itn_close)
-        ImageButton itnClose;
-        @BindView(R.id.cb_wechat)
-        CheckBox cbWechat;
-        @BindView(R.id.ll_choose_wechat_account)
-        LinearLayout llChooseWechatAccount;
-        @BindView(R.id.et_wechat_account)
-        EditText etWechatAccount;
-        @BindView(R.id.ll_wechat_account)
-        LinearLayout llWechatAccount;
-        @BindView(R.id.cb_alipay)
-        CheckBox cbAlipay;
-        @BindView(R.id.ll_choose_alipay_account)
-        LinearLayout llChooseAlipayAccount;
-        @BindView(R.id.et_alipay_account)
-        EditText etAlipayAccount;
-        @BindView(R.id.ll_alipay_account)
-        LinearLayout llAlipayAccount;
-        @BindView(R.id.cb_bank)
-        CheckBox cbBank;
-        @BindView(R.id.ll_choose_bank_account)
-        LinearLayout llChooseBankAccount;
-        @BindView(R.id.tv_bank_no)
-        TextView tvBankNo;
-        @BindView(R.id.et_bank_no)
-        EditText etBankNo;
-        @BindView(R.id.tv_bank_address)
-        TextView tvBankAddress;
-        @BindView(R.id.et_bank_address)
-        EditText etBankAddress;
-        @BindView(R.id.ll_bank_account)
-        LinearLayout llBankAccount;
-        @BindView(R.id.cb_other)
-        CheckBox cbOther;
-        @BindView(R.id.ll_choose_other_account)
-        LinearLayout llChooseOtherAccount;
-        @BindView(R.id.et_other_account)
-        EditText etOtherAccount;
-        @BindView(R.id.ll_other_account)
-        LinearLayout llOtherAccount;
-        @BindView(R.id.btn_confirm)
-        Button btnConfirm;
-        @BindView(R.id.ll_bottom)
-        LinearLayout llBottom;
-
-        ViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
 }

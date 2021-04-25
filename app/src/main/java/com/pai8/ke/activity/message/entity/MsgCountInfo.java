@@ -7,20 +7,20 @@ package com.pai8.ke.activity.message.entity;
  */
 public class MsgCountInfo {
 
-    private String count;
+    private int count;
 
     private int pos;
 
-    public MsgCountInfo(String count, int pos) {
+    public MsgCountInfo(int count, int pos) {
         this.count = count;
         this.pos = pos;
     }
 
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
     }
 

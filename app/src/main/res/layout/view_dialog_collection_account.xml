@@ -1,353 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog_bottom"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/itn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:padding="15dp"
+            android:src="@mipmap/ic_close_gray" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="选择收款账户"
+            android:textColor="@color/color_dark_font"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@drawable/divider" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@android:color/transparent">
+        android:paddingStart="15dp">
 
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:background="@drawable/shape_dialog_bottom">
-
-
-        <RelativeLayout android:layout_width="match_parent"
-                      android:orientation="horizontal"
-                      android:layout_height="wrap_content">
-            <ImageButton
-                    android:id="@+id/itn_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@null"
-                    android:padding="15dp"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_close_gray" />
+        <LinearLayout
+            android:id="@+id/ll_choose_wechat_account"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="选择收款账户"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/color_dark_font"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信账户"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
 
-        </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/shape_orgin_gradient"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="2dp"
+                android:text="推荐"
+                android:textColor="@color/white"
+                android:textSize="8sp" />
 
-        <View
-                android:id="@+id/view_divider"
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:id="@+id/cb_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:button="@drawable/rb_choose"
+                android:enabled="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_wechat_account"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信账号"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_wechat_account"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@drawable/divider" />
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入微信账号"
+                android:textColor="@color/color_mid_font"
+                android:textSize="@dimen/sp_14" />
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:id="@+id/ll_bottom"
-                      android:paddingStart="15dp"
-                      android:orientation="vertical">
-
-            <LinearLayout
-                    android:id="@+id/ll_choose_wechat_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:textSize="14sp"
-                          android:textColor="@color/text_black"
-                          android:layout_height="wrap_content"
-                          android:text="微信账户"/>
-
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:paddingStart="8dp"
-                          android:paddingEnd="8dp"
-                          android:paddingTop="2dp"
-                          android:paddingBottom="2dp"
-                          android:background="@drawable/shape_orgin_gradient"
-                          android:text="推荐"
-                          android:textSize="8sp"
-                          android:layout_marginStart="10dp"
-                          android:textColor="@color/white"/>
-
-                <View android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"/>
-
-                <CheckBox
-                        android:id="@+id/cb_wechat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:button="@drawable/rb_choose"
-                        android:layout_marginEnd="15dp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/ll_wechat_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:gravity="center_vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:textSize="14sp"
-                          android:textColor="@color/color_mid_font"
-                          android:layout_height="wrap_content"
-                          android:text="微信账号"/>
-
-                <EditText android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:gravity="center_vertical"
-                          android:textColor="@color/color_mid_font"
-                          android:textSize="@dimen/sp_14"
-                          android:hint="请输入微信账号"
-                          android:background="@null"
-                          android:id="@+id/et_wechat_account"
-                          android:layout_marginStart="20dp"/>
-
-
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:background="@drawable/divider"/>
-
-            <LinearLayout
-                    android:id="@+id/ll_choose_alipay_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:textSize="14sp"
-                          android:textColor="@color/text_black"
-                          android:layout_height="wrap_content"
-                          android:text="支付宝账户"/>
-
-
-                <View android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"/>
-
-                <CheckBox
-                        android:id="@+id/cb_alipay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:button="@drawable/rb_choose"
-                        android:layout_marginEnd="15dp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/ll_alipay_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:textSize="14sp"
-                          android:textColor="@color/color_mid_font"
-                          android:layout_height="wrap_content"
-                          android:text="支付宝账号"/>
-
-                <EditText android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:gravity="center_vertical"
-                          android:textColor="@color/color_mid_font"
-                          android:textSize="@dimen/sp_14"
-                          android:hint="请输入支付宝账号"
-                          android:background="@null"
-                          android:id="@+id/et_alipay_account"
-                          android:layout_marginStart="20dp"/>
-
-
-            </LinearLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:background="@drawable/divider"/>
-
-            <LinearLayout
-                    android:id="@+id/ll_choose_bank_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:textSize="14sp"
-                          android:textColor="@color/text_black"
-                          android:layout_height="wrap_content"
-                          android:text="银行卡"/>
-
-                <View android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"/>
-
-                <CheckBox
-                        android:id="@+id/cb_bank"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:button="@drawable/rb_choose"
-                        android:layout_marginEnd="15dp"/>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:orientation="vertical"
-                          android:visibility="gone"
-                          android:id="@+id/ll_bank_account">
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp">
-
-                    <TextView
-                            android:id="@+id/tv_bank_no"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="银行卡号"
-                            android:textColor="@color/color_mid_font"
-                            android:textSize="15sp"/>
-
-                    <EditText
-                            android:id="@+id/et_bank_no"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:hint="请输入银行卡号"
-                            android:layout_centerVertical="true"
-                            android:layout_toEndOf="@+id/tv_bank_no"
-                            android:background="@color/color_transition"
-                            android:singleLine="true"
-                            android:textColor="@color/color_mid_font"
-                            android:textSize="14sp"/>
-
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp">
-
-                    <TextView
-                            android:id="@+id/tv_bank_address"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:text="开户行地址"
-                            android:textColor="@color/color_mid_font"
-                            android:textSize="14sp"/>
-
-                    <EditText
-                            android:id="@+id/et_bank_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:gravity="center_vertical"
-                            android:hint="请输入开户行地址"
-                            android:layout_toEndOf="@+id/tv_bank_address"
-                            android:background="@color/color_transition"
-                            android:singleLine="true"
-                            android:textColor="@color/color_mid_font"
-                            android:textSize="15sp"/>
-
-                </RelativeLayout>
-            </LinearLayout>
-
-
-            <View android:layout_width="match_parent" android:layout_height="1dp"
-                  android:background="@drawable/divider"/>
-
-            <LinearLayout
-                    android:id="@+id/ll_choose_other_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:textSize="14sp"
-                          android:textColor="@color/text_black"
-                          android:layout_height="wrap_content"
-                          android:text="指定账户"/>
-
-                <View android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="wrap_content"/>
-
-                <CheckBox
-                        android:id="@+id/cb_other"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:button="@drawable/rb_choose"
-                        android:layout_marginEnd="15dp"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                    android:id="@+id/ll_other_account"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                <TextView android:layout_width="wrap_content"
-                          android:textSize="14sp"
-                          android:textColor="@color/color_mid_font"
-                          android:layout_height="wrap_content"
-                          android:text="账户号码"/>
-
-                <EditText android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:gravity="center_vertical"
-                          android:textColor="@color/color_mid_font"
-                          android:textSize="@dimen/sp_14"
-                          android:hint="请输入账户号码"
-                          android:background="@null"
-                          android:id="@+id/et_other_account"
-                          android:layout_marginStart="20dp"/>
-
-            </LinearLayout>
-
-            <View android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:background="@drawable/divider"/>
-
-            <Button
-                    android:id="@+id/btn_confirm"
-                    android:layout_width="match_parent"
-                    android:layout_marginEnd="15dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/confirm"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
-                    android:textSize="@dimen/sp_16"
-                    android:textColor="@color/white"
-                    android:background="@drawable/btn_selector_linear_radius"/>
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/divider" />
+
+        <LinearLayout
+            android:id="@+id/ll_choose_alipay_account"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝账户"
+                android:textColor="@color/text_black"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <CheckBox
+                android:id="@+id/cb_alipay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:button="@drawable/rb_choose"
+                android:enabled="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_alipay_account"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝账号"
+                android:textColor="@color/color_mid_font"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_alipay_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="请输入支付宝账号"
+                android:textColor="@color/color_mid_font"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/divider" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_selector_linear_radius"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
 
 
 </LinearLayout>
+

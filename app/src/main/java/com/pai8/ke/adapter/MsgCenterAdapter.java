@@ -1,86 +1,76 @@
 package com.pai8.ke.adapter;
 
 import android.content.Context;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.lhs.library.base.BaseRecyclerViewAdapter;
+import com.lhs.library.base.BaseViewHolder;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.message.entity.MsgCountInfo;
-import com.pai8.ke.base.BaseRecyclerViewAdapter;
-import com.pai8.ke.base.BaseViewHolder;
-import com.pai8.ke.utils.ImageLoadUtils;
-import com.pai8.ke.utils.ResUtils;
-import com.pai8.ke.utils.SpanUtils;
+import com.pai8.ke.databinding.ItemMsgCenterBinding;
 
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
+import java.util.List;
 
 public class MsgCenterAdapter extends BaseRecyclerViewAdapter<MsgCountInfo> {
 
-    public MsgCenterAdapter(Context context) {
-        mContext = context;
+    public MsgCenterAdapter(Context context, List<MsgCountInfo> list) {
+        super(context, list, false);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_msg_center, parent, false));
+    protected RecyclerView.ViewHolder onCreateNormalViewHolder(ViewGroup parent, int viewType) {
+        ItemMsgCenterBinding binding = ItemMsgCenterBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new MsgViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ViewHolder viewHolder = (ViewHolder) holder;
-        MsgCountInfo str = mDataList.get(position);
-        if("0".equals(str.getCount())){
-            viewHolder.tvCount.setVisibility(View.GONE);
-        }else {
-            viewHolder.tvCount.setVisibility(View.VISIBLE);
-            viewHolder.tvCount.setText(str.getCount());
-        }
-        switch (position) {
-            case 0:
-                viewHolder.tvMsgTitle.setText("订单消息");
-                viewHolder.tvMsgContent.setText("您有一笔新的订单！");
-                viewHolder.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_order);
-                break;
-            case 1:
-                viewHolder.tvMsgTitle.setText("系统消息");
-                viewHolder.tvMsgContent.setText("app上线咯");
-                viewHolder.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_sys);
-                break;
-            case 2:
-                viewHolder.tvMsgTitle.setText("活动消息");
-                viewHolder.tvMsgContent.setText("美食节活动已上线，请查看详情");
-                viewHolder.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_activie);
-                break;
-            case 3:
-                viewHolder.tvMsgTitle.setText("一对一聊天消息");
-                viewHolder.tvMsgContent.setText("邀请你参与视频通话");
-                viewHolder.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_chat);
-                break;
+    protected void onBindNormalViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        if (viewHolder instanceof MsgViewHolder) {
+            MsgViewHolder holder = (MsgViewHolder) viewHolder;
+            MsgCountInfo str = getItem(position);
+            int count = str.getCount();
+            if (0 <= 0) {
+                holder.binding.tvCount.setVisibility(View.GONE);
+            } else {
+                holder.binding.tvCount.setVisibility(View.VISIBLE);
+                holder.binding.tvCount.setText(String.valueOf(count));
+            }
+            switch (position) {
+                case 0:
+                    holder.binding.tvMsgTitle.setText("订单消息");
+                    holder.binding.tvMsgContent.setText(count <= 0 ? "暂无消息" : "您有一笔新的订单！");
+                    holder.binding.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_order);
+                    break;
+                case 1:
+                    holder.binding.tvMsgTitle.setText("系统消息");
+                    holder.binding.tvMsgContent.setText(count <= 0 ? "暂无消息" : "app上线咯");
+                    holder.binding.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_sys);
+                    break;
+                case 2:
+                    holder.binding.tvMsgTitle.setText("活动消息");
+                    holder.binding.tvMsgContent.setText(count <= 0 ? "暂无消息" : "美食节活动已上线，请查看详情");
+                    holder.binding.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_activie);
+                    break;
+                case 3:
+                    holder.binding.tvMsgTitle.setText("一对一聊天消息");
+                    holder.binding.tvMsgContent.setText(count <= 0 ? "暂无消息" : "邀请你参与视频通话");
+                    holder.binding.ivMsgTypeOrder.setImageResource(R.mipmap.ic_msg_type_chat);
+                    break;
+            }
+            holder.binding.getRoot().setOnClickListener(v -> mListener.onItemClick(str, position));
         }
 
     }
 
-    static class ViewHolder extends BaseViewHolder {
+    static class MsgViewHolder extends BaseViewHolder<ItemMsgCenterBinding> {
 
-        @BindView(R.id.iv_msg_type_order)
-        ImageView ivMsgTypeOrder;
-        @BindView(R.id.tv_msg_title)
-        TextView tvMsgTitle;
-        @BindView(R.id.tv_msg_content)
-        TextView tvMsgContent;
-        @BindView(R.id.tv_msg_date)
-        TextView tvMsgDate;
-        @BindView(R.id.tv_count)
-        TextView tvCount;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
+        public MsgViewHolder(@NonNull ItemMsgCenterBinding viewBinding) {
+            super(viewBinding);
         }
-
     }
 }

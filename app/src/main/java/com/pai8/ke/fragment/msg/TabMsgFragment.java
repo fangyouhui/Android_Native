@@ -31,12 +31,12 @@ public class TabMsgFragment extends BaseFragment<TabMsgViewModel, FragmentTabMsg
 
     @Override
     public void initView(Bundle arguments) {
-        mAdapter = new MsgCenterAdapter(getActivity());
+        mAdapter = new MsgCenterAdapter(getActivity(), null);
         mBinding.rv.addItemDecoration(new SpaceItemDecoration(0, 0, 0, 2));
         mBinding.rv.setHasFixedSize(true);
         mBinding.rv.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((view, position, tag) -> {
+        mAdapter.setListener((item, position) -> {
             if (position == 0) {
                 startActivity(new Intent(getContext(), OrderMessageActivity.class));
             } else if (position == 1) {
@@ -100,16 +100,16 @@ public class TabMsgFragment extends BaseFragment<TabMsgViewModel, FragmentTabMsg
         mList.clear();
         for (int i = 0; i < 4; i++) {
             if (i == 0) {
-                mList.add(new MsgCountInfo(data.getOrder_msg().getCount() + "", i));
+                mList.add(new MsgCountInfo(data.getOrder_msg().getCount(), i));
             } else if (i == 1) {
-                mList.add(new MsgCountInfo(data.getSys_msg().getCount() + "", i));
+                mList.add(new MsgCountInfo(data.getSys_msg().getCount(), i));
             } else if (i == 2) {
-                mList.add(new MsgCountInfo(data.getEve_msg().getCount() + "", i));
+                mList.add(new MsgCountInfo(data.getEve_msg().getCount(), i));
             } else {
-                mList.add(new MsgCountInfo(data.getCall_msg().getCount() + "", i));
+                mList.add(new MsgCountInfo(data.getCall_msg().getCount(), i));
             }
         }
-        mAdapter.setDataList(mList);
+        mAdapter.setData(mList);
     }
 
 }
