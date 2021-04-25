@@ -82,30 +82,6 @@ android {
             dimension "market"
             manifestPlaceholders = [app_name: "我拍吧"]
         }
-        Xiaomi {
-            dimension "market"
-            manifestPlaceholders = [app_name: "5拍8小视频"]
-        }
-        Oppo {
-            dimension "market"
-            manifestPlaceholders = [app_name: "5拍8小视频"]
-        }
-        Vivo {
-            dimension "market"
-            manifestPlaceholders = [app_name: "5拍8小视频"]
-        }
-        Baidu {
-            dimension "market"
-            manifestPlaceholders = [app_name: "5拍8小视频"]
-        }
-        Tencent {
-            dimension "market"
-            manifestPlaceholders = [app_name: "5拍8小视频"]
-        }
-        Alibaba {
-            dimension "market"
-            manifestPlaceholders = [app_name: "5拍8小视频"]
-        }
         _360 {
             dimension "market"
             manifestPlaceholders = [app_name: "5拍8小视频"]

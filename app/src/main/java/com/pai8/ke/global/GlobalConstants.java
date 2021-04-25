@@ -3,13 +3,19 @@ package com.pai8.ke.global;
 public class GlobalConstants {
 
     //---------------------HTTP环境配置-----------------------
+    public static String HTTP_HOST = "https://www.5pai8.com/"; // http://test.5pai8.com/
     //生产环境
-    public static String HTTP_URL_RELEASE = "https://www.5pai8.com/api.php/demo/";
+    public static String HTTP_URL_RELEASE = HTTP_HOST + "api.php/demo/";
     // public static String HTTP_URL_RELEASE = "http://test.5pai8.com/api.php/demo/";
     //测试环境
     public static String HTTP_URL_TEST = "http://test.5pai8.com/api.php/demo/";
     //开发环境
     public static String HTTP_URL_DEV = "";
+
+    public static String HTTP_PRIVACY_PROTOCOL = GlobalConstants.HTTP_HOST + "agreement/serverProtocol/index.html";//隐私政策
+
+    public static String HTTP_SERVER_PROTOCOL = GlobalConstants.HTTP_HOST + "agreement/serverProtocol/index.html";//协议
+
 
     //--------------------网络请求相关------------------------
     //连接超时时间

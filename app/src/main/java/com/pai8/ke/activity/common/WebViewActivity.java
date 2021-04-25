@@ -3,43 +3,35 @@ package com.pai8.ke.activity.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.hjq.bar.OnTitleBarListener;
 import com.just.agentweb.AgentWeb;
+import com.lhs.library.base.BaseActivity;
+import com.lhs.library.base.NoViewModel;
 import com.pai8.ke.R;
-import com.pai8.ke.base.BaseActivity;
+import com.pai8.ke.databinding.ActivityWebviewBinding;
 import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.StringUtils;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 通用的webView
  * Created by gh on 2020/12/21.
  */
-public class WebViewActivity extends BaseActivity {
-
-    @BindView(R.id.ll_wrap)
-    LinearLayout llWrap;
+public class WebViewActivity extends BaseActivity<NoViewModel, ActivityWebviewBinding> {
 
     private AgentWeb mAgentWeb;
     private String mUrl;
     private String mTitle;
 
     public static void launch(Context context, String url) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("url", url);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
+        launch(context, url, "");
     }
 
     public static void launch(Context context, String url, String title) {
@@ -52,17 +44,13 @@ public class WebViewActivity extends BaseActivity {
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_webview;
-    }
-
-    @Override
-    public void initView() {
+    public void initView(@Nullable Bundle savedInstanceState) {
         Bundle bundle = getIntent().getExtras();
         mUrl = bundle.getString("url");
         mTitle = bundle.getString("title");
+        setWebViewTitle(mTitle);
         mAgentWeb = AgentWeb.with(this)
-                .setAgentWebParent(llWrap, new LinearLayout.LayoutParams(-1, -1))
+                .setAgentWebParent(mBinding.llWrap, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator(ResUtils.getColor(R.color.colorPrimary))
                 .setSecurityType(AgentWeb.SecurityType.DEFAULT_CHECK)
                 .setWebChromeClient(mWebChromeClient)
@@ -79,43 +67,30 @@ public class WebViewActivity extends BaseActivity {
         //扩大比例的缩放
         mAgentWeb.getAgentWebSettings().getWebSettings().setUseWideViewPort(true);
         //自适应屏幕
-        mAgentWeb.getAgentWebSettings().getWebSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm
-                .SINGLE_COLUMN);
+        mAgentWeb.getAgentWebSettings().getWebSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         mAgentWeb.getAgentWebSettings().getWebSettings().setLoadWithOverviewMode(true);
         //自适应屏幕
-        mAgentWeb.getAgentWebSettings().getWebSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm
-                .SINGLE_COLUMN);
-
-        mTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
-            @Override
-            public void onLeftClick(View v) {
-                mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-                if (!mAgentWeb.back()) {
-                    finish();
-                }
-            }
-
-            @Override
-            public void onTitleClick(View v) {
-
-            }
-
-            @Override
-            public void onRightClick(View v) {
-
-            }
-        });
+        mAgentWeb.getAgentWebSettings().getWebSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
 
     }
 
     @Override
-    public void initData() {
-        if (mTitle != null) {
-            if (mTitle.length() > 12) {
-                mTitleBar.setTitle(StringUtils.subString(mTitle, 12) + "...");
-            } else {
-                mTitleBar.setTitle(mTitle);
-            }
+    public void onBackPressed() {
+        mAgentWeb.getAgentWebSettings().getWebSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        if (!mAgentWeb.back()) {
+            finish();
+        }
+    }
+
+    private void setWebViewTitle(String title) {
+        if (TextUtils.isEmpty(title)) {
+            return;
+        }
+
+        if (title.length() > 12) {
+            setToolBarTitle(StringUtils.subString(mTitle, 12) + "...");
+        } else {
+            setToolBarTitle(title);
         }
     }
 
@@ -128,16 +103,7 @@ public class WebViewActivity extends BaseActivity {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if (StringUtils.isNotEmpty(mTitle)) {
-                return;
-            }
-            if (StringUtils.isNotEmpty(title)) {
-                if (title.length() > 12) {
-                    mTitleBar.setTitle(StringUtils.subString(title, 12) + "...");
-                } else {
-                    mTitleBar.setTitle(title);
-                }
-            }
+            setWebViewTitle(title);
         }
     };
 

@@ -15,19 +15,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.gyf.immersionbar.ImmersionBar;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.MainActivity;
 import com.pai8.ke.activity.common.WebViewActivity;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.BaseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
+import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.entity.event.LoginStatusEvent;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
-import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.global.GlobalConstants;
 import com.pai8.ke.utils.AppUtils;
@@ -39,7 +40,6 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -70,6 +70,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
     protected boolean isRegisterEventBus() {
         return true;
     }
+
     //test git
     @Override
     protected void receiveEvent(BaseEvent event) {
@@ -142,13 +143,11 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
                 break;
             case R.id.tv_showpro:
                 //用户服务协议
-                WebViewActivity.launch(this, "http://test.5pai8.com/agreement/serverProtocol/index.html",
-                        "用户服务协议");
+                WebViewActivity.launch(this, GlobalConstants.HTTP_SERVER_PROTOCOL, "用户服务协议");
                 break;
             case R.id.tv_secrets:
                 //隐私保护指引
-                WebViewActivity.launch(this, "http://test.5pai8.com/agreement/privacyProtocol/index.html",
-                        "隐私保护政策");
+                WebViewActivity.launch(this, GlobalConstants.HTTP_PRIVACY_PROTOCOL, "隐私保护政策");
                 break;
             default:
                 break;
@@ -206,7 +205,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             return;
         }
 
-        if((Boolean) PreferencesUtils.get(this, "policy_check", false) == false) {
+        if ((Boolean) PreferencesUtils.get(this, "policy_check", false) == false) {
             // 打开用户协议
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_webview, null);
             BottomDialog dialog = new BottomDialog(this, view);
@@ -214,7 +213,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             TextView btnConfirm = view.findViewById(R.id.btn_confirm);
             TextView tvTitle = view.findViewById(R.id.tv_title);
             tvTitle.setText("用户协议");
-            webView.loadUrl("http://test.5pai8.com/agreement/serverProtocol/index.html");
+            webView.loadUrl(GlobalConstants.HTTP_SERVER_PROTOCOL);
             btnConfirm.setOnClickListener(v -> {
                 PreferencesUtils.put(this, "policy_check", true);
                 dialog.dismiss();
@@ -224,7 +223,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             dialog.show();
             return;
         }
-        if((Boolean) PreferencesUtils.get(this, "privacy_check", false) == false) {
+        if ((Boolean) PreferencesUtils.get(this, "privacy_check", false) == false) {
             // 打开隐私政策
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_webview, null);
             BottomDialog dialog = new BottomDialog(this, view);
@@ -232,7 +231,7 @@ public class LoginActivity extends BaseActivity implements TextWatcher {
             TextView btnConfirm = view.findViewById(R.id.btn_confirm);
             TextView tvTitle = view.findViewById(R.id.tv_title);
             tvTitle.setText("隐私政策");
-            webView.loadUrl("http://test.5pai8.com/agreement/privacyProtocol/index.html");
+            webView.loadUrl(GlobalConstants.HTTP_PRIVACY_PROTOCOL);
             btnConfirm.setOnClickListener(v -> {
                 PreferencesUtils.put(this, "privacy_check", true);
                 dialog.dismiss();
