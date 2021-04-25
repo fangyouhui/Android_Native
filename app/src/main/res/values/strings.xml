@@ -21,4 +21,6 @@
     <string name="str_me_history_count">%S\n足迹</string>
     <string name="remind_change">*请按照\"xxx街道xxx号\"格式进行修改</string>
 
+    <string name="crop_image_menu_crop">Crop</string>
+
 </resources>
