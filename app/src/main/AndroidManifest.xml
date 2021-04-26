@@ -98,6 +98,7 @@
             android:screenOrientation="portrait" /> <!-- 发布视频 -->
         <activity
             android:name=".activity.video.VideoPublishActivity"
+            android:label="发布视频"
             android:screenOrientation="portrait" /> <!-- 视频浏览 -->
         <activity
             android:name=".activity.common.VideoViewActivity"

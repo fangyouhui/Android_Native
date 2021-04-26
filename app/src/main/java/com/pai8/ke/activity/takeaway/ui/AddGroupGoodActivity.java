@@ -1,7 +1,5 @@
 package com.pai8.ke.activity.takeaway.ui;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
@@ -23,7 +21,6 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.gh.qiniushortvideo.ChooseVideo;
 import com.gh.qiniushortvideo.activity.ConfigActivity;
 import com.gh.qiniushortvideo.activity.MediaSelectActivity;
@@ -36,7 +33,6 @@ import com.pai8.ke.activity.takeaway.adapter.GroupDetailAdapter;
 import com.pai8.ke.activity.takeaway.api.TakeawayApi;
 import com.pai8.ke.activity.takeaway.contract.AddGroupGoodContract;
 import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
-import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
 import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
@@ -46,7 +42,7 @@ import com.pai8.ke.activity.takeaway.utils.SoftHideKeyBoardUtil;
 import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
@@ -70,7 +66,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GOOD;
 import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GROUP;
 
 public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter> implements View.OnClickListener, AddGroupGoodContract.View {
@@ -117,7 +112,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     private int mType;     //3:编辑团购商品
     private String groupId;     //3:编辑团购商品
 
-    private OptionsPickerView  mPvType;
+    private OptionsPickerView mPvType;
     private String goodId;
     private boolean isweekday;
     private TimePickerView startTime;
@@ -133,6 +128,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     public int getLayoutId() {
         return R.layout.activity_add_group_good;
     }
+
     /**
      * 七牛视频事件
      *
@@ -159,8 +155,6 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
             }
         });
     }
-
-
 
 
     @Override
@@ -248,13 +242,12 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupBannerAdapter.setOnItemClickListener(new GroupBannerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                uploadType=0;
-                if (position<bannerKey.size()){
+                uploadType = 0;
+                if (position < bannerKey.size()) {
                     bannerKey.remove(position);
                     mList.remove(position);
                     groupBannerAdapter.setList(mList);
-                }
-                else{
+                } else {
                     ChoosePicUtils.picSingle(AddGroupGoodActivity.this, 0, RESULT_PICTURE);
 
                 }
@@ -269,19 +262,18 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupDetailAdapter.setOnItemClickListener(new GroupDetailAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                uploadType=1;
-                if (position<detailKey.size()){
+                uploadType = 1;
+                if (position < detailKey.size()) {
                     detailKey.remove(position);
                     detailList.remove(position);
                     groupDetailAdapter.setList(detailList);
-                }
-                else{
+                } else {
                     ChoosePicUtils.picSingle(AddGroupGoodActivity.this, 0, RESULT_PICTURE);
 
                 }
             }
         });
-        if (mType==3){
+        if (mType == 3) {
             //edit 下架
             line_edit.setVisibility(View.VISIBLE);
 
@@ -294,6 +286,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 //        groupBannerAdapter.setOnClickListener(this);
 
     }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.toolbar_back_all) {
@@ -302,7 +295,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
             //getCategoryList();
             List<String> options1Items = new ArrayList<>();
             for (int i = 0; i < cateIem.size(); i++) {
-                options1Items.add(cateIem.get(i).type_name);
+                options1Items.add(cateIem.get(i).getType_name());
             }
 
             if (mPvType == null) {
@@ -310,9 +303,9 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
                     @Override
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
                         //返回的分别是三个级别的选中位置
-                        String tx = cateIem.get(options1).type_name;
+                        String tx = cateIem.get(options1).getType_name();
                         Category.setText(tx);
-                        goodId = cateIem.get(options1).id + "";
+                        goodId = cateIem.get(options1).getId() + "";
 
                     }
                 })
@@ -322,42 +315,33 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
             mPvType.setPicker(options1Items);
             mPvType.show();
 
-        }
-        else if (v.getId() == R.id.itn_close) {
+        } else if (v.getId() == R.id.itn_close) {
 
             isweekday = !isweekday;
-            if (isweekday){
+            if (isweekday) {
                 isweek.setImageResource(R.mipmap.ic_cb_s);
-            }
-            else{
+            } else {
                 //mipmap/ic_cb_n
                 isweek.setImageResource(R.mipmap.ic_cb_n);
 
             }
-        }
-        else if (v.getId() == R.id.start_time_text){
+        } else if (v.getId() == R.id.start_time_text) {
             timeStartChoose();
 
-        }
-        else if (v.getId() == R.id.end_time_text){
+        } else if (v.getId() == R.id.end_time_text) {
             timeEndChoose();
 
-        }
-        else if (v.getId() == R.id.iv_cover){
+        } else if (v.getId() == R.id.iv_cover) {
 
             chooseImg(1);
-        }
-        else if (v.getId() == R.id.tv_publish){
+        } else if (v.getId() == R.id.tv_publish) {
             uploadGood();
-        }
-        else if (v.getId() == R.id.tv_del){
+        } else if (v.getId() == R.id.tv_del) {
             setDown();
-        }
-        else if (v.getId() == R.id.upload_good){
+        } else if (v.getId() == R.id.upload_good) {
             uploadGood();
         }
     }
-
 
 
     private void setDown() {
@@ -365,7 +349,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     }
 
     private void uploadGood() {
-        if (TextUtils.isEmpty(videoKey) ) {
+        if (TextUtils.isEmpty(videoKey)) {
             ToastUtils.showShort("封面视频不能为空");
             return;
         }
@@ -424,21 +408,20 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
             ToastUtils.showShort("商品详情不能为空");
             return;
         }
-        if (detailKey.size()==0){
+        if (detailKey.size() == 0) {
             ToastUtils.showShort("详情图片不能为空");
             return;
         }
-        if (bannerKey.size()==0){
+        if (bannerKey.size() == 0) {
             ToastUtils.showShort("轮播图片不能为空");
             return;
         }
         showLoadingDialog("");
 
         groupFoodReq.shop_id = AccountManager.getInstance().getShopId();
-        if (isweekday){
+        if (isweekday) {
             groupFoodReq.is_weekend = "true";
-        }
-        else{
+        } else {
             groupFoodReq.is_weekend = "false";
 
         }
@@ -447,10 +430,10 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupFoodReq.desc = neirongTextView.getText().toString();
         groupFoodReq.food_type = goodId;
         String detailStr = "";
-        for (int i=0;i<detailKey.size();i++){
-            detailStr = detailStr + detailKey.get(i)+",";
+        for (int i = 0; i < detailKey.size(); i++) {
+            detailStr = detailStr + detailKey.get(i) + ",";
         }
-        detailStr = detailStr.substring(0,detailStr.length()-1);
+        detailStr = detailStr.substring(0, detailStr.length() - 1);
 
         groupFoodReq.details_img = detailStr;
         groupFoodReq.origin_price = originPriceT;
@@ -460,20 +443,19 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         groupFoodReq.details = detailTextView.getText().toString();
         groupFoodReq.matter = zhuyiTextView.getText().toString();
         String bannerStr = "";
-        for (int i=0;i<bannerKey.size();i++){
-            bannerStr = bannerStr + bannerKey.get(i)+",";
+        for (int i = 0; i < bannerKey.size(); i++) {
+            bannerStr = bannerStr + bannerKey.get(i) + ",";
         }
-        bannerStr = bannerStr.substring(0,bannerStr.length()-1);
+        bannerStr = bannerStr.substring(0, bannerStr.length() - 1);
         groupFoodReq.cover = bannerStr;
-        groupFoodReq.term = getTime(startTimeBtn.getText().toString())+"-"+getTime(endTimeBtn.getText().toString());
+        groupFoodReq.term = getTime(startTimeBtn.getText().toString()) + "-" + getTime(endTimeBtn.getText().toString());
         groupFoodReq.status = 1;
-        if (mType==3){
+        if (mType == 3) {
             groupFoodReq.goods_id = groupId;
 
             mPresenter.editGoods(groupFoodReq);
 
-        }
-        else{
+        } else {
             mPresenter.addGood(groupFoodReq);
 
         }
@@ -481,6 +463,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
 
 
     }
+
     // 将字符串转为时间戳
     public static String getTime(String user_time) {
         String re_time = null;
@@ -491,11 +474,12 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
             long l = d.getTime();
             String str = String.valueOf(l);
             re_time = str.substring(0, 10);
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             // TODO Auto-generated catch block e.printStackTrace();
         }
         return re_time;
     }
+
     // 将时间戳转为字符串
     public static String getStrTime(String cc_time) {
         String re_StrTime = null;
@@ -505,7 +489,6 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
         return re_StrTime;
     }
-
 
 
     private static final String SEP1 = ",";
@@ -602,7 +585,6 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         mChooseBottomDialog.show();
 
 
-
     }
 
     private void timeEndChoose() {
@@ -673,16 +655,17 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         startTime.show();
 
     }
-    private List<BusinessType> cateIem = new ArrayList<>();
+
+    private List<BusinessTypeResult> cateIem = new ArrayList<>();
 
     private void getCategoryList() {
         TakeawayApi.getInstance().getTuanCategoryList()
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<BusinessType>>() {
+                .subscribe(new BaseObserver<List<BusinessTypeResult>>() {
                     @Override
-                    protected void onSuccess(List<BusinessType> list) {
+                    protected void onSuccess(List<BusinessTypeResult> list) {
                         cateIem = list;
 
                     }
@@ -726,15 +709,15 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     public void getGoodSuccess(GoodsInfoModel data) {
         titleLab.setText(data.title);
         List<String> video_list = new ArrayList<String>(Arrays.asList(data.video.split("/")));
-        videoKey = video_list.get(video_list.size()-1);
+        videoKey = video_list.get(video_list.size() - 1);
 
-        ImageLoadUtils.loadCover(this,"https://jianshen.fyh5p8.com/"+videoKey+"?vframe/jpg/offset/0",mIvCover);
+        ImageLoadUtils.loadCover(this, "https://jianshen.fyh5p8.com/" + videoKey + "?vframe/jpg/offset/0", mIvCover);
 
         neirongTextView.setText(data.desc);
         goodId = data.food_type;
         detailKey = data.details_key;
         detailList = data.details_img;
-        if (detailList.size()<6){
+        if (detailList.size() < 6) {
             detailList.add("1234");
         }
 
@@ -746,20 +729,19 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         zhuyiTextView.setText(data.matter);
         bannerKey = data.cover_key;
         mList = data.cover;
-        if (mList.size()<6){
+        if (mList.size() < 6) {
             mList.add("123");
         }
 
         groupBannerAdapter.setList(mList);
         isweekday = true;
-        if (data.is_weekend.equals("false")){
+        if (data.is_weekend.equals("false")) {
             isweekday = false;
 
         }
-        if (isweekday){
+        if (isweekday) {
             isweek.setImageResource(R.mipmap.ic_cb_s);
-        }
-        else{
+        } else {
             //mipmap/ic_cb_n
             isweek.setImageResource(R.mipmap.ic_cb_n);
 
@@ -769,8 +751,8 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         endTimeBtn.setText(getStrTime(te.end_time));
 
         for (int i = 0; i < cateIem.size(); i++) {
-            if (cateIem.get(i).id.equals(data.food_type) ){
-                Category.setText(cateIem.get(i).type_name);
+            if (String.valueOf(cateIem.get(i).getId()).equals(data.food_type)) {
+                Category.setText(cateIem.get(i).getType_name());
             }
         }
     }
@@ -784,6 +766,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     public AddGroupGoodPresenter initPresenter() {
         return new AddGroupGoodPresenter(this);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -836,18 +819,17 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
             @Override
             public void onSuccess(String url, String key) {
-                if (uploadType==0){
-                    mList.add(mList.size()-1,url);
-                    if (mList.size()==7){
+                if (uploadType == 0) {
+                    mList.add(mList.size() - 1, url);
+                    if (mList.size() == 7) {
                         mList.remove(6);
                     }
                     bannerKey.add(key);
 
                     groupBannerAdapter.setList(mList);
-                }
-                else{
-                    detailList.add(detailList.size()-1,url);
-                    if (detailList.size()==7){
+                } else {
+                    detailList.add(detailList.size() - 1, url);
+                    if (detailList.size() == 7) {
                         detailList.remove(6);
                     }
                     detailKey.add(key);

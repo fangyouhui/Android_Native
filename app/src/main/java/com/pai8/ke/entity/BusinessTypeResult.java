@@ -7,7 +7,7 @@ public class BusinessTypeResult implements Serializable {
     private int id;
     private String type_name;
     private int status;
-
+    private boolean isSelected;
 
     public int getId() {
         return id;
@@ -31,5 +31,13 @@ public class BusinessTypeResult implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

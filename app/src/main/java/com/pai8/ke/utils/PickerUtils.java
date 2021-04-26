@@ -7,8 +7,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.pai8.ke.api.Api;
 import com.pai8.ke.base.retrofit.BaseObserver;
 import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.entity.resp.ShopListResp;
-import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.BusinessTypeResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +24,16 @@ public class PickerUtils {
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<List<BusinessType>>() {
+                .subscribe(new BaseObserver<List<BusinessTypeResult>>() {
                     @Override
-                    protected void onSuccess(List<BusinessType> list) {
+                    protected void onSuccess(List<BusinessTypeResult> list) {
                         callback.data(-1, 0, "");
-                        for (BusinessType businessType : list) {
-                            options1Items.add(businessType.type_name);
+                        for (BusinessTypeResult businessType : list) {
+                            options1Items.add(businessType.getType_name());
                         }
                         OptionsPickerView pvOptions = new OptionsPickerBuilder(context, (options1, option2,
                                                                                          options3, v) -> {
-                            callback.data(options1, Integer.parseInt(list.get(options1).id), list.get(options1).type_name);
+                            callback.data(options1, list.get(options1).getId(), list.get(options1).getType_name());
                         }).build();
                         pvOptions.setNPicker(options1Items, null, null);
                         pvOptions.setSelectOptions(position);

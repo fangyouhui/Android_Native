@@ -2,13 +2,13 @@ package com.pai8.ke.api;
 
 import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult;
 import com.pai8.ke.base.BaseRespose;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.entity.UserInfo;
 import com.pai8.ke.entity.Video;
 import com.pai8.ke.entity.req.CodeReq;
 import com.pai8.ke.entity.req.LoginReq;
 import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.AttentionResp;
-import com.pai8.ke.entity.resp.BusinessType;
 import com.pai8.ke.entity.resp.CommentResp;
 import com.pai8.ke.entity.resp.CouponListResp;
 import com.pai8.ke.entity.resp.MyInfoResp;
@@ -327,7 +327,7 @@ public interface ApiService {
      * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
      */
     @POST("index/businessType")
-    Observable<BaseRespose<List<BusinessType>>> getBusinessType();
+    Observable<BaseRespose<List<BusinessTypeResult>>> getBusinessType();
 
     /**
      * 商家列表

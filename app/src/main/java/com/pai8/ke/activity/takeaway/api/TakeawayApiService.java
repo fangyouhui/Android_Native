@@ -2,7 +2,6 @@ package com.pai8.ke.activity.takeaway.api;
 
 import com.pai8.ke.activity.takeaway.entity.FoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
-import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.activity.takeaway.entity.ShopFoodGoodInfo;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
 import com.pai8.ke.activity.takeaway.entity.req.EditCategoryReq;
@@ -28,9 +27,8 @@ import com.pai8.ke.activity.wallet.data.InOutRecordResp;
 import com.pai8.ke.activity.wallet.data.MemberCashRequest;
 import com.pai8.ke.activity.wallet.data.MemberWalletResponse;
 import com.pai8.ke.base.BaseRespose;
-import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.BusinessTypeResult;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -78,11 +76,10 @@ public interface TakeawayApiService {
     /**
      * 团购商品类别
      *
-     * @param parm
      * @return
      */
     @POST("Group/GetFoodSortList")
-    Observable<BaseRespose<List<BusinessType>>> getTuanCategoryList();
+    Observable<BaseRespose<List<BusinessTypeResult>>> getTuanCategoryList();
 
 
     /**

@@ -5,22 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="20dp">
 
-    <include
-        layout="@layout/view_comm_titlebar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include layout="@layout/toolbar_layout_base_with_white" />
 
     <LinearLayout
         android:id="@+id/ll_wrap_btn_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingHorizontal="16dp">
 
         <com.pai8.ke.widget.DrawableCenterTextView
             android:id="@+id/tv_btn_galley"
@@ -61,9 +57,9 @@
         android:id="@+id/cv_wrap_video"
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
+        android:background="@color/color_bg"
         android:visibility="gone"
         app:cardCornerRadius="8dp">
 
@@ -75,11 +71,9 @@
                 android:id="@+id/civ_video_cover"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/color_bg"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_bar" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <ImageView
                 android:id="@+id/iv_btn_player"

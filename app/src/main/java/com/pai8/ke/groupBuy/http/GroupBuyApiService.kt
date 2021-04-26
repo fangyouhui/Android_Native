@@ -48,7 +48,9 @@ interface GroupBuyApiService {
     @POST("user/getInfoByUid")
     suspend fun getUserInfoById(@Query("uid") uid: String): BaseHttpResult<UserInfo>
 
-
+    /**
+     * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
+     */
     @POST("index/businessType")
     suspend fun businessType(): BaseHttpResult<List<BusinessTypeResult>>
 
@@ -192,13 +194,6 @@ interface GroupBuyApiService {
 
     @POST("shop/shopEditInfo")
     suspend fun shopEditInfo(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<StoreInfoResult>
-
-
-    /**
-     * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
-     */
-    @POST("index/businessType")
-    suspend fun getBusinessType(): BaseHttpResult<List<BusinessType>>
 
 
     //***************************视频模块End*******************************

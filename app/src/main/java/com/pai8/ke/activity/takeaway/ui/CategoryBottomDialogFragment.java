@@ -7,7 +7,7 @@ import com.lhs.library.base.BaseBottomDialogFragment;
 import com.lhs.library.utils.SerializableUtil;
 import com.pai8.ke.activity.takeaway.adapter.CategoryAdapter;
 import com.pai8.ke.databinding.FragmentCategoryBottomDialogFragmentBinding;
-import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.viewmodel.CategoryViewModel;
 
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +32,7 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        List<BusinessType> list = SerializableUtil.readObjectForList(getContext(), "BusinessTypeData");
+        List<BusinessTypeResult> list = SerializableUtil.readObjectForList(getContext(), "BusinessTypeData");
         adapter = new CategoryAdapter(getContext(), list);
         mBinding.recyclerView.setAdapter(adapter);
         mBinding.ivClose.setOnClickListener(v -> dismiss());
@@ -47,10 +47,10 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
             SerializableUtil.saveSerializable(getContext(), data, "BusinessTypeData");
             if (getArguments() != null && getArguments().containsKey(BaseAppConstants.BundleConstant.ARG_PARAMS_0)) {
                 ArrayList<String> select = getArguments().getStringArrayList(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
-                for (BusinessType datum : data) {
+                for (BusinessTypeResult datum : data) {
                     for (String s : select) {
-                        if (s.equalsIgnoreCase(datum.type_name)) {
-                            datum.isSelected = true;
+                        if (s.equalsIgnoreCase(datum.getType_name())) {
+                            datum.setSelected(true);
                         }
                     }
                 }
@@ -65,9 +65,9 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
     }
 
     private void callBack() {
-        List<BusinessType> list = new ArrayList<>();
-        for (BusinessType datum : adapter.getData()) {
-            if (datum.isSelected) {
+        List<BusinessTypeResult> list = new ArrayList<>();
+        for (BusinessTypeResult datum : adapter.getData()) {
+            if (datum.isSelected()) {
                 list.add(datum);
             }
         }

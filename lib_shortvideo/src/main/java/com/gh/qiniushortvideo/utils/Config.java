@@ -6,10 +6,9 @@ import android.os.Environment;
  * 定义 app 视频相关的存储路径
  */
 public class Config {
-    public static final String VIDEO_STORAGE_DIR = Environment.getExternalStorageDirectory() +
-            "/QNShortVideo/";
-    public static final String RECORD_FILE_PATH = VIDEO_STORAGE_DIR + "record.mp4";
-    public static final String EDITED_FILE_PATH = VIDEO_STORAGE_DIR + "edited.mp4";
+    public static final String VIDEO_STORAGE_DIR = Environment.getExternalStorageDirectory() + "/QNShortVideo/";
+    public static final String RECORD_FILE_PATH = VIDEO_STORAGE_DIR + System.currentTimeMillis() + "_record.mp4";
+    public static final String EDITED_FILE_PATH = VIDEO_STORAGE_DIR + System.currentTimeMillis() + "_edited.mp4";
     public static final String MIX_RECORD_FILE_PATH = VIDEO_STORAGE_DIR + "mix_record.mp4";
     public static final String CAMERA_RECORD_CACHE_PATH = VIDEO_STORAGE_DIR + "mix_camera_cache.mp4";
     public static final String TRIM_FILE_PATH = VIDEO_STORAGE_DIR + "trimmed.mp4";

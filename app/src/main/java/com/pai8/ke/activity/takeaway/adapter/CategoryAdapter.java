@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.lhs.library.base.BaseViewHolder;
 import com.pai8.ke.databinding.ItemCategoryBinding;
-import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.BusinessTypeResult;
 
 import java.util.List;
 
-public class CategoryAdapter extends BaseRecyclerViewAdapter<BusinessType> {
-    public CategoryAdapter(Context context, List<BusinessType> list) {
+public class CategoryAdapter extends BaseRecyclerViewAdapter<BusinessTypeResult> {
+    public CategoryAdapter(Context context, List<BusinessTypeResult> list) {
         super(context, list, false);
     }
 
@@ -29,11 +29,11 @@ public class CategoryAdapter extends BaseRecyclerViewAdapter<BusinessType> {
     protected void onBindNormalViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof CategoryViewHolder) {
             CategoryViewHolder holder = (CategoryViewHolder) viewHolder;
-            BusinessType bean = getItem(position);
-            holder.binding.tvTypeName.setText(bean.type_name);
-            holder.binding.tvTypeName.setSelected(bean.isSelected);
+            BusinessTypeResult bean = getItem(position);
+            holder.binding.tvTypeName.setText(bean.getType_name());
+            holder.binding.tvTypeName.setSelected(bean.isSelected());
             holder.binding.tvTypeName.setOnClickListener(v -> {
-                bean.isSelected = !v.isSelected();
+                bean.setSelected(!v.isSelected());
                 notifyDataSetChanged();
             });
         }

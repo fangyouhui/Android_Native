@@ -14,7 +14,7 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.databinding.ActivityGoodManagerEditBinding;
-import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -109,15 +109,15 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         categoryBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
             @Override
             public void onConfirmClickListener(@NotNull Object data) {
-                List<BusinessType> list = (List<BusinessType>) data;
+                List<BusinessTypeResult> list = (List<BusinessTypeResult>) data;
                 if (list.isEmpty()) {
                     return;
                 }
                 StringBuilder builder = new StringBuilder();
                 StringBuilder ids = new StringBuilder();
-                for (BusinessType businessType : list) {
-                    builder.append(businessType.type_name).append(" ");
-                    ids.append(businessType.id).append(",");
+                for (BusinessTypeResult businessType : list) {
+                    builder.append(businessType.getType_name()).append(" ");
+                    ids.append(businessType.getId()).append(",");
                 }
                 ids.deleteCharAt(ids.lastIndexOf(","));
                 mBinding.tvCategory.setText(builder.toString());

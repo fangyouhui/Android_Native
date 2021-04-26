@@ -259,14 +259,11 @@ public class ImageLoadUtils {
     }
 
     public static void loadVideoCover(Context context, String url, ImageView imageView) {
-        Glide.with(context)
-                .setDefaultRequestOptions(
-                        new RequestOptions()
-                                .frame(1000000)
-                                .dontAnimate()
-                )
-                .load(url)
-                .into(imageView);
+        Glide.with(context).setDefaultRequestOptions(
+                new RequestOptions()
+                        .frame(1000000)
+                        .dontAnimate()
+        ).load(url).into(imageView);
     }
 
     public static void loadPicsFitWidth(Context context, final String imageUrl, final ImageView imageView) {

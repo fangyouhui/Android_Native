@@ -22,7 +22,7 @@ import com.pai8.ke.base.BaseMvpActivity;
 import com.pai8.ke.base.BasePresenter;
 import com.pai8.ke.databinding.ViewDialogCollectionAccountBinding;
 import com.pai8.ke.entity.Address;
-import com.pai8.ke.entity.resp.BusinessType;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.StringUtils;
@@ -231,15 +231,15 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
         categoryBottomDialogFragment.setListener(new BaseBottomDialogFragment.OnDialogListener() {
             @Override
             public void onConfirmClickListener(@NotNull Object data) {
-                List<BusinessType> list = (List<BusinessType>) data;
+                List<BusinessTypeResult> list = (List<BusinessTypeResult>) data;
                 if (list.isEmpty()) {
                     return;
                 }
                 StringBuilder builder = new StringBuilder();
                 StringBuilder ids = new StringBuilder();
-                for (BusinessType businessType : list) {
-                    builder.append(businessType.type_name).append(" ");
-                    ids.append(businessType.id).append(",");
+                for (BusinessTypeResult businessType : list) {
+                    builder.append(businessType.getType_name()).append(" ");
+                    ids.append(businessType.getId()).append(",");
                 }
                 ids.deleteCharAt(ids.lastIndexOf(","));
                 mTvCate.setText(builder.toString());
