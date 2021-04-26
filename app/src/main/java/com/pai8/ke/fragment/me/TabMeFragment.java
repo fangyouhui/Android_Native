@@ -12,7 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.lhs.library.base.BaseFragment;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -35,7 +34,6 @@ import com.pai8.ke.adapter.TabAdapter;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.databinding.FragmentTabMeCopyBinding;
 import com.pai8.ke.entity.UserInfo;
-import com.pai8.ke.fragment.home.TabHomeChildFragment;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
@@ -44,14 +42,12 @@ import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
-import com.pai8.ke.utils.LogUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.SpanUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.TabCreateUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.viewmodel.TabMeViewModel;
-import com.pai8.ke.widget.AppBarStateChangeListener;
 import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CircleImageView;
 import com.pai8.ke.widget.EditTextCountView;
@@ -72,13 +68,8 @@ import cn.sharesdk.wechat.moments.WechatMoments;
 import static android.app.Activity.RESULT_OK;
 import static com.pai8.ke.utils.AppUtils.isWeChatClientValid;
 
-
 public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCopyBinding> {
 
-    private List<Fragment> mFragments = new ArrayList<>();
-    private List<String> mTitles = new ArrayList<>();
-
-    private TabAdapter mTabAdapter;
     private int mStatus;
     private CircleImageView mCivShareCover;
     private BottomDialog mShareModifyBottomDialog;
@@ -115,39 +106,37 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
 
     @Override
     public void initView(Bundle arguments) {
+        initTab();
+        initEvent();
+    }
+
+    private void initTab() {
+        if (!AccountManager.getInstance().isLogin()) {
+            mBinding.magicIndicator.setVisibility(View.GONE);
+            mBinding.viewPager.setVisibility(View.GONE);
+            return;
+        }
+        mBinding.magicIndicator.setVisibility(View.VISIBLE);
+        mBinding.viewPager.setVisibility(View.VISIBLE);
+
+        List<Fragment> mFragments = new ArrayList<>();
+        List<String> mTitles = new ArrayList<>();
+
         mTitles.add("作品");
         mTitles.add("收藏");
         mTitles.add("喜欢");
-        mTitles.add("我关联的");
+        mTitles.add("关联我的");
 
-        mFragments.add(TabHomeChildFragment.newInstance(3));
-        mFragments.add(TabHomeChildFragment.newInstance(2));
-        mFragments.add(TabHomeChildFragment.newInstance(4));
-        mFragments.add(TabHomeChildFragment.newInstance(6));
+        mFragments.add(MeChildFragment.newInstance(0));
+        mFragments.add(MeChildFragment.newInstance(1));
+        mFragments.add(MeChildFragment.newInstance(2));
+        mFragments.add(MeChildFragment.newInstance(3));
 
-        mTabAdapter = new TabAdapter(getChildFragmentManager(), mFragments, mTitles);
-
+        TabAdapter tabAdapter = new TabAdapter(getChildFragmentManager(), mFragments, mTitles);
         mBinding.viewPager.setOffscreenPageLimit(4);
-        mBinding.viewPager.setAdapter(mTabAdapter);
-        mBinding.viewPager.setCurrentItem(0);
+        mBinding.viewPager.setAdapter(tabAdapter);
+
         TabCreateUtils.setMeTab(getActivity(), mBinding.magicIndicator, mBinding.viewPager, mTitles);
-
-        mBinding.appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if (state == State.EXPANDED) {//展开状态
-                    LogUtils.d("mAppBarLayout 展开");
-
-                } else if (state == State.COLLAPSED) {//折叠状态
-                    LogUtils.d("mAppBarLayout 折叠");
-                } else {//中间状态
-                    LogUtils.d("mAppBarLayout 中间");
-
-                }
-            }
-        });
-
-        initEvent();
     }
 
     @Override
@@ -158,6 +147,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
         setHistoryCount(0);
 
         initUserInfo();
+        initTab();
     }
 
     @Override
@@ -176,26 +166,24 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             userInfo.setAvatar(user.getAvatar());
             userInfo.setUser_nickname(user.getUser_nickname());
             AccountManager.getInstance().saveUserInfo(userInfo);
-            mBinding.headView.tvNickName.setText(user.getUser_nickname());
-            ImageLoadUtils.loadImage(getActivity(), user.getAvatar(), mBinding.headView.civAvatar, R.mipmap.img_head_def);
+            mBinding.tvNickName.setText(user.getUser_nickname());
+            ImageLoadUtils.loadImage(getActivity(), user.getAvatar(), mBinding.civAvatar, R.mipmap.img_head_def);
         });
 
     }
 
     private void initUserInfo() {
         if (!AccountManager.getInstance().isLogin()) {
-            mBinding.headView.tvNickName.setText("登录/注册");
-            mBinding.headView.civAvatar.setImageResource(R.mipmap.img_head_def);
+            mBinding.tvNickName.setText("登录/注册");
+            mBinding.civAvatar.setImageResource(R.mipmap.img_head_def);
             setLikeCount(0);
             setFansCount(0);
             setFollowCount(0);
             setHistoryCount(0);
             return;
         }
-
         mViewModel.getMyInfo();
         mViewModel.getInfoByUid();
-
     }
 
     private void setLikeCount(int likeCount) {
@@ -206,7 +194,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
                 .setBold()
                 .append(getActivity(), "\n获赞")
                 .create(getActivity());
-        mBinding.headView.tvLikeCount.setText(span);
+        mBinding.tvLikeCount.setText(span);
     }
 
     private void setFollowCount(int followCount) {
@@ -217,7 +205,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
                 .setBold()
                 .append(getActivity(), "\n关注")
                 .create(getActivity());
-        mBinding.headView.tvFollowCount.setText(span);
+        mBinding.tvFollowCount.setText(span);
     }
 
     private void setFansCount(int fansCount) {
@@ -228,7 +216,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
                 .setBold()
                 .append(getActivity(), "\n粉丝")
                 .create(getActivity());
-        mBinding.headView.tvFansCount.setText(span);
+        mBinding.tvFansCount.setText(span);
     }
 
     private void setHistoryCount(int historyCount) {
@@ -239,7 +227,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
                 .setBold()
                 .append(getActivity(), "\n足迹")
                 .create(getActivity());
-        mBinding.headView.tvHistoryCount.setText(span);
+        mBinding.tvHistoryCount.setText(span);
     }
 
     /**
@@ -253,16 +241,16 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
         switch (status) {
             case 0:
             case 3:
-                mBinding.headView.tvApplyStatus.setEnabled(true);
-                mBinding.headView.tvApplyStatus.setText("申请商家入驻");
+                mBinding.tvApplyStatus.setEnabled(true);
+                mBinding.tvApplyStatus.setText("申请商家入驻");
                 break;
             case 1:
-                mBinding.headView.tvApplyStatus.setEnabled(false);
-                mBinding.headView.tvApplyStatus.setText("正在审核中...");
+                mBinding.tvApplyStatus.setEnabled(false);
+                mBinding.tvApplyStatus.setText("正在审核中...");
                 break;
             case 2:
-                mBinding.headView.tvApplyStatus.setEnabled(true);
-                mBinding.headView.tvApplyStatus.setText("店铺管理");
+                mBinding.tvApplyStatus.setEnabled(true);
+                mBinding.tvApplyStatus.setText("店铺管理");
                 break;
             default:
                 break;
@@ -271,16 +259,16 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
 
 
     private void initEvent() {
-        mBinding.headView.civAvatar.setOnClickListener(v -> {
+        mBinding.civAvatar.setOnClickListener(v -> {
             if (!AccountManager.getInstance().isLogin()) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
             }
 
         });
-        mBinding.headView.tvNickName.setOnClickListener(v -> mBinding.headView.civAvatar.callOnClick());
+        mBinding.tvNickName.setOnClickListener(v -> mBinding.civAvatar.callOnClick());
 
-        mBinding.headView.ivBtnEdit.setOnClickListener(v -> {
+        mBinding.ivBtnEdit.setOnClickListener(v -> {
             if (!AccountManager.getInstance().isLogin()) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
@@ -289,7 +277,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             activityResultLauncher.launch(new Intent(getContext(), EditPersonalInfoActivity.class));
         });
 
-        mBinding.headView.ivBtnMsg.setOnClickListener(v -> {
+        mBinding.ivBtnMsg.setOnClickListener(v -> {
             if (!AccountManager.getInstance().isLogin()) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
@@ -297,15 +285,15 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_HOME_TAB, 3));
         });
 
-        mBinding.headView.llLikeCount.setOnClickListener(v -> {
+        mBinding.llLikeCount.setOnClickListener(v -> {
             launchInterceptLogin(ReceiveLikesActivity.class);
         });
-        mBinding.headView.llFollowCount.setOnClickListener(v -> launchInterceptLogin(AttentionMineActivity.class));
+        mBinding.llFollowCount.setOnClickListener(v -> launchInterceptLogin(AttentionMineActivity.class));
 
-        mBinding.headView.llFansCount.setOnClickListener(v -> launchInterceptLogin(FansActivity.class));
-        mBinding.headView.llHistoryCount.setOnClickListener(v -> launchInterceptLogin(HistoryWatchActivity.class));
+        mBinding.llFansCount.setOnClickListener(v -> launchInterceptLogin(FansActivity.class));
+        mBinding.llHistoryCount.setOnClickListener(v -> launchInterceptLogin(HistoryWatchActivity.class));
 
-        mBinding.headView.tvApplyStatus.setOnClickListener(v -> {
+        mBinding.tvApplyStatus.setOnClickListener(v -> {
             if (mStatus == 0 || mStatus == 3) {
                 launchInterceptLogin(MerchantSettledFirstActivity.class);
             } else if (mStatus == 2) {
@@ -313,11 +301,11 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
                 launchInterceptLogin(StoreManagerActivity.class);
             }
         });
-        mBinding.headView.tvBtnOrder.setOnClickListener(v -> launchInterceptLogin(UserOrderActivity.class));
-        mBinding.headView.tvBtnWallet.setOnClickListener(v -> launchInterceptLogin(WalletActivity.class));
-        mBinding.headView.tvBtnAddress.setOnClickListener(v -> launchInterceptLogin(DeliveryAddressActivity.class));
+        mBinding.tvBtnOrder.setOnClickListener(v -> launchInterceptLogin(UserOrderActivity.class));
+        mBinding.tvBtnWallet.setOnClickListener(v -> launchInterceptLogin(WalletActivity.class));
+        mBinding.tvBtnAddress.setOnClickListener(v -> launchInterceptLogin(DeliveryAddressActivity.class));
 
-        mBinding.headView.tvBtnCoupon.setOnClickListener(v -> {
+        mBinding.tvBtnCoupon.setOnClickListener(v -> {
             if (!AccountManager.getInstance().isLogin()) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
@@ -326,7 +314,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             CouponListActivity.launch(getActivity(), CouponListActivity.INTENT_TYPE_CAN_USE);
         });
 
-        mBinding.headView.tvBtnInvite.setOnClickListener(v -> {
+        mBinding.tvBtnInvite.setOnClickListener(v -> {
             if (!AccountManager.getInstance().isLogin()) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
@@ -334,7 +322,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             share();
         });
 
-        mBinding.headView.tvBtnFeedback.setOnClickListener(v -> {
+        mBinding.tvBtnFeedback.setOnClickListener(v -> {
             if (!AccountManager.getInstance().isLogin()) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
@@ -342,7 +330,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             ReportActivity.launchFeedBack(getActivity());
         });
 
-        mBinding.headView.tvBtnContactUs.setOnClickListener(v -> {
+        mBinding.tvBtnContactUs.setOnClickListener(v -> {
             if (!AccountManager.getInstance().isLogin()) {
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
@@ -350,7 +338,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
             AppUtils.intentCallPhone(getActivity(), "18068446996");
         });
 
-        mBinding.headView.tvBtnSetting.setOnClickListener(v -> launchInterceptLogin(SettingActivity.class));
+        mBinding.tvBtnSetting.setOnClickListener(v -> launchInterceptLogin(SettingActivity.class));
     }
 
     private void launchInterceptLogin(Class clazz) {
@@ -428,7 +416,6 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
     //添加关联页
     private void addLinkFragment() {
         String title = mStatus == 3 ? "关联我的" : "我关联的";
-
     }
 
     /**

@@ -10,7 +10,7 @@ class VideoHomeViewModel : BaseViewModel() {
     val data = MutableLiveData<VideoListResp>()
     fun nearby(page: Int) {
         launchOnlyResult({
-            RetrofitClient.getInstance().getMainService().nearby(page, 1)
+            RetrofitClient.getInstance().getMainService().nearby(page, 10)
         }, {
             data.value = it
         })
@@ -18,7 +18,7 @@ class VideoHomeViewModel : BaseViewModel() {
 
     fun flow(page: Int) {
         launchOnlyResult({
-            RetrofitClient.getInstance().getMainService().flow(page, 1)
+            RetrofitClient.getInstance().getMainService().flow(page, 10)
         }, {
             data.value = it
         })
@@ -26,7 +26,7 @@ class VideoHomeViewModel : BaseViewModel() {
 
     fun follow(page: Int) {
         launchOnlyResult({
-            RetrofitClient.getInstance().getMainService().follow(page, 1)
+            RetrofitClient.getInstance().getMainService().follow(page, 10)
         }, {
             data.value = it
         })

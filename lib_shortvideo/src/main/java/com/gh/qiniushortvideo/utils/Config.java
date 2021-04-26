@@ -7,8 +7,8 @@ import android.os.Environment;
  */
 public class Config {
     public static final String VIDEO_STORAGE_DIR = Environment.getExternalStorageDirectory() + "/QNShortVideo/";
-    public static final String RECORD_FILE_PATH = VIDEO_STORAGE_DIR + System.currentTimeMillis() + "_record.mp4";
-    public static final String EDITED_FILE_PATH = VIDEO_STORAGE_DIR + System.currentTimeMillis() + "_edited.mp4";
+    public static final String RECORD_FILE_PATH = VIDEO_STORAGE_DIR + "_record.mp4";
+    public static final String EDITED_FILE_PATH = VIDEO_STORAGE_DIR + "_edited.mp4";
     public static final String MIX_RECORD_FILE_PATH = VIDEO_STORAGE_DIR + "mix_record.mp4";
     public static final String CAMERA_RECORD_CACHE_PATH = VIDEO_STORAGE_DIR + "mix_camera_cache.mp4";
     public static final String TRIM_FILE_PATH = VIDEO_STORAGE_DIR + "trimmed.mp4";
@@ -18,4 +18,6 @@ public class Config {
     public static final String FUNCTION_LIST_PATH = "https://developer.qiniu.com/pili/sdk/3731/short-video";
     public static final String COMPOSE_FILE_PATH = VIDEO_STORAGE_DIR + "composed.mp4";
     public static final String VIDEO_MIX_PATH = VIDEO_STORAGE_DIR + "video_mix.mp4";
+
+
 }

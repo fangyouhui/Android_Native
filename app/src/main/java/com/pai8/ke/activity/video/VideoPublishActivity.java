@@ -1,15 +1,19 @@
 package com.pai8.ke.activity.video;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gh.qiniushortvideo.ChooseVideo;
 import com.gh.qiniushortvideo.activity.ConfigActivity;
 import com.gh.qiniushortvideo.activity.MediaSelectActivity;
 import com.gh.qiniushortvideo.activity.VideoRecordActivity;
 import com.lhs.library.base.BaseActivity;
+import com.pai8.ke.R;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.me.AddressChooseActivity;
@@ -25,7 +29,6 @@ import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.EventBusUtils;
-import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.PickerUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
@@ -34,6 +37,8 @@ import com.pai8.ke.viewmodel.VideoPublishViewModel;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 
 import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 
@@ -65,12 +70,16 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventChooseVideo(ChooseVideo event) {
-        Log.e("lihongshi", event.getPath());
         if (event == null) return;
         mBinding.cvWrapVideo.setVisibility(View.VISIBLE);
         mBinding.llWrapBtnVideo.setVisibility(View.GONE);
         mCoverVideoPath = event.getPath();
-        ImageLoadUtils.loadVideoCover(this, mCoverVideoPath, mBinding.civVideoCover);
+
+        Glide.with(this)
+                .load(Uri.fromFile(new File(mCoverVideoPath)))
+                .skipMemoryCache(true) // 不使用内存缓存
+                .diskCacheStrategy(DiskCacheStrategy.NONE) // 不使用磁盘缓存
+                .into(mBinding.civVideoCover);
         showLoading();
         mViewModel.uploadVideo(mCoverVideoPath);
     }
@@ -121,11 +130,10 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
         });
 
         mBinding.ivBtnDelete.setOnClickListener(v -> {
-            mBinding.civVideoCover.setImageDrawable(null);
-            mBinding.cvWrapVideo.setVisibility(View.GONE);
-            mBinding.llWrapBtnVideo.setVisibility(View.VISIBLE);
             mCoverVideoPath = "";
             mCoverVideoUrl = "";
+            mBinding.cvWrapVideo.setVisibility(View.GONE);
+            mBinding.llWrapBtnVideo.setVisibility(View.VISIBLE);
         });
 
         mBinding.rlBtnAddress.setOnClickListener(v -> {
@@ -144,9 +152,7 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
                 mBinding.tvClassify.setText(name);
             });
         });
-        mBinding.btnSubmit.setOnClickListener(v -> {
-            submit();
-        });
+        mBinding.btnSubmit.setOnClickListener(v -> submit());
     }
 
     private void submit() {

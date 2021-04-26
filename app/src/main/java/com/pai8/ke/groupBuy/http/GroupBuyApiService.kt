@@ -3,7 +3,6 @@ package com.pai8.ke.groupBuy.http
 import com.google.gson.JsonObject
 import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult
 import com.pai8.ke.activity.message.entity.GoodsCollectionResult
-import com.pai8.ke.activity.message.entity.UserFollowResult
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
@@ -249,8 +248,29 @@ interface GroupBuyApiService {
     suspend fun follow(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
 
 
+    /**
+     * 我发布的视频列表（新）
+     *
+     * @return
+     */
+    @POST("video/myVideo")
+    suspend fun myVideo(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
 
 
+    /**
+     * 我喜欢的视频列表（新）
+     *
+     * @return
+     */
+    @POST("video/myLike")
+    suspend fun myLike(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
 
 
+    /**
+     * 关联我的或我关联的视频列表
+     *
+     * @return
+     */
+    @POST("video/mylink")
+    suspend fun myLink(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
 }

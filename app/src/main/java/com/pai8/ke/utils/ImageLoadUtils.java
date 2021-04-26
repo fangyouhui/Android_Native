@@ -3,6 +3,7 @@ package com.pai8.ke.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Looper;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,6 +26,8 @@ import com.pai8.ke.utils.transform.GlideCircleTransform;
 import com.pai8.ke.utils.transform.GlideRadianTransform;
 import com.pai8.ke.utils.transform.GlideRoundTransform;
 import com.pai8.ke.utils.transform.GlideRoundTransform2;
+
+import java.io.File;
 
 /**
  * 基于Glide图片加载工具类
@@ -259,11 +262,14 @@ public class ImageLoadUtils {
     }
 
     public static void loadVideoCover(Context context, String url, ImageView imageView) {
-        Glide.with(context).setDefaultRequestOptions(
-                new RequestOptions()
-                        .frame(1000000)
-                        .dontAnimate()
-        ).load(url).into(imageView);
+        File videoFile = new File(url);
+//        Glide.with(context).setDefaultRequestOptions(
+//                new RequestOptions()
+//                        .frame(1000000)
+//                        .dontAnimate()
+//        ).load(url).into(imageView);
+        Glide.with(context).load(Uri.fromFile(videoFile)).placeholder(R.mipmap.ic_launcher).into(imageView);
+
     }
 
     public static void loadPicsFitWidth(Context context, final String imageUrl, final ImageView imageView) {
