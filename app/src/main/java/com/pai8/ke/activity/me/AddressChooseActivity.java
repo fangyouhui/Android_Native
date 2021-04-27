@@ -1,13 +1,16 @@
 package com.pai8.ke.activity.me;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
@@ -21,15 +24,15 @@ import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.lhs.library.base.BaseActivity;
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.NoViewModel;
 import com.pai8.ke.activity.me.adapter.AddressChooseAdapter;
+import com.pai8.ke.activity.takeaway.ui.ChangeDetailAddressActivity;
 import com.pai8.ke.app.MyApp;
-import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.databinding.ActivityAddressChooseBinding;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.groupBuy.adapter.TextWatcherAdapter;
 import com.pai8.ke.utils.CollectionUtils;
-import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.MyAMapUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
@@ -39,8 +42,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
 
 /**
  * 地址选择
@@ -61,7 +62,7 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
     private PoiSearch.Query mPoiquery;
     private String mSearch = "";
     private boolean isCanSearch = true;
-
+    private ActivityResultLauncher activityResultLauncher;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -77,6 +78,12 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding.mapView.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                setResult(RESULT_OK, result.getData());
+                finish();
+            }
+        });
     }
 
     @Override
@@ -103,17 +110,30 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
             }
         });
 
-        mBinding.etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_SEARCH)) {
-                    mHandler.sendEmptyMessageDelayed(RC_SEARCH, INTERVAL);
-                    return true;
-                }
-                return false;
+        mBinding.etSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_SEARCH)) {
+                mHandler.sendEmptyMessageDelayed(RC_SEARCH, INTERVAL);
+                return true;
             }
+            return false;
+        });
+
+        mBinding.ivBtnBack.setOnClickListener(v -> finish());
+        mBinding.ivBtnMyLoc.setOnClickListener(v -> moveToMy());
+        mBinding.tvSubmit.setOnClickListener(v -> {
+            Address select = mAdapter.getSelect();
+            if (select == null) {
+                ToastUtils.showShort("请选择地址");
+                return;
+            }
+            Intent intent = new Intent(this, ChangeDetailAddressActivity.class);
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, select);
+            //     startActivity(intent);
+            //  EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
+            activityResultLauncher.launch(intent);
+            //  finish();
         });
     }
-
 
     private void initMapView() {
         mAMap = mBinding.mapView.getMap();
@@ -125,18 +145,6 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
         // 不显示缩放按钮，加号减号
         mUiSettings.setZoomControlsEnabled(false);
         mAMap.setOnCameraChangeListener(this);
-
-        mBinding.ivBtnBack.setOnClickListener(v -> finish());
-        mBinding.ivBtnMyLoc.setOnClickListener(v -> moveToMy());
-        mBinding.tvSubmit.setOnClickListener(v -> {
-            Address select = mAdapter.getSelect();
-            if (select == null) {
-                ToastUtils.showShort("请选择地址");
-                return;
-            }
-            EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
-            finish();
-        });
     }
 
 
@@ -212,8 +220,7 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
                 LatLng startLatLng = new LatLng(mAMapLocation.getLatitude(), mAMapLocation.getLongitude());
                 LatLng endLatLng = new LatLng(latLonPoint.getLatitude(), latLonPoint.getLongitude());
                 String formatDistance =
-                        MyAMapUtils.getFormatDistance(AMapUtils.calculateLineDistance(startLatLng,
-                                endLatLng));
+                        MyAMapUtils.getFormatDistance(AMapUtils.calculateLineDistance(startLatLng, endLatLng));
                 address.setDistance(formatDistance);
                 lists.add(address);
             }

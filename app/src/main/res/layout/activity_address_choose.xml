@@ -93,5 +93,4 @@
         tools:itemCount="9"
         tools:listitem="@layout/item_address_choose" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +9,9 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
@@ -23,6 +27,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.me.adapter.AddressChooseAdapter;
 import com.pai8.ke.app.MyApp;
@@ -39,8 +44,6 @@ import com.pai8.ke.widget.SpaceItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -213,8 +216,11 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
                 }
                 if (mIntentType == 0) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("ADDRESS", select);
-                    launch(ChangeDetailAddressActivity.class, bundle);
+//                    bundle.putSerializable("ADDRESS", select);
+//                    launch(ChangeDetailAddressActivity.class, bundle);
+                    Intent intent = new Intent(this, ChangeDetailAddressActivity.class);
+                    intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, select);
+                    startActivity(intent);
                 } else {
                     EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
 //                    Intent intent = new Intent();
@@ -256,16 +262,17 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
 
     /**
      * 执行POI检索
+     *
      * @param latLonPoint
      */
     protected void doSearchQuery(LatLonPoint latLonPoint) {
-        if(StringUtils.isEmpty(mSearch)){
+        if (StringUtils.isEmpty(mSearch)) {
             if (StringUtils.isEmpty(mCity)) {
-                mPoiquery = new PoiSearch.Query(mSearch, "",mAMapLocation.getCity());
+                mPoiquery = new PoiSearch.Query(mSearch, "", mAMapLocation.getCity());
             } else {
                 mPoiquery = new PoiSearch.Query(mSearch, "", mCity);
             }
-        }else{
+        } else {
             if (StringUtils.isEmpty(mCity)) {
                 mPoiquery = new PoiSearch.Query(mSearch, "");
             } else {
@@ -275,7 +282,7 @@ public class MapAddressChooseActivity extends BaseActivity implements AMap.OnCam
         mPoiquery.setPageSize(100);
         mPoiquery.setPageNum(1);
         PoiSearch poiSearch = new PoiSearch(this, mPoiquery);
-        if(StringUtils.isEmpty(mSearch) && StringUtils.isEmpty(mCity)){
+        if (StringUtils.isEmpty(mSearch) && StringUtils.isEmpty(mCity)) {
             poiSearch.setBound(new PoiSearch.SearchBound(latLonPoint, 100 * 1000 * 1000, true));
         }
         poiSearch.setOnPoiSearchListener(this);

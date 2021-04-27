@@ -1,10 +1,13 @@
 package com.pai8.ke.activity.video;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -13,7 +16,7 @@ import com.gh.qiniushortvideo.activity.ConfigActivity;
 import com.gh.qiniushortvideo.activity.MediaSelectActivity;
 import com.gh.qiniushortvideo.activity.VideoRecordActivity;
 import com.lhs.library.base.BaseActivity;
-import com.pai8.ke.R;
+import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.me.AddressChooseActivity;
@@ -55,11 +58,18 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
     private String mCoverVideoPath = "";
     private ShopList mShopInfo;
     private Address mAddress;
+    private ActivityResultLauncher activityResultLauncher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         EventBusUtils.register(this);
         super.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                mAddress = (Address) result.getData().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+                mBinding.tvAddress.setText(mAddress.getTitle());
+            }
+        });
     }
 
     @Override
@@ -99,10 +109,10 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
                 mShopInfo = (ShopList) event.getData();
                 mBinding.tvLinkShop.setText(mShopInfo.getShop_name());
                 break;
-            case EventCode.EVENT_CHOOSE_ADDRESS:
-                mAddress = (Address) event.getData();
-                mBinding.tvAddress.setText(mAddress.getTitle());
-                break;
+//            case EventCode.EVENT_CHOOSE_ADDRESS:
+//                mAddress = (Address) event.getData();
+//                mBinding.tvAddress.setText(mAddress.getTitle());
+//                break;
         }
     }
 
@@ -137,7 +147,9 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
         });
 
         mBinding.rlBtnAddress.setOnClickListener(v -> {
-            startActivity(new Intent(this, AddressChooseActivity.class));
+            Intent intent = new Intent(this, AddressChooseActivity.class);
+            //   startActivity(new Intent(this, AddressChooseActivity.class));
+            activityResultLauncher.launch(intent);
         });
         mBinding.rlBtnLinkShop.setOnClickListener(v -> {
             startActivity(new Intent(this, ShopSearchListActivity.class));
