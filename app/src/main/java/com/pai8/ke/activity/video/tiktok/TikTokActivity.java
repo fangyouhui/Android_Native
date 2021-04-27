@@ -542,7 +542,7 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                     .setCancelable(false)
                     .setTitle("微信")
                     .setMessage("我的微信号是：" + getCurVideo().getUser().getWechat())
-                    .setPositiveButton("确认", (dialog, which) -> {
+                    .setPositiveButton("复制", (dialog, which) -> {
                         ClipboardUtils.copyText(getCurVideo().getUser().getWechat());
                         ToastUtils.showShort("已复制到粘贴板");
                     })

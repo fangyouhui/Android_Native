@@ -155,7 +155,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
         mViewModel.getMyInfoData().observe(getViewLifecycleOwner(), data -> {
             setLikeCount(data.getMy_likes());
             setFansCount(data.getMy_fans());
-            setFollowCount(data.getMy_fans());
+            setFollowCount(data.getMy_follows());
             setHistoryCount(data.getMy_history());
             initVerifyStatus(data.getVerify_status());
             addLinkFragment();

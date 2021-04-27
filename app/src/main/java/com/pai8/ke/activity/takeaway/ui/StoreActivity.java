@@ -409,14 +409,13 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         }
     }
 
-
     private void setData(StoreInfoResult mStoreInfo) {
         if (mStoreInfo != null && !TextUtils.isEmpty(mStoreInfo.shop_name)) {
             ImageLoadUtils.setCircularImage(this, mStoreInfo.shop_img, mIvStorePic, R.mipmap.ic_launcher);
             mTvStoreName.setText(mStoreInfo.shop_name);
             mTvScore.setText(mStoreInfo.score + "");
             mTvMonthSale.setText("月售 " + mStoreInfo.month_sale_count);
-            mTvDesc.setText(StringUtils.strSafe(mStoreInfo.address));
+            mTvDesc.setText("地址：" + StringUtils.strSafe(mStoreInfo.address));
             mTvTime.setText(mStoreInfo.delivery_time);
             mTvlogisticsDiscounts.setText("另需配送费￥" + mStoreInfo.send_cost);
             mTvStoreDis.setText(mStoreInfo.distance);
@@ -424,7 +423,6 @@ public class StoreActivity extends BaseMvpActivity<StorePresenter> implements Vi
         }
 
     }
-
 
     @Override
     public void onClick(View v) {

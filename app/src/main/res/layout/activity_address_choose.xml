@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -65,45 +66,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_btn_back" />
 
-    <ImageView
-        android:id="@+id/iv_bg_bottom"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/shape_dialog_bottom"
+        android:background="@color/color_bg"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_view" />
+        tools:itemCount="4"
+        tools:listitem="@layout/item_address_choose" />
 
     <EditText
         android:id="@+id/et_search"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/shape_input_radius22"
         android:drawableLeft="@mipmap/ic_search"
         android:drawablePadding="4dp"
         android:gravity="center_vertical"
         android:hint="请输入你要搜索的地址…"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:imeOptions="actionSearch"
+        android:paddingHorizontal="15dp"
         android:textColor="@color/color_mid_font"
         android:textColorHint="@color/color_light_font"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_bg_bottom" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_address"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/color_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
