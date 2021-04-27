@@ -65,8 +65,8 @@ public class FoodGoodAdapter extends RvAdapter<FoodGoodInfo> {
     public class ClassifyHolder extends RvHolder<FoodGoodInfo> {
         TextView tvTitle;
 
-        TextView tvAddGoods;
-        TextView tvReduce;
+        ImageView tvAddGoods;
+        ImageView tvReduce;
         TextView tvNum;
         VideoView videoView;
         ImageView ivBtnPlayer;
