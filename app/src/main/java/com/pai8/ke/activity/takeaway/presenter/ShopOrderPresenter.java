@@ -42,7 +42,6 @@ public class ShopOrderPresenter extends BasePresenterImpl<ShopOrderContract.View
     }
 
     public void orderList(String order_status,int page){
-
         HashMap<String, Object> map = new HashMap<>();
         map.put("shop_id", AccountManager.getInstance().getShopId());
         map.put("order_status",order_status); //订单状态 0为待支付 1为已支付 2为商家已接单 7为订单制作完成 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单

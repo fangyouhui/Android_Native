@@ -1,45 +1,52 @@
 package com.pai8.ke.activity.takeaway.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
-import android.widget.RelativeLayout;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.pai8.ke.R;
+import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.pai8.ke.activity.takeaway.entity.req.OrderStatusInfo;
+import com.pai8.ke.databinding.ItemOrderStatusBinding;
 
 import java.util.List;
 
-public class OrderStatusAdapter extends BaseQuickAdapter<OrderStatusInfo, BaseViewHolder> {
-    public OrderStatusAdapter(@Nullable List<OrderStatusInfo> data) {
-        super(R.layout.item_order_status, data);
+public class OrderStatusAdapter extends BaseRecyclerViewAdapter<OrderStatusInfo> {
+
+    public OrderStatusAdapter(Context context, List<OrderStatusInfo> list) {
+        super(context, list);
+    }
+
+
+    @Override
+    protected RecyclerView.ViewHolder onCreateNormalViewHolder(ViewGroup parent, int viewType) {
+        ItemOrderStatusBinding binding = ItemOrderStatusBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new OrderStatusViewHolder(binding);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderStatusInfo item) {
-        RelativeLayout rlStatus = helper.getView(R.id.root);
-        helper.setText(R.id.tv_content, item.name);
-
-        if (item.isSelect) {
-            rlStatus.setBackgroundResource(R.drawable.shape_store_business_radius16);
-            helper.setTextColor(R.id.tv_content, Color.parseColor("#FF7F47"));
-        } else {
-            rlStatus.setBackgroundResource(R.drawable.shape_gray_radius16);
-            helper.setTextColor(R.id.tv_content, Color.parseColor("#111111"));
+    protected void onBindNormalViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        if (viewHolder instanceof OrderStatusViewHolder) {
+            OrderStatusViewHolder holder = (OrderStatusViewHolder) viewHolder;
+            OrderStatusInfo bean = getItem(position);
+            holder.binding.tvContent.setText(bean.name);
+            holder.binding.tvContent.setSelected(bean.isSelect);
+            holder.binding.tvContent.setTextColor(Color.parseColor(bean.isSelect ? "#FF7F47" : "#111111"));
+            holder.binding.tvContent.setOnClickListener(v -> {
+                bean.isSelect = !bean.isSelect;
+                notifyDataSetChanged();
+            });
         }
 
     }
 
+    class OrderStatusViewHolder extends com.lhs.library.base.BaseViewHolder<ItemOrderStatusBinding> {
 
-    public void choosePosition(int position) {
-        OrderStatusInfo filterInfo = getData().get(position);
-        if (filterInfo.isSelect()) {
-            filterInfo.setSelect(false);
-        } else {
-            filterInfo.setSelect(true);
+        public OrderStatusViewHolder(@NonNull ItemOrderStatusBinding viewBinding) {
+            super(viewBinding);
         }
-        notifyDataSetChanged();
     }
 }

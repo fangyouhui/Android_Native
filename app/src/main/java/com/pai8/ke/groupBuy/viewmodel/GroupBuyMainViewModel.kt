@@ -19,10 +19,10 @@ class GroupBuyMainViewModel : BaseViewModel() {
         })
     }
 
-    val businessTypeData = MutableLiveData<List<BusinessTypeResult>>()
-    fun businessType() {
-        launchOnlyResult({ RetrofitClient.getInstance().getMainService().businessType() }, {
-            businessTypeData.value = it
+    val videotypeData = MutableLiveData<List<BusinessTypeResult>>()
+    fun setvideotype() {
+        launchOnlyResult({ RetrofitClient.getInstance().getMainService().setvideotype() }, {
+            videotypeData.value = it
         })
     }
 

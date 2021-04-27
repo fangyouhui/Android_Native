@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.pai8.ke.R;
-import com.pai8.ke.activity.takeaway.entity.OrderInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.utils.ImageLoadUtils;
 
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class UserTakeawayOrderAdapter extends BaseQuickAdapter<OrderListResult, BaseViewHolder> {
     public UserTakeawayOrderAdapter(@Nullable List<OrderListResult> data) {
-        super(R.layout.item_order, data);
+        super(R.layout.item_shop_takeaway_order, data);
     }
 
     @Override

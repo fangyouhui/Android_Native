@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
@@ -10,17 +11,18 @@
     android:paddingTop="16dp"
     android:paddingBottom="16dp">
 
-    <ImageView
-        android:id="@+id/iv_store"
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/buyerAvatar"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
-        android:background="@color/color_default"
+        android:src="@mipmap/img_head_def"
+        app:es_shape_type="round"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/buyerNickName"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
@@ -28,7 +30,7 @@
         android:text="这里是用户昵称"
         android:textColor="@color/color_black"
         android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/iv_store"
+        app:layout_constraintLeft_toRightOf="@id/buyerAvatar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -50,8 +52,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="16dp"
         android:background="@color/color_divider"
-        app:layout_constraintTop_toBottomOf="@+id/iv_store" />
-
+        app:layout_constraintTop_toBottomOf="@id/buyerAvatar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_foods"
@@ -60,10 +61,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="@dimen/dp_10"
-        app:layout_constraintEnd_toStartOf="@+id/tv_price"
-        app:layout_constraintRight_toLeftOf="@+id/tv_price"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toStartOf="@id/tv_price"
+        app:layout_constraintRight_toLeftOf="@id/tv_price"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@id/view"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_order_food" />
 
     <TextView
         android:id="@+id/tv_price"
@@ -73,9 +77,9 @@
         android:text="88"
         android:textColor="@color/color_black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_food_status"
+        app:layout_constraintBottom_toTopOf="@id/tv_food_status"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
+        app:layout_constraintTop_toBottomOf="@id/view" />
 
     <TextView
         android:id="@+id/tv_total"
@@ -84,13 +88,11 @@
         android:layout_marginEnd="16dp"
         android:text="88"
         android:textColor="#999999"
-
         android:textSize="12sp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_price" />
+        app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
     <TextView
-
         android:id="@+id/tv_reject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,10 +106,8 @@
         android:text="拒绝接单"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_food_status"
-        app:layout_constraintTop_toBottomOf="@+id/rv_foods"
-
-        />
+        app:layout_constraintEnd_toStartOf="@id/tv_food_status"
+        app:layout_constraintTop_toBottomOf="@id/rv_foods" />
 
     <TextView
         android:id="@+id/tv_cancel"
@@ -123,11 +123,10 @@
         android:text="取消接单"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_food_status"
-        app:layout_constraintTop_toBottomOf="@+id/rv_foods" />
+        app:layout_constraintEnd_toStartOf="@id/tv_food_status"
+        app:layout_constraintTop_toBottomOf="@id/rv_foods" />
 
     <TextView
-
         android:id="@+id/tv_food_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -142,6 +141,6 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_foods" />
+        app:layout_constraintTop_toBottomOf="@id/rv_foods" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

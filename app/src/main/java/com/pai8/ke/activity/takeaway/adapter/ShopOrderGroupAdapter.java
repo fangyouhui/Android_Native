@@ -27,7 +27,7 @@ public class ShopOrderGroupAdapter extends BaseQuickAdapter<OrderInfo, BaseViewH
         helper.setText(R.id.tvShopName, item.shop_name);
         helper.setText(R.id.tvOrderStatus, "已核销");
         FoodGoodInfo foodGoodInfo = item.goods_info.get(0);
-        List<String> video_list = new ArrayList<String>(Arrays.asList(foodGoodInfo.cover.split(",")));
+        List<String> video_list = new ArrayList<>(Arrays.asList(foodGoodInfo.cover.split(",")));
 
         ImageLoadUtils.setCircularImage(mContext, video_list.get(0), helper.getView(R.id.ivProductImg), R.mipmap.ic_launcher);
 

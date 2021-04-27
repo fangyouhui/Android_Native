@@ -12,8 +12,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ll_bottom"
-        android:layout_below="@+id/toolBar"
+        android:layout_above="@id/ll_bottom"
+        android:layout_below="@id/toolBar"
         android:background="@color/color_bg">
 
         <LinearLayout
@@ -132,7 +132,6 @@
                     android:layout_marginStart="16dp"
                     android:background="@color/color_divider" />
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -143,7 +142,7 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="外卖分类"
+                        android:text="分类"
                         android:textColor="@color/color_light_font"
                         android:textSize="15sp" />
 
@@ -170,10 +169,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="16dp"
                         android:background="@mipmap/me_right_arrow" />
-
-
                 </RelativeLayout>
-
 
                 <View
                     android:layout_width="match_parent"
@@ -219,8 +215,6 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="16dp"
                         android:background="@mipmap/me_right_arrow" />
-
-
                 </RelativeLayout>
 
                 <View
@@ -255,7 +249,6 @@
                         android:textColor="@color/text_black"
                         android:textColorHint="#D8D8D8"
                         android:textSize="15sp" />
-
                 </RelativeLayout>
 
                 <View
@@ -313,7 +306,6 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="108dp"
@@ -343,10 +335,7 @@
                         android:layout_marginBottom="20dp"
                         android:text="(0/50)"
                         android:textColor="@color/color_light_font"
-                        android:textSize="14sp"
-
-                        />
-
+                        android:textSize="14sp" />
 
                 </RelativeLayout>
             </LinearLayout>

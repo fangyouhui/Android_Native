@@ -78,14 +78,14 @@ public class GroupBuyMainActivity extends BaseActivity<GroupBuyMainViewModel, Ac
 
     @Override
     public void initData() {
-        mViewModel.businessType();
+        mViewModel.setvideotype();
     }
 
     private ViewPagerAdapter tabFragmentAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
     @Override
     public void addObserve() {
-        mViewModel.getBusinessTypeData().observe(this, data -> {
+        mViewModel.getVideotypeData().observe(this, data -> {
             for (BusinessTypeResult datum : data) {
                 tabFragmentAdapter.addFragment(GroupBuyBusinessListFragment.newInstance(datum), datum.getType_name());
             }

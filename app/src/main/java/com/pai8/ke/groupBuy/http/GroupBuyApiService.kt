@@ -5,6 +5,7 @@ import com.pai8.ke.activity.me.entity.resp.ShopCouponListResult
 import com.pai8.ke.activity.message.entity.GoodsCollectionResult
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
+import com.pai8.ke.activity.takeaway.entity.OrderInfo
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
@@ -53,6 +54,12 @@ interface GroupBuyApiService {
      */
     @POST("index/businessType")
     suspend fun businessType(): BaseHttpResult<List<BusinessTypeResult>>
+
+    /**
+     * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
+     */
+    @POST("index/setvideotype")
+    suspend fun setvideotype(): BaseHttpResult<List<BusinessTypeResult>>
 
     @POST("Group/GetGroupShopList")
     suspend fun getGroupShopList(@Body param: GetGroupShopListParam): BaseHttpResult<GetGroupShopListResult>
@@ -287,6 +294,17 @@ interface GroupBuyApiService {
      */
     @POST("shop/foodDelete")
     suspend fun foodDelete(@Query("food_id") food_id: String): BaseHttpResult<List<String>>
+
+    /**
+     * order_status:获取所有订单状态需要传空字符串，*该值为str型，不同的状态请用半角/符号隔开*订单状态 0为待支付 1为已支付 2为商家已接单 7为订单制作完成 3为配送中 4为订单已完成 5为订单已申请退款 6订单被拒绝退款 8为订单已退款 9为订单已取消 -1为支付超时 -2订单拒绝接单
+     * order_type: 1为邮寄订单 2为外卖订单 3为团购核销订单 不填写默认为外卖订单
+     */
+    @POST("Order/shopOrderList")
+    suspend fun shopOrderList(@Query("shop_id") shop_id: String, @Query("order_status") order_status: String,
+                              @Query("order_type") order_type: Int, @Query("page") page: Int): BaseHttpResult<List<OrderInfo>>
+
+    @POST("Order/shopDealOrder")
+    suspend fun shopDealOrder(@Query("shop_id") shop_id: String, @Query("order_no") order_no: String, @Query("type") type: Int): BaseHttpResult<List<String>>
 
 
 }
