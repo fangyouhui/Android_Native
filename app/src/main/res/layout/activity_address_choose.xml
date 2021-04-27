@@ -21,10 +21,10 @@
         android:layout_width="24dp"
         android:layout_height="40dp"
         android:background="@mipmap/ic_loc"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
-        app:layout_constraintEnd_toEndOf="@+id/map_view"
-        app:layout_constraintStart_toStartOf="@+id/map_view"
-        app:layout_constraintTop_toTopOf="@+id/map_view" />
+        app:layout_constraintBottom_toBottomOf="@id/map_view"
+        app:layout_constraintEnd_toEndOf="@id/map_view"
+        app:layout_constraintStart_toStartOf="@id/map_view"
+        app:layout_constraintTop_toTopOf="@id/map_view" />
 
     <ImageView
         android:id="@+id/iv_btn_my_loc"
@@ -32,17 +32,15 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:src="@mipmap/ic_btn_loc"
-        app:layout_constraintBottom_toBottomOf="@+id/map_view"
-        app:layout_constraintEnd_toEndOf="@+id/map_view" />
+        app:layout_constraintBottom_toBottomOf="@id/map_view"
+        app:layout_constraintEnd_toEndOf="@id/map_view" />
 
     <ImageView
         android:id="@+id/iv_btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:padding="18dp"
+        android:layout_marginTop="20dp"
+        android:padding="15dp"
         android:src="@mipmap/ic_navi_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,54 +49,49 @@
         android:id="@+id/tv_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
         android:background="@drawable/btn_selector_linear_radius"
-        android:paddingLeft="11dp"
-        android:paddingTop="4.5dp"
-        android:paddingRight="11dp"
-        android:paddingBottom="4.5dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:text="确定"
         android:textColor="@color/color_white"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_btn_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_btn_back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_btn_back" />
+        app:layout_constraintTop_toTopOf="@id/iv_btn_back" />
 
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_input_radius18"
+        android:drawableLeft="@mipmap/ic_search"
+        android:drawablePadding="4dp"
+        android:hint="请输入你要搜索的地址…"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:paddingHorizontal="15dp"
+        android:textColor="@color/color_mid_font"
+        android:textColorHint="@color/color_light_font"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/map_view" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/color_bg"
+        android:layout_marginTop="10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        tools:itemCount="4"
+        app:layout_constraintTop_toBottomOf="@id/et_search"
+        tools:itemCount="9"
         tools:listitem="@layout/item_address_choose" />
-
-    <EditText
-        android:id="@+id/et_search"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/shape_input_radius22"
-        android:drawableLeft="@mipmap/ic_search"
-        android:drawablePadding="4dp"
-        android:gravity="center_vertical"
-        android:hint="请输入你要搜索的地址…"
-        android:imeOptions="actionSearch"
-        android:paddingHorizontal="15dp"
-        android:textColor="@color/color_mid_font"
-        android:textColorHint="@color/color_light_font"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

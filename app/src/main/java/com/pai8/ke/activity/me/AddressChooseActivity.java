@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.view.View;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
@@ -16,12 +18,10 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.NoViewModel;
-import com.pai8.ke.R;
 import com.pai8.ke.activity.me.adapter.AddressChooseAdapter;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseEvent;
@@ -39,8 +39,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.OnClick;
 
 import static com.pai8.ke.global.EventCode.EVENT_CHOOSE_ADDRESS;
 
@@ -102,6 +100,16 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
                     mHandler.removeMessages(RC_SEARCH);
                 }
                 mHandler.sendEmptyMessageDelayed(RC_SEARCH, INTERVAL);
+            }
+        });
+
+        mBinding.etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_SEARCH)) {
+                    mHandler.sendEmptyMessageDelayed(RC_SEARCH, INTERVAL);
+                    return true;
+                }
+                return false;
             }
         });
     }

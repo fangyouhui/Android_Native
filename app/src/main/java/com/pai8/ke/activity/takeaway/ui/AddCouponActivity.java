@@ -184,7 +184,7 @@ public class AddCouponActivity extends BaseActivity<NoViewModel, ActivityAddCoup
         int day = (int) TimeUtils.getTimeSpan(mBinding.tvChooseEndTime.getText().toString(), mBinding.tvChooseStartTime.getText().toString(), simpleDateFormat, TimeConstants.DAY);
         if (mType == TYPE_ADD) {
             Api.getInstance().addCoupon(AccountManager.getInstance().getShopId(), StringUtils.getEditText(mBinding.etPrice),
-                    StringUtils.getEditText(mBinding.etFull), String.valueOf(day), String.valueOf(mOptions + 1), num + "", "")
+                    StringUtils.getEditText(mBinding.etFull), String.valueOf(day), String.valueOf(mOptions + 1), num + "", mBinding.etRule.getText().toString())
                     .doOnSubscribe(disposable -> {
                     })
                     .compose(RxSchedulers.io_main())
@@ -204,7 +204,7 @@ public class AddCouponActivity extends BaseActivity<NoViewModel, ActivityAddCoup
         } else {
             Api.getInstance().editCoupon(mCouponGetList.getId() + "", AccountManager.getInstance().getShopId(),
                     StringUtils.getEditText(mBinding.etPrice),
-                    StringUtils.getEditText(mBinding.etFull), String.valueOf(day), "1", num + "", "")
+                    StringUtils.getEditText(mBinding.etFull), String.valueOf(day), "1", num + "", mBinding.etRule.getText().toString())
                     .doOnSubscribe(disposable -> {
                     })
                     .compose(RxSchedulers.io_main())
