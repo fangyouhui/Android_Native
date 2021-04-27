@@ -171,8 +171,7 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                             RESULT_VIDEO);
                 } else {
                     pop.dismiss();
-                    View view = View.inflate(AddGoodActivity.this, R.layout.view_dialog_choose_qnvideo,
-                            null);
+                    View view = View.inflate(AddGoodActivity.this, R.layout.view_dialog_choose_qnvideo, null);
                     TextView tvBtnGalley = view.findViewById(R.id.tv_btn_galley);
                     TextView tvBtnTakePhoto = view.findViewById(R.id.tv_btn_take_photo);
                     ImageButton itnClose = view.findViewById(R.id.itn_close);
@@ -185,18 +184,12 @@ public class AddGoodActivity extends BaseMvpActivity<AddGoodPresenter> implement
                     tvBtnTakePhoto.setOnClickListener(view13 -> {
                         mChooseBottomDialog.dismiss();
                         Intent intent = new Intent(AddGoodActivity.this, VideoRecordActivity.class);
-                        intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_RATIO,
-                                ConfigActivity.PREVIEW_SIZE_RATIO_POS);
-                        intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_LEVEL,
-                                ConfigActivity.PREVIEW_SIZE_LEVEL_POS);
-                        intent.putExtra(VideoRecordActivity.ENCODING_MODE,
-                                ConfigActivity.ENCODING_MODE_LEVEL_POS);
-                        intent.putExtra(VideoRecordActivity.ENCODING_SIZE_LEVEL,
-                                ConfigActivity.ENCODING_SIZE_LEVEL_POS);
-                        intent.putExtra(VideoRecordActivity.ENCODING_BITRATE_LEVEL,
-                                ConfigActivity.ENCODING_BITRATE_LEVEL_POS);
-                        intent.putExtra(VideoRecordActivity.AUDIO_CHANNEL_NUM,
-                                ConfigActivity.AUDIO_CHANNEL_NUM_POS);
+                        intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_RATIO, ConfigActivity.PREVIEW_SIZE_RATIO_POS);
+                        intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_LEVEL, ConfigActivity.PREVIEW_SIZE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.ENCODING_MODE, ConfigActivity.ENCODING_MODE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.ENCODING_SIZE_LEVEL, ConfigActivity.ENCODING_SIZE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.ENCODING_BITRATE_LEVEL, ConfigActivity.ENCODING_BITRATE_LEVEL_POS);
+                        intent.putExtra(VideoRecordActivity.AUDIO_CHANNEL_NUM, ConfigActivity.AUDIO_CHANNEL_NUM_POS);
                         startActivity(intent);
                     });
 

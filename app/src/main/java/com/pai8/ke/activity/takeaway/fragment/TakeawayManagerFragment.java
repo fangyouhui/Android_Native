@@ -250,7 +250,6 @@ public class TakeawayManagerFragment extends BaseMvpFragment<TakeawayManagerPres
     public void onClick(View v) {
         if (v.getId() == R.id.tv_add) {
             startActivity(new Intent(mActivity, AddGoodActivity.class));
-
         } else if (v.getId() == R.id.tv_add_classify) {  //添加分类
             mEtType.setVisibility(View.VISIBLE);
 

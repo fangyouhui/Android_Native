@@ -11,7 +11,6 @@ import razerdp.basepopup.BasePopupWindow;
 public class ChooseShopCoverPop  extends BasePopupWindow implements View.OnClickListener {
 
 
-
     public ChooseShopCoverPop(Context context) {
         super(context);
         setPopupGravity(Gravity.BOTTOM);

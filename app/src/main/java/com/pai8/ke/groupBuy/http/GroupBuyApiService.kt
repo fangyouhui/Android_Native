@@ -6,6 +6,7 @@ import com.pai8.ke.activity.message.entity.GoodsCollectionResult
 import com.pai8.ke.activity.message.entity.resp.MsgCountResp
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
+import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
@@ -273,4 +274,19 @@ interface GroupBuyApiService {
      */
     @POST("video/mylink")
     suspend fun myLink(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+
+
+    /**
+     * 编辑外卖商品
+     */
+    @POST("shop/editGoods")
+    suspend fun editGoods(@Body param: AddFoodReq): BaseHttpResult<List<String>>
+
+    /**
+     * 下架外卖商品
+     */
+    @POST("shop/foodDelete")
+    suspend fun foodDelete(@Query("food_id") food_id: String): BaseHttpResult<List<String>>
+
+
 }

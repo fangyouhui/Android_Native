@@ -296,6 +296,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".activity.takeaway.ui.EditTakeawayGoodActivity"
+            android:label="编辑外卖商品"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".groupBuy.ui.GroupBuySearchActivity"
             android:label="团购搜索"
             android:screenOrientation="portrait" />
