@@ -2,6 +2,7 @@ package com.pai8.ke.activity.takeaway.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -61,7 +62,6 @@ public class ShopTakeawayOrderAdapter extends BaseRecyclerViewAdapter<OrderInfo>
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
             } else if (item.order_status == 5) {
                 holder.binding.tvStatus.setText("申请退款");
-
                 holder.binding.tvReject.setVisibility(View.VISIBLE);
                 holder.binding.tvCancel.setVisibility(View.VISIBLE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
@@ -112,6 +112,14 @@ public class ShopTakeawayOrderAdapter extends BaseRecyclerViewAdapter<OrderInfo>
             holder.binding.getRoot().setOnClickListener(v -> itemListener.onItemClick(item, position));
             holder.binding.tvCancel.setOnClickListener(v -> itemListener.onCancelListener(item, position));
             holder.binding.tvFoodStatus.setOnClickListener(v -> itemListener.onStatusListener(item, position));
+            holder.binding.rvFoods.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    //响应父rv的item的点击事件
+                    holder.itemView.performClick();
+                }
+
+                return false;
+            });
         }
     }
 

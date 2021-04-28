@@ -92,6 +92,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_price" />
 
+
+    
+
     <TextView
         android:id="@+id/tv_reject"
         android:layout_width="wrap_content"
