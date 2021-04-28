@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
-import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.adapter.UserTakeawayOrderAdapter;
 import com.pai8.ke.activity.takeaway.entity.OrderListResult;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
@@ -26,28 +25,19 @@ public class UserTakeawayOrderListFragment extends BaseFragment<OrderListViewMod
     public void initView(@Nullable Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         mBinding.smartRefreshLayout.setOnRefreshListener(refreshLayout -> initData());
-        mBinding.recyclerView.setAdapter(mAdapter = new UserTakeawayOrderAdapter(null));
+        mBinding.recyclerView.setAdapter(mAdapter = new UserTakeawayOrderAdapter(getContext(), null));
 
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-//            if (mAdapter.getData().get(position).getOrder_status() == 2
-//                    || mAdapter.getData().get(position).getOrder_status() == 3
-//                    || mAdapter.getData().get(position).getOrder_status() == 7) {
-//                startActivity(new Intent(getActivity(), UserTakeawayOrderDetailActivity.class).putExtra("order", mAdapter.getData().get(position)));
-//            } else {
-//                startActivity(new Intent(getActivity(), UserGroupOrderDetailActivity.class).putExtra("order", mAdapter.getData().get(position)));
-//            }
-            startActivity(new Intent(getActivity(), UserTakeawayOrderDetailActivity.class)
-                    .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, mAdapter.getData().get(position).getOrder_no()));
-        });
-
-        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            OrderListResult orderInfo = mAdapter.getData().get(position);
-            if (view.getId() == R.id.tv_cancel) {
-                if (orderInfo.getOrder_status() == 0
-                        || orderInfo.getOrder_status() == 1) {  //取消订单
+        mAdapter.setItemChildClickListener(new UserTakeawayOrderAdapter.ItemChildClickListener() {
+            @Override
+            public void onItemChildCancelClick(OrderListResult item, int position) {
+                if (item.getOrder_status() == 0
+                        || item.getOrder_status() == 1) {  //取消订单
                     mViewModel.cancelOrder(mAdapter.getData().get(position).getOrder_no());
                 }
-            } else if (view.getId() == R.id.tv_food_status) {
+            }
+
+            @Override
+            public void onItemChildRejectClick(OrderListResult orderInfo, int position) {
                 if (orderInfo.getOrder_status() == 0) {
                     PayDialogFragment payDialogFragment = PayDialogFragment.newInstance(orderInfo.getOrder_price(), orderInfo.getOrder_no());
                     payDialogFragment.show(getChildFragmentManager(), "pay");
@@ -62,6 +52,12 @@ public class UserTakeawayOrderListFragment extends BaseFragment<OrderListViewMod
                     startActivity(intent);
                 }
             }
+
+            @Override
+            public void onItemClick(OrderListResult item, int position) {
+                startActivity(new Intent(getActivity(), UserTakeawayOrderDetailActivity.class)
+                        .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, mAdapter.getData().get(position).getOrder_no()));
+            }
         });
     }
 
@@ -73,7 +69,7 @@ public class UserTakeawayOrderListFragment extends BaseFragment<OrderListViewMod
     @Override
     public void addObserve() {
         mViewModel.getOrderListData().observe(this, data -> {
-            mAdapter.setNewData(data);
+            mAdapter.setData(data);
             mBinding.smartRefreshLayout.finishRefresh();
         });
         mViewModel.getCancelOrderData().observe(this, data -> {
