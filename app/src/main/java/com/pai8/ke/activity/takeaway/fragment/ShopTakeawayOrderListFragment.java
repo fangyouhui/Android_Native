@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
 import com.pai8.ke.activity.takeaway.adapter.ShopTakeawayOrderAdapter;
 import com.pai8.ke.activity.takeaway.entity.OrderInfo;
@@ -79,7 +80,8 @@ public class ShopTakeawayOrderListFragment extends BaseFragment<ShopTakeawayOrde
 
             @Override
             public void onItemClick(OrderInfo item, int position) {
-                startActivity(new Intent(getContext(), ShopOrderDetailActivity.class).putExtra("order", mAdapter.getData().get(position)));
+                startActivity(new Intent(getContext(), ShopOrderDetailActivity.class)
+                        .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, mAdapter.getData().get(position).order_no));
             }
         });
 

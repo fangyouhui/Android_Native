@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
 import com.pai8.ke.activity.takeaway.adapter.ShopOrderGroupAdapter;
 import com.pai8.ke.activity.takeaway.order.ShopOrderDetailActivity;
@@ -40,7 +41,7 @@ public class ShopGroupOrderListFragment extends BaseFragment<ShopTakeawayOrderVi
         });
 
         mAdapter.setOnItemClickListener((adapter, view, position) -> startActivity(new Intent(getContext(), ShopOrderDetailActivity.class)
-                .putExtra("order", mAdapter.getData().get(position))));
+                .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, mAdapter.getData().get(position).order_no)));
     }
 
     @Override

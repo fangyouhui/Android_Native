@@ -307,4 +307,9 @@ interface GroupBuyApiService {
     suspend fun shopDealOrder(@Query("shop_id") shop_id: String, @Query("order_no") order_no: String, @Query("type") type: Int): BaseHttpResult<List<String>>
 
 
+    @POST("Order/applyRefund")
+    suspend fun applyRefund(@Query("buyer_id") buyer_id: String, @Query("order_no") order_no: String, @Query("reason") reason: String): BaseHttpResult<List<String>>
+
+
+
 }

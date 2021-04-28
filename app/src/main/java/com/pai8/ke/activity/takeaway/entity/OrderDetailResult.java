@@ -288,7 +288,69 @@ public class OrderDetailResult implements Serializable {
 
 
     public class Rider_info implements Serializable {
+        private String logistic;
+        private String rider_name;
+        private String rider_phone;
+        private String map_type;
+        private String rider_latitude;
+        private String rider_longitude;
+        private String status_desc;
 
+        public String getLogistic() {
+            return logistic;
+        }
+
+        public void setLogistic(String logistic) {
+            this.logistic = logistic;
+        }
+
+        public String getRider_name() {
+            return rider_name;
+        }
+
+        public void setRider_name(String rider_name) {
+            this.rider_name = rider_name;
+        }
+
+        public String getRider_phone() {
+            return rider_phone;
+        }
+
+        public void setRider_phone(String rider_phone) {
+            this.rider_phone = rider_phone;
+        }
+
+        public String getMap_type() {
+            return map_type;
+        }
+
+        public void setMap_type(String map_type) {
+            this.map_type = map_type;
+        }
+
+        public String getRider_latitude() {
+            return rider_latitude;
+        }
+
+        public void setRider_latitude(String rider_latitude) {
+            this.rider_latitude = rider_latitude;
+        }
+
+        public String getRider_longitude() {
+            return rider_longitude;
+        }
+
+        public void setRider_longitude(String rider_longitude) {
+            this.rider_longitude = rider_longitude;
+        }
+
+        public String getStatus_desc() {
+            return status_desc;
+        }
+
+        public void setStatus_desc(String status_desc) {
+            this.status_desc = status_desc;
+        }
     }
 
     public class Shop_info implements Serializable {
