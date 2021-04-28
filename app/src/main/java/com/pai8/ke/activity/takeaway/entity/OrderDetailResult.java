@@ -1,5 +1,6 @@
 package com.pai8.ke.activity.takeaway.entity;
 
+import com.google.gson.annotations.SerializedName;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
 
 import java.io.Serializable;
@@ -36,6 +37,7 @@ public class OrderDetailResult implements Serializable {
     private AddressInfo address_info;
     private int remain_pay_time;
     private GroupGoodsInfoResult.Term term;
+
     private String matter;
 
     public String getMatter() {

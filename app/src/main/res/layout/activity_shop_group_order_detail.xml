@@ -94,124 +94,6 @@
 
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginVertical="5dp"
-                    android:background="@drawable/bg_corner_white_radius_10"
-                    android:paddingVertical="15dp">
-
-                    <com.pai8.ke.widget.CircleImageView
-                        android:id="@+id/ivLogo"
-                        android:layout_width="44dp"
-                        android:layout_height="44dp"
-                        android:layout_marginStart="16dp"
-                        android:src="@mipmap/ic_launcher"
-                        app:ease_radius="8dp"
-                        app:es_shape_type="rectangle"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvShopName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="必胜客美食优享"
-                        android:textColor="#ff2f2f2f"
-                        android:textSize="16sp"
-                        app:layout_constraintStart_toEndOf="@id/ivLogo"
-                        app:layout_constraintTop_toTopOf="@id/ivLogo" />
-
-                    <ImageView
-                        android:id="@+id/ivRating"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_marginTop="5dp"
-                        android:paddingBottom="2dp"
-                        android:src="@mipmap/icon_rating_bar_select"
-                        app:layout_constraintStart_toStartOf="@id/tvShopName"
-                        app:layout_constraintTop_toBottomOf="@id/tvShopName" />
-
-                    <TextView
-                        android:id="@+id/tvFraction"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:text="5.0"
-                        android:textColor="#ffff7f47"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/ivRating"
-                        app:layout_constraintStart_toEndOf="@id/ivRating" />
-
-                    <TextView
-                        android:id="@+id/tvTotalSaleCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="总销量 0"
-                        android:textColor="#ff666666"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/tvFraction"
-                        app:layout_constraintStart_toEndOf="@id/tvFraction" />
-
-                    <ImageView
-                        android:id="@+id/ivLocation"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@mipmap/ic_location_gray"
-                        app:layout_constraintStart_toStartOf="@id/ivLogo"
-                        app:layout_constraintTop_toBottomOf="@id/ivLogo" />
-
-                    <TextView
-                        android:id="@+id/tvAddress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="地址：工业园区星湖街328号圆融星座一楼"
-                        android:textColor="#ff999999"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/ivLocation"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivLocation"
-                        app:layout_constraintTop_toTopOf="@id/ivLocation" />
-
-                    <ImageView
-                        android:id="@+id/ivPhone"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@mipmap/ic_phone_call"
-                        app:layout_constraintStart_toStartOf="@id/ivLogo"
-                        app:layout_constraintTop_toBottomOf="@id/ivLocation" />
-
-                    <TextView
-                        android:id="@+id/tvPhone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="电话：133242449827"
-                        android:textColor="#ff999999"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="@id/ivPhone"
-                        app:layout_constraintStart_toEndOf="@id/ivPhone"
-                        app:layout_constraintTop_toTopOf="@id/ivPhone" />
-
-                    <TextView
-                        android:id="@+id/btnCall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="联系商家"
-                        android:textColor="#ffff7f47"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toEndOf="@id/tvPhone"
-                        app:layout_constraintTop_toTopOf="@id/tvPhone" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -248,8 +130,8 @@
 
                     <FrameLayout
                         android:id="@+id/flPlay"
-                        android:layout_width="88dp"
-                        android:layout_height="88dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:layout_marginTop="15dp"
                         app:layout_constraintStart_toStartOf="@id/divide_line"
                         app:layout_constraintTop_toBottomOf="@id/divide_line">
@@ -260,7 +142,7 @@
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
                             android:src="@mipmap/bg_store_month_num"
-                            app:ease_radius="15dp"
+                            app:ease_radius="8dp"
                             app:es_shape_type="rectangle"
                             app:layout_constraintStart_toStartOf="@id/divide_line"
                             app:layout_constraintTop_toBottomOf="@id/divide_line" />
@@ -329,6 +211,7 @@
                         android:text="¥3200"
                         android:textColor="#ff999999"
                         android:textSize="14sp"
+                        android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="@id/flPlay"
                         app:layout_constraintStart_toEndOf="@id/tvGroupBuyPrice" />
 

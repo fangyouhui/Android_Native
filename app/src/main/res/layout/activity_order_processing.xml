@@ -3,36 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F4F7"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/base_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/color_white"
-        android:gravity="center_vertical">
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:id="@+id/toolbar_back_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:paddingStart="20dp"
-            android:paddingTop="10dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="10dp"
+            android:padding="10dp"
             android:src="@mipmap/icon_back"
             app:tint="@color/color_black" />
 
         <TextView
             android:id="@+id/toolbar_title"
-            android:layout_width="240dp"
-            android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="订单处理"
             android:textColor="@color/color_black"
             android:textSize="18sp" />
@@ -50,38 +43,27 @@
 
     </RelativeLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_white"
-        android:gravity="center">
-
-        <com.flyco.tablayout.SlidingTabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:background="@color/color_white"
-            app:tl_divider_padding="2dp"
-            app:tl_indicator_color="@color/colorPrimary"
-            app:tl_indicator_height="2dp"
-            app:tl_indicator_width="25dp"
-            app:tl_tab_padding="2dp"
-            app:tl_tab_space_equal="true"
-            app:tl_textBold="BOTH"
-            app:tl_textSelectColor="@color/text_black"
-            app:tl_textUnselectColor="@color/color_light_font"
-            app:tl_textsize="14sp"
-            app:tl_underline_gravity="BOTTOM" />
-
-    </LinearLayout>
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        app:tl_divider_padding="2dp"
+        app:tl_indicator_color="@color/colorPrimary"
+        app:tl_indicator_height="2dp"
+        app:tl_indicator_width="25dp"
+        app:tl_tab_padding="2dp"
+        app:tl_tab_space_equal="true"
+        app:tl_textBold="BOTH"
+        app:tl_textSelectColor="@color/text_black"
+        app:tl_textUnselectColor="@color/color_light_font"
+        app:tl_textsize="14sp"
+        app:tl_underline_gravity="BOTTOM" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_balance"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:background="@color/color_bg" />
 
 </LinearLayout>

@@ -37,6 +37,7 @@ public class OrderInfo implements Serializable {
     public String remain_pay_time;
     public String buyer_avatar;
     public String buyer_nickname;
+    public String buyer_name;
 
     public RiderInfo rider_info;
     public AddressInfo address_info;

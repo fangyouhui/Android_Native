@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp"
     android:background="@drawable/bg_corner_white_radius_10"
     android:paddingStart="15dp">
 
     <com.pai8.ke.widget.CircleImageView
-        android:id="@+id/ivShopLogo"
+        android:id="@+id/buyerAvatar"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="15dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvShopName"
+        android:id="@+id/buyerNickName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -30,9 +30,9 @@
         android:textColor="#ff2f2f2f"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/ivShopLogo"
-        app:layout_constraintStart_toEndOf="@id/ivShopLogo"
-        app:layout_constraintTop_toTopOf="@id/ivShopLogo" />
+        app:layout_constraintBottom_toBottomOf="@id/buyerAvatar"
+        app:layout_constraintStart_toEndOf="@id/buyerAvatar"
+        app:layout_constraintTop_toTopOf="@id/buyerAvatar" />
 
     <TextView
         android:id="@+id/tvOrderStatus"
@@ -43,7 +43,7 @@
         android:textColor="#ffff7f47"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvShopName" />
+        app:layout_constraintTop_toTopOf="@id/buyerNickName" />
 
     <View
         android:id="@+id/divide_line"
@@ -51,8 +51,8 @@
         android:layout_height="1dp"
         android:layout_marginTop="15dp"
         android:background="@color/color_divider"
-        app:layout_constraintStart_toStartOf="@id/ivShopLogo"
-        app:layout_constraintTop_toBottomOf="@id/ivShopLogo" />
+        app:layout_constraintStart_toStartOf="@id/buyerAvatar"
+        app:layout_constraintTop_toBottomOf="@id/buyerAvatar" />
 
     <FrameLayout
         android:id="@+id/flPlay"
@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@mipmap/bg_store_month_num"
-            app:ease_radius="13dp"
+            app:ease_radius="8dp"
             app:es_shape_type="rectangle"
             app:layout_constraintStart_toStartOf="@id/divide_line"
             app:layout_constraintTop_toBottomOf="@id/divide_line" />
