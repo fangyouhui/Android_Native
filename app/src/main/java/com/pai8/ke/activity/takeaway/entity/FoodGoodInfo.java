@@ -26,6 +26,7 @@ public class FoodGoodInfo implements Serializable {
     public int goods_num;
     public int position = -1;
     public int type = 2;
+    public String goods_origin_price;
 
     public boolean isTitle = false;
 
