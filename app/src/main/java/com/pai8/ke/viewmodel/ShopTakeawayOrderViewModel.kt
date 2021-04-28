@@ -14,6 +14,9 @@ class ShopTakeawayOrderViewModel : BaseViewModel() {
             RetrofitClient.getInstance().getMainService().shopOrderList(AccountManager.getInstance().shopId, order_status, 2, page)
         }, {
             shopOrderListData.value = it
+        }, {
+            // 后台返回这个{"code":0,"msg":"未查询到商家订单","result":[]}，需要特殊处理
+            shopOrderListData.value = arrayListOf()
         })
 
     }
@@ -35,6 +38,8 @@ class ShopTakeawayOrderViewModel : BaseViewModel() {
             RetrofitClient.getInstance().getMainService().shopOrderList(AccountManager.getInstance().shopId, "", 3, page)
         }, {
             shopOrderListData.value = it
+        }, {
+            shopOrderListData.value = arrayListOf()
         })
     }
 
