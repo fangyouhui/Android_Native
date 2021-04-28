@@ -77,6 +77,9 @@ public class ImageLoadUtils {
     public static void loadImage(String strUrl, ImageView imageView) {
         loadImage(imageView.getContext(), strUrl, imageView, R.color.colorPrimary);
     }
+    public static void loadImage(String strUrl, ImageView imageView,int defId) {
+        loadImage(imageView.getContext(), strUrl, imageView,defId);
+    }
 
     public static void loadImageFitCenter(Context context, final String strUrl, final ImageView imageView,
                                           @DrawableRes final int id) {

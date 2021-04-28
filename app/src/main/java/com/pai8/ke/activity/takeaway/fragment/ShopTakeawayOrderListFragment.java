@@ -51,7 +51,7 @@ public class ShopTakeawayOrderListFragment extends BaseFragment<ShopTakeawayOrde
 
         mAdapter.setItemListener(new ShopTakeawayOrderAdapter.ItemListener() {
             @Override
-            public void onCancelListener(OrderInfo orderInfo, int position) {
+            public void onRightListener(OrderInfo orderInfo, int position) {
                 if (orderInfo.order_status == 1) {  //拒绝接单
                     mViewModel.shopDealOrder(orderInfo.order_no, 1);
                     orderInfo.order_status = -2;
@@ -62,7 +62,7 @@ public class ShopTakeawayOrderListFragment extends BaseFragment<ShopTakeawayOrde
             }
 
             @Override
-            public void onStatusListener(OrderInfo orderInfo, int position) {
+            public void onLeftListener(OrderInfo orderInfo, int position) {
                 if (orderInfo.order_status == 1) {  //接单
                     mViewModel.shopDealOrder(orderInfo.order_no, 0);
                     orderInfo.order_status = 2;

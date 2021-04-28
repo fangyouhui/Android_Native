@@ -305,6 +305,11 @@
             android:label="团购搜索"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.takeaway.order.ShopGroupOrderDetailActivity"
+            android:label="订单详情"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"

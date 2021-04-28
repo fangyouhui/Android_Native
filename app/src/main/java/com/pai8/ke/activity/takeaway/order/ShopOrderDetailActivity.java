@@ -105,8 +105,8 @@ public class ShopOrderDetailActivity extends BaseActivity<ShopOrderViewModel, Ac
             mBinding.tvStatus.setText("退款申请");
             mBinding.tvStatusName.setText("用户发起退款申请，请联系客户并及时处理");
             mBinding.llAccept.setVisibility(View.VISIBLE);
-            mBinding.tvReject.setText("拒绝退款");
-            mBinding.tvAccept.setText("同意退款");
+            mBinding.btnLeft.setText("拒绝退款");
+            mBinding.btnRight.setText("同意退款");
         } else if (orderInfo.getOrder_status() == 6) {
             mBinding.tvStatus.setText("拒绝退款");
             mBinding.tvStatusName.setText("您发起的退款申请审批未通过，请与商家进行联系");
@@ -123,7 +123,6 @@ public class ShopOrderDetailActivity extends BaseActivity<ShopOrderViewModel, Ac
             mBinding.tvStatusPay.setVisibility(View.VISIBLE);
         } else if (orderInfo.getOrder_status() == -1) {
             mBinding.tvStatus.setText("订单超时");
-
         } else if (orderInfo.getOrder_status() == -2) {
             mBinding.tvStatus.setText("商家拒绝接单");
         }
@@ -217,7 +216,7 @@ public class ShopOrderDetailActivity extends BaseActivity<ShopOrderViewModel, Ac
 
         });
 
-        mBinding.tvReject.setOnClickListener(v -> {
+        mBinding.btnLeft.setOnClickListener(v -> {
             if (mOrderInfo.getOrder_status() == 1) {  //带接单
                 mViewModel.shopDealOrder(mOrderInfo.getOrder_no(), 1);
             } else if (mOrderInfo.getOrder_status() == 5) {
@@ -225,7 +224,7 @@ public class ShopOrderDetailActivity extends BaseActivity<ShopOrderViewModel, Ac
             }
         });
 
-        mBinding.tvAccept.setOnClickListener(v -> {
+        mBinding.btnRight.setOnClickListener(v -> {
             if (mOrderInfo.getOrder_status() == 1) {  //带接单
                 mViewModel.shopDealOrder(mOrderInfo.getOrder_no(), 0);
             } else if (mOrderInfo.getOrder_status() == 5) {
