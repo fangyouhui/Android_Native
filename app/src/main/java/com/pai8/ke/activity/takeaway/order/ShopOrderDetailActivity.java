@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.blankj.utilcode.util.PhoneUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.takeaway.adapter.ShopOrderDetailAdapter;
@@ -14,12 +15,9 @@ import com.pai8.ke.activity.takeaway.ui.StoreActivity;
 import com.pai8.ke.activity.takeaway.widget.CancelOrderPop;
 import com.pai8.ke.databinding.ActivityShopOrderDetailBinding;
 import com.pai8.ke.fragment.pay.PayDialogFragment;
-import com.pai8.ke.utils.DateUtils;
 import com.pai8.ke.viewmodel.ShopOrderViewModel;
 
 import org.jetbrains.annotations.Nullable;
-
-import static com.pai8.ke.utils.DateUtils.FORMAT_YYYY_MM_DD_HHMM;
 
 public class ShopOrderDetailActivity extends BaseActivity<ShopOrderViewModel, ActivityShopOrderDetailBinding> {
 
@@ -64,13 +62,13 @@ public class ShopOrderDetailActivity extends BaseActivity<ShopOrderViewModel, Ac
         mBinding.tvCoupon.setText(orderInfo.getOrder_discount_price());
         mBinding.tvSendPrice.setText(orderInfo.getExpress_price());
         mBinding.tvOrderNum.setText(orderInfo.getOrder_no());
-        mBinding.tvOrderTime.setText(DateUtils.millisToTime(FORMAT_YYYY_MM_DD_HHMM, orderInfo.getAdd_time() * 1000));
+        mBinding.tvOrderTime.setText(TimeUtils.millis2String(orderInfo.getAdd_time() * 1000L));
 
         mAdapter.setData(orderInfo.getGoods_info());
 
         mBinding.tvDiscount.setText("优惠 ¥" + orderInfo.getOrder_discount_price());
         if (orderInfo.getAddress_info() != null) {
-            mBinding.tvAddress.setText(orderInfo.getAddress_info().getAddress());
+            mBinding.tvAddress.setText(orderInfo.getAddress_info().getAddress() + orderInfo.getAddress_info().getHouse_number());
         }
         if (orderInfo.getShop_info() != null) {
             mBinding.tvStoreName.setText(orderInfo.getShop_info().getShop_name());

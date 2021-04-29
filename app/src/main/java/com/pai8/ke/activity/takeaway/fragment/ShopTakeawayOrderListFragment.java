@@ -52,29 +52,29 @@ public class ShopTakeawayOrderListFragment extends BaseFragment<ShopTakeawayOrde
         mAdapter.setItemListener(new ShopTakeawayOrderAdapter.ItemListener() {
             @Override
             public void onRightListener(OrderInfo orderInfo, int position) {
-                if (orderInfo.order_status == 1) {  //拒绝接单
-                    mViewModel.shopDealOrder(orderInfo.order_no, 1);
-                    orderInfo.order_status = -2;
-                } else if (orderInfo.order_status == 5) {  //拒绝退款
-                    mViewModel.shopDealOrder(orderInfo.order_no, 3);
-                    orderInfo.order_status = 6;
-                }
-            }
-
-            @Override
-            public void onLeftListener(OrderInfo orderInfo, int position) {
                 if (orderInfo.order_status == 1) {  //接单
                     mViewModel.shopDealOrder(orderInfo.order_no, 0);
                     orderInfo.order_status = 2;
                 } else if (orderInfo.order_status == 5) {   //同意退款
                     mViewModel.shopDealOrder(orderInfo.order_no, 2);
-                    orderInfo.order_status = 5;
+                    orderInfo.order_status = 8;
                 } else if (orderInfo.order_status == 2) {  //制作完成
                     mViewModel.shopDealOrder(orderInfo.order_no, 4);
                     orderInfo.order_status = 4;
                 } else if (orderInfo.order_status == 7) {  //送出
                     mViewModel.shopDealOrder(orderInfo.order_no, 5);
                     orderInfo.order_status = 3;
+                }
+            }
+
+            @Override
+            public void onLeftListener(OrderInfo orderInfo, int position) {
+                if (orderInfo.order_status == 1) {  //拒绝接单
+                    mViewModel.shopDealOrder(orderInfo.order_no, 1);
+                    orderInfo.order_status = -2;
+                } else if (orderInfo.order_status == 5) {  //拒绝退款
+                    mViewModel.shopDealOrder(orderInfo.order_no, 3);
+                    orderInfo.order_status = 6;
                 }
             }
 
@@ -114,9 +114,7 @@ public class ShopTakeawayOrderListFragment extends BaseFragment<ShopTakeawayOrde
 
         });
 
-        mViewModel.getShopDealOrderData().observe(this, data -> {
-            mAdapter.notifyDataSetChanged();
-        });
+        mViewModel.getShopDealOrderData().observe(this, data -> mAdapter.notifyDataSetChanged());
     }
 
 }

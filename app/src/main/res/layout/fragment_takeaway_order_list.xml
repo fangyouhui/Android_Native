@@ -17,6 +17,6 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="5"
-        tools:listitem="@layout/item_group_order" />
+        tools:listitem="@layout/item_user_takeaway_order" />
 
 </com.scwang.smart.refresh.layout.SmartRefreshLayout>

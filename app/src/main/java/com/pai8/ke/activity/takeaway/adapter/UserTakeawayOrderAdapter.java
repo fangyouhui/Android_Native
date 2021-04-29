@@ -51,28 +51,22 @@ public class UserTakeawayOrderAdapter extends BaseRecyclerViewAdapter<OrderListR
                 holder.binding.tvCancel.setText("取消订单");
                 holder.binding.tvFoodStatus.setText("联系商家");
             } else if (item.getOrder_status() == 2) {
-
                 holder.binding.tvStatus.setText("商品准备中");
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
-
             } else if (item.getOrder_status() == 3) {
-
                 holder.binding.tvStatus.setText("商品配送中");
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
             } else if (item.getOrder_status() == 4) {
-
                 holder.binding.tvStatus.setText("订单已完成");
                 holder.binding.tvCancel.setText("再来一单");
                 holder.binding.tvFoodStatus.setText("立即评价");
             } else if (item.getOrder_status() == 5) {
-
                 holder.binding.tvStatus.setText("退款申请中");
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
             } else if (item.getOrder_status() == 6) {
-
                 holder.binding.tvStatus.setText("拒绝退款");
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
@@ -81,31 +75,24 @@ public class UserTakeawayOrderAdapter extends BaseRecyclerViewAdapter<OrderListR
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
             } else if (item.getOrder_status() == 8) {
-
                 holder.binding.tvStatus.setText("订单已退款");
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
             } else if (item.getOrder_status() == 9) {
-
                 holder.binding.tvStatus.setText("订单已取消");
                 holder.binding.tvCancel.setVisibility(View.GONE);
-
                 holder.binding.tvFoodStatus.setText("重新下单");
-
             } else if (item.getOrder_status() == -1) {
-
                 holder.binding.tvStatus.setText("订单超时");
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
             } else if (item.getOrder_status() == -2) {
-
                 holder.binding.tvStatus.setText("商家拒绝接单");
                 holder.binding.tvCancel.setVisibility(View.GONE);
                 holder.binding.tvFoodStatus.setVisibility(View.GONE);
             }
 
-
-            ImageLoadUtils.setCircularImage(mContext, item.getShop_img(), holder.binding.shopImg, R.mipmap.img_head_def);
+            ImageLoadUtils.loadImage(item.getShop_img(), holder.binding.shopImg);
             holder.binding.shopName.setText(item.getShop_name());
             holder.binding.tvPrice.setText("¥" + item.getOrder_price());
             holder.binding.tvTotal.setText("共" + item.getCount() + "件");
