@@ -1,6 +1,8 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -10,11 +12,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseBottomDialogFragment;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.AddressChooseActivity;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.base.BaseEvent;
@@ -62,6 +67,19 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
     @Override
     public int getLayoutId() {
         return R.layout.activity_merchant_settled_first;
+    }
+
+    private ActivityResultLauncher activityResultLauncher;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                mAddress = (Address) result.getData().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+                mEtAddressDetail.setText(mAddress.getTitle());
+            }
+        });
     }
 
     @Override
@@ -145,9 +163,12 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
             KeyboardUtils.close(this);
             getProvince();
         } else if (v.getId() == R.id.et_address_detail) {
-            startActivityForResult(new Intent(MerchantSettledFirstActivity.this
-                    , MapAddressChooseActivity.class).putExtra("ADDRESS", mCity), 100);
+//            startActivityForResult(new Intent(this
+//                    , MapAddressChooseActivity.class).putExtra("ADDRESS", mCity), 100);
 
+            Intent intent = new Intent(this, AddressChooseActivity.class);
+            //   startActivity(new Intent(this, AddressChooseActivity.class));
+            activityResultLauncher.launch(intent);
         } else if (v.getId() == R.id.tv_next) {
 
             String storeName = mEtStoreName.getText().toString();

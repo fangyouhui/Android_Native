@@ -480,9 +480,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="* 请填写收款账户，用于订单的收入提现。平台将会为您的隐私和资金安全提供全程保障"
                 android:textColor="@color/color_light_font"
-                android:textSize="12dp"
-
-                />
+                android:textSize="12dp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
