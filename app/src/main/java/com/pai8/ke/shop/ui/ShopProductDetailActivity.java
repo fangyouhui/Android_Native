@@ -6,9 +6,12 @@ import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
 import com.blankj.utilcode.util.PhoneUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
+import com.pai8.ke.activity.common.NaviActivity;
 import com.pai8.ke.activity.common.ShareBottomDialogFragment;
 import com.pai8.ke.databinding.ActivityShopProductDetailBinding;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
@@ -18,6 +21,8 @@ import com.pai8.ke.shop.adapter.BannerMultipleTypesAdapter;
 import com.pai8.ke.shop.adapter.ProductImgDetailAdapter;
 import com.pai8.ke.shop.viewmodel.ShopProductDetailViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.MyAMapUtils;
+import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.TimeUtil;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnPageChangeListener;
@@ -71,6 +76,22 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
             ShareBottomDialogFragment dialogFragment = ShareBottomDialogFragment.newInstance(3, productId);
             dialogFragment.showNow(getSupportFragmentManager(), "share");
         });
+
+        mBinding.btnNav.setOnClickListener(v -> {
+            GroupShopInfoResult shopInfo = mViewModel.getGetGroupShopInfoData().getValue();
+            if (shopInfo != null) {
+                String curLatitude = (String) PreferencesUtils.get(getBaseContext(), "latitude", "0");
+                String curLongitude = (String) PreferencesUtils.get(getBaseContext(), "longitude", "0");
+                // 单位为米
+                LatLng latLng01 = new LatLng(Double.valueOf(shopInfo.getLatitude()), Double.valueOf(shopInfo.getLongitude()));
+                LatLng latLng02 = new LatLng(Double.valueOf(curLatitude), Double.valueOf(curLongitude));
+                //单位米
+                float distance = AMapUtils.calculateLineDistance(latLng01, latLng02);
+                NaviActivity.launch(this, shopInfo.getAddress(), MyAMapUtils.getFormatDistance(distance), shopInfo.getLongitude(), shopInfo.getLatitude());
+            }
+
+        });
+
     }
 
     @Override

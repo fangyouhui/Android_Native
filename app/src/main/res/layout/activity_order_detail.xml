@@ -60,12 +60,20 @@
                         android:textColor="@color/color_light_font"
                         android:textSize="12sp" />
 
+                    <ImageView
+                        android:id="@+id/ivQrCode"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/ic_launcher" />
+
                     <LinearLayout
                         android:id="@+id/llOp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="15dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 

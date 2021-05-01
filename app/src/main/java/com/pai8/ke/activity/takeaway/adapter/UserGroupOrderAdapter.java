@@ -66,7 +66,7 @@ public class UserGroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResu
                     }
                 };
                 countDownTimer.start();
-            } else if (orderStatus == -1 || bean.getOrder_status() == 9) {
+            } else if (orderStatus == -1 || orderStatus == 9) {
                 holder.binding.tvOrderStatus.setText("已取消");
                 holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ff999999"));
                 holder.binding.btnQuXiaoDingDan.setVisibility(View.GONE);
@@ -94,6 +94,16 @@ public class UserGroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResu
                 holder.binding.btnZaiCiGouMai.setVisibility(View.VISIBLE);
                 holder.binding.btnLiJiFuKuan.setVisibility(View.GONE);
                 holder.binding.btnScan.setVisibility(View.GONE);
+                holder.binding.btnEvaluation.setVisibility(View.GONE);
+                holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
+            } else if (orderStatus == 1) {
+                holder.binding.tvOrderStatus.setText("待使用");
+                holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ffff7f47"));
+                holder.binding.btnQuXiaoDingDan.setVisibility(View.GONE);
+                holder.binding.btnChaKan.setVisibility(View.VISIBLE);
+                holder.binding.btnZaiCiGouMai.setVisibility(View.GONE);
+                holder.binding.btnLiJiFuKuan.setVisibility(View.GONE);
+                holder.binding.btnScan.setVisibility(View.VISIBLE);
                 holder.binding.btnEvaluation.setVisibility(View.GONE);
                 holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
             }
@@ -127,6 +137,8 @@ public class UserGroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResu
                 }
 
             });
+            holder.binding.btnChaKan.setOnClickListener(v -> holder.binding.getRoot().performClick());
+            holder.binding.btnScan.setOnClickListener(v -> holder.binding.getRoot().performClick());
         }
     }
 

@@ -31,7 +31,7 @@ public class GoodsInfo implements Serializable {
     private String update_time;
     private String score;
     private int stock;
-    private String term;
+    private String term; //1619712000-1619712000
     private String matter;
     private String details;
     private List<String> details_img;

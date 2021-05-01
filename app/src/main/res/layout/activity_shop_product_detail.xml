@@ -310,13 +310,14 @@
                         android:id="@+id/ivLocation"
                         android:layout_width="14dp"
                         android:layout_height="14dp"
+                        android:layout_marginTop="5dp"
                         android:src="@mipmap/ic_location_gray"
                         app:layout_constraintStart_toStartOf="@id/ivLogo"
                         app:layout_constraintTop_toBottomOf="@id/ivLogo" />
 
                     <TextView
                         android:id="@+id/tvAddress"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:ellipsize="end"
@@ -325,9 +326,26 @@
                         android:textColor="#ff999999"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/ivLocation"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ivLocation"
                         app:layout_constraintTop_toTopOf="@id/ivLocation" />
+
+                    <TextView
+                        android:id="@+id/btnNav"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="13dp"
+                        android:drawableLeft="@mipmap/ic_loc_primary"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:padding="3dp"
+                        android:text="导航"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvAddress"
+                        app:layout_constraintStart_toEndOf="@id/tvAddress"
+                        app:layout_constraintTop_toTopOf="@id/tvAddress" />
+
 
                     <ImageView
                         android:id="@+id/ivPhone"

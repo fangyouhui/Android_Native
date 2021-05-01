@@ -2,7 +2,9 @@ package com.pai8.ke.activity.takeaway.order;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -16,6 +18,7 @@ import com.pai8.ke.activity.takeaway.entity.GoodsInfo;
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult;
 import com.pai8.ke.databinding.ActivityOrderDetailBinding;
 import com.pai8.ke.groupBuy.viewmodel.UserOrderDetailViewModel;
+import com.pai8.ke.qrcode.QRCodeTools;
 import com.pai8.ke.shop.ui.CommentActivity;
 import com.pai8.ke.shop.ui.LookCommentActivity;
 import com.pai8.ke.shop.ui.PayBottomDialogFragment;
@@ -64,6 +67,7 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
     private void bindViewData(OrderDetailResult bean) {
         mBinding.btnRight.setVisibility(View.GONE);
         mBinding.btnLeft.setVisibility(View.GONE);
+        mBinding.ivQrCode.setVisibility(View.GONE);
         if (bean.getOrder_status() == 0) {
             mBinding.tvOrderStatus.setText("待支付");
             mBinding.tvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
@@ -71,8 +75,11 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
             mBinding.btnRight.setText("立即支付");
             mBinding.btnRight.setVisibility(View.VISIBLE);
         } else if (bean.getOrder_status() == 1) {
-            mBinding.tvOrderStatus.setText("待商家接单");
-            mBinding.tvStatusName.setText("支付成功，请等待商家接单");
+            mBinding.tvOrderStatus.setText("待使用");
+            mBinding.tvStatusName.setText("你已成功购买团购商品，请到店消费时出示二维码");
+            Bitmap bitmap = QRCodeTools.createCode(bean.getOrder_no(), 200, true);
+            mBinding.ivQrCode.setVisibility(View.VISIBLE);
+            mBinding.ivQrCode.setImageBitmap(bitmap);
         } else if (bean.getOrder_status() == 2) {
             mBinding.tvOrderStatus.setText("商品准备中");
         } else if (bean.getOrder_status() == 3) {
@@ -137,13 +144,14 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
         mBinding.tvFullDiscountPrice.setText("- ¥ " + bean.getOrder_discount_price());
         mBinding.tvDiscountPrice.setText("优惠 ¥" + bean.getOrder_discount_price());
         mBinding.tvTotalPrice.setText("¥" + bean.getOrder_price());
-        String startTime = "", endTime = "";
-        if (bean.getTerm() != null) {
-            startTime = TimeUtil.timeStampToString(bean.getTerm().getStart_time());
-            endTime = TimeUtil.timeStampToString(bean.getTerm().getEnd_time());
+        if (!TextUtils.isEmpty(info.getTerm())) {
+            String[] times = info.getTerm().split("-");
+            String startTime = TimeUtil.timeStampToString(times[0]);
+            String endTime = TimeUtil.timeStampToString(times[1]);
+            mBinding.tvTermTime.setText(String.format("%s至%s （周末、法定节假日通用）", startTime, endTime));
         }
-        mBinding.tvTermTime.setText(String.format("%s至%s （周末、法定节假日通用）", startTime, endTime));
-        mBinding.tvMatter.setText(bean.getMatter());
+        mBinding.tvMatter.setText(info.getMatter());
+
         mBinding.tvContent.setText(bean.getBuyer_name());
         mBinding.tvPhone2.setText(bean.getBuyer_phone());
         mBinding.tvOrderNo.setText(bean.getOrder_no());
@@ -152,17 +160,9 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
 
         mBinding.btnRight.setOnClickListener(v -> {
             if (bean.getOrder_status() == 9 || -1 == bean.getOrder_status()) {
-                Intent intent = new Intent(this, ShopProductDetailActivity.class);
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getShop_id() + "");
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getGoods_info().get(0).getGoods_id() + "");
-                startActivity(intent);
-            } else if (4 == bean.getOrder_status()) {
-                Intent intent = new Intent(this, CommentActivity.class);
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getOrder_no());
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getShop_id() + "");
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_2, bean.getGoods_info().size() + "");
-                intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_3, bean.getGoods_info().get(0));
-                activityResultLauncher.launch(intent);
+                toProductDetailActivity(bean);
+            } else if (4 == bean.getOrder_status()) { //立即评价
+                toCommentActivity(bean);
             } else if (0 == bean.getOrder_status()) {//待支付
                 PayBottomDialogFragment paySelectBottomDialog = PayBottomDialogFragment.newInstance(mBinding.tvTotalPrice.getTag().toString(), bean.getOrder_no());
                 paySelectBottomDialog.showNow(getSupportFragmentManager(), "payWay");
@@ -171,7 +171,7 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
 
         mBinding.btnLeft.setOnClickListener(v -> {
             if (4 == bean.getOrder_status() || 10 == bean.getOrder_status()) { //再次购买
-                mBinding.btnRight.callOnClick();
+                toProductDetailActivity(bean);
             }
         });
 
@@ -180,9 +180,27 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
                 Intent intent = new Intent(this, LookCommentActivity.class);
                 intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean);
                 startActivity(intent);
+            } else if (4 == bean.getOrder_status()) { //立即评价
+                toCommentActivity(bean);
             }
         });
 
+    }
+
+    private void toProductDetailActivity(OrderDetailResult bean) {
+        Intent intent = new Intent(this, ShopProductDetailActivity.class);
+        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getShop_id() + "");
+        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getGoods_info().get(0).getGoods_id() + "");
+        startActivity(intent);
+    }
+
+    private void toCommentActivity(OrderDetailResult bean) {
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean.getOrder_no());
+        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_1, bean.getShop_id() + "");
+        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_2, bean.getGoods_info().size() + "");
+        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_3, bean.getGoods_info().get(0));
+        activityResultLauncher.launch(intent);
     }
 
 }
