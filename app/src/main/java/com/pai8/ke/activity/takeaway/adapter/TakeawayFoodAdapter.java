@@ -3,7 +3,6 @@ package com.pai8.ke.activity.takeaway.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq;
-import com.pai8.ke.activity.takeaway.ui.AddGoodActivity;
 import com.pai8.ke.activity.takeaway.ui.EditTakeawayGoodActivity;
 import com.pai8.ke.utils.ImageLoadUtils;
 
@@ -72,13 +70,11 @@ public class TakeawayFoodAdapter extends RvAdapter<AddFoodReq> {
         @Override
         public void bindHolder(AddFoodReq food, int position) {
             int itemViewType = TakeawayFoodAdapter.this.getItemViewType(position);
-
             switch (itemViewType) {
                 case 0:
                     tvTitle.setText(food.title);
                     break;
                 case 1:
-
                     if (food.type == 2) {
                         ivBtnPlayer.setVisibility(View.VISIBLE);
                     } else {
@@ -94,27 +90,18 @@ public class TakeawayFoodAdapter extends RvAdapter<AddFoodReq> {
 //                        intent.putExtra("food",food);
 //                        mContext.startActivity(intent);
 
-                            Intent intent = new Intent(mContext, EditTakeawayGoodActivity.class);
-                            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, food);
-                            mContext.startActivity(intent);
+                        Intent intent = new Intent(mContext, EditTakeawayGoodActivity.class);
+                        intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, food);
+                        mContext.startActivity(intent);
                     });
 
                     tvTitle.setText(food.title);
                     tvPrice.setText(food.sell_price);
 
-
-                    if (TextUtils.isEmpty(food.discount) || TextUtils.equals(food.discount, "0")) {
-                        tvPriceDiscount.setVisibility(View.GONE);
-                    } else {
-                        tvPriceDiscount.setVisibility(View.VISIBLE);
-                        tvPriceDiscount.setText(food.discount);
-                        tvPriceDiscount.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
-                    }
-
+                    tvPriceDiscount.setText(food.origin_price);
+                    tvPriceDiscount.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中划线
 
                     ImageLoadUtils.setCircularImage(mContext, food.cover, ivGoods, R.mipmap.ic_launcher);
-
-
                     break;
             }
 

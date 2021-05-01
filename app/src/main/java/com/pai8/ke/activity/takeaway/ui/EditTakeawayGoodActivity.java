@@ -69,7 +69,7 @@ public class EditTakeawayGoodActivity extends BaseActivity<OperateTakeawayViewMo
         mBinding.ivCover.setTag(mFood.cover);
         ImageLoadUtils.setCircularImage(this, mFood.cover, mBinding.ivCover, R.mipmap.ic_launcher);
         mBinding.etName.setText(mFood.title);
-        mBinding.etPrice.setText(mFood.sell_price);
+        mBinding.etPrice.setText(mFood.origin_price);
         mBinding.tvDiscountPrice.setText(mFood.discount);
         mBinding.etPackPrice.setText(mFood.packing_price);
         mBinding.tvCategory.setText(mFood.cate_name);
@@ -171,9 +171,8 @@ public class EditTakeawayGoodActivity extends BaseActivity<OperateTakeawayViewMo
 
         double origin = 0;
         String price = mBinding.etPrice.getText().toString();
-        String discount = mBinding.tvDiscountPrice.getText().toString();
-        if (!TextUtils.isEmpty(price) && !TextUtils.isEmpty(discount)) {
-            origin = Double.parseDouble(price) + Double.parseDouble(discount);
+        if (!TextUtils.isEmpty(price)) {
+            origin = Double.parseDouble(price);
         }
         addFoodReq.origin_price = String.valueOf(origin);  //原价
         addFoodReq.desc = mBinding.etDesc.getText().toString();
