@@ -659,7 +659,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     private List<BusinessTypeResult> cateIem = new ArrayList<>();
 
     private void getCategoryList() {
-        TakeawayApi.getInstance().getTuanCategoryList()
+        TakeawayApi.getInstance().getBusinessType()
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())
@@ -667,7 +667,6 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
                     @Override
                     protected void onSuccess(List<BusinessTypeResult> list) {
                         cateIem = list;
-
                     }
 
                     @Override

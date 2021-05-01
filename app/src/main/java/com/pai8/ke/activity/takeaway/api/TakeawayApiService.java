@@ -81,6 +81,12 @@ public interface TakeawayApiService {
     @POST("Group/GetFoodSortList")
     Observable<BaseRespose<List<BusinessTypeResult>>> getTuanCategoryList();
 
+    /**
+     * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
+     */
+    @POST("index/businessType")
+    Observable<BaseRespose<List<BusinessTypeResult>>> getBusinessType();
+
 
     /**
      * 删除商品类别
