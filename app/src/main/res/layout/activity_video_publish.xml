@@ -179,14 +179,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_btn_link_shop"
+            android:id="@+id/rlBtnLinkShop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_selector_white"
             android:clickable="true">
 
             <TextView
-                android:id="@+id/tv_link_shop_lable"
+                android:id="@+id/tvLinkShopLable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -199,12 +199,12 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_link_shop"
+                android:id="@+id/tvLinkShop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tv_link_shop_lable"
+                android:layout_toRightOf="@+id/tvLinkShopLable"
                 android:drawableRight="@mipmap/ic_enter_gray"
                 android:drawablePadding="6dp"
                 android:ellipsize="end"

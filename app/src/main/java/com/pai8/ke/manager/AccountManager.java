@@ -109,8 +109,7 @@ public class AccountManager {
      */
     public void logout() {
         clearUserInfo();
-        EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_LOGIN_STATUS,
-                new LoginStatusEvent(LoginStatusEvent.LOGOUT)));
+        EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_LOGIN_STATUS, new LoginStatusEvent(LoginStatusEvent.LOGOUT)));
         ActivityManager.getInstance().finishToHome();
     }
 

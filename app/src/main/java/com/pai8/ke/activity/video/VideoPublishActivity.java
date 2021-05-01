@@ -20,16 +20,12 @@ import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.common.VideoViewActivity;
 import com.pai8.ke.activity.me.AddressChooseActivity;
-import com.pai8.ke.api.Api;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseEvent;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
 import com.pai8.ke.databinding.ActivityVideoPublishBinding;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.ShopList;
-import com.pai8.ke.global.EventCode;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.PickerUtils;
@@ -56,9 +52,9 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
     private int mBusinessTypeId;
     private String mCoverVideoUrl = "";
     private String mCoverVideoPath = "";
-    private ShopList mShopInfo;
     private Address mAddress;
     private ActivityResultLauncher activityResultLauncher;
+    private ActivityResultLauncher shopSearchActivityResultLauncher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +64,20 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
             if (result.getResultCode() == Activity.RESULT_OK) {
                 mAddress = (Address) result.getData().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
                 mBinding.tvAddress.setText(mAddress.getTitle());
+            }
+        });
+        shopSearchActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                ShopList shopInfo = (ShopList) result.getData().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+                //    mBinding.tvLinkShop.setText(shopInfo.getShop_name());
+                mBinding.tvLinkShopLable.setText(shopInfo.getShop_name());
+                mBinding.tvLinkShop.setVisibility(View.INVISIBLE);
+                mBinding.tvLinkShopLable.setTag(shopInfo);
+            }
+            if (result.getResultCode() == ShopSearchListActivity.REQUEST_CODE_CANCEL) {
+                mBinding.tvLinkShopLable.setText("关联商铺");
+                mBinding.tvLinkShop.setVisibility(View.VISIBLE);
+                mBinding.tvLinkShopLable.setTag(null);
             }
         });
     }
@@ -100,21 +110,26 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
             dismissLoading();
             mCoverVideoUrl = data;
         });
+        mViewModel.getUpVideoData().observe(this, data -> {
+            ToastUtils.showShort("视频发布成功");
+            finish();
+            EventBusUtils.sendEvent(new BaseEvent(EVENT_VIDEO_LIST_REFRESH));
+        });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void receiveEvent(BaseEvent event) {
-        switch (event.getCode()) {
-            case EventCode.EVENT_CHOOSE_SHOP:
-                mShopInfo = (ShopList) event.getData();
-                mBinding.tvLinkShop.setText(mShopInfo.getShop_name());
-                break;
-//            case EventCode.EVENT_CHOOSE_ADDRESS:
-//                mAddress = (Address) event.getData();
-//                mBinding.tvAddress.setText(mAddress.getTitle());
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void receiveEvent(BaseEvent event) {
+//        switch (event.getCode()) {
+//            case EventCode.EVENT_CHOOSE_SHOP:
+//                mShopInfo = (ShopList) event.getData();
+//                mBinding.tvLinkShop.setText(mShopInfo.getShop_name());
 //                break;
-        }
-    }
+////            case EventCode.EVENT_CHOOSE_ADDRESS:
+////                mAddress = (Address) event.getData();
+////                mBinding.tvAddress.setText(mAddress.getTitle());
+////                break;
+//        }
+//    }
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
@@ -152,7 +167,10 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
             activityResultLauncher.launch(intent);
         });
         mBinding.rlBtnLinkShop.setOnClickListener(v -> {
-            startActivity(new Intent(this, ShopSearchListActivity.class));
+            //   startActivity(new Intent(this, ShopSearchListActivity.class));
+            boolean showMenu = mBinding.tvLinkShopLable.getTag() != null;
+            shopSearchActivityResultLauncher.launch(new Intent(this, ShopSearchListActivity.class)
+                    .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, showMenu));
         });
         mBinding.rlBtnClassify.setOnClickListener(v -> {
             PickerUtils.showBusinessType(this, mBusinessTypePosition, (position, id, name) -> {
@@ -200,41 +218,46 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
             req.setLongitude(String.valueOf(mAddress.getLon()));
             req.setLatitude(String.valueOf(mAddress.getLat()));
         }
-        if (mShopInfo != null) {
-            req.setLongitude(mShopInfo.getLongitude());
-            req.setLatitude(mShopInfo.getLatitude());
+
+        if (mBinding.tvLinkShopLable.getTag() != null && mBinding.tvLinkShopLable.getTag() instanceof ShopList) {
+            ShopList shopInfo = (ShopList) mBinding.tvLinkShopLable.getTag();
+            req.setLongitude(shopInfo.getLongitude());
+            req.setLatitude(shopInfo.getLatitude());
+            req.setShop_id(String.valueOf(shopInfo.getId()));
         }
-        if (mAddress == null && mShopInfo == null) {
+        if (mAddress == null && mBinding.tvLinkShopLable.getTag() == null) {
             req.setLongitude(MyApp.getLngLat().get(0));
             req.setLatitude(MyApp.getLngLat().get(1));
+        }
+        req.setJuli_state(mAddress == null ? 0 : 1);
+        if (mBinding.tvLinkShopLable.getTag() == null) {
+            req.setShop_id(String.valueOf(0));
         }
         req.setType_id(String.valueOf(mBusinessTypeId));
         req.setVideo_desc(StringUtils.getEditText(mBinding.etContent));
         req.setVideo_path(mCoverVideoUrl);
         req.setCity(MyApp.getCity());
-        if (mShopInfo == null) {
-            req.setShop_id(String.valueOf(0));
-        } else {
-            req.setShop_id(String.valueOf(mShopInfo.getId()));
-        }
-        Api.getInstance().upVideo(req)
-                .doOnSubscribe(disposable -> {
 
-                })
-                .compose(RxSchedulers.io_main())
-                .subscribe(new BaseObserver<Object>() {
-                    @Override
-                    protected void onSuccess(Object o) {
-                        ToastUtils.showShort("视频发布成功");
-                        finish();
-                        EventBusUtils.sendEvent(new BaseEvent(EVENT_VIDEO_LIST_REFRESH));
-                    }
+//        Api.getInstance().upVideo(req)
+//                .doOnSubscribe(disposable -> {
+//
+//                })
+//                .compose(RxSchedulers.io_main())
+//                .subscribe(new BaseObserver<Object>() {
+//                    @Override
+//                    protected void onSuccess(Object o) {
+//                        ToastUtils.showShort("视频发布成功");
+//                        finish();
+//                        EventBusUtils.sendEvent(new BaseEvent(EVENT_VIDEO_LIST_REFRESH));
+//                    }
+//
+//                    @Override
+//                    protected void onError(String msg, int errorCode) {
+//                        super.onError(msg, errorCode);
+//                    }
+//                });
 
-                    @Override
-                    protected void onError(String msg, int errorCode) {
-                        super.onError(msg, errorCode);
-                    }
-                });
+        mViewModel.upVideo(req);
     }
 
 }

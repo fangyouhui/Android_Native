@@ -53,6 +53,7 @@ public class GroupShopInfoResult implements Serializable {
     private String gift_titlle;
     private String gift_img;
     private int shop_type;
+    private int is_collect;
 
     public void setId(int id) {
         this.id = id;
@@ -454,5 +455,11 @@ public class GroupShopInfoResult implements Serializable {
         return shop_type;
     }
 
+    public int getIs_collect() {
+        return is_collect;
+    }
 
+    public void setIs_collect(int is_collect) {
+        this.is_collect = is_collect;
+    }
 }

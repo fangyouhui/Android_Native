@@ -117,11 +117,17 @@ public class TikTokAdapter extends BaseRecyclerViewAdapter<Video> {
             viewHolder.tvBtnGoSee.setVisibility(GONE);
         }
 
-        if (StringUtils.isEmpty(videoData.getBusiness_district())) {
-            viewHolder.tvLoc.setText(videoData.getDistance());
+        if (videoData.getJuli_state() == 1) {
+            viewHolder.tvLoc.setVisibility(VISIBLE);
+            if (StringUtils.isEmpty(videoData.getBusiness_district())) {
+                viewHolder.tvLoc.setText(videoData.getDistance());
+            } else {
+                viewHolder.tvLoc.setText(videoData.getDistance() + " | " + videoData.getBusiness_district());
+            }
         } else {
-            viewHolder.tvLoc.setText(videoData.getDistance() + " | " + videoData.getBusiness_district());
+            viewHolder.tvLoc.setVisibility(View.INVISIBLE);
         }
+
 
         //点赞状态
         if (videoData.getLike_status() == 1) {

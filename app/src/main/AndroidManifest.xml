@@ -89,6 +89,7 @@
         <activity android:name=".activity.takeaway.ui.ShopOrderActivity" /> <!-- 视频滑动 -->
         <activity
             android:name=".activity.video.tiktok.TikTokActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" /> <!-- 举报/投诉 -->
         <activity
             android:name=".activity.video.ReportActivity"

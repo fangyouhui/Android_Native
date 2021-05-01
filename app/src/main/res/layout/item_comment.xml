@@ -27,7 +27,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/civ_comment_avatar" />
 
-    <androidx.emoji.widget.EmojiTextView
+    <TextView
         android:id="@+id/tv_parent_comment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

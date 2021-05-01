@@ -8,6 +8,7 @@ public class VideoPublishReq {
     private String type_id;
     private String shop_id;
     private String city;
+    private int juli_state; //为0代表不用关联位置，为1代表关联位置 如果是1的话
 
     public String getVideo_desc() {
         return video_desc;
@@ -63,5 +64,13 @@ public class VideoPublishReq {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public int getJuli_state() {
+        return juli_state;
+    }
+
+    public void setJuli_state(int juli_state) {
+        this.juli_state = juli_state;
     }
 }

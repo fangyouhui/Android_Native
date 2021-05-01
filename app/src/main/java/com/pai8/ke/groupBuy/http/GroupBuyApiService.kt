@@ -12,6 +12,7 @@ import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
 import com.pai8.ke.entity.*
+import com.pai8.ke.entity.req.VideoPublishReq
 import com.pai8.ke.entity.resp.*
 import org.json.JSONObject
 import retrofit2.http.*
@@ -311,5 +312,13 @@ interface GroupBuyApiService {
     suspend fun applyRefund(@Query("buyer_id") buyer_id: String, @Query("order_no") order_no: String, @Query("reason") reason: String): BaseHttpResult<List<String>>
 
 
+    /**
+     * 上传视频
+     *
+     * @param req
+     * @return
+     */
+    @POST("index/upVideo")
+    suspend fun upVideo(@Body req: VideoPublishReq): BaseHttpResult<Object>
 
 }

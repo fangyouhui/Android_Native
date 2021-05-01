@@ -190,7 +190,7 @@
 
             <TextView
                 android:id="@+id/tvAddress"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:ellipsize="end"
@@ -199,9 +199,21 @@
                 android:textColor="#ff999999"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/ivLocation"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivLocation"
                 app:layout_constraintTop_toTopOf="@id/ivLocation" />
+
+            <TextView
+                android:id="@+id/btnNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:drawableStart="@mipmap/ic_loc_primary"
+                android:drawablePadding="5dp"
+                android:text="导航"
+                android:textColor="#ffff7f47"
+                app:layout_constraintBottom_toBottomOf="@id/tvAddress"
+                app:layout_constraintStart_toEndOf="@id/tvAddress"
+                app:layout_constraintTop_toTopOf="@id/tvAddress" />
 
             <ImageView
                 android:id="@+id/ivPhone"

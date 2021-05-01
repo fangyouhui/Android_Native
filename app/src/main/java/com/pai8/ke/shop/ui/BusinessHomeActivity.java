@@ -97,7 +97,7 @@ public class BusinessHomeActivity extends BaseActivity<BusinessHomeViewModel, Ac
 
         });
 
-        mBinding.tvAddress.setOnClickListener(v -> {
+        mBinding.btnNav.setOnClickListener(v -> {
             GroupShopInfoResult shopInfo = mViewModel.getGetGroupShopInfoData().getValue();
             if (shopInfo != null) {
                 String curLatitude = (String) PreferencesUtils.get(getBaseContext(), "latitude", "0");

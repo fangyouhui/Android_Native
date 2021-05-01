@@ -1,5 +1,10 @@
 package com.pai8.ke.activity.me.ui;
 
+import android.content.Intent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.luck.picture.lib.PictureSelector;
@@ -8,32 +13,16 @@ import com.pai8.ke.R;
 import com.pai8.ke.activity.me.contract.EditPersonalInfoContract;
 import com.pai8.ke.activity.me.entity.resp.UserInfoResp;
 import com.pai8.ke.activity.me.presenter.EditPersonalInfoPresenter;
-import com.pai8.ke.api.Api;
-import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseMvpActivity;
-import com.pai8.ke.base.BasePresenter;
-import com.pai8.ke.base.retrofit.BaseObserver;
-import com.pai8.ke.base.retrofit.RxSchedulers;
-import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.StringUtils;
+import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.widget.CircleImageView;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
-
-import org.json.JSONObject;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -179,6 +168,7 @@ public class EditPersonalInfoActivity extends BaseMvpActivity<EditPersonalInfoPr
 
     @Override
     public void saveSuccess() {
+        ToastUtils.showShort("保存成功");
         setResult(RESULT_OK);
         finish();
     }

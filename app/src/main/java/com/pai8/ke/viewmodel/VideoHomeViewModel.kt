@@ -6,7 +6,7 @@ import com.pai8.ke.entity.resp.VideoListResp
 import com.pai8.ke.groupBuy.http.RetrofitClient
 
 class VideoHomeViewModel : BaseViewModel() {
-    
+
     val data = MutableLiveData<VideoListResp>()
     fun nearby(page: Int) {
         launchOnlyResult({

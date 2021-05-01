@@ -4,22 +4,30 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.PhoneUtils;
 import com.lhs.library.base.BaseActivity;
 import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.common.ShareBottomDialogFragment;
-import com.pai8.ke.activity.takeaway.adapter.BannerAdapter;
 import com.pai8.ke.databinding.ActivityShopProductDetailBinding;
 import com.pai8.ke.entity.GroupGoodsInfoResult;
 import com.pai8.ke.entity.GroupShopInfoResult;
 import com.pai8.ke.fragment.CouponGetDialogFragment;
+import com.pai8.ke.shop.adapter.BannerMultipleTypesAdapter;
 import com.pai8.ke.shop.adapter.ProductImgDetailAdapter;
 import com.pai8.ke.shop.viewmodel.ShopProductDetailViewModel;
 import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.TimeUtil;
 import com.youth.banner.indicator.CircleIndicator;
+import com.youth.banner.listener.OnPageChangeListener;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.jzvd.Jzvd;
 
 public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailViewModel, ActivityShopProductDetailBinding> {
     private String shopId;
@@ -69,7 +77,26 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
     public void initData() {
         mViewModel.getGroupShopInfo(shopId);
         mViewModel.getGroupGoodsInfo(productId);
-        mViewModel.getGoodsCollection(productId);
+        //   mViewModel.getGoodsCollection(productId);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Jzvd.goOnPlayOnPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Jzvd.goOnPlayOnResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Jzvd.releaseAllVideos();
+        mBinding.banner.destroy();
     }
 
     @Override
@@ -79,23 +106,46 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
             bindBanner(data);
             bindProductInfo(data);
         });
-        mViewModel.getAddGoodsCollectionData().observe(this, data -> {
-            mBinding.btnCollect.setSelected(data);
-        });
-        mViewModel.getGoodsCollectionData().observe(this, data -> {
-            if (data != null) {
-                mBinding.btnCollect.setSelected(data.getId() != 0);
-            }
-        });
+        mViewModel.getAddGoodsCollectionData().observe(this, data -> mBinding.btnCollect.setSelected(data));
+//        mViewModel.getGoodsCollectionData().observe(this, data -> {
+//            if (data != null) {
+//                mBinding.btnCollect.setSelected(data.getId() != 0);
+//            }
+//        });
     }
 
     private void bindBanner(GroupGoodsInfoResult bean) {
-        BannerAdapter bannerAdapter = new BannerAdapter(bean.getCover());
+        List<String> data = new ArrayList<>();
+        data.add(bean.getVideo_url());
+        data.addAll(bean.getCover());
+        BannerMultipleTypesAdapter bannerAdapter = new BannerMultipleTypesAdapter(data);
         mBinding.banner.setIndicator(new CircleIndicator(this))
-                .setAdapter(bannerAdapter);
+                .setAdapter(bannerAdapter)
+                .addOnPageChangeListener(new OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        RecyclerView.ViewHolder viewHolder = mBinding.banner.getAdapter().getViewHolder();
+                        if (viewHolder instanceof BannerMultipleTypesAdapter.VideoHolder) {
+                            BannerMultipleTypesAdapter.VideoHolder holder = (BannerMultipleTypesAdapter.VideoHolder) viewHolder;
+                        } else {
+                            Jzvd.goOnPlayOnPause();
+                        }
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
     }
 
     private void bindGroupShopInfo(GroupShopInfoResult bean) {
+        mBinding.btnCollect.setSelected(bean.getIs_collect() == 1);
         ImageLoadUtils.loadImage(bean.getShop_img(), mBinding.ivLogo);
         mBinding.tvName.setText(bean.getShop_name());
         mBinding.tvFraction.setText(bean.getScore() + "");

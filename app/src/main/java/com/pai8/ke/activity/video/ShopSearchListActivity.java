@@ -1,15 +1,19 @@
 package com.pai8.ke.activity.video;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.lhs.library.base.BaseActivity;
+import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.activity.video.adapter.ShopSearchListAdapter;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.databinding.ActivityShopSearchListBinding;
@@ -31,6 +35,30 @@ public class ShopSearchListActivity extends BaseActivity<ShopSearchViewModel, Ac
     private ShopSearchListAdapter mAdapter;
     private int mPageNo = 1;
     private String mKeywords = "";
+    private boolean showMenu = false;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        showMenu = getIntent().getBooleanExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, false);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 1, 0, "取消关联").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return showMenu;
+    }
+
+    public static int REQUEST_CODE_CANCEL = 0X111;
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == 1) {
+            setResult(REQUEST_CODE_CANCEL);
+            finish();
+        }
+        return true;
+    }
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
@@ -40,6 +68,9 @@ public class ShopSearchListActivity extends BaseActivity<ShopSearchViewModel, Ac
         mBinding.recyclerView.setAdapter(mAdapter);
         mAdapter.setListener((item, position) -> {
             EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_CHOOSE_SHOP, item));
+            Intent intent = new Intent();
+            intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, item);
+            setResult(RESULT_OK, intent);
             finish();
         });
 

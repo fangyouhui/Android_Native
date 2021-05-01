@@ -65,12 +65,12 @@ public class TabHomeChildFragment extends BaseFragment<VideoHomeViewModel, Fragm
                 onRefreshData();
                 break;
             case EVENT_LOGIN_STATUS: {
-                mBinding.recyclerView.setVisibility(View.VISIBLE);
-                mBinding.ivEmpty.setVisibility(View.GONE);
-                mBinding.loginView.getRoot().setVisibility(View.GONE);
-                mBinding.smartRefreshLayout.setEnableRefresh(true);
-                mBinding.smartRefreshLayout.setEnableLoadMore(true);
-                onRefreshData();
+//                mBinding.recyclerView.setVisibility(View.VISIBLE);
+//                mBinding.ivEmpty.setVisibility(View.GONE);
+//                mBinding.loginView.getRoot().setVisibility(View.GONE);
+//                mBinding.smartRefreshLayout.setEnableRefresh(true);
+//                mBinding.smartRefreshLayout.setEnableLoadMore(true);
+                initData();
             }
             break;
             case EVENT_VIDEO_ITEM: //刷新某一条数据

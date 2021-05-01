@@ -64,6 +64,7 @@
         android:text="朋友圈"
         android:textColor="@color/color_mid_font"
         android:textSize="13sp"
+        android:visibility="gone"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_wechat_friend"
         app:layout_constraintLeft_toRightOf="@+id/tv_btn_wechat_friend"
         app:layout_constraintRight_toRightOf="parent" />

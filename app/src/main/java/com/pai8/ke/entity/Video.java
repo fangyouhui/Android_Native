@@ -34,6 +34,7 @@ public class Video implements Serializable {
     private int goods_id;
     private String user_nickname;
     private String avatar;
+    private int juli_state;
 
     public int getGoods_id() {
         return goods_id;
@@ -233,6 +234,14 @@ public class Video implements Serializable {
 
     public boolean isSelf() {
         return StringUtils.equals(AccountManager.getInstance().getUid(), user.getId());
+    }
+
+    public int getJuli_state() {
+        return juli_state;
+    }
+
+    public void setJuli_state(int juli_state) {
+        this.juli_state = juli_state;
     }
 
     @Override
