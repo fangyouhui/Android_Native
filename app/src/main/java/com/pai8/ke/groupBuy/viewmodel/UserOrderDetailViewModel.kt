@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lhs.library.base.BaseViewModel
 import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.groupBuy.http.RetrofitClient
+import com.pai8.ke.manager.AccountManager
 
 class UserOrderDetailViewModel : BaseViewModel() {
 
@@ -15,5 +16,14 @@ class UserOrderDetailViewModel : BaseViewModel() {
         }, {
             orderDetailData.value = it
         }, isShowDialog = true)
+    }
+
+    val applyRefundData = MutableLiveData<List<String>>()
+    fun applyRefund(order_no: String) {
+        launchOnlyResult({
+            RetrofitClient.getInstance().getMainService().applyRefund(AccountManager.getInstance().uid, order_no, "")
+        }, {
+            applyRefundData.value = it
+        })
     }
 }

@@ -86,6 +86,26 @@ public class UserGroupOrderAdapter extends BaseRecyclerViewAdapter<OrderListResu
                 holder.binding.btnScan.setVisibility(View.GONE);
                 holder.binding.btnEvaluation.setVisibility(View.VISIBLE);
                 holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
+            } else if (orderStatus == 5) {
+                holder.binding.tvOrderStatus.setText("退款中");
+                holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ffff7f47"));
+                holder.binding.btnQuXiaoDingDan.setVisibility(View.GONE);
+                holder.binding.btnChaKan.setVisibility(View.GONE);
+                holder.binding.btnZaiCiGouMai.setVisibility(View.GONE);
+                holder.binding.btnLiJiFuKuan.setVisibility(View.GONE);
+                holder.binding.btnScan.setVisibility(View.GONE);
+                holder.binding.btnEvaluation.setVisibility(View.GONE);
+                holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
+            } else if (orderStatus == 8) {
+                holder.binding.tvOrderStatus.setText("退款成功");
+                holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ff999999"));
+                holder.binding.btnQuXiaoDingDan.setVisibility(View.GONE);
+                holder.binding.btnChaKan.setVisibility(View.GONE);
+                holder.binding.btnZaiCiGouMai.setVisibility(View.GONE);
+                holder.binding.btnLiJiFuKuan.setVisibility(View.GONE);
+                holder.binding.btnScan.setVisibility(View.GONE);
+                holder.binding.btnEvaluation.setVisibility(View.GONE);
+                holder.binding.btnChongXinXiaDan.setVisibility(View.GONE);
             } else if (orderStatus == 10) {
                 holder.binding.tvOrderStatus.setText("已完成");
                 holder.binding.tvOrderStatus.setTextColor(Color.parseColor("#ffff7f47"));

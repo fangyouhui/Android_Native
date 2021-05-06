@@ -52,11 +52,15 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
                 PhoneUtils.dial(phone);
             }
         });
+        mBinding.btnRefund.setOnClickListener(v -> mViewModel.applyRefund(orderNo));
     }
 
     @Override
     public void addObserve() {
         mViewModel.getOrderDetailData().observe(this, data -> bindViewData(data));
+        mViewModel.getApplyRefundData().observe(this, data -> {
+            initData();
+        });
     }
 
     @Override
@@ -68,6 +72,7 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
         mBinding.btnRight.setVisibility(View.GONE);
         mBinding.btnLeft.setVisibility(View.GONE);
         mBinding.ivQrCode.setVisibility(View.GONE);
+        mBinding.flRefund.setVisibility(View.GONE);
         if (bean.getOrder_status() == 0) {
             mBinding.tvOrderStatus.setText("待支付");
             mBinding.tvStatusName.setText("请在29:59s内进行付款，否则订单讲自动取消");
@@ -80,6 +85,7 @@ public class UserGroupOrderDetailActivity extends BaseActivity<UserOrderDetailVi
             Bitmap bitmap = QRCodeTools.createCode(bean.getOrder_no(), 200, true);
             mBinding.ivQrCode.setVisibility(View.VISIBLE);
             mBinding.ivQrCode.setImageBitmap(bitmap);
+            mBinding.flRefund.setVisibility(View.VISIBLE);
         } else if (bean.getOrder_status() == 2) {
             mBinding.tvOrderStatus.setText("商品准备中");
         } else if (bean.getOrder_status() == 3) {

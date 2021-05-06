@@ -117,6 +117,7 @@ interface GroupBuyApiService {
     @POST("Order/orderDetail")
     suspend fun orderDetail(@Query("order_no") order_no: String): BaseHttpResult<OrderDetailResult>
 
+
     @POST("Order/cancelOrder")
     suspend fun cancelOrder(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String): BaseHttpResult<String>
 
