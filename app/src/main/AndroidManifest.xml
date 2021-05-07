@@ -222,6 +222,7 @@
             android:screenOrientation="portrait" /> <!-- 关于 -->
         <activity
             android:name=".activity.me.AboutActivity"
+            android:label="关于软件"
             android:screenOrientation="portrait" />
         <activity
             android:name=".exception.CustomErrorActivity"

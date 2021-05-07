@@ -21,7 +21,7 @@ interface GroupBuyApiService {
 
 
     @POST("system/checkUpgrade")
-    suspend fun checkUpgrade(): BaseHttpResult<VersionResp>
+    suspend fun checkUpgrade(@Query("platform") platform: String,@Query("version") version: String): BaseHttpResult<VersionResp>
 
     /**
      * 获取个人中心

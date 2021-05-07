@@ -6,10 +6,13 @@
     android:background="@color/color_white">
 
     <include
-        layout="@layout/view_comm_titlebar"
-        android:layout_width="match_parent"
+        android:id="@+id/toolBar"
+        layout="@layout/toolbar_layout_base"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/et_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -17,10 +20,11 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="80dp"
+        android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
 
     <TextView
         android:id="@+id/tv_app_name"
@@ -46,6 +50,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
+
+    <Button
+        android:id="@+id/btnUpgrade"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/btn_selector_linear_radius"
+        android:text="立即升级"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"

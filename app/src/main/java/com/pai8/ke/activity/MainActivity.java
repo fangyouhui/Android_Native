@@ -100,7 +100,6 @@ public class MainActivity extends BaseActivity<MainViewModel, com.pai8.ke.databi
     @Override
     public void addObserve() {
         mViewModel.getCheckUpgradeData().observe(this, data -> UpdateAppManager.showUpdateDialog(this, data));
-
         mViewModel.getMyInfoData().observe(this, data -> AccountManager.getInstance().saveShopInfo(data));
     }
 
@@ -109,7 +108,7 @@ public class MainActivity extends BaseActivity<MainViewModel, com.pai8.ke.databi
         getShopInfo();
         ThreadUtils.runOnUiThreadDelayed(() -> {
             MyApp.setJPushAlias();
-            mViewModel.getCheckUpgradeData();
+            mViewModel.checkUpgrade();
         }, 1000);
     }
 
