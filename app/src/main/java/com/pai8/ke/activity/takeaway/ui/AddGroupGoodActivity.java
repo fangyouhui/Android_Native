@@ -560,18 +560,12 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
         tvBtnTakePhoto.setOnClickListener(view13 -> {
             mChooseBottomDialog.dismiss();
             Intent intent = new Intent(AddGroupGoodActivity.this, VideoRecordActivity.class);
-            intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_RATIO,
-                    ConfigActivity.PREVIEW_SIZE_RATIO_POS);
-            intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_LEVEL,
-                    ConfigActivity.PREVIEW_SIZE_LEVEL_POS);
-            intent.putExtra(VideoRecordActivity.ENCODING_MODE,
-                    ConfigActivity.ENCODING_MODE_LEVEL_POS);
-            intent.putExtra(VideoRecordActivity.ENCODING_SIZE_LEVEL,
-                    ConfigActivity.ENCODING_SIZE_LEVEL_POS);
-            intent.putExtra(VideoRecordActivity.ENCODING_BITRATE_LEVEL,
-                    ConfigActivity.ENCODING_BITRATE_LEVEL_POS);
-            intent.putExtra(VideoRecordActivity.AUDIO_CHANNEL_NUM,
-                    ConfigActivity.AUDIO_CHANNEL_NUM_POS);
+            intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_RATIO, ConfigActivity.PREVIEW_SIZE_RATIO_POS);
+            intent.putExtra(VideoRecordActivity.PREVIEW_SIZE_LEVEL, ConfigActivity.PREVIEW_SIZE_LEVEL_POS);
+            intent.putExtra(VideoRecordActivity.ENCODING_MODE, ConfigActivity.ENCODING_MODE_LEVEL_POS);
+            intent.putExtra(VideoRecordActivity.ENCODING_SIZE_LEVEL, ConfigActivity.ENCODING_SIZE_LEVEL_POS);
+            intent.putExtra(VideoRecordActivity.ENCODING_BITRATE_LEVEL, ConfigActivity.ENCODING_BITRATE_LEVEL_POS);
+            intent.putExtra(VideoRecordActivity.AUDIO_CHANNEL_NUM, ConfigActivity.AUDIO_CHANNEL_NUM_POS);
             startActivity(intent);
         });
 
@@ -659,7 +653,7 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     private List<BusinessTypeResult> cateIem = new ArrayList<>();
 
     private void getCategoryList() {
-        TakeawayApi.getInstance().getBusinessType()
+        TakeawayApi.getInstance().setvideoType()
                 .doOnSubscribe(disposable -> {
                 })
                 .compose(RxSchedulers.io_main())

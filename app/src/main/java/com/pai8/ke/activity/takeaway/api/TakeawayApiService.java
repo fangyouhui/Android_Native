@@ -87,6 +87,8 @@ public interface TakeawayApiService {
     @POST("index/businessType")
     Observable<BaseRespose<List<BusinessTypeResult>>> getBusinessType();
 
+    @POST("index/setvideoType")
+    Observable<BaseRespose<List<BusinessTypeResult>>> setvideoType();
 
     /**
      * 删除商品类别

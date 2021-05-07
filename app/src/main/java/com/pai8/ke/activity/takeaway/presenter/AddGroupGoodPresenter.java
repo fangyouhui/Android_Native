@@ -24,7 +24,6 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
     }
 
     public void addGood(GroupFoodReq req){
-
         TakeawayApi.getInstance().addGroupFood(req)
                 .doOnSubscribe(disposable -> {
                 })

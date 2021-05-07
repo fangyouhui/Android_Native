@@ -43,7 +43,7 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
 
     @Override
     public void addObserve() {
-        mViewModel.getBusinessTypeData().observe(getViewLifecycleOwner(), data -> {
+        mViewModel.getVideoTypeData().observe(getViewLifecycleOwner(), data -> {
             SerializableUtil.saveSerializable(getContext(), data, "BusinessTypeData");
             if (getArguments() != null && getArguments().containsKey(BaseAppConstants.BundleConstant.ARG_PARAMS_0)) {
                 ArrayList<String> select = getArguments().getStringArrayList(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
@@ -61,7 +61,7 @@ public class CategoryBottomDialogFragment extends BaseBottomDialogFragment<Categ
 
     @Override
     public void initData() {
-        mViewModel.businessType();
+        mViewModel.videoType();
     }
 
     private void callBack() {

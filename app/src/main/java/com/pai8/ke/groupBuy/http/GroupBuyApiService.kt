@@ -21,7 +21,10 @@ interface GroupBuyApiService {
 
 
     @POST("system/checkUpgrade")
-    suspend fun checkUpgrade(@Query("platform") platform: String,@Query("version") version: String): BaseHttpResult<VersionResp>
+    suspend fun checkUpgrade(
+        @Query("platform") platform: String,
+        @Query("version") version: String
+    ): BaseHttpResult<VersionResp>
 
     /**
      * 获取个人中心
@@ -37,8 +40,10 @@ interface GroupBuyApiService {
 
 
     @POST("public/register")
-    suspend fun register(@Query("mobile") mobile: String, @Query("code") code: String,
-                         @Query("pwd") pwd: String, @Query("repwd") repwd: String): BaseHttpResult<JSONObject>
+    suspend fun register(
+        @Query("mobile") mobile: String, @Query("code") code: String,
+        @Query("pwd") pwd: String, @Query("repwd") repwd: String
+    ): BaseHttpResult<JSONObject>
 
 
     /**
@@ -56,8 +61,15 @@ interface GroupBuyApiService {
     @POST("index/businessType")
     suspend fun businessType(): BaseHttpResult<List<BusinessTypeResult>>
 
+
     /**
      * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
+     */
+    @POST("index/videoType")
+    suspend fun videoType(): BaseHttpResult<List<BusinessTypeResult>>
+
+    /**
+     * 添加团购商品/团购分类
      */
     @POST("index/setvideotype")
     suspend fun setvideotype(): BaseHttpResult<List<BusinessTypeResult>>
@@ -79,15 +91,19 @@ interface GroupBuyApiService {
      * 店铺团购列表
      */
     @POST("Group/GetShopGroupList")
-    suspend fun getShopGroupList(@Query("shop_id") shop_id: String, @Query("page") page: String,
-                                 @Query("size") size: String): BaseHttpResult<List<ShopGroupListResult>>
+    suspend fun getShopGroupList(
+        @Query("shop_id") shop_id: String, @Query("page") page: String,
+        @Query("size") size: String
+    ): BaseHttpResult<List<ShopGroupListResult>>
 
     /**
      * 店铺视频列表
      */
     @POST("Group/GetShopVideoList")
-    suspend fun getShopVideoList(@Query("shop_id") shop_id: String, @Query("page") page: String,
-                                 @Query("size") size: String): BaseHttpResult<List<Video>>
+    suspend fun getShopVideoList(
+        @Query("shop_id") shop_id: String, @Query("page") page: String,
+        @Query("size") size: String
+    ): BaseHttpResult<List<Video>>
 
     @POST("index/GetBannerList")
     suspend fun getBannerList(): BaseHttpResult<List<BannerResult>>
@@ -102,16 +118,23 @@ interface GroupBuyApiService {
 
 
     @POST("Order/orderPrepay")
-    suspend fun orderPrepayWithWx(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String,
-                                  @Query("pay_type") pay_type: Int): BaseHttpResult<OrderPrepayResult>
+    suspend fun orderPrepayWithWx(
+        @Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String,
+        @Query("pay_type") pay_type: Int
+    ): BaseHttpResult<OrderPrepayResult>
 
     @POST("Order/orderPrepay")
-    suspend fun orderPrepayWithAli(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String,
-                                   @Query("pay_type") pay_type: Int): BaseHttpResult<String>
+    suspend fun orderPrepayWithAli(
+        @Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String,
+        @Query("pay_type") pay_type: Int
+    ): BaseHttpResult<String>
 
 
     @POST("Order/orderList")
-    suspend fun orderList(@Query("buyer_id") buyer_id: Int, @Query("order_type") order_type: Int): BaseHttpResult<List<OrderListResult>>
+    suspend fun orderList(
+        @Query("buyer_id") buyer_id: Int,
+        @Query("order_type") order_type: Int
+    ): BaseHttpResult<List<OrderListResult>>
 
 
     @POST("Order/orderDetail")
@@ -119,7 +142,10 @@ interface GroupBuyApiService {
 
 
     @POST("Order/cancelOrder")
-    suspend fun cancelOrder(@Query("order_no") order_no: String, @Query("buyer_id") buyer_id: String): BaseHttpResult<String>
+    suspend fun cancelOrder(
+        @Query("order_no") order_no: String,
+        @Query("buyer_id") buyer_id: String
+    ): BaseHttpResult<String>
 
 
     @POST("shop/upComment")
@@ -127,7 +153,10 @@ interface GroupBuyApiService {
 
 
     @POST("Coupon/shopCouponList")
-    suspend fun shopCouponList(@Query("shop_id") shop_id: String, @Query("buyer_id") buyer_id: String): BaseHttpResult<ShopCouponListResult>
+    suspend fun shopCouponList(
+        @Query("shop_id") shop_id: String,
+        @Query("buyer_id") buyer_id: String
+    ): BaseHttpResult<ShopCouponListResult>
 
 
     /**
@@ -136,7 +165,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("Coupon/getCoupon")
-    suspend fun getCoupon(@Query("buyer_id") buyer_id: String, @Query("coupon_ids") coupon_ids: String): BaseHttpResult<JSONObject>
+    suspend fun getCoupon(
+        @Query("buyer_id") buyer_id: String,
+        @Query("coupon_ids") coupon_ids: String
+    ): BaseHttpResult<JSONObject>
 
 
     /**
@@ -145,7 +177,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("Order/verifyOrder")
-    suspend fun verifyOrder(@Query("order_no") order_no: String, @Query("shop_id") shop_id: String): BaseHttpResult<String>
+    suspend fun verifyOrder(
+        @Query("order_no") order_no: String,
+        @Query("shop_id") shop_id: String
+    ): BaseHttpResult<String>
 
     /**
      * 商家关注
@@ -164,7 +199,10 @@ interface GroupBuyApiService {
      * 获取用户是否关注商家信息
      */
     @POST("shop/IsUserFollow")
-    suspend fun isUserFollow(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<JSONObject>
+    suspend fun isUserFollow(
+        @Query("shop_id") shop_id: String,
+        @Query("user_id") user_id: String
+    ): BaseHttpResult<JSONObject>
 
     /**
      * 商品收藏
@@ -198,11 +236,17 @@ interface GroupBuyApiService {
 
 
     @POST("system/share")
-    suspend fun shareMini(@Query("type") type: Int, @Query("id") id: String): BaseHttpResult<ShareMiniResp>
+    suspend fun shareMini(
+        @Query("type") type: Int,
+        @Query("id") id: String
+    ): BaseHttpResult<ShareMiniResp>
 
 
     @POST("shop/shopEditInfo")
-    suspend fun shopEditInfo(@Query("shop_id") shop_id: String, @Query("user_id") user_id: String): BaseHttpResult<StoreInfoResult>
+    suspend fun shopEditInfo(
+        @Query("shop_id") shop_id: String,
+        @Query("user_id") user_id: String
+    ): BaseHttpResult<StoreInfoResult>
 
 
     //***************************视频模块End*******************************
@@ -229,8 +273,10 @@ interface GroupBuyApiService {
      */
 
     @POST("shop/shopSelect")
-    suspend fun shopSelect(@Query("page") page: Int,
-                           @Query("keywords") keywords: String): BaseHttpResult<List<ShopList>>
+    suspend fun shopSelect(
+        @Query("page") page: Int,
+        @Query("keywords") keywords: String
+    ): BaseHttpResult<List<ShopList>>
 
 
     /**
@@ -239,7 +285,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("video/nearby")
-    suspend fun nearby(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+    suspend fun nearby(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): BaseHttpResult<VideoListResp>
 
     /**
      * 推荐的视频列表（新）
@@ -247,7 +296,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("video/flow")
-    suspend fun flow(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+    suspend fun flow(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): BaseHttpResult<VideoListResp>
 
     /**
      * 关注的视频列表（新）
@@ -255,7 +307,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("video/follow")
-    suspend fun follow(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+    suspend fun follow(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): BaseHttpResult<VideoListResp>
 
 
     /**
@@ -264,7 +319,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("video/myVideo")
-    suspend fun myVideo(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+    suspend fun myVideo(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): BaseHttpResult<VideoListResp>
 
 
     /**
@@ -273,7 +331,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("video/myLike")
-    suspend fun myLike(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+    suspend fun myLike(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): BaseHttpResult<VideoListResp>
 
 
     /**
@@ -282,7 +343,10 @@ interface GroupBuyApiService {
      * @return
      */
     @POST("video/mylink")
-    suspend fun myLink(@Query("page") page: Int, @Query("size") size: Int): BaseHttpResult<VideoListResp>
+    suspend fun myLink(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): BaseHttpResult<VideoListResp>
 
 
     /**
@@ -302,15 +366,25 @@ interface GroupBuyApiService {
      * order_type: 1为邮寄订单 2为外卖订单 3为团购核销订单 不填写默认为外卖订单
      */
     @POST("Order/shopOrderList")
-    suspend fun shopOrderList(@Query("shop_id") shop_id: String, @Query("order_status") order_status: String,
-                              @Query("order_type") order_type: Int, @Query("page") page: Int): BaseHttpResult<List<OrderInfo>>
+    suspend fun shopOrderList(
+        @Query("shop_id") shop_id: String, @Query("order_status") order_status: String,
+        @Query("order_type") order_type: Int, @Query("page") page: Int
+    ): BaseHttpResult<List<OrderInfo>>
 
     @POST("Order/shopDealOrder")
-    suspend fun shopDealOrder(@Query("shop_id") shop_id: String, @Query("order_no") order_no: String, @Query("type") type: Int): BaseHttpResult<List<String>>
+    suspend fun shopDealOrder(
+        @Query("shop_id") shop_id: String,
+        @Query("order_no") order_no: String,
+        @Query("type") type: Int
+    ): BaseHttpResult<List<String>>
 
 
     @POST("Order/applyRefund")
-    suspend fun applyRefund(@Query("buyer_id") buyer_id: String, @Query("order_no") order_no: String, @Query("reason") reason: String): BaseHttpResult<List<String>>
+    suspend fun applyRefund(
+        @Query("buyer_id") buyer_id: String,
+        @Query("order_no") order_no: String,
+        @Query("reason") reason: String
+    ): BaseHttpResult<List<String>>
 
 
     /**

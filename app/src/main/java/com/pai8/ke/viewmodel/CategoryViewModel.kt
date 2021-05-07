@@ -7,12 +7,12 @@ import com.pai8.ke.groupBuy.http.RetrofitClient
 
 class CategoryViewModel : BaseViewModel() {
 
-    val businessTypeData = MutableLiveData<List<BusinessTypeResult>>()
-    fun businessType() {
+    val videoTypeData = MutableLiveData<List<BusinessTypeResult>>()
+    fun videoType() {
         launchOnlyResult({
-            RetrofitClient.getInstance().getMainService().businessType()
+            RetrofitClient.getInstance().getMainService().videoType()
         }, {
-            businessTypeData.value = it
+            videoTypeData.value = it
         })
     }
 

@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.google.gson.JsonParseException;
 import com.pai8.ke.R;
-import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseRespose;
 import com.pai8.ke.exception.NetConnException;
 import com.pai8.ke.global.GlobalConstants;
@@ -36,7 +35,7 @@ public abstract class BaseObserver<T> implements Observer<BaseRespose<T>> {
 
     @Override
     public void onNext(BaseRespose<T> value) {
-        Log.d("####","onNext");
+        Log.d("####", "onNext");
         if (value.isSuccess()) {
             //请求成功
             onSuccess(value.getData());
@@ -56,24 +55,24 @@ public abstract class BaseObserver<T> implements Observer<BaseRespose<T>> {
 
         if (e instanceof SocketTimeoutException) {
             //请求超时
-            Log.d("####",ResUtils.getText(R.string.str_conn_timeout));
+            Log.d("####", ResUtils.getText(R.string.str_conn_timeout));
             onError(ResUtils.getText(R.string.str_conn_timeout), GlobalConstants.HTTP_CONN_TIMEOUT);
         } else if (e instanceof NetConnException) {
             //网络未连接/网络不可用
-            Log.d("####",e.getMessage());
+            Log.d("####", e.getMessage());
             onError(e.getMessage(), GlobalConstants.HTTP_NET_ERROR);
         } else if (e instanceof UnknownHostException || e instanceof ConnectException) {
             //连接异常
-            Log.d("####",ResUtils.getText(R.string.str_conn_error));
+            Log.d("####", ResUtils.getText(R.string.str_conn_error));
             onError(ResUtils.getText(R.string.str_conn_error), GlobalConstants.HTTP_CONN_ERROR);
         } else if (e instanceof JsonParseException || e instanceof JSONException || e instanceof
                 ParseException) {
             //数据解析异常
-            Log.d("####",ResUtils.getText(R.string.str_data_parse_error));
+            Log.d("####", ResUtils.getText(R.string.str_data_parse_error));
             onError(ResUtils.getText(R.string.str_data_parse_error), GlobalConstants.HTTP_DATA_PARSE_ERROR);
         } else {
             //其他均视为连接异常
-            Log.d("####",ResUtils.getText(R.string.str_conn_error));
+            Log.d("####", ResUtils.getText(R.string.str_conn_error));
             onError(ResUtils.getText(R.string.str_conn_error), GlobalConstants.HTTP_CONN_ERROR);
         }
 
@@ -87,9 +86,7 @@ public abstract class BaseObserver<T> implements Observer<BaseRespose<T>> {
     protected abstract void onSuccess(T t);
 
     protected void onError(String errorTip, int errorCode) {
-
         ToastUtils.showShort(errorTip);
-
     }
 }
 
