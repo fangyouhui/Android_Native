@@ -153,7 +153,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/shape_alpha30_radius8"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.11"
@@ -228,9 +227,9 @@
         android:text="1.2km|苏州中心"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/iv_bottom_bg"
+        app:layout_constraintBottom_toTopOf="@id/iv_bottom_bg"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_goneMarginBottom="0dp" />
+        app:layout_goneMarginBottom="80dp" />
 
     <TextView
         android:id="@+id/tv_classify"

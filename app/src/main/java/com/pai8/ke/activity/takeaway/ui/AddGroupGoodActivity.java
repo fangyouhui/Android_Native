@@ -2,6 +2,7 @@ package com.pai8.ke.activity.takeaway.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gh.qiniushortvideo.ChooseVideo;
 import com.gh.qiniushortvideo.activity.ConfigActivity;
 import com.gh.qiniushortvideo.activity.MediaSelectActivity;
@@ -54,6 +57,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,7 +142,12 @@ public class AddGroupGoodActivity extends BaseMvpActivity<AddGroupGoodPresenter>
     public void onEventChooseVideo(ChooseVideo event) {
         if (event == null) return;
         mFoodPath = event.getPath();
-        ImageLoadUtils.loadCover(this, mFoodPath, mIvCover);
+        //   ImageLoadUtils.loadCover(this, mFoodPath, mIvCover);
+        Glide.with(this)
+                .load(Uri.fromFile(new File(mFoodPath)))
+                .skipMemoryCache(true) // 不使用内存缓存
+                .diskCacheStrategy(DiskCacheStrategy.NONE) // 不使用磁盘缓存
+                .into(mIvCover);
         showLoadingDialog("视频上传...");
         UploadFileManager.getInstance().upload(mFoodPath, new UploadFileManager.Callback() {
             @Override

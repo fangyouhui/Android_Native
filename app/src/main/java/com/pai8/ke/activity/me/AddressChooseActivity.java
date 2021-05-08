@@ -29,10 +29,13 @@ import com.lhs.library.base.NoViewModel;
 import com.pai8.ke.activity.me.adapter.AddressChooseAdapter;
 import com.pai8.ke.activity.takeaway.ui.ChangeDetailAddressActivity;
 import com.pai8.ke.app.MyApp;
+import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.databinding.ActivityAddressChooseBinding;
 import com.pai8.ke.entity.Address;
+import com.pai8.ke.global.EventCode;
 import com.pai8.ke.groupBuy.adapter.TextWatcherAdapter;
 import com.pai8.ke.utils.CollectionUtils;
+import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.MyAMapUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
@@ -81,6 +84,7 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
                 setResult(RESULT_OK, result.getData());
+                EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_CHOOSE_ADDRESS, result.getData()));
                 finish();
             }
         });
@@ -129,7 +133,7 @@ public class AddressChooseActivity extends BaseActivity<NoViewModel, ActivityAdd
             Intent intent = new Intent(this, ChangeDetailAddressActivity.class);
             intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, select);
             //     startActivity(intent);
-            //  EventBusUtils.sendEvent(new BaseEvent(EVENT_CHOOSE_ADDRESS, select));
+            // EventBusUtils.sendEvent(new BaseEvent(EventCode.EVENT_CHOOSE_ADDRESS, select));
             activityResultLauncher.launch(intent);
             //  finish();
         });

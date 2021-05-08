@@ -3,6 +3,6 @@
     android:id="@+id/imageView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="200dp"
+    android:adjustViewBounds="true"
     android:scaleType="fitXY"
-    android:src="@mipmap/bg_store_month_num"/>
+    android:src="@mipmap/bg_store_month_num" />

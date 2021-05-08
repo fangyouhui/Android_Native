@@ -126,7 +126,7 @@ public class ShopOrderDetailActivity extends BaseActivity<ShopOrderViewModel, Ac
         }
 
         if (orderInfo.getRider_info() != null) {
-            mBinding.tvRiderName.setText(orderInfo.getRider_info().getRider_name());
+            //       mBinding.tvRiderName.setText(orderInfo.getRider_info().getRider_name());
 //            mTvRiderTime.setText("尽快送达")
         }
     }

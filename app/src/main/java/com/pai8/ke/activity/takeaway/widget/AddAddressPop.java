@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.AddressChooseActivity;
 import com.pai8.ke.activity.takeaway.entity.resq.AddressInfo;
-import com.pai8.ke.activity.takeaway.ui.MapAddressChooseActivity;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.entity.Address;
 import com.pai8.ke.global.EventCode;
@@ -23,21 +23,20 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import razerdp.basepopup.BasePopupWindow;
 
-public class AddAddressPop extends BasePopupWindow implements View.OnClickListener,TextWatcher {
-
+public class AddAddressPop extends BasePopupWindow implements View.OnClickListener, TextWatcher {
 
 
     private Context mContext;
-    private EditText mEtName,mEtPhone;
-    private TextView mTvTitle,mTvDelete,mEtAddress;
+    private EditText mEtName, mEtPhone;
+    private TextView mTvTitle, mTvDelete, mEtAddress;
     private TextView mTvNext;
     public AddressInfo addressInfo;
     private EditText mEtNumber;
     private Address mAddress;
-    private String lat,lon;
+    private String lat, lon;
 
 
-    public AddAddressPop(Context context,AddressInfo addressInfo) {
+    public AddAddressPop(Context context, AddressInfo addressInfo) {
         super(context);
         mContext = context;
         this.addressInfo = addressInfo;
@@ -64,7 +63,7 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
         editListener();
         EventBus.getDefault().register(this);
 
-        if(addressInfo!=null){
+        if (addressInfo != null) {
             mEtName.setText(addressInfo.linkman);
             mEtPhone.setText(addressInfo.phone);
             mEtAddress.setText(addressInfo.address);
@@ -73,7 +72,7 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
             lon = addressInfo.longitude;
             mTvDelete.setVisibility(View.VISIBLE);
             mTvTitle.setText("编辑地址");
-        }else{
+        } else {
             mTvDelete.setVisibility(View.GONE);
             mTvTitle.setText("新增地址");
         }
@@ -92,10 +91,6 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
     }
 
 
-
-
-
-
     @Override
     public View onCreateContentView() {
         View v = createPopupById(R.layout.pop_add_address);
@@ -112,22 +107,25 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
         int id = view.getId();
         if (id == R.id.iv_close) {
             dismiss();
-        }else if(id == R.id.tv_next){
+        } else if (id == R.id.tv_next) {
             String name = mEtName.getText().toString();
             String phone = mEtPhone.getText().toString();
             String address = mEtAddress.getText().toString();
             String number = mEtNumber.getText().toString();
-            if(onSelectListener!=null)
-                onSelectListener.onSelect(name,phone,address,number,lat,lon);
+            if (onSelectListener != null)
+                onSelectListener.onSelect(name, phone, address, number, lat, lon);
             dismiss();
-        }else if(id == R.id.tv_delete){
-            if(onSelectListener!=null)
+        } else if (id == R.id.tv_delete) {
+            if (onSelectListener != null)
                 onSelectListener.delete(addressInfo.id);
             dismiss();
 
-        }else if(id == R.id.et_address){
-            mContext.startActivity(new Intent(mContext
-                    , MapAddressChooseActivity.class).putExtra("TYPE",1));
+        } else if (id == R.id.et_address) {
+//            mContext.startActivity(new Intent(mContext
+//                    , MapAddressChooseActivity.class).putExtra("TYPE",1));
+
+            Intent intent = new Intent(mContext, AddressChooseActivity.class);
+            mContext.startActivity(intent);
         }
     }
 
@@ -152,17 +150,16 @@ public class AddAddressPop extends BasePopupWindow implements View.OnClickListen
         if (event.getCode() == EventCode.EVENT_CHOOSE_ADDRESS) {
             mAddress = (Address) event.getData();
             mEtAddress.setText(mAddress.getTitle());
-            lat = mAddress.getLat()+"";
-            lon = mAddress.getLon()+"";
+            lat = mAddress.getLat() + "";
+            lon = mAddress.getLon() + "";
 
         }
 
     }
 
 
-
     public interface OnSelectListener {
-        void onSelect(String name,String phone,String address,String number,String lat,String lon);
+        void onSelect(String name, String phone, String address, String number, String lat, String lon);
 
         void delete(int id);
 

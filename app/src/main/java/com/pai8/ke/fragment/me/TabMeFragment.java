@@ -264,6 +264,7 @@ public class TabMeFragment extends BaseFragment<TabMeViewModel, FragmentTabMeCop
                 startActivity(new Intent(getContext(), LoginActivity.class));
                 return;
             }
+            mBinding.ivBtnEdit.performClick();
 
         });
         mBinding.tvNickName.setOnClickListener(v -> mBinding.civAvatar.callOnClick());

@@ -16,6 +16,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.google.gson.Gson;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.account.LoginActivity;
 import com.pai8.ke.activity.me.CouponListActivity;
 import com.pai8.ke.activity.takeaway.adapter.ConfirmOrderAdapter;
 import com.pai8.ke.activity.takeaway.contract.ConfirmContract;
@@ -31,6 +32,7 @@ import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.event.PayResultEvent;
 import com.pai8.ke.fragment.pay.PayDialogFragment;
 import com.pai8.ke.global.EventCode;
+import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.AMapLocationUtils;
 import com.pai8.ke.utils.EventBusUtils;
 import com.pai8.ke.utils.ImageLoadUtils;
@@ -173,6 +175,11 @@ public class OrderConfirmActivity extends BaseMvpActivity<ConfirmOrderPresenter>
         } else if (v.getId() == R.id.tv_send_time) {
             time();
         } else if (v.getId() == R.id.tv_pay) {
+            String uid = AccountManager.getInstance().getUid();
+            if (TextUtils.isEmpty(uid)) {
+                startActivity(new Intent(this, LoginActivity.class));
+                return;
+            }
             Gson gson = new Gson();
             List<OrderGoodInfo> goodList = new ArrayList<>();
             for (int i = 0; i < mFoodInfoList.size(); i++) {

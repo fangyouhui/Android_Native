@@ -137,7 +137,9 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
 
     private void bindBanner(GroupGoodsInfoResult bean) {
         List<String> data = new ArrayList<>();
-        data.add(bean.getVideo_url());
+        if (bean.getVideo_url() != null) {
+            data.add(bean.getVideo_url());
+        }
         data.addAll(bean.getCover());
         BannerMultipleTypesAdapter bannerAdapter = new BannerMultipleTypesAdapter(data);
         mBinding.banner.setIndicator(new CircleIndicator(this))

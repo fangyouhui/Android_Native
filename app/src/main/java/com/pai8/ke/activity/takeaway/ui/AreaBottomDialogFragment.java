@@ -45,7 +45,6 @@ public class AreaBottomDialogFragment extends BaseBottomDialogFragment<AreaViewM
         List<List<List<String>>> mDistrictNameList = new ArrayList<>();
 
         for (Province province : provinceList) {
-
             mProvinceNameList.add(province.getName());
             List<City> cList = province.getChildren();
             mCityList.add(cList);

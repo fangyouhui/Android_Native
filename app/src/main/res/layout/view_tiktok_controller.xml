@@ -17,8 +17,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:src="@mipmap/ic_video_play"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:visibility="visible" />
 
     <include layout="@layout/view_video_controller" />
 

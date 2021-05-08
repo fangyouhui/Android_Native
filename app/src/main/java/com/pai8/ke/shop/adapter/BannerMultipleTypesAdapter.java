@@ -53,7 +53,7 @@ public class BannerMultipleTypesAdapter extends BannerAdapter<String, RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        if (getData(getRealPosition(position)).endsWith("mp4")) {
+        if (getData(getRealPosition(position)).endsWith("mp4") || position == 1) {
             return ITEM_VIEW_TYPE_VIDEO;
         }
         return ITEM_VIEW_TYPE_IMG;
