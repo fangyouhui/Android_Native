@@ -1,6 +1,5 @@
 package com.lhs.library.base
 
-import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.aleyn.mvvm.app.MVVMLin
 import com.blankj.utilcode.util.LogUtils
+import com.blankj.utilcode.util.SizeUtils
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -54,10 +54,21 @@ abstract class BaseDialogFragment<VM : BaseViewModel, DB : ViewBinding> : Dialog
         val window = dialog!!.window
         window!!.decorView.setPadding(60, 0, 60, 0) //消除边距
         val wlp = window.attributes
-        wlp.width = WindowManager.LayoutParams.MATCH_PARENT
+        wlp.width = getDialogWidth()
         wlp.height = WindowManager.LayoutParams.WRAP_CONTENT
         window.attributes = wlp
-        dialog!!.window!!.setBackgroundDrawableResource(R.color.transparent)
+        dialog!!.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+
+    /**
+     * 弹窗高度，默认为屏幕高度的四分之三
+     * 子类可重写该方法返回peekHeight
+     *
+     * @return height
+     */
+    protected open fun getDialogWidth(): Int {
+        val peekWidth = resources.displayMetrics.widthPixels
+        return SizeUtils.dp2px(330f)
     }
 
     /**
@@ -72,7 +83,11 @@ abstract class BaseDialogFragment<VM : BaseViewModel, DB : ViewBinding> : Dialog
         return peekHeight - peekHeight / 3
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return initBinding(inflater, container)
     }
 
@@ -133,8 +148,10 @@ abstract class BaseDialogFragment<VM : BaseViewModel, DB : ViewBinding> : Dialog
             val tClass = tp as? Class<VM> ?: BaseViewModel::class.java
             //     mViewModel = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(tClass) as VM
 
-            val viewModelStore = if (isShareVM()) activity!!.viewModelStore else this.viewModelStore
-            mViewModel = ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(tClass) as VM
+            val viewModelStore =
+                if (isShareVM()) requireActivity().viewModelStore else this.viewModelStore
+            mViewModel =
+                ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(tClass) as VM
         }
     }
 

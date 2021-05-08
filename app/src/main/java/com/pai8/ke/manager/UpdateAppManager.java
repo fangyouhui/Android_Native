@@ -17,11 +17,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
+
 import com.pai8.ke.R;
 import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.entity.event.DownStatusEvent;
 import com.pai8.ke.entity.resp.VersionResp;
+import com.pai8.ke.fragment.DownLoadProgressDialogFragment;
 import com.pai8.ke.global.EventCode;
 import com.pai8.ke.utils.AppUtils;
 import com.pai8.ke.utils.EventBusUtils;
@@ -29,7 +35,6 @@ import com.pai8.ke.utils.FileUtils;
 import com.pai8.ke.utils.ResUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
-import com.pai8.ke.widget.BottomDialog;
 import com.pai8.ke.widget.CommonDialog;
 
 import java.io.File;
@@ -40,10 +45,6 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.FileProvider;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -312,10 +313,16 @@ public class UpdateAppManager extends IntentService {
         btnUpgrade.setOnClickListener(view1 -> {
             if (data.getUpgrade() == 1) {
                 commonDialog.dismiss();
-                UpdateAppManager.startDownLoadService(context, data.getUpgrade_url(), false);
+                startDownLoadService(context, data.getUpgrade_url(), false);
             } else {
-                UpdateAppManager.startDownLoadService(context, data.getUpgrade_url(), true);
+                startDownLoadService(context, data.getUpgrade_url(), true);
+                if (context instanceof FragmentActivity) {
+                    FragmentActivity activity = (FragmentActivity) context;
+                    DownLoadProgressDialogFragment loadProgressDialogFragment = new DownLoadProgressDialogFragment();
+                    loadProgressDialogFragment.show(activity.getSupportFragmentManager(), "loadProgressDialogFragment");
+                }
             }
+            commonDialog.dismiss();
         });
         commonDialog.show();
         if (data.getUpgrade() == 1) {
@@ -327,5 +334,6 @@ public class UpdateAppManager extends IntentService {
         }
         commonDialog.setIsCanceledOnTouchOutside(false);
     }
+
 
 }
