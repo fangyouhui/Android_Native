@@ -20,10 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
-<<<<<<< Updated upstream
 import androidx.fragment.app.FragmentActivity;
-=======
->>>>>>> Stashed changes
 
 import com.pai8.ke.R;
 import com.pai8.ke.app.MyApp;
@@ -317,14 +314,11 @@ public class UpdateAppManager extends IntentService {
                 startDownLoadService(context, data.getUpgrade_url(), false);
             } else {
                 startDownLoadService(context, data.getUpgrade_url(), true);
-<<<<<<< Updated upstream
                 if (context instanceof FragmentActivity) {
                     FragmentActivity activity = (FragmentActivity) context;
                     DownLoadProgressDialogFragment loadProgressDialogFragment = new DownLoadProgressDialogFragment();
                     loadProgressDialogFragment.show(activity.getSupportFragmentManager(), "loadProgressDialogFragment");
                 }
-=======
->>>>>>> Stashed changes
             }
             commonDialog.dismiss();
         });
