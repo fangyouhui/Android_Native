@@ -6,21 +6,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gh.qiniushortvideo.R;
 import com.gh.qiniushortvideo.utils.Config;
 import com.gh.qiniushortvideo.utils.PermissionChecker;
 import com.gh.qiniushortvideo.utils.ToastUtils;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 /**
  * 七牛短视频主界面
  */
-public class AppActivity extends AppCompatActivity implements OnBannerListener {
+public class AppActivity extends AppCompatActivity {
 
 //    private Banner mImageBanner;
 
@@ -149,8 +148,8 @@ public class AppActivity extends AppCompatActivity implements OnBannerListener {
         startActivity(intent);
     }
 
-    @Override
-    public void OnBannerClick(int position) {
+
+    private void OnBannerClick(int position) {
         String[] urls = getResources().getStringArray(R.array.banner_url);
         jumpToWebActivity(urls[position]);
     }
