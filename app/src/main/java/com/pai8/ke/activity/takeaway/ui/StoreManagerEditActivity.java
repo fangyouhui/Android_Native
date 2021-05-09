@@ -1,8 +1,11 @@
 package com.pai8.ke.activity.takeaway.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 
 import com.lhs.library.base.BaseActivity;
@@ -11,9 +14,11 @@ import com.lhs.library.base.BaseBottomDialogFragment;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.pai8.ke.R;
+import com.pai8.ke.activity.me.AddressChooseActivity;
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam;
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult;
 import com.pai8.ke.databinding.ActivityGoodManagerEditBinding;
+import com.pai8.ke.entity.Address;
 import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.ChoosePicUtils;
@@ -31,6 +36,20 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
     private final int RESULT_VIDEO = 1001;
     private String image;
     private StoreInfoResult mData;
+    private ActivityResultLauncher activityResultLauncher;
+
+    @Override
+    protected void onCreate(@org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Address mAddress = (Address) result.getData().getSerializableExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+                mData.latitude = mAddress.getLat() + "";
+                mData.longitude = mAddress.getLon() + "";
+                mBinding.tvAddressDetail.setText(mAddress.getTitle());
+            }
+        });
+    }
 
     @Override
     public void initView(@org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -38,6 +57,10 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         mBinding.tvCategory.setOnClickListener(v -> showCategoryBottomDialog());
         mBinding.ivCover.setOnClickListener(v -> ChoosePicUtils.picSingle(this, 0, RESULT_PICTURE));
         mBinding.tvAddress.setOnClickListener(v -> showProvinceBottomDialog());
+        mBinding.tvAddressDetail.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddressChooseActivity.class);
+            activityResultLauncher.launch(intent);
+        });
     }
 
 
@@ -67,7 +90,7 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
     private void setData(StoreInfoResult data) {
         mBinding.etContact.setText(data.mobile);
         mBinding.tvAddress.setText(data.province + data.city + data.district);
-        mBinding.etAddressDetail.setText(data.address);
+        mBinding.tvAddressDetail.setText(data.address);
         StringBuilder builder = new StringBuilder();
         for (String s : data.cate_name) {
             builder.append(s).append(" ");
@@ -170,7 +193,9 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         storeInfo.shop_img = mData.shop_img;
         storeInfo.mobile = mBinding.etContact.getText().toString();
         storeInfo.cate_id = mData.cate_id;
-        storeInfo.address = mBinding.etAddressDetail.getText().toString();
+        storeInfo.address = mBinding.tvAddressDetail.getText().toString();
+        storeInfo.latitude = mData.latitude;
+        storeInfo.longitude = mData.longitude;
         storeInfo.shop_desc = mBinding.etDesc.getText().toString();
         storeInfo.province = mData.province;
         storeInfo.city = mData.city;

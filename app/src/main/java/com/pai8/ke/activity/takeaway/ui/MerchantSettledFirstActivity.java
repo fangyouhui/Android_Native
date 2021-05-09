@@ -111,7 +111,6 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
         super.initListener();
         mEtStoreName.addTextChangedListener(this);
         mEtPhone.addTextChangedListener(this);
-        mEtEmail.addTextChangedListener(this);
         mEtAddressDetail.addTextChangedListener(this);
 //        mEtBankNo.addTextChangedListener(this);
 //        mEtBankAddress.addTextChangedListener(this);
@@ -121,7 +120,7 @@ public class MerchantSettledFirstActivity extends BaseMvpActivity implements Vie
 
     private void editListener() {
         if (TextUtils.isEmpty(mEtStoreName.getText().toString()) || TextUtils.isEmpty(mEtPhone.getText().toString())
-                || TextUtils.isEmpty(mEtEmail.getText().toString()) || TextUtils.isEmpty(mEtAddressDetail.getText().toString())
+                || TextUtils.isEmpty(mEtAddressDetail.getText().toString())
                 || TextUtils.isEmpty(mTvCollectionAccount.getText().toString())
                 || TextUtils.isEmpty(mTvCate.getText().toString()) || TextUtils.isEmpty(mTvAddress.getText().toString())) {
             mTvNext.setBackgroundResource(R.drawable.shape_orgin_gradient_gray);

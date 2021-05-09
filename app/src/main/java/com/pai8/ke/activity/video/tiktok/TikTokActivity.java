@@ -18,6 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.blankj.utilcode.util.ClipboardUtils;
+import com.blankj.utilcode.util.UriUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.target.Target;
@@ -178,6 +179,18 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
                     //裁剪后跳转分享框
                     CropImage.ActivityResult result = CropImage.getActivityResult(data);
                     Uri resultUri = result.getUri();
+                    File file = UriUtils.uri2File(resultUri);
+                    UploadFileManager.getInstance().upload(file.getAbsolutePath(), new UploadFileManager.Callback() {
+                        @Override
+                        public void onSuccess(String url, String key) {
+                            mShareImgUrl = url;
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            ToastUtils.showShort(msg);
+                        }
+                    });
                     shareUrl(getCurVideo().getShare_url(), resultUri.toString());
                     break;
             }

@@ -35,7 +35,7 @@ class ShopTakeawayOrderViewModel : BaseViewModel() {
 
     fun groudOrderList(page: Int) {
         launchOnlyResult({
-            RetrofitClient.getInstance().getMainService().shopOrderList(AccountManager.getInstance().shopId, "", 3, page)
+            RetrofitClient.getInstance().getMainService().shopOrderList(AccountManager.getInstance().shopId, "4", 3, page)
         }, {
             shopOrderListData.value = it
         }, {

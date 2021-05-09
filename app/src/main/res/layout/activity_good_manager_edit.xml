@@ -229,7 +229,7 @@
                     android:paddingStart="16dp">
 
                     <TextView
-                        android:id="@+id/tv_address_detail"
+                        android:id="@+id/tip_address_detail"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -237,12 +237,12 @@
                         android:textColor="@color/color_light_font"
                         android:textSize="15sp" />
 
-                    <EditText
-                        android:id="@+id/et_address_detail"
+                    <TextView
+                        android:id="@+id/tvAddressDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toEndOf="@+id/tv_address_detail"
+                        android:layout_toEndOf="@id/tip_address_detail"
                         android:background="@color/color_transition"
                         android:hint="请输入详细街道"
                         android:singleLine="true"
