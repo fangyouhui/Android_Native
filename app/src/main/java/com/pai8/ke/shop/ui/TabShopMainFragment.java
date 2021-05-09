@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.lhs.library.base.BaseFragment;
 import com.pai8.ke.databinding.FragmentTabShopMainBinding;
 import com.pai8.ke.entity.BannerResult;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.entity.GroupBuyTypeResult;
 import com.pai8.ke.entity.SmartRefreshMessageEvent;
 import com.pai8.ke.groupBuy.adapter.GroupBuyBannerAdapter;
@@ -72,16 +73,16 @@ public class TabShopMainFragment extends BaseFragment<ShopMainViewModel, Fragmen
     @Override
     public void initData() {
         mViewModel.getBannerList();
-        mViewModel.getFoodSortList();
+        mViewModel.setvideotype();
     }
 
     private ViewPagerAdapter tabFragmentAdapter;
 
     @Override
     public void addObserve() {
-        mViewModel.getGetFoodSortListData().observe(this, data -> {
+        mViewModel.getVideotypeData().observe(this, data -> {
             tabFragmentAdapter = new ViewPagerAdapter(getChildFragmentManager());
-            for (GroupBuyTypeResult datum : data) {
+            for (BusinessTypeResult datum : data) {
                 tabFragmentAdapter.addFragment(ShopProductListFragment.newInstance(datum), datum.getType_name());
             }
             mBinding.viewPager.setNoScroll(true);

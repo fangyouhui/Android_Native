@@ -5,7 +5,6 @@
     android:background="@drawable/shape_dialog_bottom"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,7 +83,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:button="@drawable/rb_choose"
-                android:enabled="false" />
+                android:clickable="false"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,8 +114,6 @@
                 android:hint="请输入微信账号"
                 android:textColor="@color/color_mid_font"
                 android:textSize="@dimen/sp_14" />
-
-
         </LinearLayout>
 
         <View
@@ -146,7 +146,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:button="@drawable/rb_choose"
-                android:enabled="false" />
+                android:clickable="false"
+                android:enabled="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
         </LinearLayout>
 
         <LinearLayout

@@ -20,11 +20,12 @@ public class StoreInfoResult implements Serializable {
     public ArrayList<String> cate_name;
     public String send_cost;
     public String province;
-    public String province_name;
+    //  public String province_name;
     public String city;
-    public String city_name;
+    //   public String city_name;
+    public String city_id;
     public String district;
-    public String district_name;
+ //   public String district_name;
     public String loge_img;
     public String floor_send_cost;
     public String packing_price;
@@ -40,6 +41,7 @@ public class StoreInfoResult implements Serializable {
     public String business_license;
     public String health_permit;
     public String month_sale_price;  //	月销售额
+
 
     public String sale_count; //总销量（订单数）
 

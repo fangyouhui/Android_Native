@@ -66,7 +66,7 @@ interface GroupBuyApiService {
 
 
     /**
-     * 分类列表，用于在拍视频、商家申请入驻选择分类的时候选择填写的
+     * 我的--店鋪管理--店鋪頭像，外卖商品--分类==>(分類接口調用index/videoType)
      */
     @POST("index/videoType")
     suspend fun videoType(): BaseHttpResult<List<BusinessTypeResult>>

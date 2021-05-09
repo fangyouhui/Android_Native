@@ -91,13 +91,13 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
                 int districtId = (int) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_4, 0);
                 String districtName = (String) map.getOrDefault(BaseAppConstants.BundleConstant.ARG_PARAMS_5, "");
 
-                mData.province = provinceId + "";
-                mData.province_name = provinceName;
-                mData.city = cityId + "";
-                mData.city_name = cityName;
-                mData.district = districtId + "";
-                mData.district_name = districtName;
-                mBinding.tvAddress.setText(mData.province_name + mData.city_name + mData.district_name);
+                //     mData.province = provinceId + "";
+                mData.province = provinceName;
+                mData.city = cityName;
+                mData.city_id = cityId + "";
+                mData.district = districtName + "";
+                //    mData.district_name = districtName;
+                mBinding.tvAddress.setText(mData.province + mData.city + mData.district);
 
             }
         });
@@ -172,10 +172,10 @@ public class StoreManagerEditActivity extends BaseActivity<StoreManagerEditViewM
         storeInfo.cate_id = mData.cate_id;
         storeInfo.address = mBinding.etAddressDetail.getText().toString();
         storeInfo.shop_desc = mBinding.etDesc.getText().toString();
-        storeInfo.province = mData.province_name;
-        storeInfo.city_id = mData.city;
-        storeInfo.city = mData.city_name;
-        storeInfo.district = mData.district_name;
+        storeInfo.province = mData.province;
+        storeInfo.city = mData.city;
+        storeInfo.city_id = mData.city_id;
+        storeInfo.district = mData.district;
         storeInfo.house_number = mBinding.etNumber.getText().toString();
         mViewModel.editShop(storeInfo);
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseFragment;
 import com.pai8.ke.databinding.FragmentShopProductListBinding;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.entity.GroupBuyTypeResult;
 import com.pai8.ke.entity.SmartRefreshMessageEvent;
 import com.pai8.ke.shop.adapter.ShopProductAdapter;
@@ -15,10 +16,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.Nullable;
 
 public class ShopProductListFragment extends BaseFragment<ShopMainViewModel, FragmentShopProductListBinding> {
-    private GroupBuyTypeResult bean;
+    private BusinessTypeResult bean;
     private ShopProductAdapter adapter;
 
-    public static ShopProductListFragment newInstance(GroupBuyTypeResult bean) {
+    public static ShopProductListFragment newInstance(BusinessTypeResult bean) {
         ShopProductListFragment fragment = new ShopProductListFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0, bean);
@@ -28,7 +29,7 @@ public class ShopProductListFragment extends BaseFragment<ShopMainViewModel, Fra
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        bean = (GroupBuyTypeResult) getArguments().getSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+        bean = (BusinessTypeResult) getArguments().getSerializable(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
         mBinding.recyclerView.setAdapter(adapter = new ShopProductAdapter(getContext(), null, false));
         adapter.setListener((item, position) -> {
             Intent intent = new Intent(getContext(), ShopProductDetailActivity.class);
