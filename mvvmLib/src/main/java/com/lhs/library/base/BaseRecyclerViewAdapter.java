@@ -63,7 +63,8 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     public void remove(int position) {
         if (this.mData.size() > 0) {
             mData.remove(position);
-            notifyItemRemoved(position);
+            //   notifyItemRemoved(position);
+            notifyDataSetChanged();
         }
     }
 

@@ -18,12 +18,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class GroupBannerAdapter extends BaseRecyclerViewAdapter<LocalMedia> {
+public class GroupAddDetailAdapter extends BaseRecyclerViewAdapter<LocalMedia> {
 
-    public GroupBannerAdapter(Context context, List<LocalMedia> list) {
-        super(context, list,false);
+    public GroupAddDetailAdapter(Context context, List<LocalMedia> list) {
+        super(context, list, false);
     }
-
 
     @Override
     protected RecyclerView.ViewHolder onCreateNormalViewHolder(ViewGroup parent, int viewType) {

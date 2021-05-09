@@ -86,7 +86,6 @@ public class AddGroupGoodPresenter extends BasePresenterImpl<AddGroupGoodContrac
     public void groupFoodDelete(String food_id){
         HashMap<String,Object> map = new HashMap<>();
         map.put("goods_id",food_id);
-
         map.put("status","2");
         TakeawayApi.getInstance().setGroupGoodsStatus(createRequestBody(map))
                 .doOnSubscribe(disposable -> {

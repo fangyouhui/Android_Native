@@ -20,13 +20,13 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder>{
+public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder> {
 
 
     private List<String> specailList;
 
     private int mSelectedPosition;
-    private Context mContext=null;
+    private Context mContext = null;
 
     public void setList(List<String> list) {
         this.specailList = list;
@@ -34,7 +34,7 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder>{
     }
 
     public GroupDetailAdapter(Context context) {
-        this.mContext=context;
+        this.mContext = context;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -46,7 +46,6 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder>{
     private LayoutInflater mInflater;
 
 
-
     @NonNull
     @Override
     public GroupDetailHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,6 +55,7 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder>{
         return holder;
 
     }
+
     public GroupDetailAdapter.OnItemClickListener mOnItemClickListener;
 
     public interface OnItemClickListener {
@@ -86,18 +86,17 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder>{
     @Override
     public void onBindViewHolder(@NonNull GroupDetailHolder holder, int position) {
         String bean = specailList.get(position);
-        if (isHttpUrl(bean)){
+        if (isHttpUrl(bean)) {
             ImageLoadUtils.setCircularImage(mContext, bean, holder.bannerImage, R.mipmap.icon_shop_product_detail_add);
-        }
-        else{
+        } else {
             holder.bannerImage.setImageResource(R.mipmap.icon_shop_product_detail_add);
         }
 //        holder.bannerImage.setImageResource(R.mipmap.ic_video_follow_s);
         holder.outView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mOnItemClickListener!=null){
-                    mOnItemClickListener.onItemClick(holder.bannerImage,position);
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(holder.bannerImage, position);
                 }
             }
         });
@@ -113,15 +112,17 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailHolder>{
         return specailList.size();
     }
 }
-class GroupDetailHolder extends RecyclerView.ViewHolder{
+
+class GroupDetailHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.OutView)
     LinearLayout outView;
     @BindView(R.id.banner_Imgage)
     ImageView bannerImage;
+
     public GroupDetailHolder(@NonNull View itemView) {
 
         super(itemView);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
         itemView.setTag(this);
     }
 }

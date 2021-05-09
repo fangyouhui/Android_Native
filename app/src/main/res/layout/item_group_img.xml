@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="34dp"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_margin="5dp">
 
-    android:layout_marginBottom="20dp"
-    android:id="@+id/OutView"
-    android:gravity="center"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
-    android:background="@drawable/shape_white">
+    <com.pai8.ke.widget.CircleImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@mipmap/tuangou_banner_button"
+        app:ease_radius="5dp"
+        app:es_shape_type="rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
-        android:id="@+id/banner_Imgage"
+        android:id="@+id/ivDel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:padding="2dp"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        android:background="@mipmap/tuangou_banner_button"
-        />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

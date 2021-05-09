@@ -278,7 +278,6 @@ public class AddCouponActivity extends BaseActivity<NoViewModel, ActivityAddCoup
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
                 mBinding.tvChooseStartTime.setText(df.format(date));
             }
         })
@@ -286,7 +285,7 @@ public class AddCouponActivity extends BaseActivity<NoViewModel, ActivityAddCoup
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
                 .setRangDate(startDate, endDate)//起始终止年月日设定
                 .setLabel("年", "月", "日", "时", "分", "秒")//默认设置为年月日时分秒
-                .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
+              //  .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
                 .setTitleText("选择时间")
                 .setTitleColor(Color.parseColor("#111111"))
                 .setTitleSize(16)
@@ -327,7 +326,7 @@ public class AddCouponActivity extends BaseActivity<NoViewModel, ActivityAddCoup
                 .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
                 .setRangDate(startDate, endDate)//起始终止年月日设定
                 .setLabel("年", "月", "日", "时", "分", "秒")//默认设置为年月日时分秒
-                .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
+            //    .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
                 .setTitleText("选择时间")
                 .setTitleColor(Color.parseColor("#111111"))
                 .setTitleSize(16)

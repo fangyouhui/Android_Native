@@ -13,10 +13,10 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.blankj.utilcode.util.KeyboardUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lhs.library.base.BaseActivity;
+import com.lhs.library.base.BaseAppConstants;
 import com.lhs.library.base.BaseBottomDialogFragment;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
@@ -25,11 +25,14 @@ import com.pai8.ke.activity.takeaway.adapter.GroupAddDetailAdapter;
 import com.pai8.ke.activity.takeaway.adapter.GroupBannerAdapter;
 import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq;
+import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel;
+import com.pai8.ke.activity.takeaway.entity.resq.term;
 import com.pai8.ke.activity.takeaway.widget.ChooseShopVideoBottomDialogFragment;
-import com.pai8.ke.databinding.ActivityAddGroupGoodBinding;
+import com.pai8.ke.databinding.ActivityEditGroupGoodBinding;
 import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.manager.UploadFileManager;
+import com.pai8.ke.utils.ImageLoadUtils;
 import com.pai8.ke.utils.PictureSelectorHelper;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.viewmodel.AddGroupGoodViewModel;
@@ -49,11 +52,12 @@ import java.util.List;
 import static com.pai8.ke.activity.takeaway.Constants.EVENT_TYPE_REFRESH_SHOP_GROUP;
 
 /**
- * 添加团购商品
+ * 编辑团购商品
  */
-public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, ActivityAddGroupGoodBinding> {
+public class EditGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, ActivityEditGroupGoodBinding> {
     private GroupBannerAdapter groupBannerAdapter;
     private GroupAddDetailAdapter groupDetailAdapter;
+    private String mGoodId = "";
 
     @Override
     public void initView(@org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -68,7 +72,17 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
                             .skipMemoryCache(true) // 不使用内存缓存
                             .diskCacheStrategy(DiskCacheStrategy.NONE) // 不使用磁盘缓存
                             .into(mBinding.ivVideo);
-                    mBinding.ivVideo.setTag(videoPath);
+                    UploadFileManager.getInstance().upload(videoPath, new UploadFileManager.Callback() {
+                        @Override
+                        public void onSuccess(String url, String key) {
+                            mBinding.ivVideo.setTag(key);
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+
+                        }
+                    });
                 }
             });
 
@@ -83,46 +97,23 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
         mBinding.rvBanner.setAdapter(groupBannerAdapter);
         groupBannerAdapter.setListener((item, position) -> { //删除操作
             groupBannerAdapter.remove(position);
-            mBinding.ivAddBanner.setVisibility(groupBannerAdapter.getData().size() < 6 ? View.VISIBLE : View.GONE);
+            mBinding.ivAddBanner.setVisibility(View.VISIBLE);
+            for (String key : goodsInfoModel.cover_key) {
+                if (item.getRealPath().contains(key)) {
+                    goodsInfoModel.cover_key.remove(key);
+                    break;
+                }
+            }
         });
 
         mBinding.tvCategory.setOnClickListener(v -> {
-            KeyboardUtils.hideSoftInput(this);
-            mViewModel.setvideotype();
-        });
-        mBinding.startTimeText.setOnClickListener(v -> {
-            KeyboardUtils.hideSoftInput(this);
-            timeStartChoose();
-        });
-        mBinding.endTimeText.setOnClickListener(v -> {
-            KeyboardUtils.hideSoftInput(this);
-            timeEndChoose();
-        });
-
-        mBinding.ivAdd.setOnClickListener(v -> chooseImgWithDetail());
-
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mBinding.rvDetail.setLayoutManager(linearLayoutManager2);
-        groupDetailAdapter = new GroupAddDetailAdapter(this, null);
-        mBinding.rvDetail.setAdapter(groupDetailAdapter);
-        groupDetailAdapter.setListener((item, position) -> {
-            groupDetailAdapter.remove(position);
-            mBinding.ivAdd.setVisibility(View.VISIBLE);
-        });
-
-        mBinding.tvPublish.setOnClickListener(v -> publish());
-
-    }
-
-    @Override
-    public void addObserve() {
-        mViewModel.getVideotypeData().observe(this, list -> {
+            List<BusinessTypeResult> list = mViewModel.getVideotypeData().getValue();
             List<String> options1Items = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 options1Items.add(list.get(i).getType_name());
             }
 
-            OptionsPickerView mPvType = new OptionsPickerBuilder(AddGroupGoodActivity.this, (options1, option2, options3, v) -> {
+            OptionsPickerView mPvType = new OptionsPickerBuilder(this, (options1, option2, options3, view) -> {
                 //返回的分别是三个级别的选中位置
                 String tx = list.get(options1).getType_name();
                 mBinding.tvCategory.setText(tx);
@@ -131,9 +122,51 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
             mPvType.setPicker(options1Items);
             mPvType.show();
         });
+        mBinding.startTimeText.setOnClickListener(v -> timeStartChoose());
+        mBinding.endTimeText.setOnClickListener(v -> timeEndChoose());
 
-        mViewModel.getAddGoodData().observe(this, data -> {
-            ToastUtils.showShort("上架成功");
+        mBinding.ivAdd.setOnClickListener(v -> chooseImgWithDetail());
+
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mBinding.rvDetail.setLayoutManager(linearLayoutManager2);
+        groupDetailAdapter = new GroupAddDetailAdapter(this, null);
+        mBinding.rvDetail.setAdapter(groupDetailAdapter);
+        groupDetailAdapter.setListener((item, position) -> { //删除操作
+            groupDetailAdapter.remove(position);
+            mBinding.ivAdd.setVisibility(View.VISIBLE);
+            for (String key : goodsInfoModel.details_key) {
+                if (item.getRealPath().contains(key)) {
+                    goodsInfoModel.details_key.remove(key);
+                    break;
+                }
+            }
+        });
+
+        mBinding.tvDel.setOnClickListener(v -> mViewModel.groupFoodDelete(mGoodId));
+        mBinding.tvPublish.setOnClickListener(v -> publish());
+    }
+
+    @Override
+    public void initData() {
+        mGoodId = getIntent().getStringExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0);
+        mViewModel.setvideotype();
+    }
+
+    @Override
+    public void addObserve() {
+        mViewModel.getVideotypeData().observe(this, list -> {
+            mViewModel.getGoodInfo(mGoodId);
+        });
+
+        mViewModel.getGoodInfoData().observe(this, data -> bindViewData(data));
+
+        mViewModel.getGroupFoodDeleteData().observe(this, data -> {
+            ToastUtils.showShort("下架成功");
+            success();
+        });
+
+        mViewModel.getEditGoodsData().observe(this, data -> {
+            ToastUtils.showShort("编辑成功");
             success();
         });
 
@@ -146,12 +179,25 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
     }
 
     private void chooseImgWithBanner() {
-        List<LocalMedia> selectionData = groupBannerAdapter.getData();
+        List<LocalMedia> selectionData = new ArrayList<>();
         OnResultCallbackListener<LocalMedia> listener = new OnResultCallbackListener<LocalMedia>() {
             @Override
             public void onResult(List<LocalMedia> result) {
-                mBinding.ivAddBanner.setVisibility(result.size() >= 6 ? View.GONE : View.VISIBLE);
-                groupBannerAdapter.setData(result);
+                groupBannerAdapter.addData(result);
+                mBinding.ivAddBanner.setVisibility(groupBannerAdapter.getData().size() >= 6 ? View.GONE : View.VISIBLE);
+                for (LocalMedia localMedia : result) {
+                    UploadFileManager.getInstance().upload(localMedia.getRealPath(), new UploadFileManager.Callback() {
+                        @Override
+                        public void onSuccess(String url, String key) {
+                            goodsInfoModel.cover_key.add(key);
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            ToastUtils.showShort("轮播图上传失败:" + msg);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -163,12 +209,25 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
     }
 
     private void chooseImgWithDetail() {
-        List<LocalMedia> selectionData = groupDetailAdapter.getData();
+        List<LocalMedia> selectionData = new ArrayList<>();
         OnResultCallbackListener<LocalMedia> listener = new OnResultCallbackListener<LocalMedia>() {
             @Override
             public void onResult(List<LocalMedia> result) {
-                mBinding.ivAdd.setVisibility(result.size() >= 6 ? View.GONE : View.VISIBLE);
-                groupDetailAdapter.setData(result);
+                groupDetailAdapter.addData(result);
+                mBinding.ivAdd.setVisibility(groupDetailAdapter.getData().size() >= 6 ? View.GONE : View.VISIBLE);
+                for (LocalMedia localMedia : result) {
+                    UploadFileManager.getInstance().upload(localMedia.getRealPath(), new UploadFileManager.Callback() {
+                        @Override
+                        public void onSuccess(String url, String key) {
+                            goodsInfoModel.details_key.add(key);
+                        }
+
+                        @Override
+                        public void onError(String msg) {
+                            ToastUtils.showShort("商品详情图上传失败:" + msg);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -189,7 +248,6 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
             ToastUtils.showShort("轮播图片不能为空");
             return;
         }
-
         String shopName = mBinding.etName.getText().toString();
         if (TextUtils.isEmpty(shopName)) {
             ToastUtils.showShort("商品名称不能为空");
@@ -205,40 +263,31 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
             ToastUtils.showShort("团购价格不能为空");
             return;
         }
-
-        String stockNum = mBinding.etPackPrice.getText().toString();
-
+        String stockNum = mBinding.etStock.getText().toString();
         if (TextUtils.isEmpty(stockNum)) {
             ToastUtils.showShort("商品库存不能为空");
             return;
         }
-
         if (mBinding.tvCategory.getTag() == null) {
             ToastUtils.showShort("团购分类不能为空");
             return;
         }
-
         if (TextUtils.isEmpty(mBinding.groupDesc.getText().toString())) {
             ToastUtils.showShort("团购内容不能为空");
             return;
         }
-
         if (TextUtils.isEmpty(mBinding.startTimeText.getText().toString())) {
             ToastUtils.showShort("有效日期开始时间不能为空");
             return;
         }
-
         if (TextUtils.isEmpty(mBinding.endTimeText.getText().toString())) {
             ToastUtils.showShort("有效日期结束时间不能为空");
             return;
         }
-
-
         if (TextUtils.isEmpty(mBinding.etZhuYi.getText().toString())) {
             ToastUtils.showShort("注意事项不能为空");
             return;
         }
-
         if (TextUtils.isEmpty(mBinding.etDesc.getText().toString())) {
             ToastUtils.showShort("商品详情不能为空");
             return;
@@ -252,85 +301,38 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
 
         GroupFoodReq groupFoodReq = new GroupFoodReq();
         groupFoodReq.shop_id = AccountManager.getInstance().getShopId();
-        //上传视频
-        String videoPath = (String) mBinding.ivVideo.getTag();
-        UploadFileManager.getInstance().upload(videoPath, new UploadFileManager.Callback() {
-            @Override
-            public void onSuccess(String url, String key) {
-                groupFoodReq.video = key;
-                //上传轮播图
-                List<String> bannerKeys = new ArrayList<>();
-                for (LocalMedia datum : groupBannerAdapter.getData()) {
-                    UploadFileManager.getInstance().upload(datum.getRealPath(), new UploadFileManager.Callback() {
-                        @Override
-                        public void onSuccess(String url, String key) {
-                            bannerKeys.add(key);
-                            if (bannerKeys.size() == groupBannerAdapter.getData().size()) {
-                                StringBuilder coverBuilder = new StringBuilder();
-                                for (String bannerKey : bannerKeys) {
-                                    coverBuilder.append(bannerKey).append(",");
-                                }
-                                groupFoodReq.cover = coverBuilder.substring(0, coverBuilder.length() - 1);
-                                groupFoodReq.title = shopName;
-                                groupFoodReq.origin_price = originPriceT;
-                                groupFoodReq.sell_price = sellerPrice;
-                                groupFoodReq.stock = stockNum;
-                                BusinessTypeResult businessTypeResult = (BusinessTypeResult) mBinding.tvCategory.getTag();
-                                groupFoodReq.food_type = businessTypeResult.getId() + "";
-                                groupFoodReq.desc = mBinding.groupDesc.getText().toString();
-                                groupFoodReq.term = getTime(mBinding.startTimeText.getText().toString())
-                                        + "-" + getTime(mBinding.endTimeText.getText().toString());
-                                groupFoodReq.is_weekend = mBinding.checkbox.isChecked() ? "true" : "false";
-                                groupFoodReq.matter = mBinding.etZhuYi.getText().toString();
-                                groupFoodReq.details = mBinding.etDesc.getText().toString();
-                                //上传详情图
-                                List<String> detailKeys = new ArrayList<>();
-                                for (LocalMedia groupDetailAdapterDatum : groupDetailAdapter.getData()) {
-                                    UploadFileManager.getInstance().upload(groupDetailAdapterDatum.getRealPath(), new UploadFileManager.Callback() {
-                                        @Override
-                                        public void onSuccess(String url, String key) {
-                                            detailKeys.add(key);
-                                            if (detailKeys.size() == groupDetailAdapter.getData().size()) {
-                                                StringBuilder detailBuilder = new StringBuilder();
-                                                for (String detailKey : detailKeys) {
-                                                    detailBuilder.append(detailKey).append(",");
-                                                }
-                                                groupFoodReq.details_img = detailBuilder.substring(0, detailBuilder.length() - 1);
-                                                groupFoodReq.status = 1;
-                                                mViewModel.addGood(groupFoodReq);
+        groupFoodReq.goods_id = mGoodId;
+        groupFoodReq.video = (String) mBinding.ivVideo.getTag();
+        StringBuilder coverBuilder = new StringBuilder();
+        for (String coverKey : goodsInfoModel.cover_key) {
+            coverBuilder.append(coverKey).append(",");
+        }
+        groupFoodReq.cover = coverBuilder.substring(0, coverBuilder.length() - 1);
 
-                                            }
-                                        }
+        groupFoodReq.title = shopName;
+        groupFoodReq.origin_price = originPriceT;
+        groupFoodReq.sell_price = sellerPrice;
+        groupFoodReq.stock = stockNum;
+        BusinessTypeResult businessTypeResult = (BusinessTypeResult) mBinding.tvCategory.getTag();
+        groupFoodReq.food_type = businessTypeResult.getId() + "";
+        groupFoodReq.desc = mBinding.groupDesc.getText().toString();
+        groupFoodReq.term = getTime(mBinding.startTimeText.getText().toString())
+                + "-" + getTime(mBinding.endTimeText.getText().toString());
+        groupFoodReq.is_weekend = mBinding.checkbox.isChecked() ? "true" : "false";
+        groupFoodReq.matter = mBinding.etZhuYi.getText().toString();
+        groupFoodReq.details = mBinding.etDesc.getText().toString();
 
-                                        @Override
-                                        public void onError(String msg) {
-                                            dismissLoading();
-                                            ToastUtils.showShort("详情图上传失败：" + msg);
-                                        }
-                                    });
-                                }
 
-                            }
-                        }
-
-                        @Override
-                        public void onError(String msg) {
-                            dismissLoading();
-                            ToastUtils.showShort("轮播图上传失败：" + msg);
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onError(String msg) {
-                dismissLoading();
-                ToastUtils.showShort("视频上传失败：" + msg);
-            }
-        });
-
+        StringBuilder detailBuilder = new StringBuilder();
+        for (String detailKey : goodsInfoModel.details_key) {
+            detailBuilder.append(detailKey).append(",");
+        }
+        groupFoodReq.details_img = detailBuilder.substring(0, detailBuilder.length() - 1);
+        groupFoodReq.status = 1;
+        mViewModel.editGoods(groupFoodReq);
 
     }
+
 
     // 将字符串转为时间戳
     private String getTime(String user_time) {
@@ -348,31 +350,14 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
         return re_time;
     }
 
-    private void timeStartChoose() {
-        Calendar selectedDate = Calendar.getInstance();
-        Calendar startDate = Calendar.getInstance();
-        startDate.set(2000, 0, 1);
-        Calendar endDate = Calendar.getInstance();
-        endDate.set(2099, 11, 1);
-        TimePickerView startTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                mBinding.startTimeText.setText(df.format(date));
-            }
-        })
-                .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
-                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
-                .setRangDate(startDate, endDate)//起始终止年月日设定
-                .setLabel("年", "月", "日", "时", "分", "秒")//默认设置为年月日时分秒
-                //    .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
-                .setTitleText("选择时间")
-                .setTitleColor(Color.parseColor("#111111"))
-                .setTitleSize(16)
-                .setCancelColor(Color.parseColor("#999999"))
-                .setSubmitColor(Color.parseColor("#2f2f2f"))
-                .build();
-        startTime.show();
+    // 将时间戳转为字符串
+    private String getStrTime(String cc_time) {
+        String re_StrTime = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // 例如：
+        long lcc_time = Long.valueOf(cc_time);
+        re_StrTime = sdf.format(new Date(lcc_time * 1000L));
+        return re_StrTime;
     }
 
     private void timeEndChoose() {
@@ -414,6 +399,77 @@ public class AddGroupGoodActivity extends BaseActivity<AddGroupGoodViewModel, Ac
                 .setSubmitColor(Color.parseColor("#2f2f2f"))
                 .build();
         endTime.show();
+    }
+
+    private void timeStartChoose() {
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(2000, 0, 1);
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(2099, 11, 1);
+        TimePickerView startTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {//选中事件回
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                mBinding.startTimeText.setText(df.format(date));
+            }
+        })
+                .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
+                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+                .setRangDate(startDate, endDate)//起始终止年月日设定
+                .setLabel("年", "月", "日", "时", "分", "秒")//默认设置为年月日时分秒
+                //    .setDecorView((ViewGroup) findViewById(R.id.tuangou_view))
+                .setTitleText("选择时间")
+                .setTitleColor(Color.parseColor("#111111"))
+                .setTitleSize(16)
+                .setCancelColor(Color.parseColor("#999999"))
+                .setSubmitColor(Color.parseColor("#2f2f2f"))
+                .build();
+        startTime.show();
+
+    }
+
+    private GoodsInfoModel goodsInfoModel;
+
+    private void bindViewData(GoodsInfoModel data) {
+        goodsInfoModel = data;
+        ImageLoadUtils.loadCover(this, data.video_url, mBinding.ivVideo);
+        mBinding.ivVideo.setTag(data.video);
+
+        List<LocalMedia> coverList = new ArrayList<>();
+        for (String url : data.cover) {
+            LocalMedia localMedia = new LocalMedia();
+            localMedia.setRealPath(url);
+            coverList.add(localMedia);
+        }
+        groupBannerAdapter.setData(coverList);
+        mBinding.etName.setText(data.title);
+        mBinding.etPrice.setText(data.origin_price);
+        mBinding.etPrice2.setText(data.sell_price);
+        mBinding.etStock.setText(data.stock);
+        mBinding.groupDesc.setText(data.desc);
+        term te = data.term;
+        mBinding.startTimeText.setText(getStrTime(te.start_time));
+        mBinding.endTimeText.setText(getStrTime(te.end_time));
+        mBinding.checkbox.setChecked(data.is_weekend.equals("true"));
+        mBinding.etZhuYi.setText(data.matter);
+        mBinding.etDesc.setText(data.details);
+
+        List<LocalMedia> list2 = new ArrayList<>();
+        for (String s : data.details_img) {
+            LocalMedia localMedia = new LocalMedia();
+            localMedia.setRealPath(s);
+            list2.add(localMedia);
+        }
+
+        groupDetailAdapter.setData(list2);
+        for (BusinessTypeResult businessTypeResult : mViewModel.getVideotypeData().getValue()) {
+            if (String.valueOf(businessTypeResult.getId()).equals(data.food_type)) {
+                mBinding.tvCategory.setText(businessTypeResult.getType_name());
+                mBinding.tvCategory.setTag(businessTypeResult);
+                break;
+            }
+        }
     }
 
 

@@ -8,9 +8,12 @@ import com.pai8.ke.activity.takeaway.entity.OrderDetailResult
 import com.pai8.ke.activity.takeaway.entity.OrderInfo
 import com.pai8.ke.activity.takeaway.entity.OrderListResult
 import com.pai8.ke.activity.takeaway.entity.req.AddFoodReq
+import com.pai8.ke.activity.takeaway.entity.req.GroupFoodReq
 import com.pai8.ke.activity.takeaway.entity.req.StoreInfoParam
+import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
+import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.req.VideoPublishReq
 import com.pai8.ke.entity.resp.*
@@ -395,5 +398,44 @@ interface GroupBuyApiService {
      */
     @POST("index/upVideo")
     suspend fun upVideo(@Body req: VideoPublishReq): BaseHttpResult<Object>
+
+    /**
+     * 修改团购商品状态
+     *
+     * @return
+     */
+    @POST("Group/SetGroupGoodsStatus")
+    suspend fun setGroupGoodsStatus(
+        @Query("goods_id") goods_id: String,
+        @Query("status") status: String
+    ): BaseHttpResult<smallGoodsInfo>
+
+    /**
+     * 添加团购商品
+     *
+     * @param parm
+     * @return
+     */
+    @POST("Group/AddGroupGoods")
+    suspend fun addGroupFood(@Body parm: GroupFoodReq): BaseHttpResult<smallGoodsInfo>
+
+
+    /**
+     * 修改团购商品
+     *
+     * @param parm
+     * @return
+     */
+    @POST("Group/UpGroupGoods")
+    suspend fun editGroupFood(@Body parm: GroupFoodReq): BaseHttpResult<smallGoodsInfo>
+
+
+    /**
+     * 得到团购商品
+     *
+     * @return
+     */
+    @POST("Group/GetGroupGoodsInfo")
+    suspend fun getGroupFood(@Query("id") id: String): BaseHttpResult<GoodsInfoModel>
 
 }

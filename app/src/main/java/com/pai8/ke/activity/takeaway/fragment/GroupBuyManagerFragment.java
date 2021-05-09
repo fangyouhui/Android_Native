@@ -4,7 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.lhs.library.base.BaseAppConstants;
 import com.pai8.ke.R;
 import com.pai8.ke.activity.takeaway.Constants;
 import com.pai8.ke.activity.takeaway.adapter.GroupBuyManagerAdapter;
@@ -12,26 +17,22 @@ import com.pai8.ke.activity.takeaway.contract.shopGroupManagerContract;
 import com.pai8.ke.activity.takeaway.entity.event.NotifyEvent;
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo;
 import com.pai8.ke.activity.takeaway.presenter.AddGroupGoodPresenter;
-import com.pai8.ke.activity.takeaway.ui.AddGoodActivity;
 import com.pai8.ke.activity.takeaway.ui.AddGroupGoodActivity;
+import com.pai8.ke.activity.takeaway.ui.EditGroupGoodActivity;
 import com.pai8.ke.activity.takeaway.widget.CheckListener;
 import com.pai8.ke.base.BaseMvpFragment;
 import com.pai8.ke.global.GlobalConstants;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 
-public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresenter.GroupBuyManagerPresenter> implements View.OnClickListener, CheckListener, shopGroupManagerContract.View ,BaseQuickAdapter.RequestLoadMoreListener,SwipeRefreshLayout.OnRefreshListener{
+public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresenter.GroupBuyManagerPresenter> implements View.OnClickListener, CheckListener, shopGroupManagerContract.View, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rv_group_buy)
     RecyclerView mRvGroupBuy;
@@ -68,7 +69,7 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
 
         mRvGroupBuy = mRootView.findViewById(R.id.rv_group_buy);
         mRootView.findViewById(R.id.tv_add).setOnClickListener(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRvGroupBuy.setLayoutManager(layoutManager);
 
         mAdapter = new GroupBuyManagerAdapter(mList);
@@ -76,21 +77,19 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
 
 
         mRvGroupBuy.setHasFixedSize(true);
-        mAdapter.setOnLoadMoreListener(this,mRvGroupBuy);
+        mAdapter.setOnLoadMoreListener(this, mRvGroupBuy);
         mAdapter.setEnableLoadMore(true);
 
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if(view.getId() == R.id.tv_edit){
+                if (view.getId() == R.id.tv_edit) {
                     smallGoodsInfo smModel = mList.get(position);
-                    Intent intent = new Intent(mActivity,AddGroupGoodActivity.class);
-                    intent.putExtra("type",3);
-                    intent.putExtra("id",smModel.id);
-
+                    Intent intent = new Intent(mActivity, EditGroupGoodActivity.class);
+                    intent.putExtra("type", 3);
+                    intent.putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, smModel.id);
                     startActivity(intent);
-
                 }
             }
         });
@@ -118,7 +117,7 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
 
             if (data.size() < GlobalConstants.SIZE) {
                 mAdapter.loadMoreEnd();
-            }else {
+            } else {
                 mAdapter.loadMoreComplete();
             }
         }
@@ -147,7 +146,6 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
     }
 
 
-
     @Override
     public void completeLoadMore() {
         mAdapter.loadMoreComplete();
@@ -155,9 +153,9 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.tv_add){
+        if (v.getId() == R.id.tv_add) {
             Intent intent = new Intent(mActivity, AddGroupGoodActivity.class);
-            intent.putExtra("type",2);
+            intent.putExtra("type", 2);
             startActivity(intent);
         }
     }
@@ -177,20 +175,22 @@ public class GroupBuyManagerFragment extends BaseMvpFragment<AddGroupGoodPresent
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(NotifyEvent event) {
         if (event.type == Constants.EVENT_TYPE_REFRESH_SHOP_GROUP) {
-            page=1;
+            page = 1;
             presenter.ShopGroupList(page);
         }
 
     }
+
     /**
      * Called when a swipe gesture triggers a refresh.
      */
     @Override
     public void onRefresh() {
-        page=1;
+        page = 1;
         presenter.ShopGroupList(page);
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
