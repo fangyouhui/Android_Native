@@ -22,7 +22,6 @@ import retrofit2.http.*
 
 interface GroupBuyApiService {
 
-
     @POST("system/checkUpgrade")
     suspend fun checkUpgrade(
         @Query("platform") platform: String,
@@ -437,5 +436,20 @@ interface GroupBuyApiService {
      */
     @POST("Group/GetGroupGoodsInfo")
     suspend fun getGroupFood(@Query("id") id: String): BaseHttpResult<GoodsInfoModel>
+
+    @POST("shop/ShopCash")
+    suspend fun shopCash(
+        @Query("shop_id") shop_id: String,
+        @Query("cash_sum") cash_sum: String
+    ): BaseHttpResult<List<String>>
+
+
+    @POST("shop/ShopCashList")
+    suspend fun shopCashList(
+        @Query("shop_id") shop_id: String,
+        @Query("page") page: String,
+        @Query("month") month: String
+    ): BaseHttpResult<List<String>>
+
 
 }

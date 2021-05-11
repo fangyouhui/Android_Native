@@ -36,7 +36,7 @@ import butterknife.BindView;
 /**
  * Created by atian
  * on 1/11/21
- * describe:提现记录
+ * describe:用户提现记录
  */
 public class OutRecordActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
 

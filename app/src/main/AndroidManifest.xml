@@ -322,6 +322,24 @@
             android:label="订单详情"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activity.takeaway.ui.ShopWithDrawActivity"
+            android:label="收入提现"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.takeaway.ui.ShopWithDrawSuccessActivity"
+            android:label="收入提现"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.takeaway.ui.ShopWithDrawRecordActivity"
+            android:label="提现记录"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.takeaway.ui.ShopQrCodeActivity"
+            android:label="店铺二维码"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name=".utils.MyProvider"
             android:authorities="${applicationId}.util.MyProvider"

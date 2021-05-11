@@ -286,6 +286,18 @@
             android:layout_marginEnd="10dp">
 
             <TextView
+                android:id="@+id/tvIncomeWithdrawal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/ic_income_with_drawal"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:text="收入提现"
+                android:textColor="@color/text_black"
+                android:textSize="12sp" />
+
+            <TextView
                 android:id="@+id/tv_marketing_manager"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -298,14 +310,16 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tvShopQrCode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/ic_shop_qr_code"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:text="店铺二维码"
+                android:textColor="@color/text_black"
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="0dp"

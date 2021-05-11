@@ -27,7 +27,7 @@ import static com.pai8.ke.activity.wallet.data.InOutDetailConstant.PAY_TYPE_ZFB;
 /**
  * Created by atian
  * on 1/9/21
- * describe:收入提现
+ * describe:用户收入提现
  */
 
 public class InOutDetailActivity extends BaseActivity {
@@ -49,8 +49,6 @@ public class InOutDetailActivity extends BaseActivity {
     LinearLayout llSuccess;
     @BindView(R.id.bt_success_confirm)
     Button btSuccessConfirm;
-
-
 
 
     private BankAccountDialog accountDialog;

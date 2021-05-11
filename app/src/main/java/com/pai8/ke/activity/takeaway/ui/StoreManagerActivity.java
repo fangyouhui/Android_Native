@@ -93,6 +93,8 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
         findViewById(R.id.tv_good_manager).setOnClickListener(this);
         findViewById(R.id.toolbar_iv_menu).setOnClickListener(this);
         findViewById(R.id.tv_group_hedui).setOnClickListener(this);
+        findViewById(R.id.tvIncomeWithdrawal).setOnClickListener(this);
+        findViewById(R.id.tvShopQrCode).setOnClickListener(this::onClick);
 
         findViewById(R.id.tv_second_manager).setOnClickListener(this);
         findViewById(R.id.tv_marketing_manager).setOnClickListener(this);
@@ -161,6 +163,15 @@ public class StoreManagerActivity extends BaseMvpActivity<StoreManagerPresenter>
                 startActivity(new Intent(this, ShopRankActivity.class)
                         .putExtra("type", 1));
                 break;
+            case R.id.tvIncomeWithdrawal: { //收入提现
+                startActivity(new Intent(this, ShopWithDrawActivity.class));
+                break;
+            }
+
+            case R.id.tvShopQrCode: { //店铺二维码
+                startActivity(new Intent(this, ShopQrCodeActivity.class));
+                break;
+            }
         }
 
     }
