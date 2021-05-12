@@ -14,6 +14,7 @@ import com.pai8.ke.activity.takeaway.entity.resq.GoodsInfoModel
 import com.pai8.ke.activity.takeaway.entity.resq.ShopInfo
 import com.pai8.ke.activity.takeaway.entity.resq.StoreInfoResult
 import com.pai8.ke.activity.takeaway.entity.resq.smallGoodsInfo
+import com.pai8.ke.activity.wallet.data.InOutRecordResp
 import com.pai8.ke.entity.*
 import com.pai8.ke.entity.req.VideoPublishReq
 import com.pai8.ke.entity.resp.*
@@ -443,13 +444,32 @@ interface GroupBuyApiService {
         @Query("cash_sum") cash_sum: String
     ): BaseHttpResult<List<String>>
 
-
+    /**
+     * 店铺提现记录
+     */
     @POST("shop/ShopCashList")
     suspend fun shopCashList(
         @Query("shop_id") shop_id: String,
         @Query("page") page: String,
         @Query("month") month: String
-    ): BaseHttpResult<List<String>>
+    ): BaseHttpResult<InOutRecordResp>
 
+
+    @POST("shop/shopIndex")
+    suspend fun shopIndex(@Query("shop_id") shop_id: String): BaseHttpResult<StoreInfoResult>
+
+
+    /**
+     * 收支记录
+     *
+     * @param body
+     * @return
+     */
+    @POST("user/MemberIncomeList")
+    suspend fun memberIncomeList(
+        @Query("month") month: Int,
+        @Query("page") page: Int,
+        @Query("page_count") page_count: Int
+    ): BaseHttpResult<InOutRecordResp>
 
 }

@@ -204,5 +204,6 @@ dependencies {
     //   implementation 'androidx.emoji:emoji-bundled:1.1.0'
 
     implementation 'cn.jzvd:jiaozivideoplayer:7.6.0'
+    implementation 'com.github.donkingliang:LabelsView:1.6.5' //标签控件
 
 }

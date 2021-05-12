@@ -31,38 +31,17 @@
             android:textColor="#ff2f2f2f"
             android:textSize="18sp" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.donkingliang.labels.LabelsView
+            android:id="@+id/labelsView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvTakeWay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:background="@drawable/bg_store_corner_yellow_radius_5"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="2dp"
-                android:text="外卖"
-                android:textColor="#ffff7f47"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/tvGroupBuy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:background="@drawable/bg_store_corner_yellow_radius_5"
-                android:paddingHorizontal="4dp"
-                android:paddingVertical="2dp"
-                android:text="团购"
-                android:textColor="#ffff7f47"
-                android:textSize="10sp"
-                android:visibility="gone" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            android:orientation="horizontal"
+            app:isIndicator="true"
+            app:labelBackground="@drawable/bg_store_corner_yellow_radius_5"
+            app:labelTextSize="8sp"
+            app:selectType="NONE"
+            app:wordMargin="10dp" />
 
         <TextView
             android:id="@+id/tvAddress"

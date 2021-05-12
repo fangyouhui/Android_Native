@@ -30,6 +30,11 @@ public class ShopWithDrawActivity extends BaseActivity<ShopWithDrawlViewModel, A
     }
 
     @Override
+    public void initData() {
+        mViewModel.memberIncomeList(1, 1);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0, 1, 0, "提现记录").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
@@ -45,6 +50,9 @@ public class ShopWithDrawActivity extends BaseActivity<ShopWithDrawlViewModel, A
 
     @Override
     public void addObserve() {
+        mViewModel.getMemberIncomeListData().observe(this, data -> {
+
+        });
         mViewModel.getShopCashData().observe(this, data -> {
             startActivity(new Intent(this, ShopWithDrawSuccessActivity.class));
             finish();

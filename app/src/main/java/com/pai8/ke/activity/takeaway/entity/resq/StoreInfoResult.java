@@ -2,6 +2,7 @@ package com.pai8.ke.activity.takeaway.entity.resq;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StoreInfoResult implements Serializable {
 
@@ -25,7 +26,7 @@ public class StoreInfoResult implements Serializable {
     //   public String city_name;
     public String city_id;
     public String district;
- //   public String district_name;
+    //   public String district_name;
     public String loge_img;
     public String floor_send_cost;
     public String packing_price;
@@ -41,7 +42,10 @@ public class StoreInfoResult implements Serializable {
     public String business_license;
     public String health_permit;
     public String month_sale_price;  //	月销售额
-
+    public String shop_address;
+    public String shop_mobile;
+    public String shop_code;
+    public List<String> cate_arr;
 
     public String sale_count; //总销量（订单数）
 

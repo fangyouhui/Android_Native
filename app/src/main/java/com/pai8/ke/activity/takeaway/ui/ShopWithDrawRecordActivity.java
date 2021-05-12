@@ -61,16 +61,16 @@ public class ShopWithDrawRecordActivity extends BaseActivity<ShopWithDrawlViewMo
     public void addObserve() {
         mViewModel.getShopCashListData().observe(this, data -> {
             if (mBinding.smartRefreshLayout.isRefreshing()) {
-                adapter.setData(data);
+                adapter.setData(data.getList());
                 mBinding.smartRefreshLayout.finishRefresh();
                 return;
             }
             if (mBinding.smartRefreshLayout.isLoading()) {
-                adapter.addData(data);
+                adapter.addData(data.getList());
                 mBinding.smartRefreshLayout.finishLoadMore();
                 return;
             }
-            adapter.setData(data);
+            adapter.setData(data.getList());
         });
     }
 
