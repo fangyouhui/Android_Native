@@ -36,7 +36,7 @@
             android:textStyle="bold" />
 
         <com.pai8.ke.widget.DrawableCenterTextView
-            android:id="@+id/tv_btn_take_photo"
+            android:id="@+id/tvBtnTakePhoto"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"

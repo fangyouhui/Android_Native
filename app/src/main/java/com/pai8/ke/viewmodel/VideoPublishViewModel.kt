@@ -2,6 +2,7 @@ package com.pai8.ke.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.lhs.library.base.BaseViewModel
+import com.pai8.ke.entity.BusinessTypeResult
 import com.pai8.ke.entity.req.VideoPublishReq
 import com.pai8.ke.groupBuy.http.RetrofitClient
 import com.pai8.ke.manager.UploadFileManager
@@ -30,6 +31,15 @@ class VideoPublishViewModel : BaseViewModel() {
             RetrofitClient.getInstance().getMainService().upVideo(req)
         }, {
             upVideoData.value = it
+        })
+    }
+
+    val videoTypeData = MutableLiveData<List<BusinessTypeResult>>()
+    fun videoType() {
+        launchOnlyResult({
+            RetrofitClient.getInstance().getMainService().videoType()
+        }, {
+            videoTypeData.value = it
         })
     }
 

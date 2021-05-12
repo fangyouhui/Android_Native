@@ -165,7 +165,8 @@
             android:paddingStart="2dp"
             android:paddingEnd="2dp"
             android:text="@string/record_mode_picture"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="invisible" />
 
         <View
             android:layout_width="32dp"

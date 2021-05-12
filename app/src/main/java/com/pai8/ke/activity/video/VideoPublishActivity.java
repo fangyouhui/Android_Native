@@ -9,6 +9,8 @@ import android.view.View;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gh.qiniushortvideo.ChooseVideo;
@@ -24,11 +26,11 @@ import com.pai8.ke.app.MyApp;
 import com.pai8.ke.base.BaseEvent;
 import com.pai8.ke.databinding.ActivityVideoPublishBinding;
 import com.pai8.ke.entity.Address;
+import com.pai8.ke.entity.BusinessTypeResult;
 import com.pai8.ke.entity.req.VideoPublishReq;
 import com.pai8.ke.entity.resp.ShopList;
 import com.pai8.ke.manager.AccountManager;
 import com.pai8.ke.utils.EventBusUtils;
-import com.pai8.ke.utils.PickerUtils;
 import com.pai8.ke.utils.StringUtils;
 import com.pai8.ke.utils.ToastUtils;
 import com.pai8.ke.viewmodel.VideoPublishViewModel;
@@ -38,6 +40,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.pai8.ke.global.EventCode.EVENT_VIDEO_LIST_REFRESH;
 
@@ -115,6 +119,23 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
             finish();
             EventBusUtils.sendEvent(new BaseEvent(EVENT_VIDEO_LIST_REFRESH));
         });
+
+        mViewModel.getVideoTypeData().observe(this, data -> {
+            List<String> options1Items = new ArrayList<>();
+            for (BusinessTypeResult businessType : data) {
+                options1Items.add(businessType.getType_name());
+            }
+
+            OptionsPickerView pvOptions = new OptionsPickerBuilder(this, (options1, option2, options3, v) -> {
+                mBusinessTypePosition = options1;
+                mBusinessTypeId = data.get(options1).getId();
+                mBinding.tvClassify.setText(data.get(options1).getType_name());
+            }).build();
+            pvOptions.setNPicker(options1Items, null, null);
+            pvOptions.setSelectOptions(mBusinessTypePosition);
+            pvOptions.setTitleText("选择分类");
+            pvOptions.show();
+        });
     }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
@@ -173,17 +194,11 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
                     .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, showMenu));
         });
         mBinding.rlBtnClassify.setOnClickListener(v -> {
-            PickerUtils.showBusinessType(this, mBusinessTypePosition, (position, id, name) -> {
-                if (position == -1) {
-                    return;
-                }
-                mBusinessTypePosition = position;
-                mBusinessTypeId = id;
-                mBinding.tvClassify.setText(name);
-            });
+            mViewModel.videoType();
         });
         mBinding.btnSubmit.setOnClickListener(v -> submit());
     }
+
 
     private void submit() {
         if (StringUtils.isEmpty(mCoverVideoUrl)) {
@@ -201,18 +216,6 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
             return;
         }
 
-        //                if (mAddress == null) {
-//                    toast("请添加地址");
-//                    return;
-//                }
-//                if (mShopInfo == null || mShopInfo.getId() == 0) {
-//                    toast("请选择关联商铺");
-//                    return;
-//                }
-//                if (mBusinessTypeId == 0) {
-//                    toast("请选择分类");
-//                    return;
-//                }
         VideoPublishReq req = new VideoPublishReq();
         if (mAddress != null) {
             req.setLongitude(String.valueOf(mAddress.getLon()));
@@ -237,26 +240,6 @@ public class VideoPublishActivity extends BaseActivity<VideoPublishViewModel, Ac
         req.setVideo_desc(StringUtils.getEditText(mBinding.etContent));
         req.setVideo_path(mCoverVideoUrl);
         req.setCity(MyApp.getCity());
-
-//        Api.getInstance().upVideo(req)
-//                .doOnSubscribe(disposable -> {
-//
-//                })
-//                .compose(RxSchedulers.io_main())
-//                .subscribe(new BaseObserver<Object>() {
-//                    @Override
-//                    protected void onSuccess(Object o) {
-//                        ToastUtils.showShort("视频发布成功");
-//                        finish();
-//                        EventBusUtils.sendEvent(new BaseEvent(EVENT_VIDEO_LIST_REFRESH));
-//                    }
-//
-//                    @Override
-//                    protected void onError(String msg, int errorCode) {
-//                        super.onError(msg, errorCode);
-//                    }
-//                });
-
         mViewModel.upVideo(req);
     }
 

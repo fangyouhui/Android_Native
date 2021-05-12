@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.lhs.library.base.BaseRecyclerViewAdapter;
 import com.lhs.library.base.BaseViewHolder;
-import com.pai8.ke.R;
 import com.pai8.ke.databinding.ItemProductDetailImgBinding;
+import com.pai8.ke.utils.GlideHelper;
 
 import java.util.List;
 
@@ -31,10 +30,12 @@ public class ProductImgDetailAdapter extends BaseRecyclerViewAdapter<String> {
         if (viewHolder instanceof ProductImgDetailViewHolder) {
             ProductImgDetailViewHolder holder = (ProductImgDetailViewHolder) viewHolder;
             //   ImageLoadUtils.loadImage(mData.get(position), holder.binding.imageView);
-            Glide.with(holder.binding.imageView.getContext())
-                    .load(mData.get(position))
-                    .error(R.color.colorPrimary)
-                    .into(holder.binding.imageView);
+//            Glide.with(holder.binding.imageView.getContext())
+//                    .load(mData.get(position))
+//                    .error(R.color.colorPrimary)
+//                    .into(holder.binding.imageView);
+            //    ImageLoadUtils.loadImage(mData.get(position),holder.binding.imageView,R.color.colorPrimary);
+            GlideHelper.loadImageWithNormal(mData.get(position), holder.binding.imageView);
         }
     }
 

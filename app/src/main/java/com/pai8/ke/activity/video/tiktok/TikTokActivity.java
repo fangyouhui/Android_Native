@@ -25,6 +25,7 @@ import com.bumptech.glide.request.target.Target;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.dueeeke.videoplayer.util.L;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lhs.library.base.BaseAppConstants;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -58,6 +59,7 @@ import com.pai8.ke.interfaces.contract.VideoHomeContract;
 import com.pai8.ke.manager.UploadFileManager;
 import com.pai8.ke.presenter.SharePresenter;
 import com.pai8.ke.presenter.VideoHomePresenter;
+import com.pai8.ke.shop.ui.BusinessHomeActivity;
 import com.pai8.ke.utils.ChoosePicUtils;
 import com.pai8.ke.utils.CollectionUtils;
 import com.pai8.ke.utils.DKPlayerUtils;
@@ -395,7 +397,12 @@ public class TikTokActivity extends BaseMvpActivity<VideoContract.Presenter> imp
             public void onGoSee() {
                 Shop shop = getCurVideo().getShop();
                 if (shop == null) return;
-                StoreActivity.launch(TikTokActivity.this, shop.getId());
+                if (getCurVideo().getShop_type_enum() == 1) {
+                    startActivity(new Intent(getBaseContext(), BusinessHomeActivity.class)
+                            .putExtra(BaseAppConstants.BundleConstant.ARG_PARAMS_0, shop.getId()));
+                    return;
+                }
+                StoreActivity.launch(getBaseContext(), shop.getId());
             }
         });
     }

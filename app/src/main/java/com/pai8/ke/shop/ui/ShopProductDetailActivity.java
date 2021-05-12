@@ -20,7 +20,7 @@ import com.pai8.ke.fragment.CouponGetDialogFragment;
 import com.pai8.ke.shop.adapter.BannerMultipleTypesAdapter;
 import com.pai8.ke.shop.adapter.ProductImgDetailAdapter;
 import com.pai8.ke.shop.viewmodel.ShopProductDetailViewModel;
-import com.pai8.ke.utils.ImageLoadUtils;
+import com.pai8.ke.utils.GlideHelper;
 import com.pai8.ke.utils.MyAMapUtils;
 import com.pai8.ke.utils.PreferencesUtils;
 import com.pai8.ke.utils.TimeUtil;
@@ -169,7 +169,7 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
 
     private void bindGroupShopInfo(GroupShopInfoResult bean) {
         mBinding.btnCollect.setSelected(bean.getIs_collect() == 1);
-        ImageLoadUtils.loadImage(bean.getShop_img(), mBinding.ivLogo);
+        GlideHelper.loadImageWithNormal(bean.getShop_img(), mBinding.ivLogo);
         mBinding.tvName.setText(bean.getShop_name());
         mBinding.tvFraction.setText(bean.getScore() + "");
         mBinding.tvAddress.setText("地址：" + bean.getCity() + bean.getDistrict() + bean.getAddress());
@@ -184,6 +184,7 @@ public class ShopProductDetailActivity extends BaseActivity<ShopProductDetailVie
         mBinding.tvOriginPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //中间横线
         mBinding.tvProductDesc.setText("套餐包含：" + bean.getDesc());
         mBinding.tvTotalSales.setText(String.format("总销量 %d", bean.getSale_count()));
+        mBinding.tvStockCount.setText("库存：" + bean.getStock());
         String startTime = TimeUtil.timeStampToString(bean.getTerm().getStart_time());
         String endTime = TimeUtil.timeStampToString(bean.getTerm().getEnd_time());
         mBinding.tvTermTime.setText(String.format("%s至%s （周末、法定节假日通用）", startTime, endTime));

@@ -10,7 +10,6 @@
         android:id="@+id/tv_btn_wechat_friend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
         android:drawableTop="@mipmap/ic_wechat_friend"
         android:drawablePadding="8dp"
         android:gravity="center"
@@ -32,6 +31,7 @@
         android:text="朋友圈"
         android:textColor="@color/color_mid_font"
         android:textSize="13sp"
+        android:visibility="gone"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_btn_wechat_friend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_btn_wechat_friend" />

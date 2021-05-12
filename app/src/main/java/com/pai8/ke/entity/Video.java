@@ -36,6 +36,16 @@ public class Video implements Serializable {
     private String avatar;
     private int juli_state;
 
+    private int shop_type_enum;
+
+    public int getShop_type_enum() {
+        return shop_type_enum;
+    }
+
+    public void setShop_type_enum(int shop_type_enum) {
+        this.shop_type_enum = shop_type_enum;
+    }
+
     public int getGoods_id() {
         return goods_id;
     }
